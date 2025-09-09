@@ -36,6 +36,7 @@ const Footer = () => {
                     <ul className="space-y-1">
                         <Link to="/"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">HOME</li></Link>
                         <Link to="/about-us"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">ABOUT</li></Link>
+                        <Link to="/atal-meaning"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">MEANING OF ATAL</li></Link>
                         <Link to="/services"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">SERVICES</li></Link>
                         <Link to="/privacy-policy"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">PRIVACY-POLICY</li></Link>
                         <Link to="/book-eye-exam"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">BOOK EYE EXAM</li></Link>
@@ -50,13 +51,15 @@ const Footer = () => {
                     <ul className="space-y-1">
 
 
-                        <Link to=""><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">OPTOMETRISTS</li></Link>
+                        <Link to="/our-mission"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">Our MISSION</li></Link>
+                        <Link to="/our-vision"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">Our VISION</li></Link>
                         <Link to="/disclaimer"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">DISCLAIMER</li></Link>
                         <Link to="/general-info"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">GENERAL INFORMATION</li></Link>
                         <Link to="/eyeglasses-contact-policy"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">EYE GLASSES CONTACT POLICY</li></Link>
                         <Link to="/liability"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">LIMITAIONS OF LIABILITY</li></Link>
                         <Link to="/rights-enforcement-policy"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">RIGHT ENFORCEMENT POLICY</li></Link>
                         <Link to="/terms&Conditions"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">TERMS & CONDITION</li></Link>
+                        <Link to="/responsibility"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">VISION & RESPONSIBILITY</li></Link>
                     </ul>
                 </div>
 

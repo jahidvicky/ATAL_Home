@@ -33,6 +33,10 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import ContactPage from "./page/contactUs/ContactPage";
 import EyeExam from "./page/bookEyeExam/EyeExam";
 import Services from "./components/Services";
+import OurMission from "./components/OurMission";
+import OurVision from "./components/OurVision";
+import AtalMeaning from "./components/AtalMeaning";
+import Responsibility from "./components/Responsibility";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user"));
@@ -117,6 +121,22 @@ function App() {
         {
           path: "/services",
           element: <Services />,
+        },
+        {
+          path: "/our-mission",
+          element: <OurMission />,
+        },
+        {
+          path: "/our-vision",
+          element: <OurVision />,
+        },
+        {
+          path: "/atal-meaning",
+          element: <AtalMeaning />,
+        },
+        {
+          path: "/responsibility",
+          element: <Responsibility />,
         },
         {
           path: "/place-order",
