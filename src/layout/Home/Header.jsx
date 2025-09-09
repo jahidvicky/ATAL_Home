@@ -154,8 +154,12 @@ function Header() {
             <Link to="/">
               <li className="cursor-pointer hover:text-red-600">HOME</li>
             </Link>
-            <li className="cursor-pointer hover:text-red-600">ABOUT US</li>
-            <li className="cursor-pointer hover:text-red-600">SERVICES</li>
+            <Link to="/about-us">
+              <li className="cursor-pointer hover:text-red-600">ABOUT US</li>
+            </Link>
+            <Link to="/services">
+              <li className="cursor-pointer hover:text-red-600">SERVICES</li>
+            </Link>
             <li className="cursor-pointer hover:text-red-600">PROMOTION</li>
             <li className="cursor-pointer hover:text-red-600">CATEGORY</li>
             <Link to="/contact-us">

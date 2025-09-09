@@ -32,6 +32,7 @@ import WishlistPage from "./page/wishlist/WishlistPage";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import ContactPage from "./page/contactUs/ContactPage";
 import EyeExam from "./page/bookEyeExam/EyeExam";
+import Services from "./components/Services";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user"));
@@ -58,7 +59,7 @@ function App() {
           element: <Product userId={currentUserId} />
         },
         { path: "/disclaimer", element: <DisclaimerPage /> },
-        { path: "/termsandcondition", element: <TermsAndConditions /> },
+        { path: "/terms&Conditions", element: <TermsAndConditions /> },
         { path: "/liability", element: <LimitationOfLiability /> },
         { path: "/general-info", element: <GeneralInformation /> },
         { path: "/eyeglasses-contact-policy", element: <EyeglassesContactPolicy /> },
@@ -110,6 +111,14 @@ function App() {
           element: <DocumentUploadForm />,
         },
         {
+          path: "/about-us",
+          element: <About />,
+        },
+        {
+          path: "/services",
+          element: <Services />,
+        },
+        {
           path: "/place-order",
           element: (
             // <ProtectedRoute>
@@ -140,7 +149,7 @@ function App() {
       ),
       children: [
         { path: "/dash", element: <CustHome /> },
-        { path: "/dash/about", element: <About /> },
+        // { path: "/dash/about", element: <About /> },
         { path: "/dash/faq", element: <Faq /> },
         { path: "*", element: <Page /> },
       ],
