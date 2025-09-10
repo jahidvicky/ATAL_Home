@@ -52,6 +52,7 @@ function Header() {
 
   const handleLogin = () => {
     navigate("/login");
+    setSidebarOpen(false)
   };
 
   const handleLogout = () => {
@@ -64,6 +65,12 @@ function Header() {
 
   const handleWishlist = () => {
     navigate("/wishlist-page")
+    setSidebarOpen(false)
+  }
+
+  const handleCartMenu = () => {
+    setCartOpen(true)
+    setSidebarOpen(false)
   }
 
   return (
@@ -150,7 +157,7 @@ function Header() {
 
         {/* Nav Menu */}
         <nav>
-          <ul className="flex items-center justify-center gap-8 py-3 font-semibold text-white bg-black tracking-wide text-base">
+          <ul className="flex items-center justify-center gap-12 py-3 font-semibold text-white bg-black tracking-wide text-base">
             <Link to="/">
               <li className="cursor-pointer hover:text-red-600">HOME</li>
             </Link>
@@ -160,7 +167,7 @@ function Header() {
             <Link to="/services">
               <li className="cursor-pointer hover:text-red-600">SERVICES</li>
             </Link>
-            <li className="cursor-pointer hover:text-red-600">PROMOTION</li>
+
             <li className="cursor-pointer hover:text-red-600">CATEGORY</li>
             <Link to="/contact-us">
               <li className="cursor-pointer hover:text-red-600">CONTACT US</li>
@@ -217,11 +224,28 @@ function Header() {
           >
             HOME
           </Link>
-          <li className="cursor-pointer hover:text-red-600">ABOUT US</li>
-          <li className="cursor-pointer hover:text-red-600">SERVICES</li>
-          <li className="cursor-pointer hover:text-red-600">PROMOTION</li>
+          <Link
+            to="/about-us"
+            onClick={() => setSidebarOpen(false)}
+            className="cursor-pointer hover:text-red-600"
+          >
+            ABOUT US
+          </Link>
+          <Link
+            to="/services"
+            onClick={() => setSidebarOpen(false)}
+            className="cursor-pointer hover:text-red-600"
+          >
+            SERVICES
+          </Link>
           <li className="cursor-pointer hover:text-red-600">CATEGORY</li>
-          <li className="cursor-pointer hover:text-red-600">CONTACT US</li>
+          <Link
+            to="/contact-us"
+            onClick={() => setSidebarOpen(false)}
+            className="cursor-pointer hover:text-red-600"
+          >
+            CONTACT US
+          </Link>
           <Link
             to="/faq"
             onClick={() => setSidebarOpen(false)}
@@ -230,9 +254,46 @@ function Header() {
             FAQ
           </Link>
           <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
-          <li className="bg-red-600 py-2 px-4 rounded-lg text-center cursor-pointer">
+          <Link
+            to="/book-eye-exam"
+            onClick={() => setSidebarOpen(false)}
+            className="py-2 px-4 rounded-lg text-center cursor-pointer hover:text-red-600"
+          >
             BOOK EYE EXAM
+          </Link>
+          <li> <button onClick={handleWishlist} className="text-white cursor-pointer hover:text-red-600">WISHLIST</button></li>
+          <li>
+            <div>
+              <button onClick={handleCartMenu}
+                className="text-white cursor-pointer hover:text-red-600">CART</button>
+              {totalQuantity > 0 && (
+                <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  {totalQuantity}
+                </span>
+              )}
+            </div>
           </li>
+          <li>{/* Auth Section */}
+            {!user ? (
+              <div
+                onClick={handleLogin}
+                className=" text-white cursor-pointer hover:text-red-600"
+              >
+                <span className="hover:underline">Sign In</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                {/* user image */}
+                <FaUser className="text-white hover:text-red-600" />
+                {/* logout button */}
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-black"
+                >
+                  Logout
+                </button>
+              </div>
+            )}</li>
         </ul>
       </div>
 
