@@ -73,8 +73,6 @@ const ContactPage = () => {
     }
   };
 
-
-
   useEffect(() => {
     const id = localStorage.getItem("user");
     if (id) {
