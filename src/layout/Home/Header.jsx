@@ -208,11 +208,21 @@ function Header() {
         className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
           } transition-transform duration-300 z-50 text-center`}
       >
-        <div className="flex justify-between items-center p-4 border-b border-gray-700">
-          <h2 className="text-lg font-bold">Menu</h2>
+        <div className="flex justify-between items-center p-4 border-b border-gray-700 bg-white">
+
+          {/* Logo */}
+          <Link to="/">
+            <img
+              src={logo}
+              className="object-cover h-[60px] w-[100px]"
+              alt="Logo"
+              loading="lazy"
+              decoding="async"
+            />
+          </Link>
           <IoIosCloseCircle
             size={30}
-            className="cursor-pointer hover:text-red-600"
+            className="cursor-pointer hover:text-red-600 text-black"
             onClick={() => setSidebarOpen(false)}
           />
         </div>
@@ -277,16 +287,10 @@ function Header() {
                 <span className="hover:underline">Sign In</span>
               </div>
             ) : (
-              <div className="flex items-center gap-3">
-                {/* user image */}
-                <FaUser className="text-white hover:text-red-600" />
-                {/* logout button */}
-                <button
-                  onClick={handleLogout}
-                  className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-black"
-                >
-                  Logout
-                </button>
+              <div
+                onClick={handleLogout}
+                className="text-white cursor-pointer hover:text-red-600">
+                <span className="hover:underline">Logout</span>
               </div>
             )}</li>
         </ul>

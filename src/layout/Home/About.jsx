@@ -2,6 +2,8 @@ import React from "react";
 import image from "../../assets/about/about-us.jpg";
 import bgimage from "../../assets/about/bgimage.png";
 import { FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 const About = () => {
   return (
     <div
@@ -57,12 +59,13 @@ const About = () => {
             knowledgeable team will help you find eye wear perfect for you.
           </p>
           <div className="flex justify-center lg:justify-start">
-            <button className="flex items-center bg-red-600 text-white p-3 rounded-lg mt-6 hover:bg-black hover:cursor-pointer">
+            <Link to="/about-us"><button className="flex items-center bg-red-600 text-white p-3 rounded-lg mt-6 hover:bg-black hover:cursor-pointer">
               About Us{" "}
               <span className="ml-4 bg-white p-2 rounded-lg">
                 <FaArrowRight className="hover:rotate-[-45deg] transition duration-250 ease-in-out text-black" />
               </span>
             </button>
+            </Link>
           </div>
         </div>
       </div>
