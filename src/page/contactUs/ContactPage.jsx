@@ -6,6 +6,7 @@ const ContactPage = () => {
   const [showVendor, setShowVendor] = useState(false);
   const [showCompany, setShowCompany] = useState(false);
   const [customer, setCustomer] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,8 +26,11 @@ const ContactPage = () => {
 
   const sendInquiry = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
       await API.post("/addInquiry", formData);
+
       Swal.fire({
         icon: "success",
         title: "Inquiry Submitted Successfully",
@@ -52,6 +56,7 @@ const ContactPage = () => {
       setShowCompany(false);
     } catch (error) {
       console.error("Error submitting inquiry:", error);
+
       Swal.fire({
         icon: "error",
         title: "Failed to submit inquiry",
@@ -61,8 +66,11 @@ const ContactPage = () => {
         position: "top-end",
         toast: true,
       });
+    } finally {
+      setLoading(false);
     }
   };
+
 
   const getCustomer = async (id) => {
     try {
@@ -154,8 +162,9 @@ const ContactPage = () => {
       {/* Vendor Modal */}
       {showVendor && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
             <h2 className="text-xl font-semibold text-red-600 mb-4">Vendor Inquiry</h2>
+
             <form onSubmit={sendInquiry} className="space-y-4">
               <input
                 name="name"
@@ -212,17 +221,23 @@ const ContactPage = () => {
                 >
                   Cancel
                 </button>
+
                 <button
                   type="submit"
-                  onClick={() =>
-                    setFormData({ ...formData, userType: "vendor" })
-                  }
-                  className="px-4 py-2 bg-red-600 text-white rounded"
+                  onClick={() => setFormData({ ...formData, userType: "vendor" })}
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
                 >
                   Submit
                 </button>
               </div>
             </form>
+
+            {/* Overlay Loader */}
+            {loading && (
+              <div className="absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg">
+                <div className="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -230,8 +245,9 @@ const ContactPage = () => {
       {/* Company Modal */}
       {showCompany && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
             <h2 className="text-xl font-semibold text-red-600 mb-4">Company Inquiry</h2>
+
             <form onSubmit={sendInquiry} className="space-y-4">
               <input
                 name="name"
@@ -278,12 +294,19 @@ const ContactPage = () => {
                   onClick={() =>
                     setFormData({ ...formData, userType: "company" })
                   }
-                  className="px-4 py-2 bg-red-600 text-white rounded"
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
                 >
                   Submit
                 </button>
               </div>
             </form>
+
+            {/* Overlay Loader */}
+            {loading && (
+              <div className="absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg">
+                <div className="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
           </div>
         </div>
       )}
