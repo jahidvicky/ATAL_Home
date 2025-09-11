@@ -37,6 +37,7 @@ import OurMission from "./components/OurMission";
 import OurVision from "./components/OurVision";
 import AtalMeaning from "./components/AtalMeaning";
 import Responsibility from "./components/Responsibility";
+import SiteContentNotice from "./components/SiteContentNotice";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user"));
@@ -137,6 +138,10 @@ function App() {
         {
           path: "/responsibility",
           element: <Responsibility />,
+        },
+        {
+          path: "/intellectual-property",
+          element: <SiteContentNotice />,
         },
         {
           path: "/place-order",

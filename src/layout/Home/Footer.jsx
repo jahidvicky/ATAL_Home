@@ -42,6 +42,7 @@ const Footer = () => {
                         <Link to="/book-eye-exam"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">BOOK EYE EXAM</li></Link>
                         <Link to="/faq"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">FAQ</li></Link>
                         <Link to="/contact-us"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">CONTACT US</li></Link>
+                        <Link to="/terms&Conditions"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">TERMS & CONDITION</li></Link>
                     </ul>
                 </div>
 
@@ -58,8 +59,8 @@ const Footer = () => {
                         <Link to="/eyeglasses-contact-policy"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">EYE GLASSES CONTACT POLICY</li></Link>
                         <Link to="/liability"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">LIMITAIONS OF LIABILITY</li></Link>
                         <Link to="/rights-enforcement-policy"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">RIGHT ENFORCEMENT POLICY</li></Link>
-                        <Link to="/terms&Conditions"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">TERMS & CONDITION</li></Link>
                         <Link to="/responsibility"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">VISION & RESPONSIBILITY</li></Link>
+                        <Link to="/intellectual-property"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">INTELLECTUAL PROPERTY</li></Link>
                     </ul>
                 </div>
 
@@ -85,7 +86,7 @@ const Footer = () => {
 
             <div className="bg-red-600 w-full md:h-[60px] flex justify-evenly items-center text-white text-lg py-3 px-2">
                 <div>
-                    <p>copyright &copy; 2025 Atal Optical. All rights reserved</p>
+                    <p>&copy; 2025 Atal Optical. All rights reserved</p>
                 </div>
                 <div>
                     <p>Developed By | World WebLogic</p>
