@@ -266,11 +266,6 @@ function Header() {
             <div>
               <button onClick={handleCartMenu}
                 className="text-white cursor-pointer hover:text-red-600">CART</button>
-              {totalQuantity > 0 && (
-                <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                  {totalQuantity}
-                </span>
-              )}
             </div>
           </li>
           <li>{/* Auth Section */}
