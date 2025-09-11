@@ -9,6 +9,7 @@ function Login() {
         email: "",
         password: "",
     });
+
     const { isAuthenticated } = useAuth();
     const [error, setError] = useState("");
 
@@ -24,8 +25,8 @@ function Login() {
             const res = await API.post("/customer-login", formData, {
                 headers: { "Content-Type": "application/json" },
             });
-            // Save token + user info (localStorage or Redux)
-            // localStorage.setItem("user", JSON.stringify(res.data.customer.id));
+
+            // Save token + user info
             localStorage.setItem("user", res.data.customer.id);
             localStorage.setItem("token", res.data.token);
             isAuthenticated;
@@ -37,10 +38,16 @@ function Login() {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="flex justify-center items-center bg-gray-100 px-4">
             <form
                 onSubmit={handleSubmit}
-                className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md"
+                className="
+          bg-white shadow-lg rounded-xl 
+          w-full h-full                 /* desktop full width/height */
+          max-w-[500px] max-h-[600px]   /* keep it neat */
+          sm:w-[90%] sm:h-auto          /* shrink on small screens */
+          p-8 mt-20 mb-20
+        "
             >
                 <h2 className="text-2xl font-bold text-center text-red-600 mb-6">
                     Sign In
@@ -104,3 +111,5 @@ function Login() {
 }
 
 export default Login;
+
+

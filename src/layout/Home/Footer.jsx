@@ -11,9 +11,9 @@ const Footer = () => {
                     To Schedule an Appointment Reach Us at <br />
                     Hurontario Location: 905-970-9444 | Airport Location: 905-497-2692
                 </h3>
-                <button className="bg-white text-black mt-4 rounded-xl hover:bg-black hover:text-white text-xl font-semibold py-4 px-6 hover:cursor-pointer transition-colors duration-300 ">
+                <Link to="/book-eye-exam"><button className="bg-white text-black mt-4 rounded-xl hover:bg-black hover:text-white text-xl font-semibold py-4 px-6 hover:cursor-pointer transition-colors duration-300 ">
                     Book an Appointment
-                </button>
+                </button></Link>
             </div>
             <div className="bg-black text-white px-[5%] py-[1%] flex justify-between flex-wrap gap-y-8">
                 {/* Box 1 */}
