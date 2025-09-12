@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import API, { IMAGE_URL } from "../../API/Api";
 // import ReactImageMagnify from 'react-image-magnify';
 import Swal from "sweetalert2";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 const Cartpage = () => {
   const location = useLocation();
@@ -18,6 +19,7 @@ const Cartpage = () => {
   const [product, setProduct] = useState({});
   const [mainImage, setMainImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
   const dispatch = useDispatch();
   const product1 = {
@@ -47,9 +49,57 @@ const Cartpage = () => {
       console.error("Failed to fetch products:", err);
     }
   };
+
+  // Toggle wishlist (add/remove)
+  const toggleWishlist = async (productId) => {
+    const userId2 = localStorage.getItem("user");
+    try {
+      if (wishlist.includes(productId)) {
+        await API.delete("/removeWishlist", { data: { userId: userId2, productId } });
+        setWishlist((prev) => prev.filter((id) => id !== productId));
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "error",
+          title: "Removed from wishlist",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true
+        });
+      } else {
+        await API.post("/addWishlist", { userId: userId2, productId });
+        setWishlist((prev) => [...prev, productId]);
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: "Added in wishlist",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true
+        });
+      }
+    } catch (err) {
+      console.error("Wishlist toggle failed:", err);
+    }
+  };
+
+  // Fetch wishlist
+  const fetchWishlist = async () => {
+    try {
+      const userId2 = localStorage.getItem("user");
+      const res = await API.get(`/getWishlist/${userId2}`);
+      setWishlist(res.data?.products.map((p) => p.productId._id) || []);
+    } catch (err) {
+      console.error("Failed to fetch wishlist:", err);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchWishlist();
   }, []);
+
   return (
     <>
       <div className="mt-14">
@@ -86,8 +136,14 @@ const Cartpage = () => {
                 </h2>
                 <p className="text text-gray-600">{product.product_sku}</p>
               </div>
-              <div className="text-3xl font-semibold">
-                <CiHeart />
+              <div
+                className="text-3xl font-semibold"
+                onClick={() => toggleWishlist(product._id)}>
+                {wishlist.includes(product._id) ? (
+                  <AiFillHeart className="fill-red-500 hover:cursor-pointer text-4xl" />
+                ) : (
+                  <AiOutlineHeart className="fill-gray-500 hover:cursor-pointer text-4xl" />
+                )}
               </div>
             </div>
 

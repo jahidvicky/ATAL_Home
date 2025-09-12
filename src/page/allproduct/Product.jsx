@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
-function Product({ userId }) {
+function Product() {
   const location = useLocation();
   const { category, subcategory } = location.state;
 
@@ -89,7 +89,9 @@ function Product({ userId }) {
             key={index}
           >
             {/* Wishlist toggle, no CSS change */}
-            <div onClick={() => toggleWishlist(data._id)}>
+            <div
+              className="ml-40"
+              onClick={() => toggleWishlist(data._id)}>
               {wishlist.includes(data._id) ? (
                 <AiFillHeart className="fill-red-500 hover:cursor-pointer text-3xl" />
               ) : (

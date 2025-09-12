@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const About = () => {
   return (
     <div
-      className="bg-cover bg-center h-[90vh] lg:h-[100vh]"
+      className="bg-cover bg-center h-[90vh] lg:h-[100vh] mb-20"
       style={{
         backgroundImage: `url(${bgimage})`,
         backgroundSize: "cover",

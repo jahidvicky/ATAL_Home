@@ -75,7 +75,7 @@ function App() {
         { path: "/privacy-policy", element: <PrivacyPolicy /> },
         {
           path: "/allproduct",
-          element: <Product userId={currentUserId} />
+          element: <Product />
         },
         { path: "/disclaimer", element: <DisclaimerPage /> },
         { path: "/terms&Conditions", element: <TermsAndConditions /> },
