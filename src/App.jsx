@@ -43,6 +43,7 @@ import LearnAboutLens from "./page/learnAboutFrame/LearnAboutLens";
 import LearnAboutPrescription from "./page/learnAboutFrame/LearnAboutPrescription";
 import LearnAboutMaintenance from "./page/learnAboutFrame/LearnAboutMaintenance";
 import EyeCheckDetails from "./page/EyeCheckDetais/EyeCheckDetails";
+import PromotionsPage from "./page/promorionPage/PromotionsPage";
 import { useDispatch } from "react-redux";
 import { fetchWishlist } from "./redux/wishlistSlice";
 import Payment from "./page/checkout/Payment";
@@ -182,6 +183,10 @@ function App() {
         {
           path: "/eye-check-details",
           element: <EyeCheckDetails />,
+        },
+        {
+          path: "/promotions-page",
+          element: <PromotionsPage />,
         },
         {
           path: "/place-order",
