@@ -43,6 +43,7 @@ import LearnAboutLens from "./page/learnAboutFrame/LearnAboutLens";
 import LearnAboutPrescription from "./page/learnAboutFrame/LearnAboutPrescription";
 import LearnAboutMaintenance from "./page/learnAboutFrame/LearnAboutMaintenance";
 import EyeCheckDetails from "./page/EyeCheckDetais/EyeCheckDetails";
+import PromotionsPage from "./page/promorionPage/PromotionsPage";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user"));
@@ -167,6 +168,10 @@ function App() {
         {
           path: "/eye-check-details",
           element: <EyeCheckDetails />,
+        },
+        {
+          path: "/promotions-page",
+          element: <PromotionsPage />,
         },
         {
           path: "/place-order",

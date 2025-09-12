@@ -2,6 +2,8 @@ import React from "react";
 import bgimage from "../../assets/promotion/bgimage.png";
 import woman from "../../assets/promotion/woman.jpg";
 import { TbMathGreater } from "react-icons/tb";
+import { Link } from "react-router-dom";
+
 function Promotion() {
   return (
     <>
@@ -69,9 +71,9 @@ function Promotion() {
                 Childrens Glasses
               </span>
             </div>
-            <button className="bg-red-600 rounded-lg text-white p-3 font-semibold text-lg ml-10 mt-8 mb-6 hover:cursor-pointer hover:bg-black">
+            <Link to="/promotions-page"><button className="bg-red-600 rounded-lg text-white p-3 font-semibold text-lg ml-10 mt-8 mb-6 hover:cursor-pointer hover:bg-black">
               View Promotion
-            </button>
+            </button></Link>
           </div>
         </div>
       </div>
