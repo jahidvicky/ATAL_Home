@@ -38,6 +38,11 @@ import OurVision from "./components/OurVision";
 import AtalMeaning from "./components/AtalMeaning";
 import Responsibility from "./components/Responsibility";
 import SiteContentNotice from "./components/SiteContentNotice";
+import LearnAboutFrame from "./page/learnAboutFrame/LearnAboutFrame";
+import LearnAboutLens from "./page/learnAboutFrame/LearnAboutLens";
+import LearnAboutPrescription from "./page/learnAboutFrame/LearnAboutPrescription";
+import LearnAboutMaintenance from "./page/learnAboutFrame/LearnAboutMaintenance";
+import EyeCheckDetails from "./page/EyeCheckDetais/EyeCheckDetails";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user"));
@@ -142,6 +147,26 @@ function App() {
         {
           path: "/intellectual-property",
           element: <SiteContentNotice />,
+        },
+        {
+          path: "/learn-about-frame",
+          element: <LearnAboutFrame />,
+        },
+        {
+          path: "/learn-about-lens",
+          element: <LearnAboutLens />,
+        },
+        {
+          path: "/learn-about-prescription",
+          element: <LearnAboutPrescription />,
+        },
+        {
+          path: "/learn-about-maintenance",
+          element: <LearnAboutMaintenance />,
+        },
+        {
+          path: "/eye-check-details",
+          element: <EyeCheckDetails />,
         },
         {
           path: "/place-order",

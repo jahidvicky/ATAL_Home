@@ -1,5 +1,6 @@
 import API, { IMAGE_URL } from "../../API/Api";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 
 export default function EyewearTips() {
@@ -23,13 +24,18 @@ export default function EyewearTips() {
     fetchEyewearTips();
   }, [])
 
-
+  const eyewearLinks = [
+    'learn-about-frame',
+    'learn-about-lens',
+    'learn-about-prescription',
+    'learn-about-maintenance',
+  ]
 
 
   return (
     <section className="bg-black bg-gradient-to-b from-black to-red-600  text-white pb-16 md:px-6 text-center">
       <h2 className="text-4xl font-bold text-white mb-4">Eyewear Insights & Tips</h2>
-      <hr className="md:w-116 md:ml-105 mt-2 mb-4 mx-6"></hr>
+      <hr className="w-116 mt-2 mb-4 mx-auto"></hr>
       <p className="max-w-3xl mx-auto text-gray-300 mb-12">
         Gain valuable knowledge and practical tips to enhance your eyewear experience,
         ensuring comfort, style, and lasting performance.
@@ -50,12 +56,16 @@ export default function EyewearTips() {
               /></div>
             <h3 className="font-semibold text-lg mb-2">{tip.title}</h3>
             <p className="mb-4 text-base text-gray-400">{tip.description}</p>
-            <button className="mt-auto border border-red-500 text-red-600 px-4 py-1 rounded-full hover:bg-red-500 hover:text-white transition">
+
+
+            <Link to={`/${eyewearLinks[index]}`}><button className="mt-auto border border-red-500 text-red-600 px-4 py-1 rounded-full hover:bg-red-500 hover:text-white transition">
               Learn More →
-            </button>
+            </button></Link>
+
           </div>
         ))}
+
       </div>
-    </section>
+    </section >
   );
 }

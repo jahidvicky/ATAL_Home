@@ -32,7 +32,7 @@ const ExploreCollection = () => {
         {firstWord}{" "}
         {restText && <span className="text-red-600">{restText}</span>}
       </h2>
-      <hr className="md:w-102 md:ml-92 mb-4 border-black"></hr>
+      <hr className="w-80 mx-auto mb-4 border-black"></hr>
       <p className="text-gray-600 mb-10">
         Hand-picked styles for every vision and personality.
       </p>

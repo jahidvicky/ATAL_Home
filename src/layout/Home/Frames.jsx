@@ -27,7 +27,7 @@ const Frames = () => {
         <span>Shop by</span>
         <span className="text-red-600"> Category</span>{" "}
       </h1>
-      <hr className="w-72 ml-127 mb-10 mt-2 border-black"></hr>
+      <hr className="w-72 mx-auto mb-10 mt-2 border-black"></hr>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {frameData.map((frame, index) => (
           <Link

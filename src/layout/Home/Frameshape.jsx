@@ -28,7 +28,7 @@ const Frameshape = () => {
     <div>
       <div className="bg-ray text-center py-10">
         <h2 className="text-3xl font-semibold">Shop by Frame Shape</h2>
-        <hr className="md:w-86 mt-2 mb-4 md:ml-126 mx-12 border-black"></hr>
+        <hr className="w-86 mt-2 mb-4 mx-auto border-black"></hr>
         <p className="text-gray-700 text-xl mx-6">
           Choose the perfect frames for your face or your style.
         </p>

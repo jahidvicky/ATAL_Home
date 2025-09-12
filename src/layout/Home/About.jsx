@@ -35,7 +35,7 @@ const About = () => {
           <h2 className="text-red-600 text-2xl font-semibold mb-2">
             Welcome To ATAL Optical
           </h2>
-          <hr className="md:w-42 mb-6 border-red-500 md:ml-0 mx-6"></hr>
+          <hr className="md:w-50 mb-6 border-red-500 md:ml-0 mx-6"></hr>
           <h1 className="text-2xl md:text-4xl font-light leading-snug mb-4">
             ATAL Optical has been providing{" "}
             <strong className="font-semibold">
@@ -44,19 +44,10 @@ const About = () => {
             in Toronto and the GTA since 2005.
           </h1>
           <p className="text-gray-600 text-base">
-            Gopal Puri, owner of CMAX Optical offers a wide selection of
-            fashionable and practical eyewear to suit any lifestyle. We offer
-            the most popular eyeglasses on the market today.
+            Since 2005, Atal Optical has been proudly serving Toronto and the GTA with premium eye care and luxury eyewear. With a focus on quality, style, and precision, we have built a reputation for offering high-end frames, advanced lenses, and personalized eye care solutions that cater to both fashion and function. Our commitment to excellence ensures that every client not only sees better but also looks their best, making Atal Optical a trusted destination for luxury eyewear for nearly two decades.
           </p>
           <p className="text-gray-600 text-base mt-6 mb-6">
-            Our expert optician and stylists will help you choose the right eye
-            wear to suit your face shape, personality and lifestyle. We want you
-            to see the world, but look and feel your best with quality eye wear
-            products.
-          </p>
-          <p className="text-gray-600 text-base">
-            Come visit one of our locations today, and our friendly and
-            knowledgeable team will help you find eye wear perfect for you.
+            Over the years, Atal Optical has grown into a trusted name by combining professional expertise with a curated selection of world-class eyewear brands. Our team of experienced opticians and eye care specialists takes pride in delivering a personalized experience, ensuring each client finds the perfect balance of comfort, vision, and style. From trendsetting luxury frames to advanced prescription solutions, we are dedicated to meeting the diverse needs of our Toronto and GTA community with the highest standards of care.
           </p>
           <div className="flex justify-center lg:justify-start">
             <Link to="/about-us"><button className="flex items-center bg-red-600 text-white p-3 rounded-lg mt-6 hover:bg-black hover:cursor-pointer">

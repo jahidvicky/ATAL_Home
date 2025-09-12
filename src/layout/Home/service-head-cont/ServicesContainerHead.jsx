@@ -19,7 +19,7 @@ const ServicesContaineHead = (props) => {
                         {props.content}
                     </p>
                 </div>
-                <div className="absolute text-[20px] bottom-[2px] right-[5px] bg-red-600 text-black rounded-full p-[10px] shadow-xl hover:translate-x-[3px] hover:-translate-y-[3px] transition-all duration-300 ease-in-out hover:bg-black hover:text-white hover:rotate-[-45deg]">
+                <div className="absolute text-[20px] bottom-[2px] right-[5px] bg-red-600 text-black rounded-full p-[10px] shadow-xl hover:translate-x-[3px] hover:-translate-y-[3px] transition-all duration-300 ease-in-out hover:bg-black hover:text-white hover:rotate-[-45deg] mb-1">
                     {props.arrow}
                 </div>
             </div>

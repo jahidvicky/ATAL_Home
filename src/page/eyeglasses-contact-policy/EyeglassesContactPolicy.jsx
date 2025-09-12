@@ -7,7 +7,7 @@ export default function EyeglassesContactPolicy() {
                 {/* Header */}
                 <div className="bg-gradient-to-r from-black via-red-600 to-black py-20 text-center">
                     <h1 className="text-5xl font-bold text-white">Eyeglasses & Contact Lenses Policy</h1>
-                    <hr className="border-white w-200 mt-3 ml-70" />
+                    <hr className="border-white w-200 mt-3 mx-auto" />
                 </div>
 
                 {/* Content */}
