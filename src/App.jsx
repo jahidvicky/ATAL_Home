@@ -43,16 +43,25 @@ import LearnAboutLens from "./page/learnAboutFrame/LearnAboutLens";
 import LearnAboutPrescription from "./page/learnAboutFrame/LearnAboutPrescription";
 import LearnAboutMaintenance from "./page/learnAboutFrame/LearnAboutMaintenance";
 import EyeCheckDetails from "./page/EyeCheckDetais/EyeCheckDetails";
+import { useDispatch } from "react-redux";
+import { fetchWishlist } from "./redux/wishlistSlice";
+import Payment from "./page/checkout/Payment";
 
 function App() {
-  const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user"));
-
+  const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
+  const dispatch = useDispatch();
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
+    if (storedUser && storedUser !== "null") {
       setCurrentUserId(storedUser);
     }
   }, []);
+
+  useEffect(() => {
+    if (currentUserId) {
+      dispatch(fetchWishlist(currentUserId));
+    }
+  }, [currentUserId, dispatch]);
 
   const router = createBrowserRouter([
     {
@@ -96,13 +105,19 @@ function App() {
           path: "/checkout",
           element: (
             // <ProtectedRoute>
+            <Checkout />
+            // </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/payment",
+          element: (
             <PayPalScriptProvider
               options={{ "client-id": "AXf1IDZMUR6E_q8lxGRiRvOAnLZ3E5DgnyYAV0eaIB3VdLn4KlZ9Msm8kZyvu_XLGcziwc31Lc7nrWPY", currency: "USD" }}
             >
-              <Checkout />
+              <Payment />
             </PayPalScriptProvider>
-            // </ProtectedRoute>
-          ),
+          )
         },
         {
           path: "contact-us",

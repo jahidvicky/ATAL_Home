@@ -11,7 +11,8 @@ function WishlistPage({ userId }) {
     useEffect(() => {
         const fetchWishlist = async () => {
             try {
-                const res = await API.get(`/getWishlist/${userId}`);
+                const userId2 = localStorage.getItem("user");
+                const res = await API.get(`/getWishlist/${userId2}`);
                 const products = res.data?.products || [];
                 setWishlist(products); // keep full product objects
             } catch (err) {
@@ -24,10 +25,11 @@ function WishlistPage({ userId }) {
 
     // Toggle wishlist (add/remove)
     const toggleWishlist = async (productId) => {
+        const userId2 = localStorage.getItem("user");
         try {
             if (wishlist.some((item) => item.productId._id === productId)) {
                 // remove
-                await API.delete("/removeWishlist", { data: { userId, productId } });
+                await API.delete("/removeWishlist", { data: { userId: userId2, productId } });
                 setWishlist((prev) =>
                     prev.filter((item) => item.productId._id !== productId)
                 );
@@ -42,9 +44,10 @@ function WishlistPage({ userId }) {
                 });
             } else {
                 // add
-                await API.post("/addWishlist", { userId, productId });
+                const userId2 = localStorage.getItem("user");
+                await API.post("/addWishlist", { userId: userId2, productId });
                 // refresh wishlist from server after add
-                const res = await API.get(`/getWishlist/${userId}`);
+                const res = await API.get(`/getWishlist/${userId2}`);
                 setWishlist(res.data?.products || []);
             }
         } catch (err) {

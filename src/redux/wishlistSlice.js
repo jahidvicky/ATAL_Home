@@ -1,31 +1,33 @@
-// redux/slices/wishlistSlice.js
+// src/redux/slices/wishlistSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import API from "../API/Api";
 
-//  Fetch wishlist from backend
+// 1. Fetch wishlist
 export const fetchWishlist = createAsyncThunk(
     "wishlist/fetchWishlist",
     async (userId) => {
         const res = await API.get(`/getWishlist/${userId}`);
-        return res.data.wishlist; // adjust according to your API response
+        return res.data.products || []; // adjust according to your API response
     }
 );
 
-//  Add to wishlist (API + Redux state)
+// 2. Add to wishlist
 export const addToWishlist = createAsyncThunk(
     "wishlist/addToWishlist",
     async ({ userId, productId }) => {
-        const res = await axios.post(`/api/wishlist`, { userId, productId });
-        return res.data.wishlist;
+        await API.post("/addWishlist", { userId, productId });
+        const res = await API.get(`/getWishlist/${userId}`);
+        return res.data.products || [];
     }
 );
 
-//  Remove from wishlist
+// 3. Remove from wishlist
 export const removeFromWishlist = createAsyncThunk(
     "wishlist/removeFromWishlist",
     async ({ userId, productId }) => {
-        const res = await axios.delete(`/api/wishlist/${userId}/${productId}`);
-        return res.data.wishlist;
+        await API.delete("/removeWishlist", { data: { userId, productId } });
+        const res = await API.get(`/getWishlist/${userId}`);
+        return res.data.products || [];
     }
 );
 
