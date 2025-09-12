@@ -3,6 +3,7 @@ import eyecheck from "../../assets/category/eyecheck.jpeg";
 import eyecheck2 from "../../assets/category/eyecheck2.png";
 import CountUp from 'react-countup';
 import { FiArrowRight } from 'react-icons/fi';
+import { Link } from "react-router-dom";
 import API from "../../API/Api";
 const Eyecheck = () => {
   const [eyeCheckData, setEyeCheckData] = useState([{}])
@@ -35,12 +36,12 @@ const Eyecheck = () => {
         <p className="text-gray-600 mb-6 leading-relaxed">
           {eyeCheckData.description}
         </p>
-        <button className="flex items-center gap-4 text-white font-medium bg-red-600 px-4 py-2 rounded mr-22 hover:bg-black transition-colors duration-300 hover:cursor-pointer">
+        <Link to="/eye-check-details"><button className="flex items-center gap-4 text-white font-medium bg-red-600 px-4 py-2 rounded mr-22 hover:bg-black transition-colors duration-300 hover:cursor-pointer">
           Learn More
           <span className="bg-white text-black p-1 rounded-full">
             <FiArrowRight size={18} className="hover:rotate-[-45deg] transition duration-250 ease-in-out text-black" />
           </span>
-        </button>
+        </button></Link>
       </div>
 
       {/* Right Image Section */}

@@ -5,7 +5,7 @@ const TermsAndConditions = () => {
         <h1 className="text-5xl font-bold text-white text-center">
           Terms & Conditions
         </h1>
-        <hr className="border-white w-120 mt-2 ml-110"></hr>
+        <hr className="border-white w-120 mt-3 mx-auto"></hr>
       </header>
       <section className="px-4 sm:px-8 lg:px-16">
         <div className="mx-auto rounded-2xl p-8">

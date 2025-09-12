@@ -52,8 +52,8 @@ const Footer = () => {
                     <ul className="space-y-1">
 
 
-                        <Link to="/our-mission"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">Our MISSION</li></Link>
-                        <Link to="/our-vision"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">Our VISION</li></Link>
+                        <Link to="/our-mission"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">OUR MISSION</li></Link>
+                        <Link to="/our-vision"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">OUR VISION</li></Link>
                         <Link to="/disclaimer"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">DISCLAIMER</li></Link>
                         <Link to="/general-info"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">GENERAL INFORMATION</li></Link>
                         <Link to="/eyeglasses-contact-policy"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">EYE GLASSES CONTACT POLICY</li></Link>
