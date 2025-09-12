@@ -27,7 +27,8 @@ function Product({ userId }) {
   // Fetch wishlist
   const fetchWishlist = async () => {
     try {
-      const res = await API.get(`/getWishlist/${userId}`);
+      const userId2 = localStorage.getItem("user");
+      const res = await API.get(`/getWishlist/${userId2}`);
       setWishlist(res.data?.products.map((p) => p.productId._id) || []);
     } catch (err) {
       console.error("Failed to fetch wishlist:", err);
@@ -41,9 +42,10 @@ function Product({ userId }) {
 
   // Toggle wishlist (add/remove)
   const toggleWishlist = async (productId) => {
+    const userId2 = localStorage.getItem("user");
     try {
       if (wishlist.includes(productId)) {
-        await API.delete("/removeWishlist", { data: { userId, productId } });
+        await API.delete("/removeWishlist", { data: { userId: userId2, productId } });
         setWishlist((prev) => prev.filter((id) => id !== productId));
         Swal.fire({
           toast: true,
@@ -55,7 +57,7 @@ function Product({ userId }) {
           timerProgressBar: true
         });
       } else {
-        await API.post("/addWishlist", { userId, productId });
+        await API.post("/addWishlist", { userId: userId2, productId });
         setWishlist((prev) => [...prev, productId]);
         Swal.fire({
           toast: true,

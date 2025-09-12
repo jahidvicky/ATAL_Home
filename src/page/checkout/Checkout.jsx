@@ -2,13 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import Swal from "sweetalert2";
+import { useSelector, useDispatch } from 'react-redux';
 
 const Checkout = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState({});
     const [billingDifferent, setBillingDifferent] = useState(false);
     const navigate = useNavigate();
+    const cartItems = useSelector((state) => state.cart.items);
+    const dispatch = useDispatch();
 
+
+    const subtotal = cartItems.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0
+    );
     const steps = [
         "Contact",
         "Shipping",
@@ -17,11 +25,18 @@ const Checkout = () => {
         "Review & Pay",
     ];
 
+    // shipping add  
+    const tax = subtotal * 0.05;
+    const discount = 200;
+    const shipping = 150;
+    const total = subtotal + tax + shipping - discount;
+    // Load saved data from localStorage
     useEffect(() => {
         const savedData = localStorage.getItem("checkoutDraft");
         if (savedData) setFormData(JSON.parse(savedData));
     }, []);
 
+    // Save form data in localStorage
     useEffect(() => {
         localStorage.setItem(
             "checkoutDraft",
@@ -33,20 +48,72 @@ const Checkout = () => {
         setFormData((prev) => ({ ...prev, [field]: value }));
     };
 
-    const nextStep = () =>
+    // Validation for each step
+    const validateStep = () => {
+        switch (currentStep) {
+            case 0: // Contact
+                return formData.email && formData.phone;
+            case 1: // Shipping
+                return (
+                    formData.shippingName &&
+                    formData.shippingStreet &&
+                    formData.shippingCity &&
+                    formData.shippingZip &&
+                    formData.shippingMethod
+                );
+            case 2: // Billing (only if billingDifferent is checked)
+                if (billingDifferent) {
+                    return (
+                        formData.billingStreet &&
+                        formData.billingCity &&
+                        formData.billingZip
+                    );
+                }
+                return true;
+            case 3: // Prescription
+                return !!formData.prescription;
+            case 4: // Review & Pay
+                return formData.terms && formData.warranty && formData.privacy;
+            default:
+                return false;
+        }
+    };
+
+    const nextStep = () => {
+        if (!validateStep()) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Please fill all required fields before continuing!",
+            });
+            return;
+        }
         setCurrentStep((p) => Math.min(p + 1, steps.length - 1));
+    };
+
     const prevStep = () => setCurrentStep((p) => Math.max(p - 1, 0));
 
     const handleSubmit = () => {
         localStorage.removeItem("checkoutDraft");
-        navigate("/place-order");
+        navigate("/payment");
     };
 
-    // Simple Mock Bill Data
-    const subtotal = 2000;
-    const tax = subtotal * 0.05;
-    const discount = 200;
-    const total = subtotal + tax - discount;
+    // Validation when clicking on step numbers
+    const handleStepClick = (idx) => {
+        if (idx > currentStep) {
+            if (!validateStep()) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Please complete the current step before moving ahead!",
+                });
+                return;
+            }
+        }
+        setCurrentStep(idx);
+    };
+
+
 
     return (
         <div className="max-w-4xl mx-auto p-6">
@@ -57,13 +124,13 @@ const Checkout = () => {
                         <React.Fragment key={idx}>
                             <button
                                 type="button"
-                                onClick={() => setCurrentStep(idx)}
+                                onClick={() => handleStepClick(idx)}
                                 className="flex flex-col items-center flex-shrink-0 text-center cursor-pointer group mt-5"
                                 aria-current={idx === currentStep ? "step" : undefined}
                             >
                                 <div
                                     className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all
-                    ${idx <= currentStep
+                  ${idx <= currentStep
                                             ? "bg-red-600 text-white border-red-600"
                                             : "border-black text-black group-hover:bg-black group-hover:text-white"
                                         }`}
@@ -82,7 +149,7 @@ const Checkout = () => {
                             {idx < steps.length - 1 && (
                                 <div
                                     className={`flex-1 h-2 rounded-sm transition-colors
-                    ${idx < currentStep ? "bg-red-600" : "bg-gray-300"}`}
+                  ${idx < currentStep ? "bg-red-600" : "bg-gray-300"}`}
                                 />
                             )}
                         </React.Fragment>
@@ -99,6 +166,7 @@ const Checkout = () => {
                         value={formData.email || ""}
                         onChange={(e) => handleChange("email", e.target.value)}
                         className="border border-black p-2 rounded w-full col-span-2"
+                        required
                     />
                     <input
                         type="tel"
@@ -106,6 +174,7 @@ const Checkout = () => {
                         value={formData.phone || ""}
                         onChange={(e) => handleChange("phone", e.target.value)}
                         className="border border-black p-2 rounded w-full col-span-2"
+                        required
                     />
                 </div>
             )}
@@ -119,6 +188,7 @@ const Checkout = () => {
                         value={formData.shippingName || ""}
                         onChange={(e) => handleChange("shippingName", e.target.value)}
                         className="border border-black p-2 rounded w-full col-span-2"
+                        required
                     />
                     <input
                         type="text"
@@ -126,6 +196,7 @@ const Checkout = () => {
                         value={formData.shippingStreet || ""}
                         onChange={(e) => handleChange("shippingStreet", e.target.value)}
                         className="border border-black p-2 rounded w-full col-span-2"
+                        required
                     />
                     <input
                         type="text"
@@ -133,6 +204,7 @@ const Checkout = () => {
                         value={formData.shippingCity || ""}
                         onChange={(e) => handleChange("shippingCity", e.target.value)}
                         className="border border-black p-2 rounded w-full"
+                        required
                     />
                     <input
                         type="text"
@@ -140,11 +212,13 @@ const Checkout = () => {
                         value={formData.shippingZip || ""}
                         onChange={(e) => handleChange("shippingZip", e.target.value)}
                         className="border border-black p-2 rounded w-full"
+                        required
                     />
                     <select
                         value={formData.shippingMethod || ""}
                         onChange={(e) => handleChange("shippingMethod", e.target.value)}
                         className="border border-black p-2 rounded w-full col-span-2"
+                        required
                     >
                         <option value="">Select Shipping Method</option>
                         <option value="Standard">Standard (5-7 days)</option>
@@ -174,6 +248,7 @@ const Checkout = () => {
                                 value={formData.billingStreet || ""}
                                 onChange={(e) => handleChange("billingStreet", e.target.value)}
                                 className="border border-black p-2 rounded w-full col-span-2"
+                                required
                             />
                             <input
                                 type="text"
@@ -181,6 +256,7 @@ const Checkout = () => {
                                 value={formData.billingCity || ""}
                                 onChange={(e) => handleChange("billingCity", e.target.value)}
                                 className="border border-black p-2 rounded w-full"
+                                required
                             />
                             <input
                                 type="text"
@@ -188,6 +264,7 @@ const Checkout = () => {
                                 value={formData.billingZip || ""}
                                 onChange={(e) => handleChange("billingZip", e.target.value)}
                                 className="border border-black p-2 rounded w-full"
+                                required
                             />
                         </div>
                     )}
@@ -198,17 +275,13 @@ const Checkout = () => {
             {currentStep === 3 && (
                 <div>
                     <label className="block mb-2 font-medium">Prescription</label>
-                    <div className="space-y-2">
-                        <label className="flex items-center">
-                            Upload prescription
-                        </label>
-                    </div>
                     <input
                         type="file"
                         onChange={(e) =>
                             handleChange("prescription", e.target.files[0]?.name)
                         }
                         className="border border-black p-2 rounded w-full mt-3"
+                        required
                     />
                 </div>
             )}
@@ -219,7 +292,7 @@ const Checkout = () => {
                     {/* Review */}
                     <div>
                         <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-black pb-2">
-                            Review Details
+                            Billing  Details
                         </h2>
                         <p>
                             <strong>Email:</strong> {formData.email}
@@ -228,7 +301,7 @@ const Checkout = () => {
                             <strong>Phone:</strong> {formData.phone}
                         </p>
                         <p>
-                            <strong>Shipping:</strong> {formData.shippingStreet},{" "}
+                            <strong>Shipping Address:</strong> {formData.shippingStreet},{" "}
                             {formData.shippingCity} {formData.shippingZip} (
                             {formData.shippingMethod})
                         </p>
@@ -244,42 +317,71 @@ const Checkout = () => {
                             </p>
                         )}
                     </div>
+                    <div className="w-full  ml-auto bg-white shadow-lg border border-gray-200 rounded-xl p-6">
+                        {/* Heading */}
+                        <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-gray-300 pb-2">
+                            Your Order
+                        </h2>
 
-                    <div className="p-6">
-                        <h2 className="text-xl font-bold mb-4">Pay with PayPal</h2>
+                        {/* Cart Items */}
+                        <div className="space-y-4">
+                            {cartItems.map((item, index) => (
+                                <div key={index} className="flex justify-between items-start pb-3 border-b border-dashed border-gray-300">
+                                    {/* Left - Product Info */}
+                                    <div className="flex items-center mb-3">
+                                        {/* Product Image */}
+                                        <img
+                                            src={item.image}
+                                            alt={item.name}
+                                            className="w-50 h-24 object-cover rounded mr-4"
+                                        />
 
-                        <PayPalButtons
-                            style={{ layout: "vertical" }}
-                            createOrder={(data, actions) => {
-                                return actions.order.create({
-                                    purchase_units: [
-                                        {
-                                            amount: {
-                                                value: "20.00",
-                                            },
-                                        },
-                                    ],
-                                });
-                            }}
-                            onApprove={(data, actions) => {
-                                return actions.order.capture().then((details) => {
-                                    Swal.fire({
-                                        toast: true,
-                                        position: "top-end",
-                                        icon: "success",
-                                        title: `Transaction completed by ${details.payer.name.given_name}`,
-                                        showConfirmButton: false,
-                                        timer: 1500,
-                                        timerProgressBar: true
-                                    });
-                                    // console.log("Full details:", details);
-                                });
-                            }}
-                            onError={(err) => {
-                                console.error("PayPal Checkout Error:", err);
-                            }}
-                        />
+                                        {/* Product Details */}
+                                        <div className="flex-1">
+                                            <h4 className="text-gray-800 font-semibold flex items-center">
+                                                {item.name}
+                                                <span className="text-sm text-gray-500 ml-2">x {item.quantity}</span>
+                                            </h4>
+                                        </div>
+                                    </div>
+
+
+                                    {/* Right - Price */}
+                                    <div className="text-right">
+                                        <p className="text-gray-800 font-bold mt-8">
+                                            ₹{(item.price * item.quantity).toFixed(2)}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Order Summary */}
+                        <div className="mt-4 space-y-2 text-gray-700">
+                            <div className="flex justify-between">
+                                <span>Subtotal</span>
+                                <span>₹{subtotal.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span>Shipping</span>
+                                <span>₹{shipping.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span>Tax</span>
+                                <span>₹{tax.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between text-green-600">
+                                <span>Discount</span>
+                                <span>-₹{discount.toFixed(2)}</span>
+                            </div>
+                            <div className="border-t pt-2 flex justify-between font-bold text-red-600 text-lg">
+                                <span>Total</span>
+                                <span>₹{total.toFixed(2)}</span>
+                            </div>
+                        </div>
                     </div>
+
+
 
                     {/* Consents */}
                     <div>
@@ -315,26 +417,7 @@ const Checkout = () => {
                         </label>
                     </div>
 
-                    {/* Mock Bill */}
-                    <div>
-                        <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-black pb-2">
-                            Mock Bill
-                        </h2>
-                        <div className="space-y-2 text-gray-800">
-                            <div className="flex justify-between">
-                                <span>Subtotal</span> <span>₹{subtotal.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Tax (5%)</span> <span>₹{tax.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between text-green-600">
-                                <span>Discount</span> <span>-₹{discount.toFixed(2)}</span>
-                            </div>
-                            <div className="border-t mt-2 pt-2 flex justify-between font-bold text-red-600">
-                                <span>Total</span> <span>₹{total.toFixed(2)}</span>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             )}
 
@@ -359,15 +442,10 @@ const Checkout = () => {
                 {currentStep === steps.length - 1 && (
                     <button
                         onClick={handleSubmit}
-                        disabled={
-                            !formData.paymentMethod ||
-                            !formData.terms ||
-                            !formData.warranty ||
-                            !formData.privacy
-                        }
+                        disabled={!validateStep()}
                         className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
                     >
-                        Submit
+                        Continue Order
                     </button>
                 )}
             </div>
