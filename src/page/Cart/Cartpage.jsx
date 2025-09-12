@@ -162,10 +162,10 @@ const Cartpage = () => {
                 <p className="text-lg font-bold m-5">FRAME</p>
                 <div className="flex">
                   <p className="text-lg font-bold mr-8 line-through">
-                    ${product.product_price}
+                    ${product.product_price} CAD
                   </p>
                   <p className="text-lg font-bold mr-8">
-                    ${product.product_sale_price}
+                    ${product.product_sale_price} CAD
                   </p>
                 </div>
               </div>
