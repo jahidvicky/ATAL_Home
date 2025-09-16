@@ -75,7 +75,9 @@ function WishlistPage({ userId }) {
                                 className="w-64 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 flex flex-col items-center border-red-500 border"
                             >
                                 {/* Wishlist toggle */}
-                                <div onClick={() => toggleWishlist(product._id)}>
+                                <div
+                                    className="ml-40"
+                                    onClick={() => toggleWishlist(product._id)}>
                                     <AiFillHeart className="fill-red-500 hover:cursor-pointer text-3xl" />
                                 </div>
 
@@ -110,15 +112,20 @@ function WishlistPage({ userId }) {
                                     <div className="flex items-center gap-1">
                                         {product.price && (
                                             <span className="text-gray-500 line-through">
-                                                ₹{product.price}
+                                                ${product.price}
                                             </span>
                                         )}
-                                        <span className="text-red-600 font-semibold">
-                                            ₹{product.product_price || product.product_sale_price}
+                                        <span className="text-gray-500 font-bold line-through mr-2">
+                                            ${product.product_price} CAD
                                         </span>
+                                        <span className="text-red-600 font-semibold">
+                                            ${product.product_sale_price} CAD
+                                        </span>
+
+
                                     </div>
                                     <Link
-                                        to="/viewcart"
+                                        to="/cart"
                                         state={{ ID: product._id }}
                                         className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium hover:cursor-pointer"
                                     >

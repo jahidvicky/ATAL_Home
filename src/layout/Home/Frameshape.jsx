@@ -2,26 +2,24 @@ import React from 'react'
 import API, { IMAGE_URL } from '../../API/Api';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 
 const Frameshape = () => {
-  const [frame, setframe] = useState([])
+  const [subCategory, setSubCategory] = useState([]);
 
-  //Get Api
-  const fetchFrameShape = async () => {
+  const getSubCategoryById = async () => {
     try {
-      const response = await API.get("/getFrameShapes")
-
-      setframe(response.data.frameShapesData)
-    } catch (error) {
-      console.log(error)
+      const subCat = await API.get("/getSubCatByCatId/68c8f082a02c3f5cdffeb182")
+      setSubCategory(subCat.data.subcategories)
+    } catch (err) {
+      console.log(err)
     }
   }
 
 
-
   useEffect(() => {
-    fetchFrameShape()
+    getSubCategoryById();
   }, [])
 
   return (
@@ -33,13 +31,19 @@ const Frameshape = () => {
           Choose the perfect frames for your face or your style.
         </p>
         <div className="flex justify-between md:mx-26 mt-6 flex-wrap gap-y-4 mx-12">
-          {frame.map((data, idx) => (
-            <div key={idx}>
-
-              <img src={IMAGE_URL + data.image} className='hover:scale-120 hover:cursor-pointer' loading='lazy' decoding='async'
-                alt={data.frameName} />
-              <h1 className='mt-2'>{data.frameName}</h1>
-            </div>
+          {subCategory.map((data, idx) => (
+            <Link to="/allProduct"
+              state={{
+                category: data.cat_sec,
+                subcategory: data.subCategoryName
+              }}
+            >
+              <div key={idx}>
+                <img src={IMAGE_URL + data.image} className='hover:scale-120 hover:cursor-pointer' loading='lazy' decoding='async'
+                  alt={data.subCategoryName} />
+                <h1 className='mt-2'>{data.subCategoryName}</h1>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

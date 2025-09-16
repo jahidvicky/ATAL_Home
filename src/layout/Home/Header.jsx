@@ -13,10 +13,14 @@ import logo from "../../assets/category/logo.png";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import CartDrawer from "./CartDrawer";
+import API from "../../API/Api";
 
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [query, setQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   // cart quantity from redux
   const totalQuantity = useSelector((state) =>
@@ -39,6 +43,33 @@ function Header() {
   const [index, setIndex] = useState(0);
   const [fade, setFade] = useState(false);
 
+  const handleSearch = async (e) => {
+    const value = e.target.value;
+    setQuery(value);
+
+    if (value.trim() === "") {
+      setFilteredProducts([]);
+    } else {
+      try {
+        const res = await API.get(`/products/search?search=${value}`);
+        if (res.data.success) {
+          setFilteredProducts(
+            Array.isArray(res.data.products) ? res.data.products : []
+          );
+        } else {
+          setFilteredProducts([]);
+        }
+      } catch (error) {
+        console.error("Search error:", error);
+      }
+    }
+  };
+
+  const handleSelect = (product) => {
+    setQuery(product.name);
+    setFilteredProducts([]); // hide dropdown after selection
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setFade(true);
@@ -52,7 +83,7 @@ function Header() {
 
   const handleLogin = () => {
     navigate("/login");
-    setSidebarOpen(false)
+    setSidebarOpen(false);
   };
 
   const handleLogout = () => {
@@ -64,14 +95,14 @@ function Header() {
   };
 
   const handleWishlist = () => {
-    navigate("/wishlist-page")
-    setSidebarOpen(false)
-  }
+    navigate("/wishlist-page");
+    setSidebarOpen(false);
+  };
 
   const handleCartMenu = () => {
-    setCartOpen(true)
-    setSidebarOpen(false)
-  }
+    setCartOpen(true);
+    setSidebarOpen(false);
+  };
 
   return (
     <>
@@ -107,15 +138,47 @@ function Header() {
               <input
                 type="text"
                 placeholder={placeholders[index]}
+                value={query || ""}
+                onChange={handleSearch}
                 className="w-full rounded-full border border-gray-300 bg-gray-100 py-2 pl-6 pr-10 placeholder-gray-500 focus:outline-none ring-2 ring-red-600 text-black"
               />
               <FaSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-black" />
+
+              {query && (
+                <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg z-50">
+                  {filteredProducts.length > 0 ? (
+                    <ul>
+                      {filteredProducts.map((product, index) => (
+                        <li className="mt-4" key={index}>
+                          <Link
+                            to="/allProduct"
+                            key={index}
+                            onClick={() => handleSelect(product)}
+                            className="px-4 py-2 cursor-pointer"
+                            state={{
+                              category: product.cat_sec,
+                              subcategory: product.subCategoryName,
+                            }}
+                          >
+                            {product.product_name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="px-4 py-2 text-gray-500">No results found</p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
           {/* Icons */}
           <div className="flex items-center gap-6 text-2xl">
-            <FaHeart onClick={handleWishlist} className="text-red-600 cursor-pointer hover:text-black" />
+            <FaHeart
+              onClick={handleWishlist}
+              className="text-red-600 cursor-pointer hover:text-black"
+            />
 
             {/* Cart */}
             <div className="relative">
@@ -208,11 +271,11 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } transition-transform duration-300 z-50 text-center`}
+        className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 z-50 text-center`}
       >
         <div className="flex justify-between items-center p-4 border-b border-gray-700 bg-white">
-
           {/* Logo */}
           <Link to="/">
             <img
@@ -274,14 +337,27 @@ function Header() {
           >
             BOOK EYE EXAM
           </Link>
-          <li> <button onClick={handleWishlist} className="text-white cursor-pointer hover:text-red-600">WISHLIST</button></li>
+          <li>
+            {" "}
+            <button
+              onClick={handleWishlist}
+              className="text-white cursor-pointer hover:text-red-600"
+            >
+              WISHLIST
+            </button>
+          </li>
           <li>
             <div>
-              <button onClick={handleCartMenu}
-                className="text-white cursor-pointer hover:text-red-600">CART</button>
+              <button
+                onClick={handleCartMenu}
+                className="text-white cursor-pointer hover:text-red-600"
+              >
+                CART
+              </button>
             </div>
           </li>
-          <li>{/* Auth Section */}
+          <li>
+            {/* Auth Section */}
             {!user ? (
               <div
                 onClick={handleLogin}
@@ -292,10 +368,12 @@ function Header() {
             ) : (
               <div
                 onClick={handleLogout}
-                className="text-white cursor-pointer hover:text-red-600">
+                className="text-white cursor-pointer hover:text-red-600"
+              >
                 <span className="hover:underline">Logout</span>
               </div>
-            )}</li>
+            )}
+          </li>
         </ul>
       </div>
 

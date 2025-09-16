@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
-function Product({ userId }) {
+function Product() {
   const location = useLocation();
   const { category, subcategory } = location.state;
 
@@ -18,11 +18,14 @@ function Product({ userId }) {
   const fetchProduct = async () => {
     try {
       const res = await API.get(`/getProducts/${category}/${subcategory}`);
+      // console.log("product detail", res.data);
       setProduct(res.data || []);
     } catch (err) {
       console.error("Failed to fetch products:", err);
     }
   };
+
+  // console.log("sub", subCategory);
 
   // Fetch wishlist
   const fetchWishlist = async () => {
@@ -45,7 +48,9 @@ function Product({ userId }) {
     const userId2 = localStorage.getItem("user");
     try {
       if (wishlist.includes(productId)) {
-        await API.delete("/removeWishlist", { data: { userId: userId2, productId } });
+        await API.delete("/removeWishlist", {
+          data: { userId: userId2, productId },
+        });
         setWishlist((prev) => prev.filter((id) => id !== productId));
         Swal.fire({
           toast: true,
@@ -54,7 +59,7 @@ function Product({ userId }) {
           title: "Removed from wishlist",
           showConfirmButton: false,
           timer: 1500,
-          timerProgressBar: true
+          timerProgressBar: true,
         });
       } else {
         await API.post("/addWishlist", { userId: userId2, productId });
@@ -66,7 +71,7 @@ function Product({ userId }) {
           title: "Added in wishlist",
           showConfirmButton: false,
           timer: 1500,
-          timerProgressBar: true
+          timerProgressBar: true,
         });
       }
     } catch (err) {
@@ -78,18 +83,23 @@ function Product({ userId }) {
 
   return (
     <>
+      {/* {subCategory.map((product, index)=>(
+      <h1>{product.subCategoryName}</h1>
+    ))} */}
       <div className="mt-5 ml-10 font-bold text-2xl">{product.cat_sec}</div>
       <div className="mt-2 ml-10 font-semibold text-lg">
         {product.length} Results
       </div>
       <div className=" flex flex-wrap gap-3 mx-36 py-8">
         {product.map((data, index) => (
+          
           <div
             className="w-64 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 flex flex-col items-center border-red-500 border shadow-gray-200"
             key={index}
           >
+            {/* <h1>{data.subCategoryName}</h1> */}
             {/* Wishlist toggle, no CSS change */}
-            <div onClick={() => toggleWishlist(data._id)}>
+            <div className="ml-40" onClick={() => toggleWishlist(data._id)}>
               {wishlist.includes(data._id) ? (
                 <AiFillHeart className="fill-red-500 hover:cursor-pointer text-3xl" />
               ) : (
@@ -99,8 +109,16 @@ function Product({ userId }) {
 
             {/* Image */}
             {data.product_image_collection &&
-              data.product_image_collection.length > 0 ? (
-              <Link to="/cart" state={{ ID: data._id }}>
+            data.product_name &&
+            data.product_image_collection.length > 0 ? (
+              <Link
+                to="/cart"
+                state={{
+                  ID: data._id,
+                  category: category,
+                  subcategory: subcategory,
+                }}
+              >
                 <img
                   src={
                     data.product_image_collection[0].startsWith("http")
@@ -118,11 +136,19 @@ function Product({ userId }) {
             )}
 
             {/* Title and Price */}
-            <div className="flex justify-between items-center w-full mt-3">
+           <Link to="/cart"
+           state={{
+                  ID: data._id,
+                  category: category,
+                  subcategory: subcategory,
+                }}
+           >
+             <div className="flex justify-between items-center w-full mt-3">
               <h2 className="font-semibold text-gray-800 text-base capitalize">
                 {data.product_name}
               </h2>
             </div>
+           </Link>
 
             {/* Rating & Button */}
             <div className="flex justify-between items-center w-full mt-3">
@@ -165,4 +191,3 @@ function Product({ userId }) {
 }
 
 export default Product;
-

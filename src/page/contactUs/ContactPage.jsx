@@ -106,7 +106,7 @@ const ContactPage = () => {
             <ul className="space-y-3">
               <li>
                 <span className="font-semibold text-red-600">Store Address:</span>{" "}
-                Atal Opticals, 45 Fashion Street, New Delhi, India
+                Atal Opticals, 45 Fashion Street, Toronto, ON M5V 2B6, Canada
               </li>
               <li>
                 <span className="font-semibold text-red-600">Phone:</span>{" "}
@@ -114,7 +114,7 @@ const ContactPage = () => {
               </li>
               <li>
                 <span className="font-semibold text-red-600">Email:</span>{" "}
-                care@atalopticals.com
+                sales.ataloptical@gmail.com
               </li>
               <li>
                 <span className="font-semibold text-red-600">Store Hours:</span>{" "}
