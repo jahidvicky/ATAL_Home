@@ -12,14 +12,18 @@ import API, { IMAGE_URL } from "../../API/Api";
 // import ReactImageMagnify from 'react-image-magnify';
 import Swal from "sweetalert2";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import ContactLensPage from "./ContactLensPage";
 
 const Cartpage = () => {
   const location = useLocation();
-  const { ID } = location.state;
+  const { ID ,category,subcategory} = location.state;
   const [product, setProduct] = useState({});
   const [mainImage, setMainImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const [subCategory, setSubCategory] = useState([]);
+
+    
 
   const dispatch = useDispatch();
   const product1 = {
@@ -28,6 +32,7 @@ const Cartpage = () => {
     price: product.product_sale_price,
     image: mainImage,
   };
+  
 
   const fetchProducts = async () => {
     try {
@@ -95,14 +100,34 @@ const Cartpage = () => {
     }
   };
 
+   // Fetch products
+    const fetchProductCategory = async () => {
+      try {
+        const res = await API.get(`/getProducts/${category}/${subcategory}`);
+         setSubCategory(res.data);
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+      }
+    };
+
   useEffect(() => {
     fetchProducts();
     fetchWishlist();
+    fetchProductCategory();
   }, []);
+
+    
+
+  
 
   return (
     <>
-      <div className="mt-14">
+
+     {subcategory === "Contact Lenses" ? <ContactLensPage/> : 
+
+<div>
+
+<div className="mt-14">
         <div className="flex flex-col md:flex-row gap-10">
           <div className="flex flex-col ml-10 gap-2">
             {galleryImages.map((img, index) => (
@@ -252,6 +277,11 @@ const Cartpage = () => {
         </div>
       </div>
 
+
+</div>
+
+     }
+  
       <div className="bg-stone-900"></div>
       <OurPromise />
     </>
