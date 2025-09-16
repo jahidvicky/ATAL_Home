@@ -13,7 +13,7 @@ import logo from "../../assets/category/logo.png";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import CartDrawer from "./CartDrawer";
-import API from "../../API/Api"
+import API from "../../API/Api";
 
 function Header() {
   const navigate = useNavigate();
@@ -51,12 +51,13 @@ function Header() {
       setFilteredProducts([]);
     } else {
       try {
-        const res = await API.fetch(
-          `/products/search?search=${value}`
-        );
-        const data = await res.json();
-        if (data.success) {
-          setFilteredProducts(data.products);
+        const res = await API.get(`/products/search?search=${value}`);
+        if (res.data.success) {
+          setFilteredProducts(
+            Array.isArray(res.data.products) ? res.data.products : []
+          );
+        } else {
+          setFilteredProducts([]);
         }
       } catch (error) {
         console.error("Search error:", error);
