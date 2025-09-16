@@ -1,11 +1,14 @@
 import React from "react";
+import image from "../assets/about/AboutUs Image.avif"
+import { Link } from "react-router-dom";
+
 
 const About = () => {
     return (
         <div className="bg-gray-50">
             {/* Header */}
             <div className="bg-gradient-to-r from-black via-red-600 to-black py-20 text-center">
-                <h1 className="text-5xl font-bold text-white">About Us – Atal Optical</h1>
+                <h1 className="text-5xl font-bold text-white">About Us - Atal Optical</h1>
                 <hr className="border-white w-150 mt-3 mx-auto" />
             </div>
 
@@ -32,7 +35,7 @@ const About = () => {
                 </p>
                 <p>
                     In 2007, inspired by his own vision and the leadership he admired
-                    within Canada’s optical industry, he aspired to start his own optical
+                    within Canada's optical industry, he aspired to start his own optical
                     business. However, due to demanding career commitments, this dream was
                     temporarily set aside. Despite the delay, his vision never wavered. He
                     remained deeply inspired by the optical leaders in Canada, keeping the
@@ -49,38 +52,50 @@ const About = () => {
                     serving the community with integrity, expertise, and compassion.
                 </p>
 
-                <h2 className="text-2xl font-semibold">Atal Optical: More Than Just an Optical Store</h2>
-                <p>
-                    Atal Optical is not just a business; it is a commitment to excellence
-                    and accessibility in eye care. Leveraging decades of corporate
-                    experience and deep industry knowledge, the company strives to
-                    provide:
-                </p>
-                <p>
-                    – State-of-the-art optical products that meet the highest standards of
-                    quality and style.
-                </p>
-                <p>
-                    – Comprehensive eye care services that prioritize patient health and
-                    comfort.
-                </p>
-                <p>
-                    – A special focus on offering <strong>free glasses</strong> to
-                    Canadians who cannot afford them, embodying the company’s spirit of
-                    giving back.
-                </p>
-                <p>
-                    With a leadership team that blends visionary insight and practical
-                    experience, Atal Optical is positioned to become a trusted name across
-                    communities in Canada.
-                </p>
+                <div className="leading-relaxed space-y-6 grid grid-cols-2 gap-x-10">
+                    <div>
+                        <img src={image}
+                            alt="AboutUS Image"
+                            className="w-full h-full rounded-xl mt-3"
+                            loading="lazy"
+                            decoding="async" />
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-semibold">Atal Optical: More Than Just an Optical Store</h2>
+                        <p className="mt-6">
+                            Atal Optical is not just a business; it is a commitment to excellence
+                            and accessibility in eye care. Leveraging decades of corporate
+                            experience and deep industry knowledge, the company strives to
+                            provide:
+                        </p>
+                        <p className="mt-2">
+                            - State-of-the-art optical products that meet the highest standards of
+                            quality and style.
+                        </p>
+                        <p className="mt-2">
+                            - Comprehensive eye care services that prioritize patient health and
+                            comfort.
+                        </p>
+                        <p className="mt-2">
+                            - A special focus on offering <strong>free glasses</strong> to
+                            Canadians who cannot afford them, embodying the company's spirit of
+                            giving back.
+                        </p>
+                        <p className="mt-2">
+                            With a leadership team that blends visionary insight and practical
+                            experience, Atal Optical is positioned to become a trusted name across
+                            communities in Canada.
+                        </p>
+                        <Link to="/"><button className="flex items-center bg-red-600 text-white p-3 rounded-lg hover:bg-black hover:cursor-pointer mt-5">Visit Website</button></Link>
+                    </div>
+                </div>
 
                 <h2 className="text-2xl font-semibold">A Vision Rooted in Experience and Service</h2>
                 <p>
-                    Our CEO’s extensive background in management and leadership across
+                    Our CEO's extensive background in management and leadership across
                     multiple industries has instilled a unique perspective on business,
                     service, and innovation. His ability to balance strategic thinking
-                    with compassionate leadership drives Atal Optical’s commitment to
+                    with compassionate leadership drives Atal Optical's commitment to
                     customers and community alike.
                 </p>
                 <p>
@@ -93,7 +108,7 @@ const About = () => {
 
                 <h2 className="text-2xl font-semibold">Join Us on This Visionary Journey</h2>
                 <p>
-                    At Atal Optical, we don’t just sell glasses; we empower people to see
+                    At Atal Optical, we don't just sell glasses; we empower people to see
                     clearly, live confidently, and embrace life fully. We invite you to be
                     part of our story — a story of vision, perseverance, and community
                     spirit.

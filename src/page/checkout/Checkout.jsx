@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import Swal from "sweetalert2";
-import { useSelector, useDispatch } from "react-redux";
-import { Bold } from "lucide-react";
+import { useSelector, useDispatch } from 'react-redux';
 
 const Checkout = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -12,7 +11,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
-  const [deliveryRange, setDeliveryRange] = useState("");
+
 
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -26,7 +25,7 @@ const Checkout = () => {
     "Review & Pay",
   ];
 
-  // shipping add
+  // shipping add  
   const tax = subtotal * 0.05;
   const discount = 200;
   const shipping = 150;
@@ -114,36 +113,6 @@ const Checkout = () => {
     setCurrentStep(idx);
   };
 
-  const shippingOptions = {
-    Standard: { min: 10, max: 17 },
-    Express: { min: 8, max: 14 },
-    PremiumExpress: { min: 4, max: 10 },
-  };
-
-  useEffect(() => {
-    if (formData.shippingMethod && shippingOptions[formData.shippingMethod]) {
-      const { min, max } = shippingOptions[formData.shippingMethod];
-      const today = new Date();
-
-      const startDate = new Date(today);
-      startDate.setDate(today.getDate() + min);
-
-      const endDate = new Date(today);
-      endDate.setDate(today.getDate() + max);
-
-      const options = { year: "numeric", month: "long", day: "numeric" };
-
-      setDeliveryRange(
-        `${startDate.toLocaleDateString(
-          "en-US",
-          options
-        )} - ${endDate.toLocaleDateString("en-US", options)}`
-      );
-    } else {
-      setDeliveryRange("");
-    }
-  }, [formData.shippingMethod]);
-
   return (
     <div className="max-w-4xl mx-auto p-6">
       {/* Progress Bar */}
@@ -159,20 +128,18 @@ const Checkout = () => {
               >
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all
-                  ${
-                    idx <= currentStep
+                  ${idx <= currentStep
                       ? "bg-red-600 text-white border-red-600"
                       : "border-black text-black group-hover:bg-black group-hover:text-white"
-                  }`}
+                    }`}
                 >
                   {idx + 1}
                 </div>
                 <span
-                  className={`mt-2 text-sm ${
-                    idx === currentStep
-                      ? "text-red-600 font-bold"
-                      : "text-gray-700"
-                  }`}
+                  className={`mt-2 text-sm ${idx === currentStep
+                    ? "text-red-600 font-bold"
+                    : "text-gray-700"
+                    }`}
                 >
                   {step}
                 </span>
@@ -213,19 +180,6 @@ const Checkout = () => {
       {/* Step 1: Shipping */}
       {currentStep === 1 && (
         <div className="grid grid-cols-2 gap-4">
-          <h1 className="w-[488px]">
-            Expected Delivery Date:{" "}
-            <b>{deliveryRange || "Please select a shipping method"}</b>
-          </h1><br/>
-         {/* <hr className="w-[488px] border-t-2 border-black -mt-2" /> */}
-         <hr
-  className={`border-t-2 -mt-2 ${
-    !deliveryRange ? "w-[418px] border-black" : "w-[498px] border-black"
-  }`}
-/>
-
-
-
           <input
             type="text"
             placeholder="Full Name"
@@ -265,14 +219,12 @@ const Checkout = () => {
             required
           >
             <option value="">Select Shipping Method</option>
-            <option value="Standard">Standard (10-17 days)</option>
-            <option value="Express">Express (8-14 days)</option>
-            <option value="PremiumExpress">Premium Express (4-10 days)</option>
+            <option value="Standard">Standard (5-7 days)</option>
+            <option value="Express">Express (2-3 days)</option>
+            <option value="Overnight">Overnight</option>
           </select>
         </div>
-      )}
-
-      {/* Step 2: Billing */}
+      )}{/* Step 2: Billing */}
       {currentStep === 2 && (
         <div>
           <label className="flex items-center mb-2">
@@ -336,7 +288,7 @@ const Checkout = () => {
           {/* Review */}
           <div>
             <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-black pb-2">
-              Billing Details
+              Billing  Details
             </h2>
             <p>
               <strong>Email:</strong> {formData.email}
@@ -370,10 +322,7 @@ const Checkout = () => {
             {/* Cart Items */}
             <div className="space-y-4">
               {cartItems.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between items-start pb-3 border-b border-dashed border-gray-300"
-                >
+                <div key={index} className="flex justify-between items-start pb-3 border-b border-dashed border-gray-300">
                   {/* Left - Product Info */}
                   <div className="flex items-center mb-3">
                     {/* Product Image */}
@@ -387,12 +336,11 @@ const Checkout = () => {
                     <div className="flex-1">
                       <h4 className="text-gray-800 font-semibold flex items-center">
                         {item.name}
-                        <span className="text-sm text-gray-500 ml-2">
-                          x {item.quantity}
-                        </span>
+                        <span className="text-sm text-gray-500 ml-2">x {item.quantity}</span>
                       </h4>
                     </div>
                   </div>
+
 
                   {/* Right - Price */}
                   <div className="text-right">
@@ -429,6 +377,8 @@ const Checkout = () => {
             </div>
           </div>
 
+
+
           {/* Consents */}
           <div>
             <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-black pb-2">
@@ -462,6 +412,8 @@ const Checkout = () => {
               I agree to Privacy Policy
             </label>
           </div>
+
+
         </div>
       )}
 

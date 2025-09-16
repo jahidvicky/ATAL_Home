@@ -47,6 +47,7 @@ import PromotionsPage from "./page/promorionPage/PromotionsPage";
 import { useDispatch } from "react-redux";
 import { fetchWishlist } from "./redux/wishlistSlice";
 import Payment from "./page/checkout/Payment";
+import HowToOrder from "./page/howToOrderPage/HowToOrder";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -187,6 +188,10 @@ function App() {
         {
           path: "/promotions-page",
           element: <PromotionsPage />,
+        },
+        {
+          path: "/how-to-order",
+          element: <HowToOrder />,
         },
         {
           path: "/place-order",

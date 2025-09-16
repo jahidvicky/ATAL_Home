@@ -239,6 +239,9 @@ function Header() {
               <li className="cursor-pointer hover:text-red-600">FAQ</li>
             </Link>
             <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
+            <Link to="/how-to-order">
+              <li className="cursor-pointer hover:text-red-600">HOW TO ORDER</li>
+            </Link>
             <Link to="/book-eye-exam">
               <li className="cursor-pointer hover:text-black hover:bg-white bg-red-600 py-1 px-4 rounded-xl">
                 BOOK EYE EXAM
