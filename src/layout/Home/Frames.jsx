@@ -9,7 +9,7 @@ const Frames = () => {
   const getAllFrames = async () => {
     try {
       const res = await API.get(
-        "/getSubCatByCatId/68a2d2b600f5f5010fdd896c"
+        "/getSubCatByCatId/68a416a9541a735ffdf69608"
       );
 
       setFrameData(res.data.subcategories);
