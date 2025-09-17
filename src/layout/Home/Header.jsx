@@ -104,6 +104,9 @@ function Header() {
     setSidebarOpen(false);
   };
 
+  console.log("filterProduct", filteredProducts);
+
+
   return (
     <>
       {/* Top Bar */}
@@ -157,7 +160,7 @@ function Header() {
                             className="px-4 py-2 cursor-pointer"
                             state={{
                               category: product.cat_id,
-                              subcategory: product._id,
+                              subcategory: product.subCat_id,
                             }}
                           >
                             {product.product_name}
