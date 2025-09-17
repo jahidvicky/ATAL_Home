@@ -23,6 +23,7 @@ const ExploreCollection = () => {
     getOurCollection();
   }, []);
 
+
   return (
     <section className="py-16 md:px-26 px-6 bg-white text-center">
       <h2 className="text-3xl font-bold mb-2">Our
@@ -39,8 +40,8 @@ const ExploreCollection = () => {
             key={index}
             to="/allproduct"
             state={{
-              category: item.cat_sec,
-              subcategory: item.subCategoryName,
+              category: item.cat_id,
+              subcategory: item._id,
             }}
           >
             <div

@@ -11,6 +11,7 @@ const Frames = () => {
       const res = await API.get(
         "/getSubCatByCatId/68a2d2b600f5f5010fdd896c"
       );
+
       setFrameData(res.data.subcategories);
     } catch (err) {
       console.log(err);
@@ -34,8 +35,8 @@ const Frames = () => {
             to="/allproduct"
             key={index}
             state={{
-              category: frame.cat_sec,
-              subcategory: frame.subCategoryName,
+              category: frame.cat_id,
+              subcategory: frame._id,
             }}
           >
             <div key={index} className="flip-card">

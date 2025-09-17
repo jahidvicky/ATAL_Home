@@ -11,13 +11,14 @@ function Product() {
   const location = useLocation();
   const { category, subcategory } = location.state;
 
+
   const [product, setProduct] = useState([]);
   const [wishlist, setWishlist] = useState([]);
 
   // Fetch products
   const fetchProduct = async () => {
     try {
-      const res = await API.get(`/getProducts/${category}/${subcategory}`);
+      const res = await API.get(`/products/${category}/${subcategory}`);
       // console.log("product detail", res.data);
       setProduct(res.data || []);
     } catch (err) {
@@ -92,7 +93,7 @@ function Product() {
       </div>
       <div className=" flex flex-wrap gap-3 mx-36 py-8">
         {product.map((data, index) => (
-          
+
           <div
             className="w-64 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 flex flex-col items-center border-red-500 border shadow-gray-200"
             key={index}
@@ -109,8 +110,8 @@ function Product() {
 
             {/* Image */}
             {data.product_image_collection &&
-            data.product_name &&
-            data.product_image_collection.length > 0 ? (
+              data.product_name &&
+              data.product_image_collection.length > 0 ? (
               <Link
                 to="/cart"
                 state={{
@@ -136,19 +137,19 @@ function Product() {
             )}
 
             {/* Title and Price */}
-           <Link to="/cart"
-           state={{
-                  ID: data._id,
-                  category: category,
-                  subcategory: subcategory,
-                }}
-           >
-             <div className="flex justify-between items-center w-full mt-3">
-              <h2 className="font-semibold text-gray-800 text-base capitalize">
-                {data.product_name}
-              </h2>
-            </div>
-           </Link>
+            <Link to="/cart"
+              state={{
+                ID: data._id,
+                category: category,
+                subcategory: subcategory,
+              }}
+            >
+              <div className="flex justify-between items-center w-full mt-3">
+                <h2 className="font-semibold text-gray-800 text-base capitalize">
+                  {data.product_name}
+                </h2>
+              </div>
+            </Link>
 
             {/* Rating & Button */}
             <div className="flex justify-between items-center w-full mt-3">
