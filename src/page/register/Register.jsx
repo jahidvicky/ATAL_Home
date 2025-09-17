@@ -69,7 +69,6 @@ function Register() {
                 timer: 1500,
                 timerProgressBar: true
             });
-            // alert("Passwords do not match.");
             return;
         }
 
@@ -117,10 +116,7 @@ function Register() {
                 timer: 1500,
                 timerProgressBar: true
             });
-            // alert("Registration successful!");
-            // console.log(res.data);
 
-            // reset
             setForm({
                 firstName: "",
                 lastName: "",
@@ -156,7 +152,7 @@ function Register() {
                 timer: 1500,
                 timerProgressBar: true
             });
-            // alert(msg);
+
         }
     };
 
