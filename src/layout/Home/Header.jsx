@@ -156,8 +156,8 @@ function Header() {
                             onClick={() => handleSelect(product)}
                             className="px-4 py-2 cursor-pointer"
                             state={{
-                              category: product.cat_sec,
-                              subcategory: product.subCategoryName,
+                              category: product.cat_id,
+                              subcategory: product._id,
                             }}
                           >
                             {product.product_name}
@@ -271,9 +271,8 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 z-50 text-center`}
+        className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } transition-transform duration-300 z-50 text-center`}
       >
         <div className="flex justify-between items-center p-4 border-b border-gray-700 bg-white">
           {/* Logo */}

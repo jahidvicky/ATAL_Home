@@ -10,7 +10,7 @@ const Trending = () => {
   const [reviews, setReviews] = useState([{}]);
   const fetchReviews = async () => {
     try {
-      const res = await API.get("/getProducts/currently trending/trending");
+      const res = await API.get("/products/68a4588c1bc78badaaf96ee8/68ca61e21fce9935eb79082a");
 
       setReviews(res.data || []);
     } catch (err) {
