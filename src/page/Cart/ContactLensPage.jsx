@@ -106,9 +106,16 @@ const ContactLensPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(
-      "Form Submitted! Check console for data.\n\nProduct: ACUVUE® OASYS MAX 1-Day Multifocal 90\nBase Curve: 8.4 mm\nDiameter: 14.3 mm\nMaterial: Senofilcon A\nWater Content: 38%\nLens Type: Daily Multifocal"
-    );
+
+    console.log("Form Submitted:", formData);
+
+    Swal.fire({
+      icon: "success",
+      title: "Done!",
+      text: "Form Submitted! Check console for data.\n\nProduct: ACUVUE® OASYS MAX 1-Day Multifocal 90\nBase Curve: 8.4 mm\nDiameter: 14.3 mm\nMaterial: Senofilcon A\nWater Content: 38%\nLens Type: Daily Multifocal",
+      timer: 2000,
+      showConfirmButton: false,
+    });
   };
 
   const dispatch = useDispatch();
