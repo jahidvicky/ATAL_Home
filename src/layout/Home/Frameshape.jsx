@@ -35,8 +35,8 @@ const Frameshape = () => {
             <Link to="/allProduct"
               key={idx}
               state={{
-                category: data.cat_sec,
-                subcategory: data.subCategoryName
+                category: data.cat_id,
+                subcategory: data._id
               }}
             >
               <div key={idx}>
