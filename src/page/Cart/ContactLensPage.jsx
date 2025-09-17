@@ -107,9 +107,14 @@ const ContactLensPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form Submitted:", formData);
-    alert(
-      "Form Submitted! Check console for data.\n\nProduct: ACUVUE® OASYS MAX 1-Day Multifocal 90\nBase Curve: 8.4 mm\nDiameter: 14.3 mm\nMaterial: Senofilcon A\nWater Content: 38%\nLens Type: Daily Multifocal"
-    );
+
+    Swal.fire({
+      icon: "success",
+      title: "Done!",
+      text: "Form Submitted! Check console for data.\n\nProduct: ACUVUE® OASYS MAX 1-Day Multifocal 90\nBase Curve: 8.4 mm\nDiameter: 14.3 mm\nMaterial: Senofilcon A\nWater Content: 38%\nLens Type: Daily Multifocal",
+      timer: 2000,
+      showConfirmButton: false,
+    });
   };
 
   const dispatch = useDispatch();
@@ -199,10 +204,9 @@ const ContactLensPage = () => {
                 <button key={index} onMouseEnter={() => setMainImage(img)}>
                   <img
                     src={img}
-                     alt={`frame-${index}`}
-                    className={`w-[100px] hover:cursor-pointer rounded ${
-                      mainImage === img ? "ring-2 ring-green-700" : ""
-                    }`}
+                    alt={`frame-${index}`}
+                    className={`w-[100px] hover:cursor-pointer rounded ${mainImage === img ? "ring-2 ring-green-700" : ""
+                      }`}
                   />{" "}
                 </button>
               ))}{" "}
@@ -242,7 +246,7 @@ const ContactLensPage = () => {
                   )}{" "}
                 </div>{" "}
               </div>
-        
+
               <p className="text-center text-gray-600 mb-6">
                 {" "}
                 Base Curve: 8.4 mm | Diameter: 14.3 mm | Material: Senofilcon A
@@ -252,130 +256,128 @@ const ContactLensPage = () => {
                 {" "}
                 {/* Right Eye */}
                 <div className="p-6 bg-white rounded-2xl shadow-md max-w-2xl mx-auto">
-      <h2 className="text-xl font-semibold mb-4">Select Your Prescription</h2>
+                  <h2 className="text-xl font-semibold mb-4">Select Your Prescription</h2>
 
-      {/* Eye Selection */}
-      <div className="flex gap-6 mb-6">
-       
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="od_selected"
-            checked={formData.od_selected}
-            onChange={handleSelect}
-            className="w-4 h-4 text-blue-600 border-gray-300 rounded"
-          />
-          OD (Right)
-        </label>
-         <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="os_selected"
-            checked={formData.os_selected}
-            onChange={handleSelect}
-            className="w-4 h-4 text-blue-600 border-gray-300 rounded"
-          />
-          OS (Left)
-        </label>
-      </div>
+                  {/* Eye Selection */}
+                  <div className="flex gap-6 mb-6">
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* OD Right Eye */}
-        <div
-          className={`p-4 rounded-lg border ${
-            formData.od_selected ? "opacity-100" : "opacity-50 pointer-events-none"
-          }`}
-        >
-          <h3 className="font-semibold mb-2">OD (Right Eye)</h3>
-          <label className="block text-sm font-medium mb-1">
-            Power / Sphere
-          </label>
-          <select
-            name="od_sphere"
-            value={formData.od_sphere}
-            onChange={handleSelect}
-            disabled={!formData.od_selected}
-            className="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-500 mb-3"
-          >
-            <option value="">Select Power</option>
-            {sphereOptions.map((power) => (
-              <option key={power} value={power}>
-                {power}
-              </option>
-            ))}
-          </select>
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        name="od_selected"
+                        checked={formData.od_selected}
+                        onChange={handleSelect}
+                        className="w-4 h-4 text-blue-600 border-gray-300 rounded"
+                      />
+                      OD (Right)
+                    </label>
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        name="os_selected"
+                        checked={formData.os_selected}
+                        onChange={handleSelect}
+                        className="w-4 h-4 text-blue-600 border-gray-300 rounded"
+                      />
+                      OS (Left)
+                    </label>
+                  </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium">BC</label>
-              <input
-                type="text"
-                value="8.4"
-                disabled
-                className="w-full border p-2 rounded-lg bg-gray-100"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">DIA</label>
-              <input
-                type="text"
-                value="14.2"
-                disabled
-                className="w-full border p-2 rounded-lg bg-gray-100"
-              />
-            </div>
-          </div>
-        </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* OD Right Eye */}
+                    <div
+                      className={`p-4 rounded-lg border ${formData.od_selected ? "opacity-100" : "opacity-50 pointer-events-none"
+                        }`}
+                    >
+                      <h3 className="font-semibold mb-2">OD (Right Eye)</h3>
+                      <label className="block text-sm font-medium mb-1">
+                        Power / Sphere
+                      </label>
+                      <select
+                        name="od_sphere"
+                        value={formData.od_sphere}
+                        onChange={handleSelect}
+                        disabled={!formData.od_selected}
+                        className="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-500 mb-3"
+                      >
+                        <option value="">Select Power</option>
+                        {sphereOptions.map((power) => (
+                          <option key={power} value={power}>
+                            {power}
+                          </option>
+                        ))}
+                      </select>
 
-        {/* OS Left Eye */}
-        <div
-          className={`p-4 rounded-lg border ${
-            formData.os_selected ? "opacity-100" : "opacity-50 pointer-events-none"
-          }`}
-        >
-          <h3 className="font-semibold mb-2">OS (Left Eye)</h3>
-          <label className="block text-sm font-medium mb-1">
-            Power / Sphere
-          </label>
-          <select
-            name="os_sphere"
-            value={formData.os_sphere}
-            onChange={handleSelect}
-            disabled={!formData.os_selected}
-            className="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-500 mb-3"
-          >
-            <option value="">Select Power</option>
-            {sphereOptions.map((power) => (
-              <option key={power} value={power}>
-                {power}
-              </option>
-            ))}
-          </select>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium">BC</label>
+                          <input
+                            type="text"
+                            value="8.4"
+                            disabled
+                            className="w-full border p-2 rounded-lg bg-gray-100"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium">DIA</label>
+                          <input
+                            type="text"
+                            value="14.2"
+                            disabled
+                            className="w-full border p-2 rounded-lg bg-gray-100"
+                          />
+                        </div>
+                      </div>
+                    </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium">BC</label>
-              <input
-                type="text"
-                value="8.4"
-                disabled
-                className="w-full border p-2 rounded-lg bg-gray-100"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">DIA</label>
-              <input
-                type="text"
-                value="14.2"
-                disabled
-                className="w-full border p-2 rounded-lg bg-gray-100"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
-              <hr/>
+                    {/* OS Left Eye */}
+                    <div
+                      className={`p-4 rounded-lg border ${formData.os_selected ? "opacity-100" : "opacity-50 pointer-events-none"
+                        }`}
+                    >
+                      <h3 className="font-semibold mb-2">OS (Left Eye)</h3>
+                      <label className="block text-sm font-medium mb-1">
+                        Power / Sphere
+                      </label>
+                      <select
+                        name="os_sphere"
+                        value={formData.os_sphere}
+                        onChange={handleSelect}
+                        disabled={!formData.os_selected}
+                        className="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-500 mb-3"
+                      >
+                        <option value="">Select Power</option>
+                        {sphereOptions.map((power) => (
+                          <option key={power} value={power}>
+                            {power}
+                          </option>
+                        ))}
+                      </select>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium">BC</label>
+                          <input
+                            type="text"
+                            value="8.4"
+                            disabled
+                            className="w-full border p-2 rounded-lg bg-gray-100"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium">DIA</label>
+                          <input
+                            type="text"
+                            value="14.2"
+                            disabled
+                            className="w-full border p-2 rounded-lg bg-gray-100"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr />
                 {/* Date of Prescription */}
                 <div className="mb-4">
                   <label className="block text-sm font-medium mb-1">
@@ -403,7 +405,7 @@ const ContactLensPage = () => {
                     className="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
-                <hr/>
+                <hr />
                 {/* Purchase Type */}
                 <div>
                   <label
@@ -425,7 +427,7 @@ const ContactLensPage = () => {
                     </option>
                   </select>
                 </div>
-                <hr/>
+                <hr />
                 {/* Pricing */}
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-semibold mb-2">Pricing</h3>
@@ -481,7 +483,7 @@ const ContactLensPage = () => {
         <div className="mt-6 ml-10">
           <h3 className="text-2xl font-semibold mb-6">ABOUT THIS PRODUCT</h3>
           <ul className="text-lg space-y-1">
-          <li>
+            <li>
               <strong>LENS TYPE: </strong>
               {product.product_frame_shape}
             </li>
@@ -489,7 +491,7 @@ const ContactLensPage = () => {
               <strong>MATERIAL: </strong>
               {product.product_frame_material}
             </li>
-            
+
             <li>
               <strong>MANUFACTURER:: </strong>
               {product.product_frame_color}

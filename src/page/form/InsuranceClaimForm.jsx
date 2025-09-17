@@ -64,7 +64,6 @@ export default function InsuranceClaimForm() {
       timer: 1500,
       timerProgressBar: true
     });
-    // alert("Form ready to submit. Replace with API call.");
   };
 
   return (
