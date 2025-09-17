@@ -8,10 +8,7 @@ const Frames = () => {
 
   const getAllFrames = async () => {
     try {
-      const res = await API.get(
-        "/getSubCatByCatId/68caa68bd72068a7d3a0f089"
-      );
-
+      const res = await API.get("/getSubCatByCatId/68caa68bd72068a7d3a0f089");
       setFrameData(res.data.subcategories);
     } catch (err) {
       console.log(err);

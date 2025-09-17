@@ -19,14 +19,11 @@ function Product() {
   const fetchProduct = async () => {
     try {
       const res = await API.get(`/products/${category}/${subcategory}`);
-      // console.log("product detail", res.data);
       setProduct(res.data || []);
     } catch (err) {
       console.error("Failed to fetch products:", err);
     }
   };
-
-  // console.log("sub", subCategory);
 
   // Fetch wishlist
   const fetchWishlist = async () => {

@@ -10,8 +10,7 @@ const Trending = () => {
   const [reviews, setReviews] = useState([{}]);
   const fetchReviews = async () => {
     try {
-      const res = await API.get("/products/68a4588c1bc78badaaf96ee8/68ca61e21fce9935eb79082a");
-
+      const res = await API.get("/products/68caa6d4d72068a7d3a0f097/68cae51cafa3c181c5dfeab5");
       setReviews(res.data || []);
     } catch (err) {
       console.error("Failed to fetch reviews:", err);

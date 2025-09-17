@@ -5,15 +5,11 @@ import API, { IMAGE_URL } from "../../API/Api";
 
 const ExploreCollection = () => {
   const [ourCollection, setOurCollection] = useState([]);
-  const [heading, setHeading] = useState("");
 
   const getOurCollection = async () => {
     try {
-      const res = await API.get(
-        "/getSubCatByCatId/68caa6abd72068a7d3a0f090"
-      );
+      const res = await API.get("/getSubCatByCatId/68caa6abd72068a7d3a0f090");
       setOurCollection(res.data.subcategories);
-      setHeading(res.data.subcategories[0].cat_sec);
     } catch (err) {
       console.log(err);
     }
@@ -22,6 +18,7 @@ const ExploreCollection = () => {
   useEffect(() => {
     getOurCollection();
   }, []);
+
 
 
   return (
