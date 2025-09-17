@@ -10,7 +10,7 @@ const ExploreCollection = () => {
   const getOurCollection = async () => {
     try {
       const res = await API.get(
-        "/getBySubCategory/Our Collections"
+        "/getSubCatByCatId/68a2d2b600f5f5010fdd896c"
       );
       setOurCollection(res.data.subcategories);
       setHeading(res.data.subcategories[0].cat_sec);
@@ -23,14 +23,10 @@ const ExploreCollection = () => {
     getOurCollection();
   }, []);
 
-  const [firstWord, ...restWords] = heading.split(" ");
-  const restText = restWords.join(" ");
-
   return (
     <section className="py-16 md:px-26 px-6 bg-white text-center">
-      <h2 className="text-3xl font-bold mb-2">
-        {firstWord}{" "}
-        {restText && <span className="text-red-600">{restText}</span>}
+      <h2 className="text-3xl font-bold mb-2">Our
+        <span className="text-red-600"> Collections</span>
       </h2>
       <hr className="w-80 mx-auto mb-4 border-black"></hr>
       <p className="text-gray-600 mb-10">
