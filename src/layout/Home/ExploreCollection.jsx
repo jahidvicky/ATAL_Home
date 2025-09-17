@@ -10,7 +10,7 @@ const ExploreCollection = () => {
   const getOurCollection = async () => {
     try {
       const res = await API.get(
-        "/getSubCatByCatId/68a2d2b600f5f5010fdd896c"
+        "/getSubCatByCatId/68caa6abd72068a7d3a0f090"
       );
       setOurCollection(res.data.subcategories);
       setHeading(res.data.subcategories[0].cat_sec);
