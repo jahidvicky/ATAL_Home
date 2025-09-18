@@ -1,8 +1,10 @@
 import React from "react";
 import { MapPin, Clock, Eye, Shield, Heart, Sparkles, Cpu } from "lucide-react";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 export default function EyeExamStep1() {
+    const navigate = useNavigate();
 
     const handleClick = () => {
         Swal.fire({
@@ -23,7 +25,12 @@ export default function EyeExamStep1() {
             width: "600px",
             showCloseButton: true,
             focusConfirm: false,
-        });
+        }).then((result) => {
+      if (result.isConfirmed) {
+        // ✅ Use React Router navigation instead of window
+        navigate("/appointmentType");
+      }
+    })
     };
 
     return (

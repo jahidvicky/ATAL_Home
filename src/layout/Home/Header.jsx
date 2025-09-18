@@ -270,7 +270,7 @@ function Header() {
               </li>
             </Link>
 
-            <Link to="/book-eye-exam">
+            <Link to="/eye-schedule-test">
               <li className="cursor-pointer hover:text-black hover:bg-white bg-red-600 py-1 px-4 rounded-xl">
                 BOOK EYE EXAM
               </li>
@@ -359,7 +359,7 @@ function Header() {
           </Link>
           <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
           <Link
-            to="/book-eye-exam"
+            to="/eye-schedule-test"
             onClick={() => setSidebarOpen(false)}
             className="py-2 px-4 rounded-lg text-center cursor-pointer hover:text-red-600"
           >

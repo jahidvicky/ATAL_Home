@@ -31,7 +31,7 @@ const AppointmentType = () => {
 
 
   const handleSelect = (title) => {
-    navigate("/AppointmentSchedule", {state: {examType: title}})
+    navigate("/appointmentSchedule", {state: {examType: title}})
   };
 
   return (
