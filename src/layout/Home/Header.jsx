@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   FaUser,
   FaHeart,
@@ -21,6 +21,8 @@ function Header() {
 
   const [query, setQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const searchRef = useRef(null);
+  const [open, setOpen] = useState(false);
 
   // cart quantity from redux
   const totalQuantity = useSelector((state) =>
@@ -104,6 +106,25 @@ function Header() {
     setSidebarOpen(false);
   };
 
+  useEffect(() => {
+    if (query) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [query]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -134,7 +155,7 @@ function Header() {
           </Link>
 
           {/* Search Bar */}
-          <div className="flex-grow max-w-2xl">
+          <div className="flex-grow max-w-2xl" ref={searchRef}>
             <div className="relative">
               <input
                 type="text"
@@ -145,7 +166,7 @@ function Header() {
               />
               <FaSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-black" />
 
-              {query && (
+              {open && (
                 <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg z-50">
                   {filteredProducts.length > 0 ? (
                     <ul>
@@ -233,7 +254,7 @@ function Header() {
             </Link>
 
             <Link to="/category">
-               <li className="cursor-pointer hover:text-red-600">CATEGORY</li>
+              <li className="cursor-pointer hover:text-red-600">CATEGORY</li>
             </Link>
 
             <Link to="/contact-us">
@@ -244,8 +265,11 @@ function Header() {
             </Link>
             <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
             <Link to="/how-to-order">
-              <li className="cursor-pointer hover:text-red-600">HOW TO ORDER</li>
+              <li className="cursor-pointer hover:text-red-600">
+                HOW TO ORDER
+              </li>
             </Link>
+
             <Link to="/book-eye-exam">
               <li className="cursor-pointer hover:text-black hover:bg-white bg-red-600 py-1 px-4 rounded-xl">
                 BOOK EYE EXAM
@@ -275,8 +299,9 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } transition-transform duration-300 z-50 text-center`}
+        className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 z-50 text-center`}
       >
         <div className="flex justify-between items-center p-4 border-b border-gray-700 bg-white">
           {/* Logo */}

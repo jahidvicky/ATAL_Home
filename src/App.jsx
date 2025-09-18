@@ -49,6 +49,8 @@ import { useDispatch } from "react-redux";
 import { fetchWishlist } from "./redux/wishlistSlice";
 import Payment from "./page/checkout/Payment";
 import HowToOrder from "./page/howToOrderPage/HowToOrder";
+import AppointmentType from "./layout/Home/AppointmentType";
+import AppointmentSchedule from "./layout/Home/AppointmentSchedule";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -197,6 +199,14 @@ function App() {
         {
           path: "/how-to-order",
           element: <HowToOrder />,
+        },
+        {
+          path: "/AppointmentType",
+          element: <AppointmentType/>,
+        },
+         {
+          path: "/AppointmentSchedule",
+          element: <AppointmentSchedule/>,
         },
         {
           path: "/place-order",
