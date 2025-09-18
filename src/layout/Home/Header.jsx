@@ -104,8 +104,6 @@ function Header() {
     setSidebarOpen(false);
   };
 
-  console.log("filterProduct", filteredProducts);
-
 
   return (
     <>
