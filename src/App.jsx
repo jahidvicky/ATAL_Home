@@ -208,7 +208,17 @@ function App() {
          {
           path: "/AppointmentSchedule",
           element: <AppointmentSchedule/>,
-},{
+        },
+        {
+
+          path: "/AppointmentType",
+          element: <AppointmentType/>,
+        },
+         {
+          path: "/AppointmentSchedule",
+          element: <AppointmentSchedule/>,
+         },
+{
           path: "/eye-exam-step",
           element: <EyeExamStep1 />,
         },
