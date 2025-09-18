@@ -202,14 +202,6 @@ function App() {
           element: <HowToOrder />,
         },
         {
-          path: "/AppointmentType",
-          element: <AppointmentType/>,
-        },
-         {
-          path: "/AppointmentSchedule",
-          element: <AppointmentSchedule/>,
-        },
-        {
 
           path: "/AppointmentType",
           element: <AppointmentType/>,
