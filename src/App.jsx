@@ -49,6 +49,8 @@ import { useDispatch } from "react-redux";
 import { fetchWishlist } from "./redux/wishlistSlice";
 import Payment from "./page/checkout/Payment";
 import HowToOrder from "./page/howToOrderPage/HowToOrder";
+import AppointmentType from "./layout/Home/AppointmentType";
+import AppointmentSchedule from "./layout/Home/AppointmentSchedule";
 import EyeExamStep1 from "./page/EyeExamPage/EyeExamStep1";
 
 function App() {
@@ -200,6 +202,13 @@ function App() {
           element: <HowToOrder />,
         },
         {
+          path: "/AppointmentType",
+          element: <AppointmentType/>,
+        },
+         {
+          path: "/AppointmentSchedule",
+          element: <AppointmentSchedule/>,
+},{
           path: "/eye-exam-step",
           element: <EyeExamStep1 />,
         },
