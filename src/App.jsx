@@ -15,6 +15,7 @@ import RightsEnforcementPolicy from "./page/rights-enforcement-policy/RightsEnfo
 import Dashboardlayout from "./layout/Dashboardlayout";
 import Faq from "./components/Faq";
 import About from "./components/About";
+import Category from "./layout/Home/Category";
 import CustHome from "./components/CustHome";
 import ViewCart from "./page/Cart/ViewCart";
 import Product from "./page/allproduct/Product";
@@ -144,6 +145,10 @@ function App() {
         {
           path: "/services",
           element: <Services />,
+        },
+        {
+          path: "/category",
+          element: <Category/>,
         },
         {
           path: "/our-mission",

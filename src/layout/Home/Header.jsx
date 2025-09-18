@@ -232,7 +232,10 @@ function Header() {
               <li className="cursor-pointer hover:text-red-600">SERVICES</li>
             </Link>
 
-            <li className="cursor-pointer hover:text-red-600">CATEGORY</li>
+            <Link to="/category">
+               <li className="cursor-pointer hover:text-red-600">CATEGORY</li>
+            </Link>
+
             <Link to="/contact-us">
               <li className="cursor-pointer hover:text-red-600">CONTACT US</li>
             </Link>
