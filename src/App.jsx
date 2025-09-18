@@ -49,6 +49,7 @@ import { useDispatch } from "react-redux";
 import { fetchWishlist } from "./redux/wishlistSlice";
 import Payment from "./page/checkout/Payment";
 import HowToOrder from "./page/howToOrderPage/HowToOrder";
+import EyeExamStep1 from "./page/EyeExamPage/EyeExamStep1";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -148,7 +149,7 @@ function App() {
         },
         {
           path: "/category",
-          element: <Category/>,
+          element: <Category />,
         },
         {
           path: "/our-mission",
@@ -197,6 +198,10 @@ function App() {
         {
           path: "/how-to-order",
           element: <HowToOrder />,
+        },
+        {
+          path: "/eye-exam-step",
+          element: <EyeExamStep1 />,
         },
         {
           path: "/place-order",
