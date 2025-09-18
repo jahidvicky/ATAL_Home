@@ -16,13 +16,12 @@ import ContactLensPage from "./ContactLensPage";
 
 const Cartpage = () => {
   const location = useLocation();
-  const { ID, category, subcategory } = location.state;
+  const { ID, category, subcategory, subCategoryName } = location.state;
   const [product, setProduct] = useState({});
   const [mainImage, setMainImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
-
 
 
   const dispatch = useDispatch();
@@ -37,8 +36,6 @@ const Cartpage = () => {
   const fetchProducts = async () => {
     try {
       const res = await API.get(`/getproductbyid/${ID}`);
-      console.log(res);
-
       const prod = res.data.product || {};
       setProduct(prod);
       if (prod.product_image_collection?.length > 0) {
@@ -106,6 +103,8 @@ const Cartpage = () => {
   const fetchProductCategory = async () => {
     try {
       const res = await API.get(`/getProducts/${category}/${subcategory}`);
+      console.log(res);
+
       setSubCategory(res.data);
     } catch (err) {
       console.error("Failed to fetch products:", err);
@@ -120,12 +119,10 @@ const Cartpage = () => {
 
 
 
-
-
   return (
     <>
 
-      {subcategory === "Contact Lenses" ? <ContactLensPage /> :
+      {subCategoryName === "Contact Lenses" ? <ContactLensPage /> :
 
         <div>
 

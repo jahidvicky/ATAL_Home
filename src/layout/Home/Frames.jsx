@@ -34,6 +34,7 @@ const Frames = () => {
             state={{
               category: frame.cat_id,
               subcategory: frame._id,
+              subCategoryName: frame.subCategoryName
             }}
           >
             <div key={index} className="flip-card">

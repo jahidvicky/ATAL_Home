@@ -9,7 +9,7 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 function Product() {
   const location = useLocation();
-  const { category, subcategory } = location.state;
+  const { category, subcategory, subCategoryName } = location.state;
 
 
   const [product, setProduct] = useState([]);
@@ -115,6 +115,7 @@ function Product() {
                   ID: data._id,
                   category: category,
                   subcategory: subcategory,
+                  subCategoryName: subCategoryName
                 }}
               >
                 <img

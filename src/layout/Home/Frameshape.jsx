@@ -22,6 +22,7 @@ const Frameshape = () => {
     getSubCategoryById();
   }, [])
 
+
   return (
     <div>
       <div className="bg-ray text-center py-10">
