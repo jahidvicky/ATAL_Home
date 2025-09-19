@@ -99,7 +99,7 @@ export default function EyeExamStep1() {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={handleClick}
-                        className="rounded-md px-6 py-2 bg-black mt-5 text-white hover:bg-white hover:text-red-600 text-[20px]"
+                        className="rounded-md px-6 py-2 bg-black mt-5 text-white hover:bg-white hover:text-red-600 text-[20px] hover:cursor-pointer"
                     >
                         Book Eye Exam
                     </motion.button>

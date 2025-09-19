@@ -137,7 +137,7 @@ const DocumentUploadForm = () => {
         {/* Submit */}
         <button
           type="submit"
-          className="bg-red-600 text-white py-3 px-3 rounded-lg hover:bg-red-700 transition font-semibold text-lg"
+          className="bg-red-600 text-white py-3 px-3 rounded-lg hover:bg-red-700 transition font-semibold text-lg hover:cursor-pointer"
         >
           Submit
         </button>

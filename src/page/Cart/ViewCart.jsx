@@ -28,7 +28,7 @@ const ViewCart = () => {
       {cartItems.length === 0 ? (
         <div className="text-center text-gray-600">
           Your cart is empty.
-          <Link to="/" className="text-blue-600 ml-2 hover:underline">
+          <Link to="/" className="text-blue-600 ml-2 hover:underline hover:cursor-pointer">
             Continue Shopping
           </Link>
         </div>
@@ -37,29 +37,38 @@ const ViewCart = () => {
           {/* Cart Items */}
           <div className="md:col-span-2 space-y-6">
             {cartItems.map((item, index) => (
+              console.log(item),
               <div
                 key={index}
                 className="flex items-center justify-between border p-4 rounded shadow-sm"
               >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-50 h-24 object-cover rounded mr-4"
-                />
+                <Link to="/cart"
+                  state={{ ID: item.id }}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-50 h-24 object-cover rounded mr-4 hover:cursor-pointer"
+                  />
+                </Link>
                 <div className="flex-1">
-                  <h4 className="text-lg font-semibold">{item.name}</h4>
+                  <Link to="/cart"
+                    state={{ ID: item.id }}
+                  >
+                    <h4 className="text-lg font-semibold hover:cursor-pointer">{item.name}</h4>
+                  </Link>
                   <p className="text-gray-600">${item.price}</p>
                   <div className="flex items-center mt-2 gap-2">
                     <button
                       onClick={() => dispatch(decrementQuantity(item.id))}
-                      className="px-2 py-1 border rounded hover:bg-gray-100"
+                      className="px-2 py-1 border rounded hover:bg-gray-100 hover:cursor-pointer"
                     >
                       -
                     </button>
                     <span className="px-2">{item.quantity}</span>
                     <button
                       onClick={() => dispatch(incrementQuantity(item.id))}
-                      className="px-2 py-1 border rounded hover:bg-gray-100"
+                      className="px-2 py-1 border rounded hover:bg-gray-100 hover:cursor-pointer"
                     >
                       +
                     </button>
@@ -71,7 +80,7 @@ const ViewCart = () => {
                   </p>
                   <button
                     onClick={() => dispatch(removeFromCart(item.id))}
-                    className="text-red-500 mt-2 text-sm hover:underline"
+                    className="text-red-500 mt-2 text-sm hover:underline hover:cursor-pointer"
                   >
                     Remove
                   </button>
@@ -95,7 +104,7 @@ const ViewCart = () => {
               <span>Total:</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
-            <button onClick={handleCheckout} className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition">
+            <button onClick={handleCheckout} className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition hover:cursor-pointer">
               Proceed to Checkout
             </button>
           </div>

@@ -6,7 +6,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="md:w-65 bg-white shadow-md rounded-xl overflow-hidden relative group duration-500 hover:scale-105 hover:shadow-xl">
-      <button className="absolute top-2 right-2 z-10 bg-white/80 hover:text-red-600 rounded-full p-1 transition">
+      <button className="absolute top-2 right-2 z-10 bg-white/80 hover:text-red-600 rounded-full p-1 transition hover:cursor-pointer">
         <FaHeart className="text-3xl text-zinc-400 hover:text-red-600" />
       </button>
       <div className="mt-5 block md:w-65 w-80">
