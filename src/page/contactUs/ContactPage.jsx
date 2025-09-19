@@ -136,7 +136,7 @@ const ContactPage = () => {
           </p>
           <button
             onClick={() => setShowVendor(true)}
-            className="bg-red-600 hover:bg-black hover:text-red-500 text-white font-semibold py-2 px-4 rounded-md w-full"
+            className="bg-red-600 hover:bg-black hover:text-red-500 text-white font-semibold py-2 px-4 rounded-md w-full hover:cursor-pointer"
           >
             Click Here
           </button>
@@ -152,7 +152,7 @@ const ContactPage = () => {
           </p>
           <button
             onClick={() => setShowCompany(true)}
-            className="bg-red-600 hover:bg-black hover:text-red-500 text-white font-semibold py-2 px-4 rounded-md w-full"
+            className="bg-red-600 hover:bg-black hover:text-red-500 text-white font-semibold py-2 px-4 rounded-md w-full hover:cursor-pointer"
           >
             Click Here
           </button>
@@ -217,7 +217,7 @@ const ContactPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowVendor(false)}
-                  className="px-4 py-2 bg-gray-300 rounded"
+                  className="px-4 py-2 bg-gray-300 rounded hover:cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -225,7 +225,7 @@ const ContactPage = () => {
                 <button
                   type="submit"
                   onClick={() => setFormData({ ...formData, userType: "vendor" })}
-                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 hover:cursor-pointer"
                 >
                   Submit
                 </button>
@@ -285,7 +285,7 @@ const ContactPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowCompany(false)}
-                  className="px-4 py-2 bg-gray-300 rounded"
+                  className="px-4 py-2 bg-gray-300 rounded hover:cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -294,7 +294,7 @@ const ContactPage = () => {
                   onClick={() =>
                     setFormData({ ...formData, userType: "company" })
                   }
-                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 hover:cursor-pointer"
                 >
                   Submit
                 </button>

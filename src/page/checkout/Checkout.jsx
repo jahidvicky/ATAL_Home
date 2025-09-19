@@ -8,6 +8,7 @@ const Checkout = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({});
   const [billingDifferent, setBillingDifferent] = useState(false);
+   const [deliveryRange, setDeliveryRange] = useState("");
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
@@ -113,6 +114,34 @@ const Checkout = () => {
     setCurrentStep(idx);
   };
 
+  const shippingOptions = {
+    Standard: { min: 10, max: 17 },
+    Express: { min: 8, max: 14 },
+    PremiumExpress: { min: 4, max: 10 },
+  };
+
+
+  useEffect(() => {
+    if (formData.shippingMethod && shippingOptions[formData.shippingMethod]) {
+      const { min, max } = shippingOptions[formData.shippingMethod];
+      const today = new Date();
+
+      const startDate = new Date(today);
+      startDate.setDate(today.getDate() + min);
+
+      const endDate = new Date(today);
+      endDate.setDate(today.getDate() + max);
+
+      const options = { year: "numeric", month: "long", day: "numeric" };
+
+      setDeliveryRange(
+        `${startDate.toLocaleDateString("en-US", options)} - ${endDate.toLocaleDateString("en-US", options)}`
+      );
+    } else {
+      setDeliveryRange("");
+    }
+  }, [formData.shippingMethod]);
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       {/* Progress Bar */}
@@ -178,53 +207,65 @@ const Checkout = () => {
       )}
 
       {/* Step 1: Shipping */}
-      {currentStep === 1 && (
-        <div className="grid grid-cols-2 gap-4">
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={formData.shippingName || ""}
-            onChange={(e) => handleChange("shippingName", e.target.value)}
-            className="border border-black p-2 rounded w-full col-span-2"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Street"
-            value={formData.shippingStreet || ""}
-            onChange={(e) => handleChange("shippingStreet", e.target.value)}
-            className="border border-black p-2 rounded w-full col-span-2"
-            required
-          />
-          <input
-            type="text"
-            placeholder="City"
-            value={formData.shippingCity || ""}
-            onChange={(e) => handleChange("shippingCity", e.target.value)}
-            className="border border-black p-2 rounded w-full"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Zip"
-            value={formData.shippingZip || ""}
-            onChange={(e) => handleChange("shippingZip", e.target.value)}
-            className="border border-black p-2 rounded w-full"
-            required
-          />
-          <select
-            value={formData.shippingMethod || ""}
-            onChange={(e) => handleChange("shippingMethod", e.target.value)}
-            className="border border-black p-2 rounded w-full col-span-2"
-            required
-          >
-            <option value="">Select Shipping Method</option>
-            <option value="Standard">Standard (5-7 days)</option>
-            <option value="Express">Express (2-3 days)</option>
-            <option value="Overnight">Overnight</option>
-          </select>
-        </div>
-      )}{/* Step 2: Billing */}
+{currentStep === 1 && (
+  <div className="grid grid-cols-2 gap-4">
+    <h1 className="w-[488px]">
+      Expected Delivery Date:{" "}
+      <b>{deliveryRange || "Please select a shipping method"}</b>
+    </h1>
+    <br />
+    <hr
+      className={`border-t-2 -mt-2 ${
+        !deliveryRange ? "w-[418px] border-black" : "w-[498px] border-black"
+      }`}
+    />
+
+    <input
+      type="text"
+      placeholder="Full Name"
+      value={formData.shippingName || ""}
+      onChange={(e) => handleChange("shippingName", e.target.value)}
+      className="border border-black p-2 rounded w-full col-span-2"
+      required
+    />
+    <input
+      type="text"
+      placeholder="Street"
+      value={formData.shippingStreet || ""}
+      onChange={(e) => handleChange("shippingStreet", e.target.value)}
+      className="border border-black p-2 rounded w-full col-span-2"
+      required
+    />
+    <input
+      type="text"
+      placeholder="City"
+      value={formData.shippingCity || ""}
+      onChange={(e) => handleChange("shippingCity", e.target.value)}
+      className="border border-black p-2 rounded w-full"
+      required
+    />
+    <input
+      type="text"
+      placeholder="Zip"
+      value={formData.shippingZip || ""}
+      onChange={(e) => handleChange("shippingZip", e.target.value)}
+      className="border border-black p-2 rounded w-full"
+      required
+    />
+    <select
+      value={formData.shippingMethod || ""}
+      onChange={(e) => handleChange("shippingMethod", e.target.value)}
+      className="border border-black p-2 rounded w-full col-span-2"
+      required
+    >
+      <option value="">Select Shipping Method</option>
+      <option value="Standard">Standard (10-17 days)</option>
+      <option value="Express">Express (8-14 days)</option>
+      <option value="PremiumExpress">Premium Express (4-10 days)</option>
+    </select>
+  </div>
+)}
+      {/* Step 2: Billing */}
       {currentStep === 2 && (
         <div>
           <label className="flex items-center mb-2">
@@ -422,7 +463,7 @@ const Checkout = () => {
         {currentStep > 0 && (
           <button
             onClick={prevStep}
-            className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800"
+            className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800 hover:cursor-pointer"
           >
             Previous
           </button>
@@ -430,7 +471,7 @@ const Checkout = () => {
         {currentStep < steps.length - 1 && (
           <button
             onClick={nextStep}
-            className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+            className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 hover:cursor-pointer"
           >
             Next
           </button>
@@ -439,7 +480,7 @@ const Checkout = () => {
           <button
             onClick={handleSubmit}
             disabled={!validateStep()}
-            className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+            className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 hover:cursor-pointer"
           >
             Continue Order
           </button>

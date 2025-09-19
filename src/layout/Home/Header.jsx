@@ -147,7 +147,7 @@ function Header() {
           <Link to="/">
             <img
               src={logo}
-              className="object-cover h-[80px] w-[240px]"
+              className="object-cover h-[80px] w-[240px] hover:cursor-pointer"
               alt="Logo"
               loading="lazy"
               decoding="async"
@@ -307,7 +307,7 @@ function Header() {
           <Link to="/">
             <img
               src={logo}
-              className="object-cover h-[60px] w-[100px]"
+              className="object-cover h-[60px] w-[100px] hover:cursor-pointer"
               alt="Logo"
               loading="lazy"
               decoding="async"
