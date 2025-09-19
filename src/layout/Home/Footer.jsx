@@ -11,7 +11,7 @@ const Footer = () => {
                     To Schedule an Appointment Reach Us at <br />
                     Hurontario Location: 905-970-9444 | Airport Location: 905-497-2692
                 </h3>
-                <Link to="/book-eye-exam"><button className="bg-white text-black mt-4 rounded-xl hover:bg-black hover:text-white text-xl font-semibold py-4 px-6 hover:cursor-pointer transition-colors duration-300 ">
+                <Link to="/eye-schedule-test"><button className="bg-white text-black mt-4 rounded-xl hover:bg-black hover:text-white text-xl font-semibold py-4 px-6 hover:cursor-pointer transition-colors duration-300 ">
                     Book an Appointment
                 </button></Link>
             </div>
@@ -39,7 +39,7 @@ const Footer = () => {
                         <Link to="/atal-meaning"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">MEANING OF ATAL</li></Link>
                         <Link to="/services"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">SERVICES</li></Link>
                         <Link to="/privacy-policy"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">PRIVACY-POLICY</li></Link>
-                        <Link to="/book-eye-exam"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">BOOK EYE EXAM</li></Link>
+                        <Link to="/eye-schedule-test"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">BOOK EYE EXAM</li></Link>
                         <Link to="/faq"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">FAQ</li></Link>
                         <Link to="/contact-us"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg">CONTACT US</li></Link>
                         <Link to="/terms&Conditions"><li className="cursor-pointer hover:text-red-600 hover:underline text-lg hover:underline text-lg">TERMS & CONDITION</li></Link>

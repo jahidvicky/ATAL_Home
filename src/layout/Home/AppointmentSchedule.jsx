@@ -1,7 +1,7 @@
 import { Divide } from "lucide-react";
 import React, { useState } from "react";
 import { FaLongArrowAltRight, FaLongArrowAltLeft } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const AppointmentSchedule = () => {
   const location = useLocation();
@@ -171,14 +171,6 @@ const AppointmentSchedule = () => {
           </div>
         </div>
 
-        {/* Title restored here */}
-        {/* <p className="text-4xl font-bold text-center mb-2 text-red-600 underline underline-offset-43 decoration-1 decoration-black">
-        {examType}
-      </p> */}
-        {/* <p className="text-center text-xl text-black-600 mb-9">
-        Select your eye care professional and appointment time.
-      </p> */}
-
         {/* Doctors */}
         <div className="space-y-12">
           {filteredDoctors.map((doc, index) => (
@@ -216,22 +208,34 @@ const AppointmentSchedule = () => {
                         ) : (
                           <div className="grid grid-cols-3 gap-1">
                             {times.map((time, tIdx) => (
-                              <button
+                              <Link
+                                to="/book-eye-exam"
+                                state={{
+                                  doctorName: doc.name,
+                                  doctorImage: doc.image,
+                                  day: day.label,
+                                  weekday: day.weekday,
+                                  time,
+                                  examType,
+                                }}
                                 key={tIdx}
-                                onClick={() =>
-                                  setSelectedTime(
+                              >
+                                <button
+                                  key={tIdx}
+                                  onClick={() =>
+                                    setSelectedTime(
+                                      `${doc.name} - ${day.label} - ${time}`
+                                    )
+                                  }
+                                  className={`px-2 py-1 hover:cursor-pointer text-white text-xs font-medium ${selectedTime ===
                                     `${doc.name} - ${day.label} - ${time}`
-                                  )
-                                }
-                                className={`px-2 py-1 text-white text-xs font-medium ${
-                                  selectedTime ===
-                                  `${doc.name} - ${day.label} - ${time}`
                                     ? "bg-red-600"
                                     : "bg-gray-700 hover:bg-red-600"
-                                }`}
-                              >
-                                {time}
-                              </button>
+                                    }`}
+                                >
+                                  {time}
+                                </button>
+                              </Link>
                             ))}
                           </div>
                         )}
@@ -248,14 +252,14 @@ const AppointmentSchedule = () => {
           <button
             disabled={startIndex === 0}
             onClick={() => setStartIndex(startIndex - 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-40"
+            className="px-3 py-1 bg-gray-200 hover:cursor-pointer rounded disabled:opacity-40"
           >
             <FaLongArrowAltLeft />
           </button>
           <button
             disabled={startIndex + 4 >= days.length}
             onClick={() => setStartIndex(startIndex + 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-40"
+            className="px-3 py-1 bg-gray-200 hover:cursor-pointer rounded disabled:opacity-40"
           >
             <FaLongArrowAltRight />
           </button>

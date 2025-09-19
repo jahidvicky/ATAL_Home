@@ -1,9 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const AppointmentType = () => {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
 
   const appointments = [
@@ -31,63 +32,103 @@ const AppointmentType = () => {
 
 
   const handleSelect = (title) => {
-    navigate("/AppointmentSchedule", {state: {examType: title}})
+    navigate("/appointmentSchedule", { state: { examType: title } })
   };
+
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+      },
+    },
+  };
+
+  // Children animation (applied to each <li>)
+  const itemVariants = {
+    hidden: { x: -30, opacity: 0 },
+    visible: { x: 0, opacity: 1 },
+  };
+
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
       <h1 className="text-2xl font-bold text-center mb-6">Dr. Yuen Optometry</h1>
-      <p className="text-center mb-10">
-        In case of emergency, please call: <span className="font-semibold">416-205-9539</span>
-      </p>
 
-      {/* Cards Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
         {appointments.map((item, index) => (
-          <div
+          <motion.div
             key={index}
-            className="border shadow-md rounded-lg p-6 flex flex-col justify-between"
+            className="border shadow-lg hover:shadow-red-600 rounded-lg p-6 flex flex-col justify-between"
+            initial={{ y: 50, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: index * 0.2, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
           >
             <h2 className="text-lg font-bold mb-3 text-center">{item.title}</h2>
             <p className="text-sm text-gray-600 mb-6">{item.description}</p>
-            <button
-            onClick={()=>handleSelect(item.title)}
-             className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded font-semibold">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handleSelect(item.title)}
+              className="bg-red-600 hover:bg-red-700 text-white hover:cursor-pointer py-2 px-4 rounded font-semibold"
+            >
               SELECT
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         ))}
       </div>
 
-      {/* Notes Section */}
-      <div className="mt-10 space-y-4 text-sm text-gray-700">
-        <p className="font-semibold">
-          The day of your appointment:
-        </p>
-        <ul className="list-disc list-inside space-y-1">
-          <li>Please arrive 15 minutes early to allow for preliminary testing.</li>
-          <li>Please kindly wear mask to appointment.</li>
-          <li>
+      <motion.div
+        className="mt-10 space-y-4 text-sm text-black"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6 }}
+      >
+        <p className="font-semibold">The day of your appointment:</p>
+
+        {/* First List */}
+        <motion.ul
+          className="list-disc list-inside space-y-1"
+          variants={listVariants}
+        >
+          <motion.li variants={itemVariants}>
+            Please arrive 15 minutes early to allow for preliminary testing.
+          </motion.li>
+          <motion.li variants={itemVariants}>
+            Please kindly wear mask to appointment.
+          </motion.li>
+          <motion.li variants={itemVariants}>
             If you have a cough, cold, difficulty breathing, sore throat, fever,
             please seek medical attention before booking.
-          </li>
-        </ul>
+          </motion.li>
+        </motion.ul>
 
-        <ul className="list-disc list-inside space-y-1 mt-4">
-          <li>Please bring your medication list.</li>
-          <li>Please bring all pairs of glasses that you currently use.</li>
-          <li>
+        {/* Second List */}
+        <motion.ul
+          className="list-disc list-inside space-y-1 mt-4"
+          variants={listVariants}
+        >
+          <motion.li variants={itemVariants}>Please bring your medication list.</motion.li>
+          <motion.li variants={itemVariants}>
+            Please bring all pairs of glasses that you currently use.
+          </motion.li>
+          <motion.li variants={itemVariants}>
             If you are a contact lens wearer, please wear your glasses to the
             appointment (if available), and bring your contact lens boxes/foils.
-          </li>
-          <li>Please bring your Medicare card (OHIP Card).</li>
-          <li>Appointments will last 20-40 minutes.</li>
-          <li>Dilation drops used as part of examination.</li>
-          <li>Cash payment not accepted (only credit/debit card).</li>
-        </ul>
-      </div>
+          </motion.li>
+          <motion.li variants={itemVariants}>Please bring your Medicare card (OHIP Card).</motion.li>
+          <motion.li variants={itemVariants}>Appointments will last 20-40 minutes.</motion.li>
+          <motion.li variants={itemVariants}>Dilation drops used as part of examination.</motion.li>
+          <motion.li variants={itemVariants}>
+            Cash payment not accepted (only credit/debit card).
+          </motion.li>
+        </motion.ul>
+      </motion.div>
 
-      <p className="text-center text-xs text-gray-500 mt-6">
+      <p className="text-center text-xs text-red-600 mt-6 ">
         © Atal Opticals - Cookie Policy
       </p>
     </div>

@@ -164,7 +164,7 @@ function Header() {
                 onChange={handleSearch}
                 className="w-full rounded-full border border-gray-300 bg-gray-100 py-2 pl-6 pr-10 placeholder-gray-500 focus:outline-none ring-2 ring-red-600 text-black"
               />
-              <FaSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-black" />
+              <FaSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-black hover:cursor-pointer" />
 
               {open && (
                 <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg z-50">
@@ -231,7 +231,7 @@ function Header() {
                 {/* logout button */}
                 <button
                   onClick={handleLogout}
-                  className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-black"
+                  className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:cursor-pointer hover:bg-black"
                 >
                   Logout
                 </button>
@@ -270,7 +270,7 @@ function Header() {
               </li>
             </Link>
 
-            <Link to="/book-eye-exam">
+            <Link to="/eye-schedule-test">
               <li className="cursor-pointer hover:text-black hover:bg-white bg-red-600 py-1 px-4 rounded-xl">
                 BOOK EYE EXAM
               </li>
@@ -299,9 +299,8 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 z-50 text-center`}
+        className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } transition-transform duration-300 z-50 text-center`}
       >
         <div className="flex justify-between items-center p-4 border-b border-gray-700 bg-white">
           {/* Logo */}
@@ -359,7 +358,7 @@ function Header() {
           </Link>
           <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
           <Link
-            to="/book-eye-exam"
+            to="/eye-schedule-test"
             onClick={() => setSidebarOpen(false)}
             className="py-2 px-4 rounded-lg text-center cursor-pointer hover:text-red-600"
           >
