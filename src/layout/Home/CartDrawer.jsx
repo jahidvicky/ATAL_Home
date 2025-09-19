@@ -19,7 +19,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
   const handleCheckout = () => {
     onClose();
     navigate('/checkout');
-    
+
   }
 
   return (
