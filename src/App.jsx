@@ -204,13 +204,13 @@ function App() {
         {
 
           path: "/appointmentType",
-          element: <AppointmentType/>,
+          element: <AppointmentType />,
         },
-         {
+        {
           path: "/appointmentSchedule",
-          element: <AppointmentSchedule/>,
-         },
-{
+          element: <AppointmentSchedule />,
+        },
+        {
           path: "/eye-schedule-test",
           element: <EyeExamStep1 />,
         },
