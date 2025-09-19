@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import Swal from "sweetalert2";
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
 
 const Payment = () => {
     const cartItems = useSelector((state) => state.cart.items);
@@ -18,8 +19,8 @@ const Payment = () => {
     const shipping = 150;
     const total = subtotal + tax + shipping - discount;
     return (
-        <div className="flex justify-center items-center min-h-[80vh] bg-gray-50">
-            <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
+        <div className="flex justify-center items-center min-h-[80vh] bg-gray-200 pt-20 pb-20">
+            <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md border border-red-600">
                 {/* Title */}
                 <h2 className="text-2xl font-bold mb-6 text-center text-red-600">
                     Complete Your Payment
@@ -32,23 +33,23 @@ const Payment = () => {
                     <div className="space-y-2 text-gray-700">
                         <div className="flex justify-between">
                             <span>Subtotal</span>
-                            <span>₹{subtotal.toFixed(2)}</span>
+                            <span>${subtotal.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between">
                             <span>Shipping</span>
-                            <span>₹{shipping.toFixed(2)}</span>
+                            <span>${shipping.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between">
                             <span>Tax</span>
-                            <span>₹{tax.toFixed(2)}</span>
+                            <span>${tax.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between text-green-600">
                             <span>Discount</span>
-                            <span>-₹{discount.toFixed(2)}</span>
+                            <span>-${discount.toFixed(2)}</span>
                         </div>
                         <div className="border-t pt-2 flex justify-between font-bold text-red-600 text-lg">
                             <span>Total</span>
-                            <span>₹{total.toFixed(2)}</span>
+                            <span>${total.toFixed(2)}</span>
                         </div>
                     </div>
                 </div>
@@ -85,6 +86,13 @@ const Payment = () => {
                         console.error("PayPal Checkout Error:", err);
                     }}
                 />
+                <div className="mt-5">
+                    <Link to="/place-order">
+                        <button className="bg-black text-white text-2xl p-3 rounded-lg hover:cursor-pointer w-full hover:bg-red-600 hover:text-white">
+                            Cash On Delivery
+                        </button>
+                    </Link>
+                </div>
             </div>
         </div>
     );

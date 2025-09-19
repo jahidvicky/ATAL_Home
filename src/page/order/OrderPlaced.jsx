@@ -8,9 +8,9 @@ const OrderPlaced = () => {
         navigate("/")
     }
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-white text-black">
             {/* Animated Circle with Tick */}
-            <div className="flex items-center justify-center w-32 h-32 rounded-full border-4 border-red-600 bg-black animate-bounce">
+            <div className="flex items-center justify-center w-32 h-32 rounded-full border-4 border-red-600 animate-bounce">
                 <CheckCircle className="w-20 h-20 text-red-600" />
             </div>
 
@@ -18,7 +18,7 @@ const OrderPlaced = () => {
             <h1 className="mt-6 text-4xl font-bold text-red-600 drop-shadow-lg">
                 Order Placed!
             </h1>
-            <p className="mt-3 text-lg text-gray-300">
+            <p className="mt-3 text-lg text-black">
                 Thank you for shopping with us. Your order has been confirmed.
             </p>
 
