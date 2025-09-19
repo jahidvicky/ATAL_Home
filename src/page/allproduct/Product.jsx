@@ -95,7 +95,6 @@ function Product() {
             className="w-64 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 flex flex-col items-center border-red-500 border shadow-gray-200"
             key={index}
           >
-            {/* <h1>{data.subCategoryName}</h1> */}
             {/* Wishlist toggle, no CSS change */}
             <div className="ml-40" onClick={() => toggleWishlist(data._id)}>
               {wishlist.includes(data._id) ? (
