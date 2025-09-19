@@ -218,7 +218,7 @@ const AppointmentSchedule = () => {
                                   time,
                                   examType,
                                 }}
-                                  key={tIdx}
+                                key={tIdx}
                               >
                                 <button
                                   key={tIdx}
@@ -227,12 +227,11 @@ const AppointmentSchedule = () => {
                                       `${doc.name} - ${day.label} - ${time}`
                                     )
                                   }
-                                  className={`px-2 py-1 text-white text-xs font-medium ${
-                                    selectedTime ===
+                                  className={`px-2 py-1 hover:cursor-pointer text-white text-xs font-medium ${selectedTime ===
                                     `${doc.name} - ${day.label} - ${time}`
-                                      ? "bg-red-600"
-                                      : "bg-gray-700 hover:bg-red-600"
-                                  }`}
+                                    ? "bg-red-600"
+                                    : "bg-gray-700 hover:bg-red-600"
+                                    }`}
                                 >
                                   {time}
                                 </button>
@@ -253,14 +252,14 @@ const AppointmentSchedule = () => {
           <button
             disabled={startIndex === 0}
             onClick={() => setStartIndex(startIndex - 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-40"
+            className="px-3 py-1 bg-gray-200 hover:cursor-pointer rounded disabled:opacity-40"
           >
             <FaLongArrowAltLeft />
           </button>
           <button
             disabled={startIndex + 4 >= days.length}
             onClick={() => setStartIndex(startIndex + 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-40"
+            className="px-3 py-1 bg-gray-200 hover:cursor-pointer rounded disabled:opacity-40"
           >
             <FaLongArrowAltRight />
           </button>

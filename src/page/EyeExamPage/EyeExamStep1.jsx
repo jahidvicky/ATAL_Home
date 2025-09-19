@@ -2,6 +2,7 @@ import React from "react";
 import { MapPin, Clock, Eye, Shield, Heart, Sparkles, Cpu } from "lucide-react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function EyeExamStep1() {
     const navigate = useNavigate();
@@ -26,11 +27,10 @@ export default function EyeExamStep1() {
             showCloseButton: true,
             focusConfirm: false,
         }).then((result) => {
-      if (result.isConfirmed) {
-        // ✅ Use React Router navigation instead of window
-        navigate("/appointmentType");
-      }
-    })
+            if (result.isConfirmed) {
+                navigate("/appointmentType");
+            }
+        })
     };
 
     return (
@@ -42,7 +42,7 @@ export default function EyeExamStep1() {
             </header>
 
             {/* Store Info */}
-            <section className="max-w-6xl mx-auto p-6 grid md:grid-cols-3 gap-6 text-center">
+            <section className="max-w-6xl mx-auto p-18 grid md:grid-cols-3 gap-6 text-center">
                 <div>
                     <Eye className="w-10 h-10 mx-auto mb-2 text-red-500" />
                     <h2 className="font-bold">Atal Opticals - Queen St</h2>
@@ -60,35 +60,51 @@ export default function EyeExamStep1() {
                     <p>123 Queen St, Toronto</p>
                 </div>
             </section>
-            <div className="grid grid-cols-2 bg-red-600">
-                {/* Store Image */}
-                <section className="pl-50 p-10">
+
+            <div className="grid grid-cols-2 bg-red-600 gap-20 items-center">
+                {/* Store Image with zoom-in effect */}
+                <motion.section
+                    className="mt-11 flex justify-end pr-10"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                    viewport={{ once: true, amount: 0.3 }} // 👈 triggers when 30% visible
+                >
                     <img
                         src="https://t4.ftcdn.net/jpg/02/44/14/05/360_F_244140583_MQ27ktdnXHxoWcDCRyX7YjZF49NsuJ86.jpg"
                         alt="Atal Opticals Store"
-                        className="rounded-2xl shadow-lg w-full"
+                        className="rounded-2xl shadow-lg w-[90%]"
                     />
-                </section>
+                </motion.section>
 
-                {/* Services */}
-                <section className="py-10 pl-20">
+                {/* Services with bounce-up effect */}
+                <motion.section
+                    className="py-10 pl-10 text-white"
+                    initial={{ y: 100, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ type: "spring", stiffness: 80, damping: 12, delay: 0.3 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                >
                     <h2 className="text-2xl font-bold mb-6">Store Services</h2>
-                    <ul className="space-y-3 text-white">
+                    <ul className="space-y-3 text-lg">
                         <li>Eye Exams with Licensed Optometrists</li>
                         <li>Contact Lens Fittings</li>
                         <li>Prescription Glasses & Sunglasses</li>
                         <li>Kids Glasses & Safety Eyewear</li>
                         <li>Fashion-forward Eyewear Collections</li>
                         <li>Comprehensive Eye Exam for all ages</li>
-                        <li>Glasses PD, and optical measurment</li>
+                        <li>Glasses PD, and optical measurement</li>
                     </ul>
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                         onClick={handleClick}
-                        className="w-50 rounded-md p-2 bg-white mt-5 text-red-500 hover:bg-black">Book Eye Exam
-                    </button>
-                </section>
+                        className="rounded-md px-6 py-2 bg-black mt-5 text-white hover:bg-white hover:text-red-600 text-[20px]"
+                    >
+                        Book Eye Exam
+                    </motion.button>
+                </motion.section>
             </div>
-
             {/* Reasons */}
             <section className="max-w-6xl mx-auto p-6 text-center">
                 <h2 className="text-2xl font-bold mb-8">Top Reasons to Get Your Eyes Checked</h2>

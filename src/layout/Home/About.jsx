@@ -53,7 +53,7 @@ const About = () => {
             <Link to="/about-us"><button className="flex items-center bg-red-600 text-white p-3 rounded-lg mt-6 hover:bg-black hover:cursor-pointer">
               About Us{" "}
               <span className="ml-4 bg-white p-2 rounded-lg">
-                <FaArrowRight className="hover:rotate-[-45deg] transition duration-250 ease-in-out text-black" />
+                <FaArrowRight className="hover:rotate-[-45deg] hover:cursor-pointer transition duration-250 ease-in-out text-black" />
               </span>
             </button>
             </Link>
