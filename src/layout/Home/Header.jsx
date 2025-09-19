@@ -216,18 +216,17 @@ function Header() {
             </div>
 
             {/* Auth Section */}
+            <Link to="/update-registration"><FaUser className="text-red-600 hover:text-black" /></Link>
             {!user ? (
               <div
                 onClick={handleLogin}
                 className="flex items-center gap-1 text-red-600 cursor-pointer hover:text-black"
               >
-                <FaUser />
+
                 <span className="hover:underline">Sign In</span>
               </div>
             ) : (
               <div className="flex items-center gap-3">
-                {/* user image */}
-                <FaUser className="text-red-600 hover:text-black" />
                 {/* logout button */}
                 <button
                   onClick={handleLogout}
