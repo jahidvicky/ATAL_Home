@@ -15,7 +15,7 @@ const Size = () => {
             <button
               key={size}
               onClick={() => setSelectedSize(size)} // Update selected size on click
-              className={`border px-3 py-1 rounded text-sm hover:border-red-600
+              className={`border px-3 py-1 rounded text-sm hover:border-red-600 hover:cursor-pointer
               ${selectedSize === size
                   ? "bg-red-500 text-white border-red-500"
                   : "bg-white text-black"

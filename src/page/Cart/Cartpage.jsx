@@ -205,7 +205,7 @@ const Cartpage = () => {
                         timer: 1500,
                       });
                     }}
-                    className="bg-red-600 text-white px-42 py-3 mb-4 rounded hover:bg-red-800 ml-10 text-xl border-1 border-black"
+                    className="bg-red-600 text-white px-42 py-3 mb-4 rounded hover:bg-red-800 ml-10 text-xl border-1 border-black hover:cursor-pointer"
                   >
                     ADD TO CART
                   </button>

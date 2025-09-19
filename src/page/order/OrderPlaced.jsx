@@ -23,7 +23,7 @@ const OrderPlaced = () => {
             </p>
 
             {/* Button to go back */}
-            <button onClick={goToHome} className="mt-6 px-6 py-3 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-semibold shadow-lg transition">
+            <button onClick={goToHome} className="mt-6 px-6 py-3 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-semibold shadow-lg transition hover:cursor-pointer">
                 Continue Shopping
             </button>
         </div>

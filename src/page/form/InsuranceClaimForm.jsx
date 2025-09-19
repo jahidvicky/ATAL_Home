@@ -357,13 +357,13 @@ export default function InsuranceClaimForm() {
                 },
               })
             }
-            className="px-4 py-2 border rounded"
+            className="px-4 py-2 border rounded hover:cursor-pointer"
           >
             Reset
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:cursor-pointer"
           >
             Submit
           </button>

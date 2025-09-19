@@ -463,7 +463,7 @@ const Checkout = () => {
         {currentStep > 0 && (
           <button
             onClick={prevStep}
-            className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800"
+            className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800 hover:cursor-pointer"
           >
             Previous
           </button>
@@ -471,7 +471,7 @@ const Checkout = () => {
         {currentStep < steps.length - 1 && (
           <button
             onClick={nextStep}
-            className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+            className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 hover:cursor-pointer"
           >
             Next
           </button>
@@ -480,7 +480,7 @@ const Checkout = () => {
           <button
             onClick={handleSubmit}
             disabled={!validateStep()}
-            className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+            className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 hover:cursor-pointer"
           >
             Continue Order
           </button>
