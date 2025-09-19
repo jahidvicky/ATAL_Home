@@ -52,6 +52,7 @@ import HowToOrder from "./page/howToOrderPage/HowToOrder";
 import AppointmentType from "./layout/Home/AppointmentType";
 import AppointmentSchedule from "./layout/Home/AppointmentSchedule";
 import EyeExamStep1 from "./page/EyeExamPage/EyeExamStep1";
+import UpdateRegistration from "./page/updateRegistration/UpdateRegistration";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -213,6 +214,10 @@ function App() {
         {
           path: "/eye-schedule-test",
           element: <EyeExamStep1 />,
+        },
+        {
+          path: "/update-registration",
+          element: <UpdateRegistration />,
         },
         {
           path: "/place-order",
