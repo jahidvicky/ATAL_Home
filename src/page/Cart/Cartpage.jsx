@@ -21,7 +21,7 @@ const Cartpage = () => {
   const [mainImage, setMainImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
   const [wishlist, setWishlist] = useState([]);
-  const [subCategory, setSubCategory] = useState([]);
+  // const [subCategory, setSubCategory] = useState([]);
 
 
   const dispatch = useDispatch();
@@ -100,21 +100,21 @@ const Cartpage = () => {
   };
 
   // Fetch products
-  const fetchProductCategory = async () => {
-    try {
-      const res = await API.get(`/getProducts/${category}/${subcategory}`);
-      console.log(res);
+  // const fetchProductCategory = async () => {
+  //   try {
+  //     const res = await API.get(`/getProducts/${category}/${subcategory}`);
+  //     console.log(res);
 
-      setSubCategory(res.data);
-    } catch (err) {
-      console.error("Failed to fetch products:", err);
-    }
-  };
+  //     setSubCategory(res.data);
+  //   } catch (err) {
+  //     console.error("Failed to fetch products:", err);
+  //   }
+  // };
 
   useEffect(() => {
     fetchProducts();
     fetchWishlist();
-    fetchProductCategory();
+    // fetchProductCategory();
   }, []);
 
 

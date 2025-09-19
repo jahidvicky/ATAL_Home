@@ -490,7 +490,7 @@ const ContactLensPage = () => {
             </li>
 
             <li>
-              <strong>MANUFACTURER:: </strong>
+              <strong>MANUFACTURER: </strong>
               {product.product_frame_color}
             </li>
             <li>

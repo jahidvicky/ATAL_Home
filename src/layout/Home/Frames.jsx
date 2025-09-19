@@ -40,6 +40,7 @@ const Frames = () => {
             <div key={index} className="flip-card">
               <div className="flip-card-inner">
                 <div className="flip-card-front overflow-hidden">
+                  {frame.subCategoryName}
                   <img
                     src={IMAGE_URL + frame.image}
                     loading="lazy"
