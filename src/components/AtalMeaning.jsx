@@ -15,7 +15,7 @@ const AtalMeaning = () => {
                 <h1 className="text-xl font-medium">
                     Connection to Atal Optical’s Statement
                 </h1>
-                <p>Atal Optical embodies the spirit of being <strong>steadfast and committed</strong> to providing <strong>consistent, reliable, and high-quality eye care</strong>. Just as “Atal” means unwavering, we are dedicated to <strong>helping everyone achieve clear and steady vision</strong> — because <strong>everyone deserves to see the world with clarity and confidence
+                <p>Atal Optical embodies the spirit of being <strong>steadfast and committed</strong> to providing <strong>consistent, reliable, and high-quality eye care</strong>. Just as “Atal” means unwavering, we are dedicated to <strong>helping everyone achieve clear and steady vision</strong> — because <strong>everyone deserves to see the world with clarity and confidence.
                 </strong>.
 
                     Our name reflects our promise: to be a trusted, constant partner in your journey toward better vision and a better life.
