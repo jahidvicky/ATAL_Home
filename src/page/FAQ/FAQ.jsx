@@ -1,25 +1,45 @@
 import React, { useEffect, useState } from "react";
-import woman from '../../assets/category/woman.jpg'
+import FAQs from '../../assets/category/FAQs.jpg'
 import API from "../../API/Api";
+import ReactPaginate from "react-paginate";
 function FAQ() {
   const [openIndex, setOpenIndex] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0)
+  const [pageCount, setPageCount] = useState(0)
+  const [faqData, setFaqData] = useState([{}]);
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const [faqdata, setfaqdata] = useState([{}]);
+  const fetchPage = async () => {
+    try {
+      const res = await API.get(`/getPagination?page=${currentPage + 1}&limit=8`);
+
+      setFaqData(res.data.data);
+      setPageCount(res.data.totalPages);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPage();
+  }, [currentPage]);
+
+  const handlePageClick = (e) => {
+    setCurrentPage(e.selected);
+  };
+
 
   const fetchallfaq = async () => {
     try {
       const response = await API.get("/getallfaq", {
         headers: {
           "Content-Type": "application/json",
-          // "Authorization": `Bearer ${admintoken}`,
         }
       });
-      setfaqdata(response.data.faqs);
-      // console.log(response.data.faqs);
+      setFaqData(response.data.faqs);
     } catch (err) {
       console.error(err);
     }
@@ -32,8 +52,8 @@ function FAQ() {
     <>
       <div className="flex mb-20">
         <div className="mr-6 hidden lg:block">
-          <div className="mt-20 ml-26 min-w-xl">
-            <img src={woman} loading="lazy" decoding="async" alt="woman" className="rounded-2xl" />
+          <div className="mt-20 ml-26 ">
+            <img src={FAQs} loading="lazy" decoding="async" alt="woman" className="rounded-2xl w-full" />
           </div>
         </div>
         <div>
@@ -42,7 +62,7 @@ function FAQ() {
               Frequently Asked <span className="font-bold text-red-600">Questions</span>
             </p>
             <hr className="md:w-102 w-66 mb-10 mt-2 border-black"></hr>
-            {faqdata.map((faq, index) => (
+            {faqData.map((faq, index) => (
               <div key={index} className="mb-4 border-b border-black pb-4">
                 <button
                   onClick={() => toggleFAQ(index)}
@@ -51,7 +71,7 @@ function FAQ() {
                     <span className="md:text-lg text-base font-medium">{faq.title}</span>
                   </div>
                   <span className="text-xl">
-                    {openIndex === index ? "−" : "+"}
+                    {openIndex === index ? "-" : "+"}
                   </span>
                 </button>
 
@@ -65,6 +85,20 @@ function FAQ() {
                 </div>
               </div>
             ))}
+
+            {/* Pagination Component */}
+            <ReactPaginate
+              previousLabel={"← "}
+              nextLabel={" →"}
+              pageCount={pageCount}
+              onPageChange={handlePageClick}
+              containerClassName={"flex gap-2 mt-6 justify-center"}
+              pageClassName={"border px-3 py-1 rounded"}
+              activeClassName={"bg-blue-500 text-white"}
+              previousClassName={"border px-3 py-1 rounded hover:cursor-pointer"}
+              nextClassName={"border px-3 py-1 rounded hover:cursor-pointer"}
+              disabledClassName={"opacity-50 cursor-not-allowed"}
+            />
           </div>
         </div>
       </div>
