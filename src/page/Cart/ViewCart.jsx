@@ -37,7 +37,6 @@ const ViewCart = () => {
           {/* Cart Items */}
           <div className="md:col-span-2 space-y-6">
             {cartItems.map((item, index) => (
-              console.log(item),
               <div
                 key={index}
                 className="flex items-center justify-between border p-4 rounded shadow-sm"
