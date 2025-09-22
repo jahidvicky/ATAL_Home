@@ -53,6 +53,7 @@ import AppointmentType from "./layout/Home/AppointmentType";
 import AppointmentSchedule from "./layout/Home/AppointmentSchedule";
 import EyeExamStep1 from "./page/EyeExamPage/EyeExamStep1";
 import UpdateRegistration from "./page/updateRegistration/UpdateRegistration";
+import OrderSuccess from "./page/order/OrderSuccess";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -93,7 +94,7 @@ function App() {
 
         //  Protected Routes
         {
-          path: "/cart",
+          path: "/product/:name",
           element: (
             // <ProtectedRoute>
             <Cartpage />
@@ -101,7 +102,7 @@ function App() {
           ),
         },
         {
-          path: "/viewcart",
+          path: "/cart",
           element: (
             // <ProtectedRoute>
             <ViewCart />
@@ -113,6 +114,14 @@ function App() {
           element: (
             // <ProtectedRoute>
             <Checkout />
+            // </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/order-success/:id",
+          element: (
+            // <ProtectedRoute>
+            <OrderSuccess />
             // </ProtectedRoute>
           ),
         },

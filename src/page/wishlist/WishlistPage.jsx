@@ -83,7 +83,8 @@ function WishlistPage({ userId }) {
 
                                 {/* Product Image */}
                                 {product.image || product.product_image_collection ? (
-                                    <Link to="/cart" state={{ ID: product._id }}>
+                                    <Link to={`/product/${item.product_name}`}
+                                        state={{ ID: product._id }}>
                                         <img
                                             src={
                                                 product.image
@@ -125,7 +126,7 @@ function WishlistPage({ userId }) {
 
                                     </div>
                                     <Link
-                                        to="/cart"
+                                        to={`/product/${item.product_name}`}
                                         state={{ ID: product._id }}
                                         className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium hover:cursor-pointer"
                                     >

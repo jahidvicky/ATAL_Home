@@ -1,23 +1,63 @@
 import React, { useEffect, useState } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import Swal from "sweetalert2";
-import { useSelector, useDispatch } from 'react-redux';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import API from "../../API/Api"; // your axios instance
 
 const Payment = () => {
-    const cartItems = useSelector((state) => state.cart.items);
-    const dispatch = useDispatch();
+    const [order, setOrder] = useState(null);
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        const savedOrder = localStorage.getItem("orderSummary");
+        if (savedOrder) {
+            setOrder(JSON.parse(savedOrder));
+        }
+    }, []);
 
-    const subtotal = cartItems.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0
-    );
-    // shipping add  
-    const tax = subtotal * 0.05;
-    const discount = 200;
-    const shipping = 150;
-    const total = subtotal + tax + shipping - discount;
+    if (!order) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <p className="text-lg">Loading order summary...</p>
+            </div>
+        );
+    }
+
+    const { subtotal, tax, shipping, total } = order;
+
+    // Handle COD order creation
+    const handleCOD = async () => {
+        try {
+            const { data } = await API.post("/order", {
+                ...order,
+                paymentMethod: "Cash on Delivery",
+                paymentStatus: "Pending",
+            });
+
+            localStorage.removeItem("orderSummary");
+            navigate(`/order-success/${data.order._id}`);
+        } catch (err) {
+            Swal.fire("Error", "Failed to place COD order", "error");
+        }
+    };
+
+    // Handle PayPal order creation after success
+    const handlePayPalSuccess = async (details) => {
+        try {
+            const { data } = await API.post("/order", {
+                ...order,
+                paymentMethod: "PayPal",
+                paymentStatus: "Paid",
+                transactionId: details.id,
+            });
+
+            localStorage.removeItem("orderSummary");
+            navigate(`/order-success/${data.order._id}`);
+        } catch (err) {
+            Swal.fire("Error", "Failed to save PayPal order", "error");
+        }
+    };
+
     return (
         <div className="flex justify-center items-center min-h-[80vh] bg-gray-200 pt-20 pb-20">
             <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md border border-red-600">
@@ -29,7 +69,6 @@ const Payment = () => {
                 {/* Order Summary */}
                 <div className="bg-gray-100 p-4 rounded-lg mb-6">
                     <h3 className="text-lg font-semibold mb-2">Order Summary</h3>
-
                     <div className="space-y-2 text-gray-700">
                         <div className="flex justify-between">
                             <span>Subtotal</span>
@@ -37,15 +76,11 @@ const Payment = () => {
                         </div>
                         <div className="flex justify-between">
                             <span>Shipping</span>
-                            <span>${shipping.toFixed(2)}</span>
+                            <span>{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</span>
                         </div>
                         <div className="flex justify-between">
                             <span>Tax</span>
                             <span>${tax.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between text-green-600">
-                            <span>Discount</span>
-                            <span>-${discount.toFixed(2)}</span>
                         </div>
                         <div className="border-t pt-2 flex justify-between font-bold text-red-600 text-lg">
                             <span>Total</span>
@@ -62,8 +97,8 @@ const Payment = () => {
                             purchase_units: [
                                 {
                                     amount: {
-                                        value: total.toFixed(2), // Actual Total PayPal ko bhejna
-                                        currency_code: "USD", // or "INR" if supported
+                                        value: total.toFixed(2),
+                                        currency_code: "USD",
                                     },
                                 },
                             ],
@@ -80,18 +115,23 @@ const Payment = () => {
                                 timer: 1500,
                                 timerProgressBar: true,
                             });
+                            handlePayPalSuccess(details); // save order to DB
                         });
                     }}
                     onError={(err) => {
                         console.error("PayPal Checkout Error:", err);
+                        Swal.fire("Error", "PayPal Checkout Failed", "error");
                     }}
                 />
+
+                {/* COD Button */}
                 <div className="mt-5">
-                    <Link to="/place-order">
-                        <button className="bg-black text-white text-2xl p-3 rounded-lg hover:cursor-pointer w-full hover:bg-red-600 hover:text-white">
-                            Cash On Delivery
-                        </button>
-                    </Link>
+                    <button
+                        onClick={handleCOD}
+                        className="bg-black text-white text-2xl p-3 rounded-lg w-full hover:bg-red-600 hover:text-white"
+                    >
+                        Cash On Delivery
+                    </button>
                 </div>
             </div>
         </div>
@@ -99,3 +139,4 @@ const Payment = () => {
 };
 
 export default Payment;
+

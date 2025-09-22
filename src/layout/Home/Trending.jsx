@@ -74,7 +74,7 @@ const Trending = () => {
       <Slider {...settings}>
         {reviews.map((item, index) => (
           <div key={index} className="px-2 mb-4">
-            <Link to="/cart" state={{ ID: item._id }}>
+            <Link to={`/product/${item.product_name}`} state={{ ID: item._id }}>
               <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full hover:cursor-pointer shadow-white">
                 {item.product_image_collection &&
                   item.product_image_collection.length > 0 ? (

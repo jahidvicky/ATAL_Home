@@ -109,7 +109,7 @@ function Product() {
               data.product_name &&
               data.product_image_collection.length > 0 ? (
               <Link
-                to="/cart"
+                to={`/product/${data.product_name}`}
                 state={{
                   ID: data._id,
                   category: category,
@@ -134,7 +134,7 @@ function Product() {
             )}
 
             {/* Title and Price */}
-            <Link to="/cart"
+            <Link to={`/product/${data.product_name}`}
               state={{
                 ID: data._id,
                 category: category,
