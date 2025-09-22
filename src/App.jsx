@@ -54,6 +54,7 @@ import AppointmentSchedule from "./layout/Home/AppointmentSchedule";
 import EyeExamStep1 from "./page/EyeExamPage/EyeExamStep1";
 import OrderSuccess from "./page/order/OrderSuccess";
 import UpdateProfile from "./page/updateProfile/UpdateProfile";
+import Collections from "./page/collections/Collections";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -162,6 +163,10 @@ function App() {
         {
           path: "/category",
           element: <Category />,
+        },
+        {
+          path: "/collections",
+          element: <Collections />,
         },
         {
           path: "/our-mission",
