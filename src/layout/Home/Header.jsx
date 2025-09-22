@@ -290,7 +290,9 @@ function Header() {
             <Link to="/faq">
               <li className="cursor-pointer hover:text-red-600">FAQ</li>
             </Link>
-            <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
+            <Link to="/collections">
+              <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
+            </Link>
             <Link to="/how-to-order">
               <li className="cursor-pointer hover:text-red-600">
                 HOW TO ORDER

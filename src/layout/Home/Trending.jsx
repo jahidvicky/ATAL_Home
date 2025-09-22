@@ -5,9 +5,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import API, { IMAGE_URL } from "../../API/Api";
 import { Link } from "react-router-dom";
+import { useRecentlyViewed } from "../../page/collections/RecentlyViewedContext";
 
 const Trending = () => {
   const [reviews, setReviews] = useState([{}]);
+   const { handleProductClick } = useRecentlyViewed();
+
   const fetchReviews = async () => {
     try {
       const res = await API.get("/products/68caa6d4d72068a7d3a0f097/68cae51cafa3c181c5dfeab5");
@@ -73,7 +76,7 @@ const Trending = () => {
 
       <Slider {...settings}>
         {reviews.map((item, index) => (
-          <div key={index} className="px-2 mb-4">
+          <div key={index} className="px-2 mb-4" onClick={() => handleProductClick(item)} >
             <Link to="/cart" state={{ ID: item._id }}>
               <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full hover:cursor-pointer shadow-white">
                 {item.product_image_collection &&
