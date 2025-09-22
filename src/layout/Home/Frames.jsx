@@ -2,6 +2,7 @@ import "./FlipCard.css";
 import { useEffect, useState } from "react";
 import API, { IMAGE_URL } from "../../API/Api";
 import { Link } from "react-router-dom";
+import RecentlyView from "../../page/collections/RecentlyView";
 
 const Frames = () => {
   const [frameData, setFrameData] = useState([]);
@@ -31,6 +32,7 @@ const Frames = () => {
           <Link
             to="/allproduct"
             key={index}
+            className="hover:cursor-pointer"
             state={{
               category: frame.cat_id,
               subcategory: frame._id,

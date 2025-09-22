@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import API from "../../API/Api";
+import API, { IMAGE_URL } from "../../API/Api";
 import Swal from "sweetalert2";
 
-function UpdateRegistration() {
+function UpdateProfile() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [prescriptionFile, setPrescriptionFile] = useState(null);
     const [strength, setStrength] = useState(0);
-    const [profileImage, setProfileImage] = useState(null); // Can be File or URL
+    const [profileImage, setProfileImage] = useState(null);
+    const [profilePreview, setProfilePreview] = useState(null)
     const [strengthLabel, setStrengthLabel] = useState("Weak");
 
     const [form, setForm] = useState({
@@ -58,8 +59,13 @@ function UpdateRegistration() {
     };
 
     const handleProfileImage = (e) => {
-        setProfileImage(e.target.files?.[0] || null);
+        const file = e.target.files[0];
+        if (file) {
+            setProfileImage(file); // This is the file you will upload
+            setProfilePreview(URL.createObjectURL(file)); // This is for immediate preview
+        }
     };
+
 
     const getUser = async () => {
         try {
@@ -234,11 +240,7 @@ function UpdateRegistration() {
                             {profileImage && (
                                 <div className="mt-3">
                                     <img
-                                        src={
-                                            profileImage instanceof File
-                                                ? URL.createObjectURL(profileImage)
-                                                : profileImage // URL from backend
-                                        }
+                                        src={profilePreview || `${IMAGE_URL}${profileImage}`}
                                         alt="Profile Preview"
                                         className="w-24 h-24 object-cover rounded-full border shadow"
                                     />
@@ -413,7 +415,7 @@ function UpdateRegistration() {
                 <div className="pt-4">
                     <button
                         type="submit"
-                        className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition"
+                        className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition hover:cursor-pointer"
                     >
                         Update Profile
                     </button>
@@ -423,4 +425,4 @@ function UpdateRegistration() {
     );
 }
 
-export default UpdateRegistration;
+export default UpdateProfile;

@@ -225,8 +225,8 @@ function App() {
           element: <EyeExamStep1 />,
         },
         {
-          path: "/update-registration",
-          element: <UpdateRegistration />,
+          path: "/update-profile",
+          element: <UpdateProfile />,
         },
         {
           path: "/place-order",

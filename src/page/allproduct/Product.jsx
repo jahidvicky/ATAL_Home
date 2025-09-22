@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { useRecentlyViewed } from "../collections/RecentlyViewedContext";
+import RecentlyView from "../collections/RecentlyView";
 
 function Product() {
   const location = useLocation();
@@ -14,6 +16,7 @@ function Product() {
 
   const [product, setProduct] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const {handleProductClick} = useRecentlyViewed();
 
   // Fetch products
   const fetchProduct = async () => {
@@ -94,6 +97,8 @@ function Product() {
           <div
             className="w-64 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 flex flex-col items-center border-red-500 border shadow-gray-200"
             key={index}
+            onClick={() => handleProductClick(data)}
+            
           >
             {/* Wishlist toggle, no CSS change */}
             <div className="ml-40" onClick={() => toggleWishlist(data._id)}>
@@ -140,6 +145,7 @@ function Product() {
                 category: category,
                 subcategory: subcategory,
               }}
+              className="hover:cursor-pointer"
             >
               <div className="flex justify-between items-center w-full mt-3">
                 <h2 className="font-semibold text-gray-800 text-base capitalize">
@@ -151,7 +157,7 @@ function Product() {
             {/* Rating & Button */}
             <div className="flex justify-between items-center w-full mt-3">
               <div className="flex items-center gap-1">
-                <span>From</span>
+                <span>CAD</span>
                 <span className="line-through">${data.product_price}</span>
                 <span className="text-red-600 font-semibold">
                   ${data.product_sale_price}
@@ -184,6 +190,7 @@ function Product() {
           </div>
         ))}
       </div>
+         <RecentlyView/>
     </>
   );
 }
