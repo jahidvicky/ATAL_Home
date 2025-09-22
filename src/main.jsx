@@ -5,13 +5,33 @@ import App from './App';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { AuthProvider } from './page/context/AuthContext';
+import { RecentlyViewedProvider } from './page/collections/RecentlyViewedContext';
+
+
+let user = null;
+try {
+  const stored = localStorage.getItem("user");
+  if (stored) {
+    if (stored.startsWith("{")) {
+      user = JSON.parse(stored);   // JSON object
+    } else {
+      user = { _id: stored };      // plain string → wrap into object
+    }
+  }
+} catch (err) {
+  console.error("Invalid user data in localStorage", err);
+}
+
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <AuthProvider>
     <React.StrictMode>
-      <Provider store={store}>
+     <RecentlyViewedProvider user={user}>
+       <Provider store={store}>
         <App />
       </Provider>
+    </RecentlyViewedProvider>
     </React.StrictMode>
   </AuthProvider>
 );

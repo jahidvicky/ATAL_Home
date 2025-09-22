@@ -3,12 +3,16 @@ import { FaHeart } from "react-icons/fa";
 import { FiArrowRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import API, { IMAGE_URL } from "../../API/Api";
+import { useRecentlyViewed } from "../../page/collections/RecentlyViewedContext";
+import RecentlyView from "../../page/collections/RecentlyView";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onClick }) => {
   const [imageSrc, setImageSrc] = useState(product.product_image_collection[0]);
 
+
   return (
-    <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full cursor-pointer shadow-white relative duration-500">
+    <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full cursor-pointer shadow-white relative duration-500"
+    onClick={onClick} >
       {/* Product Image */}
       <div className="mb-4">
         <img
@@ -40,6 +44,7 @@ const ProductCard = ({ product }) => {
 
 const ProductGrid = () => {
   const [bestSellerData, setBestSellerData] = useState([]);
+   const { handleProductClick } = useRecentlyViewed(); 
 
   const getBestSeller = async () => {
     try {
@@ -55,6 +60,7 @@ const ProductGrid = () => {
   useEffect(() => {
     getBestSeller();
   }, []);
+
 
   return (
     <section className="py-12 md:px-24 px-6 bg-white">
@@ -87,13 +93,17 @@ const ProductGrid = () => {
         {bestSellerData.map((product, idx) => (
           <Link
             key={product._id || idx}
-            to="/allproduct"
+            to="/cart"
             state={{
               category: product.cat_id,
               subcategory: product.subCat_id,
+              ID:product._id
             }}
           >
-            <ProductCard product={product} />
+            <ProductCard product={product} 
+              onClick={() => handleProductClick(product)}
+              
+            />
           </Link>
         ))}
       </div>
