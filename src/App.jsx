@@ -52,7 +52,7 @@ import HowToOrder from "./page/howToOrderPage/HowToOrder";
 import AppointmentType from "./layout/Home/AppointmentType";
 import AppointmentSchedule from "./layout/Home/AppointmentSchedule";
 import EyeExamStep1 from "./page/EyeExamPage/EyeExamStep1";
-import UpdateRegistration from "./page/updateRegistration/UpdateRegistration";
+import UpdateProfile from "./page/updateProfile/UpdateProfile";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -216,8 +216,8 @@ function App() {
           element: <EyeExamStep1 />,
         },
         {
-          path: "/update-registration",
-          element: <UpdateRegistration />,
+          path: "/update-profile",
+          element: <UpdateProfile />,
         },
         {
           path: "/place-order",

@@ -31,6 +31,7 @@ const Frames = () => {
           <Link
             to="/allproduct"
             key={index}
+            className="hover:cursor-pointer"
             state={{
               category: frame.cat_id,
               subcategory: frame._id,

@@ -92,6 +92,7 @@ const ProductGrid = () => {
               category: product.cat_id,
               subcategory: product.subCat_id,
             }}
+            className="hover:cursor-pointer"
           >
             <ProductCard product={product} />
           </Link>

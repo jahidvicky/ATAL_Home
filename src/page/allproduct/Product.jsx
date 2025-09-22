@@ -140,6 +140,7 @@ function Product() {
                 category: category,
                 subcategory: subcategory,
               }}
+              className="hover:cursor-pointer"
             >
               <div className="flex justify-between items-center w-full mt-3">
                 <h2 className="font-semibold text-gray-800 text-base capitalize">

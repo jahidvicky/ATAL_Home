@@ -13,7 +13,8 @@ import logo from "../../assets/category/logo.png";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import CartDrawer from "./CartDrawer";
-import API from "../../API/Api";
+import API, { IMAGE_URL } from "../../API/Api";
+
 
 function Header() {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ function Header() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const searchRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const [custProfile, setCustProfile] = useState([])
 
   // cart quantity from redux
   const totalQuantity = useSelector((state) =>
@@ -66,6 +68,23 @@ function Header() {
       }
     }
   };
+
+
+  const getCustProfile = async () => {
+    try {
+      const response = await API.get(`/customer/${user}`)
+      // console.log(response.data.data.profileImage);
+
+      setCustProfile(response.data.data.profileImage)
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    getCustProfile()
+  }, [])
+
 
   const handleSelect = (product) => {
     setQuery(product.name);
@@ -125,6 +144,7 @@ function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
 
   return (
     <>
@@ -214,9 +234,17 @@ function Header() {
                 </span>
               )}
             </div>
-
-            {/* Auth Section */}
-            <Link to="/update-registration"><FaUser className="text-red-600 hover:text-black" /></Link>
+            <Link to="/update-profile">
+              {custProfile && user ? (
+                <img
+                  src={`${IMAGE_URL}${custProfile}`}
+                  alt="ProfileImage"
+                  className="w-12 h-12 rounded-full object-cover border border-red-600"
+                />
+              ) : (
+                <FaUser className="text-red-600 hover:text-black w-8 h-8" />
+              )}
+            </Link>
             {!user ? (
               <div
                 onClick={handleLogin}
@@ -281,13 +309,54 @@ function Header() {
       {/* Mobile Header */}
       <header className="lg:hidden bg-white shadow-xl">
         <div className="flex items-center justify-between px-4 md:py-3">
-          <img
-            src={logo}
-            className="h-[100px] w-[100px]"
-            alt="Logo"
-            loading="lazy"
-            decoding="async"
-          />
+          <Link to="/">
+            <img
+              src={logo}
+              className="h-[100px] w-[100px]"
+              alt="Logo"
+              loading="lazy"
+              decoding="async"
+            />
+          </Link>
+          <div className="flex-grow max-w-2xl" ref={searchRef}>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder={placeholders[index]}
+                value={query || ""}
+                onChange={handleSearch}
+                className="w-55 rounded-full border border-gray-300 bg-gray-100 py-2 pl-6 pr-10 placeholder-gray-500 focus:outline-none ring-2 ring-red-600 text-black"
+              />
+              <FaSearch className="absolute right-6 top-1/2 -translate-y-1/2 text-black hover:cursor-pointer" />
+
+              {open && (
+                <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg z-50">
+                  {filteredProducts.length > 0 ? (
+                    <ul>
+                      {filteredProducts.map((product, index) => (
+                        <li className="mt-4" key={index}>
+                          <Link
+                            to="/allProduct"
+                            key={index}
+                            onClick={() => handleSelect(product)}
+                            className="px-4 py-2 cursor-pointer"
+                            state={{
+                              category: product.cat_id,
+                              subcategory: product.subCat_id,
+                            }}
+                          >
+                            {product.product_name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="px-4 py-2 text-gray-500">No results found</p>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
           <FaBars
             size={24}
             className="text-black cursor-pointer"
