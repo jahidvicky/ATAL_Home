@@ -98,6 +98,14 @@ const OrderSuccess = () => {
                     ))}
                 </section>
 
+                {/* <button
+                    onClick={() => window.open(`/Api/order/${orderId}/invoice`, "_blank")}
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-black"
+                >
+                    Download Invoice
+                </button> */}
+
+
                 {/* Continue Shopping Button */}
                 <Link
                     to="/"
