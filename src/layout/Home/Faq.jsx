@@ -80,7 +80,7 @@ function Faq() {
     <>
       <div className="flex md:flex-row flex-col md:mb-20">
         <div className="md:mr-6">
-          <div className="bg-red-600 p-7 rounded-xl mt-10 md:ml-26 mx-5 md:min-w-xl">
+          <div className="bg-red-600 p-9 rounded-xl mt-10 md:ml-26 mx-5 md:min-w-xl">
 
             <div className="max-w-3xl w-full">
               {/* Title */}

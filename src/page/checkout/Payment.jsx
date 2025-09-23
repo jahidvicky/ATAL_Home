@@ -30,6 +30,7 @@ const Payment = () => {
         try {
             const { data } = await API.post("/order", {
                 ...order,
+                email: order.shippingAddress.email,
                 paymentMethod: "Cash on Delivery",
                 paymentStatus: "Pending",
             });
@@ -46,6 +47,7 @@ const Payment = () => {
         try {
             const { data } = await API.post("/order", {
                 ...order,
+                email: order.shippingAddress.email,
                 paymentMethod: "PayPal",
                 paymentStatus: "Paid",
                 transactionId: details.id,

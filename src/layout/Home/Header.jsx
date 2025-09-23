@@ -456,7 +456,12 @@ const [openMobile, setOpenMobile] = useState(false);
           >
             FAQ
           </Link>
-          <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
+          <Link
+            to="/collections"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
+          </Link>
           <Link
             to="/eye-schedule-test"
             onClick={() => setSidebarOpen(false)}
