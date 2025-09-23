@@ -211,19 +211,19 @@ const Cartpage = () => {
             <ul className="text-lg space-y-1">
               <li>
                 <strong>Frame Material: </strong>
-                {product.product_frame_material}
+                {product.product_frame_material || product.frame_material}
               </li>
               <li>
                 <strong>Frame Shape: </strong>
-                {product.product_frame_shape}
+                {product.product_frame_shape || product.frame_shape}
               </li>
               <li>
                 <strong>Frame Colour: </strong>
-                {product.product_frame_color}
+                {product.product_frame_color || product.frame_color}
               </li>
               <li>
                 <strong>Fit: </strong>
-                {product.product_frame_fit}
+                {product.product_frame_fit || product.frame_fit}
               </li>
               <li>
                 <strong>Gender: </strong>

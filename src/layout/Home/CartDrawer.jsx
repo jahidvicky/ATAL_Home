@@ -13,7 +13,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
   const handleViewCart = () => {
     onClose(); // close drawer
-    navigate('/viewcart'); // navigate to View Cart page
+    navigate('/cart'); // navigate to Cart page
   };
 
   const handleCheckout = () => {

@@ -99,6 +99,7 @@ const ProductGrid = () => {
               subcategory: product.subCat_id,
               ID:product._id
             }}
+            className="hover:cursor-pointer"
           >
             <ProductCard product={product} 
               onClick={() => handleProductClick(product)}

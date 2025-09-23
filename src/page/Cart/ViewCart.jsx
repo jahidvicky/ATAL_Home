@@ -5,21 +5,17 @@ import {
   decrementQuantity,
   removeFromCart,
 } from '../../redux/cartSlice';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const ViewCart = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
+  // Calculate subtotal
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
-
-  const handleCheckout = () => {
-    navigate("/checkout")
-  }
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -28,7 +24,10 @@ const ViewCart = () => {
       {cartItems.length === 0 ? (
         <div className="text-center text-gray-600">
           Your cart is empty.
-          <Link to="/" className="text-blue-600 ml-2 hover:underline hover:cursor-pointer">
+          <Link
+            to="/"
+            className="text-blue-600 ml-2 hover:underline hover:cursor-pointer"
+          >
             Continue Shopping
           </Link>
         </div>
@@ -41,9 +40,7 @@ const ViewCart = () => {
                 key={index}
                 className="flex items-center justify-between border p-4 rounded shadow-sm"
               >
-                <Link to="/cart"
-                  state={{ ID: item.id }}
-                >
+                <Link to={`/product/${item.name}`} state={{ ID: item.id }}>
                   <img
                     src={item.image}
                     alt={item.name}
@@ -51,10 +48,10 @@ const ViewCart = () => {
                   />
                 </Link>
                 <div className="flex-1">
-                  <Link to="/cart"
-                    state={{ ID: item.id }}
-                  >
-                    <h4 className="text-lg font-semibold hover:cursor-pointer">{item.name}</h4>
+                  <Link to={`/product/${item.name}`} state={{ ID: item.id }}>
+                    <h4 className="text-lg font-semibold hover:cursor-pointer">
+                      {item.name}
+                    </h4>
                   </Link>
                   <p className="text-gray-600">${item.price}</p>
                   <div className="flex items-center mt-2 gap-2">
@@ -88,24 +85,37 @@ const ViewCart = () => {
             ))}
           </div>
 
-          {/* Summary */}
+          {/* Order Summary */}
           <div className="bg-gray-100 p-6 rounded shadow-sm h-fit">
             <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
-            <div className="flex justify-between mb-2">
-              <span>Subtotal:</span>
+
+            {cartItems.map((item, index) => (
+              <div key={index} className="flex items-center justify-between border-b pb-2">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-30 h-15 object-cover rounded mr-4"
+                />
+                <div className="flex-1">
+                  <h4 className="font-semibold">{item.name}</h4>
+                  <p>Quantity: {item.quantity}</p>
+                  <p>Total: ${(item.price * item.quantity).toFixed(2)}</p>
+                </div>
+              </div>
+            ))}
+
+            <div className="flex justify-between text-lg font-bold border-t pt-2">
+              <span>Subtotal (Before Tax) :</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between mb-4">
-              <span>Shipping:</span>
-              <span className="text-green-700 font-semibold">FREE</span>
-            </div>
-            <div className="flex justify-between text-lg font-bold border-t pt-4">
-              <span>Total:</span>
-              <span>${subtotal.toFixed(2)}</span>
-            </div>
-            <button onClick={handleCheckout} className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition hover:cursor-pointer">
-              Proceed to Checkout
-            </button>
+
+            <Link to="/checkout">
+              <button
+                className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition hover:cursor-pointer"
+              >
+                Proceed to Checkout
+              </button>
+            </Link>
           </div>
         </div>
       )}

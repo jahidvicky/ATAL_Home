@@ -52,7 +52,8 @@ import HowToOrder from "./page/howToOrderPage/HowToOrder";
 import AppointmentType from "./layout/Home/AppointmentType";
 import AppointmentSchedule from "./layout/Home/AppointmentSchedule";
 import EyeExamStep1 from "./page/EyeExamPage/EyeExamStep1";
-import UpdateRegistration from "./page/updateRegistration/UpdateRegistration";
+import OrderSuccess from "./page/order/OrderSuccess";
+import UpdateProfile from "./page/updateProfile/UpdateProfile";
 import Collections from "./page/collections/Collections";
 
 function App() {
@@ -94,7 +95,7 @@ function App() {
 
         //  Protected Routes
         {
-          path: "/cart",
+          path: "/product/:name",
           element: (
             // <ProtectedRoute>
             <Cartpage />
@@ -102,7 +103,7 @@ function App() {
           ),
         },
         {
-          path: "/viewcart",
+          path: "/cart",
           element: (
             // <ProtectedRoute>
             <ViewCart />
@@ -114,6 +115,14 @@ function App() {
           element: (
             // <ProtectedRoute>
             <Checkout />
+            // </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/order-success/:id",
+          element: (
+            // <ProtectedRoute>
+            <OrderSuccess />
             // </ProtectedRoute>
           ),
         },
@@ -157,7 +166,7 @@ function App() {
         },
         {
           path: "/collections",
-          element: <Collections/>,
+          element: <Collections />,
         },
         {
           path: "/our-mission",
@@ -221,8 +230,8 @@ function App() {
           element: <EyeExamStep1 />,
         },
         {
-          path: "/update-registration",
-          element: <UpdateRegistration />,
+          path: "/update-profile",
+          element: <UpdateProfile />,
         },
         {
           path: "/place-order",

@@ -114,7 +114,7 @@ function Product() {
               data.product_name &&
               data.product_image_collection.length > 0 ? (
               <Link
-                to="/cart"
+                to={`/product/${data.product_name}`}
                 state={{
                   ID: data._id,
                   category: category,
@@ -139,12 +139,13 @@ function Product() {
             )}
 
             {/* Title and Price */}
-            <Link to="/cart"
+            <Link to={`/product/${data.product_name}`}
               state={{
                 ID: data._id,
                 category: category,
                 subcategory: subcategory,
               }}
+              className="hover:cursor-pointer"
             >
               <div className="flex justify-between items-center w-full mt-3">
                 <h2 className="font-semibold text-gray-800 text-base capitalize">
