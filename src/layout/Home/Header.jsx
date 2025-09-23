@@ -22,8 +22,14 @@ function Header() {
 
   const [query, setQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const searchRef = useRef(null);
-  const [open, setOpen] = useState(false);
+  // const searchRef = useRef(null);
+  const desktopSearchRef = useRef(null);
+const mobileSearchRef = useRef(null);
+
+  // const [open, setOpen] = useState(false);
+  const [openDesktop, setOpenDesktop] = useState(false);
+const [openMobile, setOpenMobile] = useState(false);
+
   const [custProfile, setCustProfile] = useState([])
 
   // cart quantity from redux
@@ -125,25 +131,49 @@ function Header() {
     setSidebarOpen(false);
   };
 
-  useEffect(() => {
-    if (query) {
-      setOpen(true);
+  // useEffect(() => {
+  //   if (query) {
+  //     setOpen(true);
+  //   } else {
+  //     setOpen(false);
+  //   }
+  // }, [query]);
+
+   useEffect(() => {
+  if (query) {
+    if (window.innerWidth >= 1024) {
+      setOpenDesktop(true);
     } else {
-      setOpen(false);
+      setOpenMobile(true);
     }
-  }, [query]);
+  } else {
+    setOpenDesktop(false);
+    setOpenMobile(false);
+  }
+}, [query]);
+
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setOpen(false);
-      }
+  function handleClickOutside(event) {
+    if (
+      desktopSearchRef.current && !desktopSearchRef.current.contains(event.target)
+    ) {
+      setOpenDesktop(false);
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+    if (
+      mobileSearchRef.current && !mobileSearchRef.current.contains(event.target)
+    ) {
+      setOpenMobile(false);
+    }
+  }
+
+  document.addEventListener("mousedown", handleClickOutside);
+  
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
+
 
 
   return (
@@ -175,7 +205,7 @@ function Header() {
           </Link>
 
           {/* Search Bar */}
-          <div className="flex-grow max-w-2xl" ref={searchRef}>
+          <div className="flex-grow max-w-2xl" ref={desktopSearchRef}>
             <div className="relative">
               <input
                 type="text"
@@ -186,7 +216,7 @@ function Header() {
               />
               <FaSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-black hover:cursor-pointer" />
 
-              {open && (
+              {openDesktop && (
                 <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg z-50">
                   {filteredProducts.length > 0 ? (
                     <ul>
@@ -320,7 +350,7 @@ function Header() {
               decoding="async"
             />
           </Link>
-          <div className="flex-grow max-w-2xl" ref={searchRef}>
+          <div className="flex-grow max-w-2xl" ref={mobileSearchRef}>
             <div className="relative">
               <input
                 type="text"
@@ -331,7 +361,7 @@ function Header() {
               />
               <FaSearch className="absolute right-6 top-1/2 -translate-y-1/2 text-black hover:cursor-pointer" />
 
-              {open && (
+              {openMobile && (
                 <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg z-50">
                   {filteredProducts.length > 0 ? (
                     <ul>
