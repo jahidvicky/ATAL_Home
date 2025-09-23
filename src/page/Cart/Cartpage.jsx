@@ -23,7 +23,6 @@ const Cartpage = () => {
   const [wishlist, setWishlist] = useState([]);
   // const [subCategory, setSubCategory] = useState([]);
 
-
   const dispatch = useDispatch();
   const product1 = {
     id: ID,
@@ -32,21 +31,15 @@ const Cartpage = () => {
     image: mainImage,
   };
 
-
   const fetchProducts = async () => {
     try {
       const res = await API.get(`/getproductbyid/${ID}`);
       const prod = res.data.product || {};
       setProduct(prod);
       if (prod.product_image_collection?.length > 0) {
-        setMainImage(
-          `${IMAGE_URL + prod.product_image_collection[0]}`
-        );
+        setMainImage(`${IMAGE_URL + prod.product_image_collection[0]}`);
         setGalleryImages(
-          prod.product_image_collection.map(
-            (img) =>
-              `${IMAGE_URL + img}`
-          )
+          prod.product_image_collection.map((img) => `${IMAGE_URL + img}`)
         );
       }
     } catch (err) {
@@ -59,7 +52,9 @@ const Cartpage = () => {
     const userId2 = localStorage.getItem("user");
     try {
       if (wishlist.includes(productId)) {
-        await API.delete("/removeWishlist", { data: { userId: userId2, productId } });
+        await API.delete("/removeWishlist", {
+          data: { userId: userId2, productId },
+        });
         setWishlist((prev) => prev.filter((id) => id !== productId));
         Swal.fire({
           toast: true,
@@ -68,7 +63,7 @@ const Cartpage = () => {
           title: "Removed from wishlist",
           showConfirmButton: false,
           timer: 1500,
-          timerProgressBar: true
+          timerProgressBar: true,
         });
       } else {
         await API.post("/addWishlist", { userId: userId2, productId });
@@ -80,7 +75,7 @@ const Cartpage = () => {
           title: "Added in wishlist",
           showConfirmButton: false,
           timer: 1500,
-          timerProgressBar: true
+          timerProgressBar: true,
         });
       }
     } catch (err) {
@@ -99,33 +94,18 @@ const Cartpage = () => {
     }
   };
 
-  // Fetch products
-  // const fetchProductCategory = async () => {
-  //   try {
-  //     const res = await API.get(`/getProducts/${category}/${subcategory}`);
-  //     console.log(res);
-
-  //     setSubCategory(res.data);
-  //   } catch (err) {
-  //     console.error("Failed to fetch products:", err);
-  //   }
-  // };
-
   useEffect(() => {
     fetchProducts();
     fetchWishlist();
     // fetchProductCategory();
   }, []);
 
-
-
   return (
     <>
-
-      {subCategoryName === "Contact Lenses" ? <ContactLensPage /> :
-
+      {subCategoryName === "Contact Lenses" ? (
+        <ContactLensPage />
+      ) : (
         <div>
-
           <div className="mt-14">
             <div className="flex flex-col md:flex-row gap-10">
               <div className="flex flex-col ml-10 gap-2">
@@ -134,8 +114,9 @@ const Cartpage = () => {
                     <img
                       src={img}
                       alt={`frame-${index}`}
-                      className={`w-[100px] hover:cursor-pointer rounded ${mainImage === img ? "ring-2 ring-green-700" : ""
-                        }`}
+                      className={`w-[100px] hover:cursor-pointer rounded ${
+                        mainImage === img ? "ring-2 ring-green-700" : ""
+                      }`}
                     />
                   </button>
                 ))}
@@ -162,7 +143,8 @@ const Cartpage = () => {
                   </div>
                   <div
                     className="text-3xl font-semibold"
-                    onClick={() => toggleWishlist(product._id)}>
+                    onClick={() => toggleWishlist(product._id)}
+                  >
                     {wishlist.includes(product._id) ? (
                       <AiFillHeart className="fill-red-500 hover:cursor-pointer text-4xl" />
                     ) : (
@@ -193,6 +175,9 @@ const Cartpage = () => {
                       </p>
                     </div>
                   </div>
+                  <button className="bg-black text-white px-42 py-3 mb-4 rounded hover:bg-gray-900 ml-10 text-xl border-1 border-black hover:cursor-pointer w-115">
+                    SELECT LENS
+                  </button>
                   <button
                     onClick={() => {
                       dispatch(addToCart(product1));
@@ -260,7 +245,7 @@ const Cartpage = () => {
                   {product.product_lens_title1}
                 </h3>
                 <p>{product.product_lens_description1}</p>
-              </div>
+              </div>  
 
               <div className="text-center">
                 <img
@@ -275,11 +260,8 @@ const Cartpage = () => {
               </div>
             </div>
           </div>
-
-
         </div>
-
-      }
+      )}
 
       <div className="bg-stone-900"></div>
       <OurPromise />
