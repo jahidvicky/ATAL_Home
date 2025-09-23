@@ -124,6 +124,7 @@ const Checkout = () => {
         postalCode: formData.shippingZip,
         country: "Canada", // or capture in form
         phone: formData.phone,
+        email: formData.email
       },
       billingAddress: billingDifferent
         ? {
