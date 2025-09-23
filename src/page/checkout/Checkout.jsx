@@ -12,13 +12,18 @@ const Checkout = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const userId = localStorage.getItem("user");
 
-
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
 
-  const steps = ["Contact", "Shipping", "Billing", "Prescription", "Review & Pay"];
+  const steps = [
+    "Contact",
+    "Shipping",
+    "Billing",
+    "Prescription",
+    "Review & Pay",
+  ];
 
   // Tax and shipping logic
   const taxRates = {
@@ -44,9 +49,7 @@ const Checkout = () => {
   const taxRate = getTaxRate(province);
   const tax = +(subtotal * taxRate).toFixed(2);
   const shipping =
-    subtotal > 500
-      ? 0
-      : shippingCharges[formData.shippingMethod] || 0;
+    subtotal > 500 ? 0 : shippingCharges[formData.shippingMethod] || 0;
 
   const total = +(subtotal + tax + shipping).toFixed(2);
 
@@ -58,7 +61,10 @@ const Checkout = () => {
 
   // Save form data in localStorage
   useEffect(() => {
-    localStorage.setItem("checkoutDraft", JSON.stringify({ ...formData, currentStep }));
+    localStorage.setItem(
+      "checkoutDraft",
+      JSON.stringify({ ...formData, currentStep })
+    );
   }, [formData, currentStep]);
 
   const handleChange = (field, value) => {
@@ -67,20 +73,32 @@ const Checkout = () => {
 
   const validateStep = () => {
     switch (currentStep) {
-      case 0: // Contact
-        return formData.email && formData.phone;
+      case 0: {
+        // Contact
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[0-9]{10}$/;
+        return (
+          emailRegex.test(formData.email || "") &&
+          phoneRegex.test(formData.phone || "")
+        );
+      }
       case 1: // Shipping
         return (
           formData.shippingName &&
           formData.shippingStreet &&
           formData.shippingCity &&
-          formData.shippingZip &&
+          formData.shippingPostal &&
           formData.shippingMethod &&
           formData.shippingProvince
         );
       case 2: // Billing
         if (billingDifferent) {
-          return formData.billingStreet && formData.billingCity && formData.billingZip;
+                  const postalRegex = /^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/;
+          return (
+            postalRegex.test(formData.billingPostal|| "") &&
+            formData.billingStreet &&
+            formData.billingCity
+          );
         }
         return true;
       case 3: // Prescription
@@ -109,7 +127,7 @@ const Checkout = () => {
   const handleSubmit = () => {
     const orderSummary = {
       userId,
-      cartItems: cartItems.map(item => ({
+      cartItems: cartItems.map((item) => ({
         productId: item.id,
         name: item.name,
         image: item.image,
@@ -121,29 +139,29 @@ const Checkout = () => {
         address: formData.shippingStreet,
         city: formData.shippingCity,
         province: formData.shippingProvince,
-        postalCode: formData.shippingZip,
+        postalCode: formData.shippingPostal,
         country: "Canada", // or capture in form
         phone: formData.phone,
       },
       billingAddress: billingDifferent
         ? {
-          fullName: formData.shippingName,
-          address: formData.billingStreet,
-          city: formData.billingCity,
-          province: formData.shippingProvince,
-          postalCode: formData.billingZip,
-          country: "Canada",
-          phone: formData.phone,
-        }
+            fullName: formData.shippingName,
+            address: formData.billingStreet,
+            city: formData.billingCity,
+            province: formData.shippingProvince,
+            postalCode: formData.billingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          }
         : {
-          fullName: formData.shippingName,
-          address: formData.shippingStreet,
-          city: formData.shippingCity,
-          province: formData.shippingProvince,
-          postalCode: formData.shippingZip,
-          country: "Canada",
-          phone: formData.phone,
-        },
+            fullName: formData.shippingName,
+            address: formData.shippingStreet,
+            city: formData.shippingCity,
+            province: formData.shippingProvince,
+            postalCode: formData.shippingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          },
       subtotal,
       tax,
       shipping,
@@ -175,7 +193,10 @@ const Checkout = () => {
       const options = { year: "numeric", month: "long", day: "numeric" };
 
       setDeliveryRange(
-        `${startDate.toLocaleDateString("en-US", options)} - ${endDate.toLocaleDateString("en-US", options)}`
+        `${startDate.toLocaleDateString(
+          "en-US",
+          options
+        )} - ${endDate.toLocaleDateString("en-US", options)}`
       );
     } else {
       setDeliveryRange("");
@@ -197,18 +218,20 @@ const Checkout = () => {
               >
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all
-                  ${idx <= currentStep
+                  ${
+                    idx <= currentStep
                       ? "bg-red-600 text-white border-red-600"
                       : "border-black text-black group-hover:bg-black group-hover:text-white"
-                    }`}
+                  }`}
                 >
                   {idx + 1}
                 </div>
                 <span
-                  className={`mt-2 text-sm ${idx === currentStep
-                    ? "text-red-600 font-bold"
-                    : "text-gray-700"
-                    }`}
+                  className={`mt-2 text-sm ${
+                    idx === currentStep
+                      ? "text-red-600 font-bold"
+                      : "text-gray-700"
+                  }`}
                 >
                   {step}
                 </span>
@@ -227,22 +250,49 @@ const Checkout = () => {
       {/* Step 0: Contact */}
       {currentStep === 0 && (
         <div className="grid grid-cols-2 gap-4">
-          <input
-            type="email"
-            placeholder="Email"
-            value={formData.email || ""}
-            onChange={(e) => handleChange("email", e.target.value)}
-            className="border border-black p-2 rounded w-full col-span-2"
-            required
-          />
-          <input
-            type="tel"
-            placeholder="Mobile Phone"
-            value={formData.phone || ""}
-            onChange={(e) => handleChange("phone", e.target.value)}
-            className="border border-black p-2 rounded w-full col-span-2"
-            required
-          />
+          <div className="col-span-2">
+            <input
+              type="email"
+              placeholder="example@email.com"
+              value={formData.email || ""}
+              onChange={(e) => handleChange("email", e.target.value)}
+              className={`border p-2 rounded w-full 
+          ${
+            formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+              ? "border-red-500"
+              : "border-black"
+          }`}
+              required
+            />
+            {formData.email &&
+              !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) && (
+                <p className="text-red-500 text-sm mt-1">
+                  Invalid email address
+                </p>
+              )}
+          </div>
+
+          <div className="col-span-2">
+            <input
+              type="tel"
+              placeholder="416 123 4567"
+              value={formData.phone || ""}
+              onChange={(e) => handleChange("phone", e.target.value)}
+              className={`border p-2 rounded w-full ${
+                formData.phone &&
+                !/^\+1\s?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone)
+                  ? "border-red-500"
+                  : "border-black"
+              }`}
+              required
+            />
+            {formData.phone &&
+              !/^\s?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone) && (
+                <p className="text-red-500 text-sm mt-1">
+                  Invalid phone number. Use 416 123 4567 format.
+                </p>
+              )}
+          </div>
         </div>
       )}
 
@@ -250,11 +300,16 @@ const Checkout = () => {
       {currentStep === 1 && (
         <div className="grid grid-cols-2 gap-4">
           <h1 className="w-[488px]">
-            Expected Delivery Date: <b>{deliveryRange || "Please select a shipping method"}</b>
+            Expected Delivery Date:{" "}
+            <b>{deliveryRange || "Please select a shipping method"}</b>
           </h1>
           <br />
           <hr
-            className={`border-t-2 -mt-2 ${!deliveryRange ? "w-[418px] border-black" : "w-[498px] border-black"}`}
+            className={`border-t-2 -mt-2 ${
+              !deliveryRange
+                ? "w-[418px] border-black"
+                : "w-[498px] border-black"
+            }`}
           />
 
           <input
@@ -283,12 +338,31 @@ const Checkout = () => {
           />
           <input
             type="text"
-            placeholder="Zip"
-            value={formData.shippingZip || ""}
-            onChange={(e) => handleChange("shippingZip", e.target.value)}
-            className="border border-black p-2 rounded w-full"
+            placeholder="Postal Code"
+            value={formData.shippingPostal || ""}
+            onChange={(e) => {
+              const val = e.target.value.toUpperCase();
+              handleChange("shippingPostal", val);
+            }}
+            className={`border p-2 rounded w-full ${
+              formData.shippingPostal &&
+              !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
+                formData.shippingPostal
+              )
+                ? "border-red-500"
+                : "border-black"
+            }`}
             required
           />
+          {formData.shippingPostal &&
+            !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
+              formData.shippingPostal
+            ) && (
+              <p className="text-red-500 text-sm mt-1">
+                Invalid postal code. Example: A1A 1A1
+              </p>
+            )}
+
           {/* Province */}
           <select
             value={formData.shippingProvince || ""}
@@ -307,6 +381,10 @@ const Checkout = () => {
             <option value="New Brunswick">New Brunswick</option>
             <option value="Newfoundland">Newfoundland</option>
             <option value="Prince Edward Island">Prince Edward Island</option>
+            <option value="Northwest Territories">Northwest Territories</option>
+            <option value="Yukon">Yukon</option>
+            <option value="Nunavut">Nunavut</option>
+
             <option value="International">International</option>
           </select>
           <select
@@ -353,14 +431,33 @@ const Checkout = () => {
                 className="border border-black p-2 rounded w-full"
                 required
               />
+
               <input
                 type="text"
-                placeholder="Zip"
-                value={formData.billingZip || ""}
-                onChange={(e) => handleChange("billingZip", e.target.value)}
-                className="border border-black p-2 rounded w-full"
+                placeholder="Postal Code"
+                value={formData.billingPostal || ""}
+                onChange={(e) => {
+                  const val = e.target.value.toUpperCase(); // convert to uppercase
+                  handleChange("billingPostal", val);
+                }}
+                className={`border p-2 rounded w-full ${
+                  formData.billingPostal &&
+                  !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
+                    formData.billingPostal
+                  )
+                    ? "border-red-500"
+                    : "border-black"
+                }`}
                 required
               />
+              {formData.billingPostal &&
+                !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
+                  formData.billingPostal
+                ) && (
+                  <p className="text-red-500 text-sm mt-1">
+                    Invalid postal code. Example: A1A 1A1
+                  </p>
+                )}
             </div>
           )}
         </div>
@@ -372,7 +469,9 @@ const Checkout = () => {
           <label className="block mb-2 font-medium">Prescription</label>
           <input
             type="file"
-            onChange={(e) => handleChange("prescription", e.target.files[0]?.name)}
+            onChange={(e) =>
+              handleChange("prescription", e.target.files[0]?.name)
+            }
             className="border border-black p-2 rounded w-full mt-3"
             required
           />
@@ -385,63 +484,123 @@ const Checkout = () => {
           {/* Review */}
           <div>
             <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-black pb-2">
-              Billing  Details
+              Billing Details
             </h2>
-            <p><strong>Email:</strong> {formData.email}</p>
-            <p><strong>Phone:</strong> {formData.phone}</p>
             <p>
-              <strong>Shipping Address:</strong> {formData.shippingStreet}, {formData.shippingCity} {formData.shippingZip} ({formData.shippingMethod})
+              <strong>Email:</strong> {formData.email}
             </p>
-            <p><strong>Province:</strong> {formData.shippingProvince}</p>
+            <p>
+              <strong>Phone:</strong> {formData.phone}
+            </p>
+            <p>
+              <strong>Shipping Address:</strong> {formData.shippingStreet},{" "}
+              {formData.shippingCity} {formData.shippingZip} (
+              {formData.shippingMethod})
+            </p>
+            <p>
+              <strong>Province:</strong> {formData.shippingProvince}
+            </p>
             {billingDifferent && (
               <p>
-                <strong>Billing:</strong> {formData.billingStreet}, {formData.billingCity} {formData.billingZip}
+                <strong>Billing:</strong> {formData.billingStreet},{" "}
+                {formData.billingCity} {formData.billingZip}
               </p>
             )}
-            {formData.prescription && <p><strong>Prescription:</strong> {formData.prescription}</p>}
+            {formData.prescription && (
+              <p>
+                <strong>Prescription:</strong> {formData.prescription}
+              </p>
+            )}
           </div>
 
           <div className="w-full ml-auto bg-white shadow-lg border border-gray-200 rounded-xl p-6">
-            <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-gray-300 pb-2">Your Order</h2>
+            <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-gray-300 pb-2">
+              Your Order
+            </h2>
 
             {cartItems.map((item, index) => (
-              <div key={index} className="flex justify-between items-start pb-3 border-b border-dashed border-gray-300">
+              <div
+                key={index}
+                className="flex justify-between items-start pb-3 border-b border-dashed border-gray-300"
+              >
                 <div className="flex items-center mb-3">
-                  <img src={item.image} alt={item.name} className="w-50 h-24 object-cover rounded mr-4" />
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-50 h-24 object-cover rounded mr-4"
+                  />
                   <div className="flex-1">
                     <h4 className="text-gray-800 font-semibold flex items-center">
                       {item.name}
-                      <span className="text-sm text-gray-500 ml-2">x {item.quantity}</span>
+                      <span className="text-sm text-gray-500 ml-2">
+                        x {item.quantity}
+                      </span>
                     </h4>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-gray-800 font-bold mt-8">${(item.price * item.quantity).toFixed(2)}</p>
+                  <p className="text-gray-800 font-bold mt-8">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </p>
                 </div>
               </div>
             ))}
 
             {/* Order Summary */}
             <div className="mt-4 space-y-2 text-gray-700">
-              <div className="flex justify-between"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
-              <div className="flex justify-between"><span>Shipping</span><span>{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</span></div>
-              <div className="flex justify-between"><span>Tax ({(taxRate * 100).toFixed(0)}%)</span><span>${tax.toFixed(2)}</span></div>
+              <div className="flex justify-between">
+                <span>Subtotal</span>
+                <span>${subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Shipping</span>
+                <span>
+                  {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Tax ({(taxRate * 100).toFixed(0)}%)</span>
+                <span>${tax.toFixed(2)}</span>
+              </div>
               {/* <div className="flex justify-between text-green-600"><span>Discount</span><span>-${discount.toFixed(2)}</span></div> */}
-              <div className="border-t pt-2 flex justify-between font-bold text-red-600 text-lg"><span>Total</span><span>${total.toFixed(2)}</span></div>
+              <div className="border-t pt-2 flex justify-between font-bold text-red-600 text-lg">
+                <span>Total</span>
+                <span>${total.toFixed(2)}</span>
+              </div>
             </div>
           </div>
 
           {/* Consents */}
           <div>
-            <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-black pb-2">Consents</h2>
+            <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-black pb-2">
+              Consents
+            </h2>
             <label className="flex items-center mb-2">
-              <input type="checkbox" checked={formData.terms || false} onChange={(e) => handleChange("terms", e.target.checked)} className="mr-2" /> I agree to Terms & Conditions
+              <input
+                type="checkbox"
+                checked={formData.terms || false}
+                onChange={(e) => handleChange("terms", e.target.checked)}
+                className="mr-2"
+              />{" "}
+              I agree to Terms & Conditions
             </label>
             <label className="flex items-center mb-2">
-              <input type="checkbox" checked={formData.warranty || false} onChange={(e) => handleChange("warranty", e.target.checked)} className="mr-2" /> I agree to Warranty/Return Policy
+              <input
+                type="checkbox"
+                checked={formData.warranty || false}
+                onChange={(e) => handleChange("warranty", e.target.checked)}
+                className="mr-2"
+              />{" "}
+              I agree to Warranty/Return Policy
             </label>
             <label className="flex items-center mb-2">
-              <input type="checkbox" checked={formData.privacy || false} onChange={(e) => handleChange("privacy", e.target.checked)} className="mr-2" /> I agree to Privacy Policy
+              <input
+                type="checkbox"
+                checked={formData.privacy || false}
+                onChange={(e) => handleChange("privacy", e.target.checked)}
+                className="mr-2"
+              />{" "}
+              I agree to Privacy Policy
             </label>
           </div>
         </div>
@@ -450,13 +609,29 @@ const Checkout = () => {
       {/* Navigation */}
       <div className="flex justify-between mt-6">
         {currentStep > 0 && (
-          <button onClick={prevStep} className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800 hover:cursor-pointer">Previous</button>
+          <button
+            onClick={prevStep}
+            className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800 hover:cursor-pointer"
+          >
+            Previous
+          </button>
         )}
         {currentStep < steps.length - 1 && (
-          <button onClick={nextStep} className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 hover:cursor-pointer">Next</button>
+          <button
+            onClick={nextStep}
+            className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 hover:cursor-pointer"
+          >
+            Next
+          </button>
         )}
         {currentStep === steps.length - 1 && (
-          <button onClick={handleSubmit} disabled={!validateStep()} className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 hover:cursor-pointer">Continue Order</button>
+          <button
+            onClick={handleSubmit}
+            disabled={!validateStep()}
+            className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 hover:cursor-pointer"
+          >
+            Continue Order
+          </button>
         )}
       </div>
     </div>
