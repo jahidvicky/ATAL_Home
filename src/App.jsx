@@ -55,6 +55,7 @@ import EyeExamStep1 from "./page/EyeExamPage/EyeExamStep1";
 import OrderSuccess from "./page/order/OrderSuccess";
 import UpdateProfile from "./page/updateProfile/UpdateProfile";
 import Collections from "./page/collections/Collections";
+import LensSelection from "./page/lensSelection/LensSelectionFlow";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -232,6 +233,10 @@ function App() {
         {
           path: "/update-profile",
           element: <UpdateProfile />,
+        },
+        {
+          path: "/product/:name/lens-selection-flow",
+          element: <LensSelection />,
         },
         {
           path: "/place-order",
