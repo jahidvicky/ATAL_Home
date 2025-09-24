@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import API from "../../API/Api"; // your axios instance
+import API from "../../API/Api";
 
 const Payment = () => {
     const [order, setOrder] = useState(null);
