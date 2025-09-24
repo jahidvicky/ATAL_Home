@@ -13,6 +13,7 @@ import API, { IMAGE_URL } from "../../API/Api";
 import Swal from "sweetalert2";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import ContactLensPage from "./ContactLensPage";
+import { Link } from "react-router-dom";
 
 const Cartpage = () => {
   const location = useLocation();
@@ -175,9 +176,11 @@ const Cartpage = () => {
                       </p>
                     </div>
                   </div>
-                  <button className="bg-black text-white px-42 py-3 mb-4 rounded hover:bg-gray-900 ml-10 text-xl border-1 border-black hover:cursor-pointer w-115">
+                  <Link to="lens-selection-flow">
+                    <button className="bg-black text-white px-42 py-3 mb-4 rounded hover:bg-gray-900 ml-10 text-xl border-1 border-black hover:cursor-pointer w-115">
                     SELECT LENS
                   </button>
+                  </Link>
                   <button
                     onClick={() => {
                       dispatch(addToCart(product1));
