@@ -10,7 +10,7 @@ const Frameshape = () => {
 
   const getSubCategoryById = async () => {
     try {
-      const subCat = await API.get("/getSubCatByCatId/68c8f082a02c3f5cdffeb182")
+      const subCat = await API.get("/getSubCatByCatId/68ca8c025c53defc4ded3f6b")
       setSubCategory(subCat.data.subcategories)
     } catch (err) {
       console.log(err)
