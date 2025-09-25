@@ -19,7 +19,7 @@ const Step1LensSelection = ({ selectedLens, onSelect }) => {
         {lensOptions.map((lens) => (
           <button
             key={lens.name}
-            className={`w-full text-left border rounded-lg p-4 hover:bg-gray-100 transition-all ${
+            className={` hover:cursor-pointer w-full text-left border rounded-lg p-4 hover:bg-gray-100 transition-all ${
               selectedLens === lens.name ? "border-blue-500 bg-gray-100" : "border-gray-300"
             }`}
             onClick={() => onSelect(lens.name)}
