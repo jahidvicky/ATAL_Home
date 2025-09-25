@@ -12,7 +12,7 @@ const ProductCard = ({ product, onClick }) => {
 
   return (
     <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full cursor-pointer shadow-white relative duration-500"
-    onClick={onClick} >
+      onClick={onClick} >
       {/* Product Image */}
       <div className="mb-4">
         <img
@@ -44,7 +44,7 @@ const ProductCard = ({ product, onClick }) => {
 
 const ProductGrid = () => {
   const [bestSellerData, setBestSellerData] = useState([]);
-   const { handleProductClick } = useRecentlyViewed(); 
+  const { handleProductClick } = useRecentlyViewed();
 
   const getBestSeller = async () => {
     try {
@@ -93,17 +93,17 @@ const ProductGrid = () => {
         {bestSellerData.map((product, idx) => (
           <Link
             key={product._id || idx}
-            to="/cart"
+            to={`/product/${product.product_name}`}
             state={{
               category: product.cat_id,
               subcategory: product.subCat_id,
-              ID:product._id
+              ID: product._id
             }}
             className="hover:cursor-pointer"
           >
-            <ProductCard product={product} 
+            <ProductCard product={product}
               onClick={() => handleProductClick(product)}
-              
+
             />
           </Link>
         ))}

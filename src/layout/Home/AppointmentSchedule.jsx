@@ -1,7 +1,237 @@
-import { Divide } from "lucide-react";
-import React, { useState } from "react";
+// import React, { useEffect, useState } from "react";
+// import { FaLongArrowAltRight, FaLongArrowAltLeft } from "react-icons/fa";
+// import { Link, useLocation } from "react-router-dom";
+// import API from "../../API/Api";
+
+// const AppointmentSchedule = () => {
+//   const location = useLocation();
+//   const examType = location.state?.examType;
+//   const today = new Date();
+
+//   // Generate 7 days from today
+//   const days = Array.from({ length: 7 }, (_, i) => {
+//     const date = new Date(today);
+//     date.setDate(today.getDate() + i);
+//     return {
+//       label: date.toLocaleDateString("en-US", {
+//         weekday: "long",
+//         month: "short",
+//         day: "numeric",
+//       }),
+//       weekday: date.toLocaleDateString("en-US", { weekday: "long" }),
+//       key: date.toDateString(),
+//     };
+//   });
+
+//   const [selectedTime, setSelectedTime] = useState(null);
+//   const [startIndex, setStartIndex] = useState(0);
+//   const [filterType, setFilterType] = useState("Professional");
+//   const [selectedDoctor, setSelectedDoctor] = useState("All");
+//   const [selectedDate, setSelectedDate] = useState("All");
+//   const [doctor, setDoctor] = useState([]);
+
+//   // Show 4 days at a time
+//   const visibleDays = days.slice(startIndex, startIndex + 4);
+
+//   // Fetch doctors from API
+//   const fetchDoctor = async () => {
+//     try {
+//       const res = await API.get("/getDoctor");
+//       setDoctor(res.data.data);
+//       console.log("data", res.data.data)
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchDoctor();
+//   }, []);
+
+//   // Filter doctors
+//   const filteredDoctors = doctor.filter((doc) => {
+//     const matchDoctor =
+//       selectedDoctor === "All" || doc.doctor_name === selectedDoctor;
+//     const matchDate =
+//       selectedDate === "All" ||
+//       doc.schedule.some((sch) => sch.day === selectedDate);
+//     return matchDoctor && matchDate;
+//   });
+
+//   return (
+//     <div>
+//       {/* Header */}
+//       <div className="bg-gradient-to-r from-black via-red-600 to-black py-20 text-center">
+//         <h1 className="text-5xl font-bold text-white mb-2">
+//           {doctor.length > 0 ? doctor[0].exam_section : "Appointment Schedule"}
+//         </h1>
+//         <p className="text-center text-xl text-white mb-2">
+//           Select your eye care professional and appointment time.
+//         </p>
+//       </div>
+
+
+//       {/* Body */}
+//       <div className="max-w-6xl mx-auto px-6 py-10">
+//         {/* Filter Section */}
+//         <div className="flex justify-end items-center mb-12">
+//           <div className="flex space-x-3">
+//             {/* Select filter type */}
+//             <select
+//               className="border px-3 py-2 rounded-lg text-sm"
+//               value={filterType}
+//               onChange={(e) => setFilterType(e.target.value)}
+//             >
+//               <option>Professional</option>
+//               <option>Date</option>
+//             </select>
+
+//             {/* Doctor filter */}
+//             {filterType === "Professional" && (
+//               <select
+//                 className="border px-3 py-2 rounded-lg text-sm"
+//                 value={selectedDoctor}
+//                 onChange={(e) => setSelectedDoctor(e.target.value)}
+//               >
+//                 <option>All</option>
+//                 {doctor.map((doc, i) => (
+//                   <option key={i}>{doc.doctor_name}</option>
+//                 ))}
+//               </select>
+//             )}
+
+//             {/* Date filter */}
+//             {filterType === "Date" && (
+//               <select
+//                 className="border px-3 py-2 rounded text-sm"
+//                 value={selectedDate}
+//                 onChange={(e) => setSelectedDate(e.target.value)}
+//               >
+//                 <option>All</option>
+//                 {days.map((day, i) => (
+//                   <option key={i} value={day.weekday}>
+//                     {day.weekday}
+//                   </option>
+//                 ))}
+//               </select>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* Doctors */}
+//         <div className="space-y-12">
+//           {filteredDoctors.map((doc, index) => (
+//             <div key={index} className="flex items-start space-x-6">
+//               {/* Doctor */}
+//               <div className="flex flex-col items-center">
+//                 <img
+//                   src={doc.image}
+//                   alt={doc.doctor_name}
+//                   className="w-20 h-20 rounded-full object-cover mb-2"
+//                 />
+//                 <h4 className="font-bold text-sm">{doc.doctor_name}</h4>
+//                 <p className="text-xs text-gray-500">{doc.specialization}</p>
+//               </div>
+
+//               {/* Schedule Grid */}
+//               <div className="flex-1 grid grid-cols-4 gap-7">
+//                 {visibleDays.map((day) => {
+//                   const scheduleForDay = doc.schedule.find(
+//                     (sch) => sch.day === day.weekday
+//                   );
+
+//                   const times =
+//                     scheduleForDay?.status === "Available"
+//                       ? scheduleForDay.times
+//                       : ["No availability"];
+
+//                   return (
+//                     <div key={day.key}>
+//                       <p className="font-semibold text-sm mb-2 text-center">
+//                         {day.label}
+//                       </p>
+//                       {times.includes("No availability") ? (
+//                         <p className="text-gray-400 text-sm text-center">
+//                           No availability
+//                         </p>
+//                       ) : (
+//                         <div className="grid grid-cols-3 gap-1">
+//                           {times.map((time, tIdx) => (
+//                             <Link
+//                               to="/book-eye-exam"
+//                               state={{
+//                                 doctorName: doc.doctor_name,
+//                                 doctorImage: doc.image,
+//                                 day: day.label,
+//                                 weekday: day.weekday,
+//                                 time,
+//                                 examType,
+//                               }}
+//                               key={tIdx}
+//                             >
+//                               <button
+//                                 onClick={() =>
+//                                   setSelectedTime(
+//                                     `${doc.doctor_name} - ${day.label} - ${time}`
+//                                   )
+//                                 }
+//                                 className={`px-2 py-1 hover:cursor-pointer text-white text-xs font-medium ${selectedTime ===
+//                                   `${doc.doctor_name} - ${day.label} - ${time}`
+//                                   ? "bg-red-600"
+//                                   : "bg-gray-700 hover:bg-red-600"
+//                                   }`}
+//                               >
+//                                 {time}
+//                               </button>
+//                             </Link>
+//                           ))}
+//                         </div>
+//                       )}
+//                     </div>
+//                   );
+//                 })}
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+
+//         {/* Navigation Arrows */}
+//         <div className="flex justify-center items-center space-x-6 mt-8">
+//           <button
+//             disabled={startIndex === 0}
+//             onClick={() => setStartIndex(startIndex - 1)}
+//             className="px-3 py-1 bg-gray-200 hover:cursor-pointer rounded disabled:opacity-40"
+//           >
+//             <FaLongArrowAltLeft />
+//           </button>
+//           <button
+//             disabled={startIndex + 4 >= days.length}
+//             onClick={() => setStartIndex(startIndex + 1)}
+//             className="px-3 py-1 bg-gray-200 hover:cursor-pointer rounded disabled:opacity-40"
+//           >
+//             <FaLongArrowAltRight />
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default AppointmentSchedule;
+
+
+
+
+
+
+
+
+
+
+import React, { useEffect, useState } from "react";
 import { FaLongArrowAltRight, FaLongArrowAltLeft } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
+import API, { IMAGE_URL } from "../../API/Api";
 
 const AppointmentSchedule = () => {
   const location = useLocation();
@@ -23,117 +253,60 @@ const AppointmentSchedule = () => {
     };
   });
 
-  const doctors = [
-    {
-      name: "DR. MELISSA YUEN",
-      image: "https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg",
-      schedule: {
-        Monday: [
-          "10:20 AM",
-          "11:00 AM",
-          "11:20 AM",
-          "2:00 PM",
-          "3:00 PM",
-          "5:00 PM",
-        ],
-        Tuesday: ["12:40 PM", "1:20 PM", "2:00 PM", "2:20 PM"],
-        Wednesday: ["4:00 PM", "4:20 PM", "4:40 PM", "5:00 PM"],
-        Thursday: [
-          "10:20 AM",
-          "11:00 AM",
-          "11:20 AM",
-          "2:00 PM",
-          "3:00 PM",
-          "5:00 PM",
-        ],
-        Friday: ["11:40 AM", "12:00 PM", "12:20 PM"],
-        Saturday: ["12:00 PM", "12:20 PM", "1:20 PM"],
-        Sunday: ["3:00 PM", "3:40 PM", "4:00 PM"],
-      },
-    },
-    {
-      name: "DR. EMMA KARLIN",
-      image:
-        "https://images.pexels.com/photos/6749787/pexels-photo-6749787.jpeg",
-      schedule: {
-        Monday: ["No availability"],
-        Tuesday: ["11:40 AM", "12:00 PM", "12:20 PM", "2:20 PM"],
-        Wednesday: ["12:00 PM", "12:20 PM", "1:20 PM", "1:40 PM", "2:40 PM"],
-        Thursday: [
-          "11:40 AM",
-          "12:20 PM",
-          "1:00 PM",
-          "2:00 PM",
-          "4:00 PM",
-          "5:00 PM",
-          "6:00 PM",
-        ],
-        Friday: ["10:20 AM", "11:00 AM"],
-        Saturday: [
-          "11:40 AM",
-          "12:20 PM",
-          "1:00 PM",
-          "2:00 PM",
-          "3:00 PM",
-          "4:00 PM",
-          "5:00 PM",
-          "6:00 PM",
-        ],
-        Sunday: ["No availability"],
-      },
-    },
-    {
-      name: "DR. EKOW HUGHES",
-      image:
-        "https://images.pexels.com/photos/5996702/pexels-photo-5996702.jpeg",
-      schedule: {
-        Monday: ["2:00 PM", "2:20 PM", "3:00 PM"],
-        Tuesday: ["No availability"],
-        Wednesday: ["11:40 AM", "12:20 PM"],
-        Thursday: [
-          "10:00 AM",
-          "11:00 AM",
-          "12:00 PM",
-          "1:20 PM",
-          "2:20 PM",
-          "3:00 PM",
-          "5:00 PM",
-          "6:00 PM",
-        ],
-        Friday: ["No availability"],
-        Saturday: ["3:00 PM", "3:40 PM", "4:00 PM", "5:00 PM", "6:00 PM"],
-        Sunday: ["No availability"],
-      },
-    },
-  ];
-
   const [selectedTime, setSelectedTime] = useState(null);
   const [startIndex, setStartIndex] = useState(0);
   const [filterType, setFilterType] = useState("Professional");
   const [selectedDoctor, setSelectedDoctor] = useState("All");
   const [selectedDate, setSelectedDate] = useState("All");
+  const [doctor, setDoctor] = useState([]);
 
   // Show 4 days at a time
   const visibleDays = days.slice(startIndex, startIndex + 4);
 
+  // Fetch doctors from API
+  const fetchDoctor = async () => {
+    try {
+      const res = await API.get("/getDoctor");
+      setDoctor(res.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDoctor();
+  }, []);
+
   // Filter doctors
-  const filteredDoctors =
-    selectedDoctor === "All"
-      ? doctors
-      : doctors.filter((doc) => doc.name === selectedDoctor);
+  const filteredDoctors = doctor.filter((doc) => {
+    const matchDoctor =
+      selectedDoctor === "All" || doc.doctor_name === selectedDoctor;
+    const matchDate =
+      selectedDate === "All" ||
+      doc.schedule.some((sch) => sch.day === selectedDate);
+    return matchDoctor && matchDate;
+  });
+
 
   return (
     <div>
+      {/* Header */}
       <div className="bg-gradient-to-r from-black via-red-600 to-black py-20 text-center">
-        <h1 className="text-5xl font-bold text-white mb-2">{examType}</h1>
+        <h1 className="text-5xl font-bold text-white mb-2">
+          {/* {doctor.length > 0 ? doctor[0].exam_section : "Appointment Schedule"} */}
+          {examType}
+        </h1>
         <p className="text-center text-xl text-white mb-2">
           Select your eye care professional and appointment time.
         </p>
       </div>
+
+      {/* Body */}
       <div className="max-w-6xl mx-auto px-6 py-10">
         {/* Filter Section */}
         <div className="flex justify-end items-center mb-12">
           <div className="flex space-x-3">
+            {/* Select filter type */}
             <select
               className="border px-3 py-2 rounded-lg text-sm"
               value={filterType}
@@ -143,6 +316,7 @@ const AppointmentSchedule = () => {
               <option>Date</option>
             </select>
 
+            {/* Doctor filter */}
             {filterType === "Professional" && (
               <select
                 className="border px-3 py-2 rounded-lg text-sm"
@@ -150,12 +324,13 @@ const AppointmentSchedule = () => {
                 onChange={(e) => setSelectedDoctor(e.target.value)}
               >
                 <option>All</option>
-                {doctors.map((doc, i) => (
-                  <option key={i}>{doc.name}</option>
+                {doctor.map((doc, i) => (
+                  <option key={i}>{doc.doctor_name}</option>
                 ))}
               </select>
             )}
 
+            {/* Date filter */}
             {filterType === "Date" && (
               <select
                 className="border px-3 py-2 rounded text-sm"
@@ -164,7 +339,9 @@ const AppointmentSchedule = () => {
               >
                 <option>All</option>
                 {days.map((day, i) => (
-                  <option key={i}>{day.label}</option>
+                  <option key={i} value={day.weekday}>
+                    {day.weekday}
+                  </option>
                 ))}
               </select>
             )}
@@ -176,98 +353,97 @@ const AppointmentSchedule = () => {
           {filteredDoctors.map((doc, index) => (
             <div key={index} className="flex items-start space-x-6">
               {/* Doctor */}
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center w-32">
                 <img
-                  src={doc.image}
-                  alt={doc.name}
-                  className="w-20 h-20 rounded-full object-cover mb-2"
+                  src={IMAGE_URL + doc.image}
+                  alt={doc.doctor_name}
+                  className="w-12 h-12 rounded-full object-cover mb-4 shadow border border-red-600"
+                  loading='lazy'
+                  decoding='async'
                 />
-                <h4 className="font-bold text-sm">{doc.name}</h4>
+                <h4 className="font-bold text-sm text-center uppercase">
+                  {doc.doctor_name}
+                </h4>
+                <p className="text-xs text-gray-500 text-center">
+                  {doc.specialization}
+                </p>
               </div>
 
               {/* Schedule Grid */}
               <div className="flex-1 grid grid-cols-4 gap-7">
-                {visibleDays
-                  .filter(
-                    (day) =>
-                      selectedDate === "All" || day.label === selectedDate
-                  )
-                  .map((day) => {
-                    const times = doc.schedule[day.weekday] || [
-                      "No availability",
-                    ];
-                    return (
-                      <div key={day.key}>
-                        <p className="font-semibold text-sm mb-2 text-center">
-                          {day.label}
-                        </p>
-                        {times.includes("No availability") ? (
-                          <p className="text-gray-400 text-sm text-center">
-                            No availability
-                          </p>
-                        ) : (
-                          <div className="grid grid-cols-3 gap-1">
-                            {times.map((time, tIdx) => (
-                              <Link
-                                to="/book-eye-exam"
-                                state={{
-                                  doctorName: doc.name,
-                                  doctorImage: doc.image,
-                                  day: day.label,
-                                  weekday: day.weekday,
-                                  time,
-                                  examType,
-                                }}
-                                key={tIdx}
+                {visibleDays.map((day) => {
+                  const scheduleForDay = doc.schedule.find(
+                    (sch) => sch.day === day.weekday
+                  );
+
+                  const times =
+                    scheduleForDay?.status === "Available"
+                      ? scheduleForDay.times
+                      : ["No availability"];
+
+                  return (
+                    <div key={day.key} className="text-center">
+                      <p className="font-semibold text-sm mb-2">{day.label}</p>
+                      {times.includes("No availability") ? (
+                        <p className="text-gray-400 text-sm">No availability</p>
+                      ) : (
+                        <div className="flex flex-wrap gap-2 justify-center">
+                          {times.map((time, tIdx) => (
+                            <Link
+                              to="/book-eye-exam"
+                              state={{
+                                doctorName: doc.doctor_name,
+                                doctorImage: doc.image,
+                                day: day.label,
+                                weekday: day.weekday,
+                                time,
+                                examType,
+                              }}
+                              key={tIdx}
+                            >
+                              <button
+                                onClick={() =>
+                                  setSelectedTime(
+                                    `${doc.doctor_name} - ${day.label} - ${time}`
+                                  )
+                                }
+                                className={`px-4 py-2 text-white text-xs font-medium rounded-sm transition ${selectedTime ===
+                                  `${doc.doctor_name} - ${day.label} - ${time}`
+                                  ? "bg-red-600"
+                                  : "bg-gray-800 hover:bg-red-600"
+                                  }`}
                               >
-                                <button
-                                  key={tIdx}
-                                  onClick={() =>
-                                    setSelectedTime(
-                                      `${doc.name} - ${day.label} - ${time}`
-                                    )
-                                  }
-                                  className={`px-2 py-1 hover:cursor-pointer text-white text-xs font-medium ${selectedTime ===
-                                    `${doc.name} - ${day.label} - ${time}`
-                                    ? "bg-red-600"
-                                    : "bg-gray-700 hover:bg-red-600"
-                                    }`}
-                                >
-                                  {time}
-                                </button>
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                                {time}
+                              </button>
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}
         </div>
 
         {/* Navigation Arrows */}
-        <div className="flex justify-center items-center space-x-6 mt-8">
+        <div className="flex justify-center items-center space-x-6 mt-12">
           <button
             disabled={startIndex === 0}
             onClick={() => setStartIndex(startIndex - 1)}
-            className="px-3 py-1 bg-gray-200 hover:cursor-pointer rounded disabled:opacity-40"
+            className="px-3 py-2 bg-gray-200 rounded-full hover:bg-gray-300 disabled:opacity-40"
           >
             <FaLongArrowAltLeft />
           </button>
           <button
             disabled={startIndex + 4 >= days.length}
             onClick={() => setStartIndex(startIndex + 1)}
-            className="px-3 py-1 bg-gray-200 hover:cursor-pointer rounded disabled:opacity-40"
+            className="px-3 py-2 bg-gray-200 rounded-full hover:bg-gray-300 disabled:opacity-40"
           >
             <FaLongArrowAltRight />
           </button>
         </div>
-
-        <p className="text-center text-xs text-gray-500 mt-10">
-          © Atal Opticals - Cookie Policy
-        </p>
       </div>
     </div>
   );
