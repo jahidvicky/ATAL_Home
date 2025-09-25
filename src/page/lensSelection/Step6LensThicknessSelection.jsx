@@ -46,7 +46,7 @@ const Step6LensThicknessSelection = ({ goBack, onSelectThickness }) => {
 
   const handleSelect = (option) => {
     setSelectedThickness(option.name);
-    onSelectThickness(option.name);
+    onSelectThickness(option); // pass whole object, not just name
   };
 
   return (
@@ -64,7 +64,7 @@ const Step6LensThicknessSelection = ({ goBack, onSelectThickness }) => {
           <button
             key={option.name}
             onClick={() => handleSelect(option)}
-            className={`w-full text-left border rounded-lg p-4 transition-all ${
+            className={`hover:cursor-pointer w-full text-left border rounded-lg p-4 transition-all ${
               selectedThickness === option.name
                 ? "border-blue-500 bg-gray-100"
                 : "border-gray-300 hover:bg-gray-100"
@@ -103,13 +103,16 @@ const Step6LensThicknessSelection = ({ goBack, onSelectThickness }) => {
       </div>
 
       <div className="flex justify-between mt-6">
-        <button onClick={goBack} className="text-blue-500 underline">
-          ← Back
+        <button
+          onClick={goBack}
+          className="hover:cursor-pointer px-6 py-2 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100"
+        >
+          Back
         </button>
         {selectedThickness && (
           <button
             onClick={() => onSelectThickness(selectedThickness)}
-            className="bg-blue-500 text-white px-6 py-2 rounded-lg"
+            className="hover:cursor-pointer bg-blue-500 text-white px-6 py-2 rounded-lg"
           >
             Continue
           </button>
