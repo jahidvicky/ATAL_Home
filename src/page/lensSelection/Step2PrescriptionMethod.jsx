@@ -7,7 +7,7 @@ const Step2PrescriptionMethod = ({ onManual, onSaved, goBack }) => (
 
     <div className="space-y-4">
       <button
-        className="w-full text-left border rounded-lg p-4 hover:bg-gray-100 transition-all border-gray-300"
+        className="hover:cursor-pointer w-full text-left border rounded-lg p-4 hover:bg-gray-100 transition-all border-gray-300"
         onClick={onManual}
       >
         <div className="flex items-center space-x-4">
@@ -22,13 +22,13 @@ const Step2PrescriptionMethod = ({ onManual, onSaved, goBack }) => (
       </button>
 
       <button
-        className="w-full text-left border rounded-lg p-4 hover:bg-gray-100 transition-all border-gray-300"
+        className="hover:cursor-pointer w-full text-left border rounded-lg p-4 hover:bg-gray-100 transition-all border-gray-300"
         onClick={onSaved}
       >
         <div className="flex items-center space-x-4">
           <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
           <div>
-            <h3 className="text-lg font-medium text-gray-700">Use saved prescription</h3>
+            <h3 className="text-lg font-medium text-gray-700">Upload prescription</h3>
             <p className="text-sm text-gray-500 mt-1">
               Shopped here before? Upload or select your prescription.
             </p>
@@ -37,7 +37,12 @@ const Step2PrescriptionMethod = ({ onManual, onSaved, goBack }) => (
       </button>
     </div>
 
-    <button onClick={goBack} className="mt-6 text-blue-500 underline">← Back</button>
+    <button
+          onClick={goBack}
+          className="hover:cursor-pointer px-6 py-2 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100 mt-3"
+        >
+          Back
+        </button>
   </>
 );
 

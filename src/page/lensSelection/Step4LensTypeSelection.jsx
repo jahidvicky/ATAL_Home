@@ -43,20 +43,27 @@ const Step4LensTypeSelection = ({ goBack, onSelectLensType, onContinue }) => {
     },
   ];
 
-  const handleLensSelect = (lensName) => {
-    setSelectedType(lensName);
+  const handleLensSelect = (lens) => {
+    setSelectedType(lens.name);
     setSelectedColor(null);
 
-    if (lensName !== "Transitions® GEN S™") {
-      onSelectLensType(lensName);
-      onContinue(); // go next immediately for other lenses
+    if (lens.name !== "Transitions® GEN S™") {
+      // Pass full lens object
+      onSelectLensType(lens);
+      onContinue();
     }
   };
 
-  const handleColorSelect = (color) => {
+  const handleColorSelect = (lens, color) => {
     setSelectedColor(color.name);
     setSelectedType("Transitions® GEN S™");
-    onSelectLensType(`Transitions® GEN S™ - ${color.name}`);
+
+    // Pass full lens object with color attached
+    onSelectLensType({
+      ...lens,
+      name: `${lens.name} - ${color.name}`,
+      color: color,
+    });
   };
 
   return (
@@ -72,7 +79,7 @@ const Step4LensTypeSelection = ({ goBack, onSelectLensType, onContinue }) => {
         {lensTypes.map((lens) => (
           <div
             key={lens.name}
-            className={`border rounded-lg p-4 transition-all ${
+            className={`hover:cursor-pointer border rounded-lg p-4 transition-all ${
               selectedType === lens.name
                 ? "border-blue-500 bg-gray-100"
                 : "border-gray-300 hover:bg-gray-50"
@@ -80,8 +87,8 @@ const Step4LensTypeSelection = ({ goBack, onSelectLensType, onContinue }) => {
           >
             {/* Lens Type Button */}
             <button
-              onClick={() => handleLensSelect(lens.name)}
-              className="w-full text-left"
+              onClick={() => handleLensSelect(lens)}
+              className="w-full text-left hover:cursor-pointer"
             >
               <div className="flex justify-between">
                 <div>
@@ -114,8 +121,8 @@ const Step4LensTypeSelection = ({ goBack, onSelectLensType, onContinue }) => {
                 {lens.colors.map((color) => (
                   <button
                     key={color.name}
-                    onClick={() => handleColorSelect(color)}
-                    className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${
+                    onClick={() => handleColorSelect(lens, color)}
+                    className={`hover:cursor-pointer w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${
                       selectedColor === color.name
                         ? "border-blue-600 scale-110"
                         : "border-gray-300 hover:scale-105"
@@ -135,7 +142,7 @@ const Step4LensTypeSelection = ({ goBack, onSelectLensType, onContinue }) => {
             {lens.name === "Transitions® GEN S™" && selectedColor && (
               <button
                 onClick={onContinue}
-                className="mt-4 w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                className="hover:cursor-pointer mt-4 w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
               >
                 Continue
               </button>
@@ -145,8 +152,11 @@ const Step4LensTypeSelection = ({ goBack, onSelectLensType, onContinue }) => {
       </div>
 
       {/* Back button */}
-      <button onClick={goBack} className="mt-6 text-blue-500 underline">
-        ← Back
+      <button
+        onClick={goBack}
+        className="hover:cursor-pointer px-6 py-2 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100 mt-3"
+      >
+        Back
       </button>
     </>
   );

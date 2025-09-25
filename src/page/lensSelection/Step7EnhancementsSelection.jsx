@@ -1,30 +1,37 @@
 import React, { useState } from "react";
 
-const Step7EnhancementsSelection = ({ selectedEnhancement, onSelect, onContinue, goBack }) => {
+const Step7EnhancementsSelection = ({
+  selectedEnhancement,
+  onSelect,
+  onContinue,
+  goBack,
+}) => {
   const enhancements = [
     {
       id: "anti-reflective",
       name: "Anti-reflective coating",
-      description: "Minimises unwanted reflections and reduces irritating glare.",
+      description:
+        "Minimises unwanted reflections and reduces irritating glare.",
       benefits: ["Reduced glare"],
       price: "Included",
     },
     {
       id: "c-shield",
       name: "C Shield",
-      description: "A six-in-one protective coating for cleaner, clearer and stronger lenses.",
+      description:
+        "A six-in-one protective coating for cleaner, clearer and stronger lenses.",
       benefits: ["Reduced glare", "Water-repellent", "Smudge-repellent"],
-      originalPrice: "$25.00",
-      discountedPrice: "$12.50",
+      price: "$25.00",
+      oldPrice: "$50.00",
       discount: "50% OFF",
     },
   ];
 
   const [selected, setSelected] = useState(selectedEnhancement || null);
 
-  const handleSelect = (enhancement) => {
-    setSelected(enhancement.id);
-    onSelect(enhancement.id);
+  const handleSelect = (enh) => {
+    setSelected(enh);
+    onSelect(enh); //  send full enhancement object
   };
 
   return (
@@ -33,15 +40,18 @@ const Step7EnhancementsSelection = ({ selectedEnhancement, onSelect, onContinue,
         Enhance your lens performance
       </h2>
       <p className="text-gray-600 mb-6">
-        Give your lens a boost with performance-enhancing features and premium add-ons.
+        Give your lens a boost with performance-enhancing features and premium
+        add-ons.
       </p>
 
       <div className="space-y-4">
         {enhancements.map((enh) => (
           <div
             key={enh.id}
-            className={`border rounded-lg p-4 cursor-pointer transition ${
-              selected === enh.id ? "border-blue-500 bg-blue-50" : "border-gray-300"
+            className={`hover:cursor-pointer border rounded-lg p-4 cursor-pointer transition ${
+              selected?.id === enh.id
+                ? "border-blue-500 bg-blue-50"
+                : "border-gray-300"
             }`}
             onClick={() => handleSelect(enh)}
           >
@@ -64,20 +74,25 @@ const Step7EnhancementsSelection = ({ selectedEnhancement, onSelect, onContinue,
                 </a>
               </div>
 
+              {/* Price */}
               <div className="text-right">
-                {enh.price ? (
+                {enh.price === "Included" ? (
                   <span className="text-gray-600 font-medium">{enh.price}</span>
                 ) : (
                   <div>
-                    <span className="bg-red-100 text-red-600 text-xs font-semibold px-2 py-1 rounded">
-                      {enh.discount}
-                    </span>
-                    <div className="mt-1">
-                      <span className="line-through text-gray-500 text-sm mr-1">
-                        {enh.originalPrice}
+                    {enh.discount && (
+                      <span className="bg-red-100 text-red-600 text-xs font-semibold px-2 py-1 rounded">
+                        {enh.discount}
                       </span>
+                    )}
+                    <div className="mt-1">
+                      {enh.oldPrice && (
+                        <span className="line-through text-gray-500 text-sm mr-1">
+                          {enh.oldPrice}
+                        </span>
+                      )}
                       <span className="text-blue-600 font-semibold">
-                        {enh.discountedPrice}
+                        {enh.price}
                       </span>
                     </div>
                   </div>
@@ -92,7 +107,7 @@ const Step7EnhancementsSelection = ({ selectedEnhancement, onSelect, onContinue,
       <div className="mt-8 flex justify-between">
         <button
           onClick={goBack}
-          className="px-6 py-2 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100"
+          className="hover:cursor-pointer px-6 py-2 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100"
         >
           Back
         </button>
@@ -100,8 +115,10 @@ const Step7EnhancementsSelection = ({ selectedEnhancement, onSelect, onContinue,
         <button
           onClick={onContinue}
           disabled={!selected}
-          className={`px-6 py-2 rounded-lg text-white ${
-            selected ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-400 cursor-not-allowed"
+          className={`hover:cursor-pointer px-6 py-2 rounded-lg text-white ${
+            selected
+              ? "bg-blue-600 hover:bg-blue-700"
+              : "bg-gray-400 cursor-not-allowed"
           }`}
         >
           Continue
