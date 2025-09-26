@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import API from "../../API/Api";
 
 const AppointmentType = () => {
   const [eyeExam, setEyeExam] = useState([])
-
-  const navigate = useNavigate();
 
 
   const fetchEyeExam = async () => {
@@ -19,11 +16,6 @@ const AppointmentType = () => {
     }
   }
   useEffect(() => { fetchEyeExam() }, [])
-
-
-  // const handleSelect = (title) => {
-  //   navigate("/appointmentSchedule", { state: { examType: title } })
-  // };
 
   const listVariants = {
     hidden: { opacity: 0 },
