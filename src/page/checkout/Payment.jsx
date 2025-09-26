@@ -12,9 +12,7 @@ const Payment = () => {
 
   useEffect(() => {
     const savedOrder = localStorage.getItem("orderSummary");
-    if (savedOrder) {
-      setOrder(JSON.parse(savedOrder));
-    }
+    if (savedOrder) setOrder(JSON.parse(savedOrder));
   }, []);
 
   if (!order) {
@@ -25,8 +23,8 @@ const Payment = () => {
     );
   }
 
-  const { subtotal, tax, shipping } = order;
-  const finalTotal = subtotal - discount + shipping + tax; // final total after discount
+  const { subtotal, tax, shipping, items } = order;
+  const finalTotal = subtotal - discount + shipping + tax;
 
   // Handle COD order creation
   const handleCOD = async () => {
@@ -35,11 +33,10 @@ const Payment = () => {
         ...order,
         // user: user._id,
         email: order.shippingAddress.email,
-        paymentMethod: "Cash on Delivery",
-        paymentStatus: "Pending",
         total: finalTotal,
         discount,
         coupon,
+        ...payload,
       });
       localStorage.removeItem("orderSummary");
       navigate(`/order-success/${data.order._id}`);
@@ -48,25 +45,21 @@ const Payment = () => {
     }
   };
 
-  // Handle PayPal order creation after success
-  const handlePayPalSuccess = async (details) => {
-    try {
-      const { data } = await API.post("/order", {
-        ...order,
-        email: order.shippingAddress.email,
-        paymentMethod: "PayPal",
-        paymentStatus: "Paid",
-        transactionId: details.id,
-        total: finalTotal,
-        discount,
-        coupon,
-      });
+  // // Handle COD
+  // const handleCOD = () => {
+  //   createOrder({
+  //     paymentMethod: "Cash on Delivery",
+  //     paymentStatus: "Pending",
+  //   });
+  // };
 
-      localStorage.removeItem("orderSummary");
-      navigate(`/order-success/${data.order._id}`);
-    } catch (err) {
-      Swal.fire("Error", "Failed to save PayPal order", "error");
-    }
+  // Handle PayPal success
+  const handlePayPalSuccess = (details) => {
+    createOrder({
+      paymentMethod: "PayPal",
+      paymentStatus: "Paid",
+      transactionId: details.id,
+    });
   };
 
   const handleApplyCoupon = async () => {
@@ -110,7 +103,6 @@ const Payment = () => {
   return (
     <div className="flex justify-center items-center min-h-[80vh] bg-gray-200 pt-20 pb-20">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md border border-red-600">
-        {/* Title */}
         <h2 className="text-2xl font-bold mb-6 text-center text-red-600">
           Complete Your Payment
         </h2>
@@ -196,20 +188,17 @@ const Payment = () => {
             shape: "rect",
             label: "paypal",
           }}
-          createOrder={(data, actions) => {
-            return actions.order.create({
+          createOrder={(data, actions) =>
+            actions.order.create({
               purchase_units: [
                 {
-                  amount: {
-                    value: finalTotal.toFixed(2), // use final total
-                    currency_code: "USD",
-                  },
+                  amount: { value: finalTotal.toFixed(2), currency_code: "USD" },
                 },
               ],
-            });
-          }}
-          onApprove={(data, actions) => {
-            return actions.order.capture().then((details) => {
+            })
+          }
+          onApprove={(data, actions) =>
+            actions.order.capture().then((details) => {
               Swal.fire({
                 toast: true,
                 position: "top-end",
@@ -220,8 +209,8 @@ const Payment = () => {
                 timerProgressBar: true,
               });
               handlePayPalSuccess(details);
-            });
-          }}
+            })
+          }
           onError={(err) => {
             console.error("PayPal Checkout Error:", err);
             Swal.fire("Error", "PayPal Checkout Failed", "error");
