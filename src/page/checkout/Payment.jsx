@@ -28,45 +28,53 @@ const Payment = () => {
   const { subtotal, tax, shipping } = order;
   const finalTotal = subtotal - discount + shipping + tax; // final total after discount
 
-  // Handle COD order creation
-  const handleCOD = async () => {
+  // Inside createOrder function:
+  const createOrder = async (payload) => {
     try {
       const { data } = await API.post("/order", {
         ...order,
         email: order.shippingAddress.email,
-        paymentMethod: "Cash on Delivery",
-        paymentStatus: "Pending",
         total: finalTotal,
         discount,
         coupon,
+        ...payload,
       });
 
-      localStorage.removeItem("orderSummary");
-      navigate(`/order-success/${data.order._id}`);
+      //  Show tracking number before navigating
+      Swal.fire({
+        icon: "success",
+        title: "Order Placed!",
+        html: `
+        <p>Your order has been placed successfully.</p>
+        <p><b>Tracking Number:</b> ${data.order.trackingNumber}</p>
+      `,
+        confirmButtonText: "View Order",
+      }).then(() => {
+        localStorage.removeItem("orderSummary");
+        navigate(`/order-success/${data.order._id}`);
+      });
     } catch (err) {
-      Swal.fire("Error", "Failed to place COD order", "error");
+      console.error(err);
+      Swal.fire("Error", "Failed to place order", "error");
     }
   };
 
-  // Handle PayPal order creation after success
-  const handlePayPalSuccess = async (details) => {
-    try {
-      const { data } = await API.post("/order", {
-        ...order,
-        email: order.shippingAddress.email,
-        paymentMethod: "PayPal",
-        paymentStatus: "Paid",
-        transactionId: details.id,
-        total: finalTotal,
-        discount,
-        coupon,
-      });
 
-      localStorage.removeItem("orderSummary");
-      navigate(`/order-success/${data.order._id}`);
-    } catch (err) {
-      Swal.fire("Error", "Failed to save PayPal order", "error");
-    }
+  // Handle COD
+  const handleCOD = () => {
+    createOrder({
+      paymentMethod: "Cash on Delivery",
+      paymentStatus: "Pending",
+    });
+  };
+
+  // Handle PayPal success
+  const handlePayPalSuccess = (details) => {
+    createOrder({
+      paymentMethod: "PayPal",
+      paymentStatus: "Paid",
+      transactionId: details.id,
+    });
   };
 
   // Handle Coupon
@@ -80,24 +88,22 @@ const Payment = () => {
       const { data } = await API.get(`/validateCoupon/${coupon}`);
 
       if (data.valid) {
+        // Extract percentage from coupon (e.g. SAVE10 → 10%)
         const match = coupon.match(/(\d+)$/);
-        let percentOff = match ? parseInt(match[1]) : 0;
+        const percentOff = match ? parseInt(match[1], 10) : 0;
 
         if (percentOff > 0) {
           const discountAmount = (subtotal * percentOff) / 100;
           setDiscount(discountAmount);
           Swal.fire("Success", `${percentOff}% discount applied!`, "success");
         } else {
-          Swal.fire(
-            "Error",
-            "Coupon code is valid but no discount % found",
-            "error"
-          );
+          Swal.fire("Error", "Coupon is valid but no discount % found", "error");
         }
       } else {
         Swal.fire("Invalid", "Coupon code is not valid", "error");
       }
     } catch (err) {
+      console.error(err);
       Swal.fire("Error", "Failed to apply coupon", "error");
     }
   };
@@ -119,7 +125,7 @@ const Payment = () => {
               <span>${subtotal.toFixed(2)}</span>
             </div>
 
-            {/* Discount row */}
+            {/* Discount Row */}
             {discount > 0 && (
               <div className="flex justify-between text-green-600">
                 <span>Discount</span>

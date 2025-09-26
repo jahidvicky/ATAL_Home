@@ -10,7 +10,7 @@ const Review = () => {
     try {
       const res = await API.get("/getreview");
       setReviews(res.data.reviews || []);
-      //   console.log(res.data.reviews);
+
     } catch (err) {
       console.error("Failed to fetch reviews:", err);
     }
