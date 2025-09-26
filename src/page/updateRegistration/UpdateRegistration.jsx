@@ -84,7 +84,7 @@ function UpdateRegistration() {
                     postalCode: user.address?.postalCode || "",
                 });
 
-                // ✅ set profile image from backend if available
+                //  set profile image from backend if available
                 if (user.profileImage) {
                     setProfileImage(user.profileImage); // keep as URL
                 }
