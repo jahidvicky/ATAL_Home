@@ -12,7 +12,6 @@ export default function EyewearTips() {
   const fetchEyewearTips = async () => {
     try {
       const response = await API.get("/getEyewearTips")
-      // console.log(response.data.EyewearTips);
 
       setEyewearTips(response.data.EyewearTips)
     } catch (error) {
