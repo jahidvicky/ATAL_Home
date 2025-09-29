@@ -24,11 +24,11 @@ function Header() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   // const searchRef = useRef(null);
   const desktopSearchRef = useRef(null);
-const mobileSearchRef = useRef(null);
+  const mobileSearchRef = useRef(null);
 
   // const [open, setOpen] = useState(false);
   const [openDesktop, setOpenDesktop] = useState(false);
-const [openMobile, setOpenMobile] = useState(false);
+  const [openMobile, setOpenMobile] = useState(false);
 
   const [custProfile, setCustProfile] = useState([])
 
@@ -131,48 +131,40 @@ const [openMobile, setOpenMobile] = useState(false);
     setSidebarOpen(false);
   };
 
-  // useEffect(() => {
-  //   if (query) {
-  //     setOpen(true);
-  //   } else {
-  //     setOpen(false);
-  //   }
-  // }, [query]);
-
-   useEffect(() => {
-  if (query) {
-    if (window.innerWidth >= 1024) {
-      setOpenDesktop(true);
+  useEffect(() => {
+    if (query) {
+      if (window.innerWidth >= 1024) {
+        setOpenDesktop(true);
+      } else {
+        setOpenMobile(true);
+      }
     } else {
-      setOpenMobile(true);
+      setOpenDesktop(false);
+      setOpenMobile(false);
     }
-  } else {
-    setOpenDesktop(false);
-    setOpenMobile(false);
-  }
-}, [query]);
+  }, [query]);
 
 
   useEffect(() => {
-  function handleClickOutside(event) {
-    if (
-      desktopSearchRef.current && !desktopSearchRef.current.contains(event.target)
-    ) {
-      setOpenDesktop(false);
+    function handleClickOutside(event) {
+      if (
+        desktopSearchRef.current && !desktopSearchRef.current.contains(event.target)
+      ) {
+        setOpenDesktop(false);
+      }
+      if (
+        mobileSearchRef.current && !mobileSearchRef.current.contains(event.target)
+      ) {
+        setOpenMobile(false);
+      }
     }
-    if (
-      mobileSearchRef.current && !mobileSearchRef.current.contains(event.target)
-    ) {
-      setOpenMobile(false);
-    }
-  }
 
-  document.addEventListener("mousedown", handleClickOutside);
-  
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
 
 

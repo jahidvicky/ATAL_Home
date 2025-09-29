@@ -177,6 +177,7 @@ const Payment = () => {
                   amount: {
                     value: finalTotal.toFixed(2), // use final total
                     currency_code: "USD",
+
                   },
                 },
               ],
