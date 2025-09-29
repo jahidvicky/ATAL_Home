@@ -36,12 +36,14 @@ const Payment = () => {
         total: finalTotal,
         discount,
         coupon,
-        ...payload,
+        // ...payload,
       });
       localStorage.removeItem("orderSummary");
       navigate(`/order-success/${data.order._id}`);
     } catch (err) {
-      Swal.fire("Error", "Failed to place COD order", "error");
+      console.log(err);
+      Swal.fire("Error", "Failed to place COD order",);
+
     }
   };
 
@@ -79,10 +81,9 @@ const Payment = () => {
         setDiscount(data.data.discountAmount);
         Swal.fire(
           "Success",
-          `Coupon applied! ${
-            data.data.discountType === "percentage"
-              ? "Discounted " + data.data.discountAmount.toFixed(2)
-              : "Flat discount " + data.data.discountAmount.toFixed(2)
+          `Coupon applied! ${data.data.discountType === "percentage"
+            ? "Discounted " + data.data.discountAmount.toFixed(2)
+            : "Flat discount " + data.data.discountAmount.toFixed(2)
           }`,
           "success"
         );
@@ -170,11 +171,10 @@ const Payment = () => {
             onClick={handleApplyCoupon}
             disabled={coupon.trim().length < 3} // disable if less than 3 characters
             className={`px-4 rounded-lg 
-    ${
-      coupon.trim().length < 3
-        ? "bg-gray-400 cursor-not-allowed" // disabled style
-        : "bg-red-600 text-white hover:bg-black" // enabled style
-    }`}
+    ${coupon.trim().length < 3
+                ? "bg-gray-400 cursor-not-allowed" // disabled style
+                : "bg-red-600 text-white hover:bg-black" // enabled style
+              }`}
           >
             Apply
           </button>

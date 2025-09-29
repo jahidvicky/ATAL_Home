@@ -56,7 +56,7 @@ const AppointmentType = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => handleSelect(item.title)}
+                // onClick={() => handleSelect(item.title)}
                 className="bg-red-600 hover:bg-red-700 text-white hover:cursor-pointer py-2 px-4 rounded font-semibold"
               >
                 SELECT
