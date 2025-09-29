@@ -24,7 +24,7 @@ function RecentlyView() {
             className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all p-4 text-center cursor-pointer duration-500"
           >
            <Link
-            to="/cart"
+            to="/product/:name"
             state={{
               category: product.cat_id,
               subcategory: product.subCat_id,

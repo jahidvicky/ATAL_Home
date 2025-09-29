@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from 'react'
-import API from '../../API/Api'
+import { useEffect, useState } from "react";
+import API from "../../API/Api"; // 👈 use your API instance
 
-const Insurance = () => {
-  const [companyName, setCompanyName] = useState([])
-
-  const getCompany = async () => {
-    try {
-      const res = await API.get("/getAllCompany")
-      setCompanyName(res.data.companies)
-    } catch (error) {
-      console.log(error);
-    }
-  }
+const Insurance = ({ onSelect }) => {
+  const [policies, setPolicies] = useState([]);
 
   useEffect(() => {
-    getCompany()
-  }, [])
+    const fetchPolicies = async () => {
+      try {
+        const res = await API.get("/getPolicies", { withCredentials: true });
+        setPolicies(res.data.data);
+        // console.log("data", res.data.data)
+      } catch (error) {
+        console.error("Error fetching policies:", error);
+      }
+    };
+
+    fetchPolicies();
+  }, []);
 
   return (
-    <>
-      <div>
-        <label className="text-lg font-semibold pr-2">Select your Insurance company :</label>
-        <select className="text-lg focus:outline-none focus:border-black border border-black rounded">
-          <option>Select your Insurance company</option>
-          {companyName.map((data, idx) => (
-            <option key={idx}>{data.companyName}</option>
-          ))}
-        </select>
-      </div>
-    </>
-  )
-}
+    <select
+      className="p-2 w-full"
+      onChange={(e) => onSelect(e.target.value)}
+    >
+      <option value="">Select Insurance Policy</option>
+      {policies.map((p) => (
+        <option key={p._id} value={p._id}>
+          {p.policyDetails}
+        </option>
+      ))}
+    </select>
+  );
+};
 
-export default Insurance
+export default Insurance;

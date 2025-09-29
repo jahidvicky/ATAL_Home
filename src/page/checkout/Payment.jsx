@@ -12,9 +12,7 @@ const Payment = () => {
 
   useEffect(() => {
     const savedOrder = localStorage.getItem("orderSummary");
-    if (savedOrder) {
-      setOrder(JSON.parse(savedOrder));
-    }
+    if (savedOrder) setOrder(JSON.parse(savedOrder));
   }, []);
 
   if (!order) {
@@ -25,48 +23,35 @@ const Payment = () => {
     );
   }
 
-  const { subtotal, tax, shipping } = order;
-  const finalTotal = subtotal - discount + shipping + tax; // final total after discount
+  const { subtotal, tax, shipping, items } = order;
+  const finalTotal = subtotal - discount + shipping + tax;
 
-  // Inside createOrder function:
-  const createOrder = async (payload) => {
+  // Handle COD order creation
+  const handleCOD = async () => {
     try {
       const { data } = await API.post("/order", {
         ...order,
+        // user: user._id,
         email: order.shippingAddress.email,
         total: finalTotal,
         discount,
         coupon,
         ...payload,
       });
-
-      //  Show tracking number before navigating
-      Swal.fire({
-        icon: "success",
-        title: "Order Placed!",
-        html: `
-        <p>Your order has been placed successfully.</p>
-        <p><b>Tracking Number:</b> ${data.order.trackingNumber}</p>
-      `,
-        confirmButtonText: "View Order",
-      }).then(() => {
-        localStorage.removeItem("orderSummary");
-        navigate(`/order-success/${data.order._id}`);
-      });
+      localStorage.removeItem("orderSummary");
+      navigate(`/order-success/${data.order._id}`);
     } catch (err) {
-      console.error(err);
-      Swal.fire("Error", "Failed to place order", "error");
+      Swal.fire("Error", "Failed to place COD order", "error");
     }
   };
 
-
-  // Handle COD
-  const handleCOD = () => {
-    createOrder({
-      paymentMethod: "Cash on Delivery",
-      paymentStatus: "Pending",
-    });
-  };
+  // // Handle COD
+  // const handleCOD = () => {
+  //   createOrder({
+  //     paymentMethod: "Cash on Delivery",
+  //     paymentStatus: "Pending",
+  //   });
+  // };
 
   // Handle PayPal success
   const handlePayPalSuccess = (details) => {
@@ -77,7 +62,6 @@ const Payment = () => {
     });
   };
 
-  // Handle Coupon
   const handleApplyCoupon = async () => {
     if (!coupon.trim()) {
       Swal.fire("Error", "Please enter a coupon code", "error");
@@ -85,33 +69,40 @@ const Payment = () => {
     }
 
     try {
-      const { data } = await API.get(`/validateCoupon/${coupon}`);
+      // Pass subtotal and category as query params
+      const category = order.items?.[0]?.category || ""; // example: take first item category
+      const { data } = await API.get(
+        `/validateCoupon/${coupon}?cartTotal=${subtotal}&category=${category}`
+      );
 
-      if (data.valid) {
-        // Extract percentage from coupon (e.g. SAVE10 → 10%)
-        const match = coupon.match(/(\d+)$/);
-        const percentOff = match ? parseInt(match[1], 10) : 0;
-
-        if (percentOff > 0) {
-          const discountAmount = (subtotal * percentOff) / 100;
-          setDiscount(discountAmount);
-          Swal.fire("Success", `${percentOff}% discount applied!`, "success");
-        } else {
-          Swal.fire("Error", "Coupon is valid but no discount % found", "error");
-        }
+      if (data.success) {
+        setDiscount(data.data.discountAmount);
+        Swal.fire(
+          "Success",
+          `Coupon applied! ${
+            data.data.discountType === "percentage"
+              ? "Discounted " + data.data.discountAmount.toFixed(2)
+              : "Flat discount " + data.data.discountAmount.toFixed(2)
+          }`,
+          "success"
+        );
       } else {
-        Swal.fire("Invalid", "Coupon code is not valid", "error");
+        setDiscount(0);
+        Swal.fire("Invalid", data.message || "Coupon not valid", "error");
       }
     } catch (err) {
-      console.error(err);
-      Swal.fire("Error", "Failed to apply coupon", "error");
+      setDiscount(0);
+      Swal.fire(
+        "Error",
+        err.response?.data?.message || "Failed to apply coupon",
+        "error"
+      );
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-[80vh] bg-gray-200 pt-20 pb-20">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md border border-red-600">
-        {/* Title */}
         <h2 className="text-2xl font-bold mb-6 text-center text-red-600">
           Complete Your Payment
         </h2>
@@ -125,19 +116,34 @@ const Payment = () => {
               <span>${subtotal.toFixed(2)}</span>
             </div>
 
-            {/* Discount Row */}
+            {/* Discount row */}
             {discount > 0 && (
-              <div className="flex justify-between text-green-600">
-                <span>Discount</span>
-                <span>- ${discount.toFixed(2)}</span>
+              <div className="flex justify-between items-start text-green-600 mt-2">
+                {/* Discount label */}
+                <span className="font-semibold">Discount</span>
+
+                {/* Amount and Remove button in column */}
+                <div className="flex flex-col items-end">
+                  <span className="font-semibold text-green-700">
+                    - ${discount.toFixed(2)}
+                  </span>
+                  <button
+                    onClick={() => {
+                      setDiscount(0);
+                      setCoupon(""); // clear coupon input
+                      Swal.fire("Removed", "Coupon removed", "info");
+                    }}
+                    className="text-red-500 rounded hover:text-red-600 text-sm mt-1"
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             )}
 
             <div className="flex justify-between">
               <span>Shipping</span>
-              <span>
-                {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
-              </span>
+              <span>{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</span>
             </div>
             <div className="flex justify-between">
               <span>Tax</span>
@@ -162,7 +168,13 @@ const Payment = () => {
           />
           <button
             onClick={handleApplyCoupon}
-            className="bg-red-600 text-white px-4 rounded-lg hover:bg-black"
+            disabled={coupon.trim().length < 3} // disable if less than 3 characters
+            className={`px-4 rounded-lg 
+    ${
+      coupon.trim().length < 3
+        ? "bg-gray-400 cursor-not-allowed" // disabled style
+        : "bg-red-600 text-white hover:bg-black" // enabled style
+    }`}
           >
             Apply
           </button>
@@ -176,20 +188,17 @@ const Payment = () => {
             shape: "rect",
             label: "paypal",
           }}
-          createOrder={(data, actions) => {
-            return actions.order.create({
+          createOrder={(data, actions) =>
+            actions.order.create({
               purchase_units: [
                 {
-                  amount: {
-                    value: finalTotal.toFixed(2), // use final total
-                    currency_code: "USD",
-                  },
+                  amount: { value: finalTotal.toFixed(2), currency_code: "USD" },
                 },
               ],
-            });
-          }}
-          onApprove={(data, actions) => {
-            return actions.order.capture().then((details) => {
+            })
+          }
+          onApprove={(data, actions) =>
+            actions.order.capture().then((details) => {
               Swal.fire({
                 toast: true,
                 position: "top-end",
@@ -200,8 +209,8 @@ const Payment = () => {
                 timerProgressBar: true,
               });
               handlePayPalSuccess(details);
-            });
-          }}
+            })
+          }
           onError={(err) => {
             console.error("PayPal Checkout Error:", err);
             Swal.fire("Error", "PayPal Checkout Failed", "error");
