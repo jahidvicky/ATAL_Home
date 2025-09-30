@@ -23,14 +23,22 @@ const Cartpage = () => {
   const [galleryImages, setGalleryImages] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   // const [subCategory, setSubCategory] = useState([]);
+  const [selectedPolicy, setSelectedPolicy] = useState(null);
+
+  const totalPrice = selectedPolicy
+    ? Number(product.product_sale_price) + Number(selectedPolicy.price)
+    : Number(product.product_sale_price);
 
   const dispatch = useDispatch();
   const product1 = {
     id: ID,
     name: product.product_name,
-    price: product.product_sale_price,
+    price: totalPrice,
+    // price: product.product_sale_price,
     image: mainImage,
   };
+
+
 
   const fetchProducts = async () => {
     try {
@@ -115,9 +123,8 @@ const Cartpage = () => {
                     <img
                       src={img}
                       alt={`frame-${index}`}
-                      className={`w-[100px] hover:cursor-pointer rounded ${
-                        mainImage === img ? "ring-2 ring-green-700" : ""
-                      }`}
+                      className={`w-[100px] hover:cursor-pointer rounded ${mainImage === img ? "ring-2 ring-green-700" : ""
+                        }`}
                     />
                   </button>
                 ))}
@@ -161,7 +168,7 @@ const Cartpage = () => {
                 <Color />
 
                 {/* Insurance */}
-                <Insurance />
+                <Insurance onPolicySelect={setSelectedPolicy} />
 
                 {/* Price and Add to Cart Button */}
                 <div className="space-y-2 mt-4 bg-gray-200">
@@ -181,6 +188,7 @@ const Cartpage = () => {
                       SELECT LENS
                     </button>
                   </Link>
+
                   <button
                     onClick={() => {
                       dispatch(addToCart(product1));

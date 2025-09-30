@@ -36,7 +36,7 @@ const Payment = () => {
         total: finalTotal,
         discount,
         coupon,
-        ...payload,
+        // ...payload,
       });
 
       Swal.fire({
@@ -186,6 +186,7 @@ const Payment = () => {
             onChange={(e) => setCoupon(e.target.value.toUpperCase())}
             className="flex-1 border p-2 rounded-lg uppercase"
           />
+          {/* current */}
           <button
             onClick={handleApplyCoupon}
             disabled={coupon.trim().length < 3}

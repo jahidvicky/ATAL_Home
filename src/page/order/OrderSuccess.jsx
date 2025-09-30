@@ -63,7 +63,7 @@ const OrderSuccess = () => {
                         </p>
                     )}
 
-                    <p><b>Status:</b> <span className="text-black">{order.orderStatus}</span></p>
+                    <p><b>Order Status:</b> <span className="text-black">{order.orderStatus}</span></p>
                     <p><b>Payment Method:</b> {order.paymentMethod}</p>
                     <p>
                         <b>Total:</b>{" "}

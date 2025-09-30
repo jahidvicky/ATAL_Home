@@ -130,14 +130,6 @@ function Header() {
     setSidebarOpen(false);
   };
 
-  // useEffect(() => {
-  //   if (query) {
-  //     setOpen(true);
-  //   } else {
-  //     setOpen(false);
-  //   }
-  // }, [query]);
-
   useEffect(() => {
     if (query) {
       if (window.innerWidth >= 1024) {
