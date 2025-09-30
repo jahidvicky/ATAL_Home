@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 const ViewCart = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
-  
+
   // Calculate subtotal
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,

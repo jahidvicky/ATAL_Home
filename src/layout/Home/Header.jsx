@@ -79,7 +79,6 @@ function Header() {
   const getCustProfile = async () => {
     try {
       const response = await API.get(`/customer/${user}`)
-      // console.log(response.data.data.profileImage);
 
       setCustProfile(response.data.data.profileImage)
     } catch (error) {

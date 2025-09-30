@@ -12,9 +12,7 @@ const Payment = () => {
 
   useEffect(() => {
     const savedOrder = localStorage.getItem("orderSummary");
-    if (savedOrder) {
-      setOrder(JSON.parse(savedOrder));
-    }
+    if (savedOrder) setOrder(JSON.parse(savedOrder));
   }, []);
 
   if (!order) {
@@ -25,51 +23,37 @@ const Payment = () => {
     );
   }
 
-  const { subtotal, tax, shipping } = order;
-  const finalTotal = subtotal - discount + shipping + tax; // final total after discount
+  const { subtotal, tax, shipping, items } = order;
+  const finalTotal = subtotal - discount + shipping + tax;
 
   // Handle COD order creation
   const handleCOD = async () => {
     try {
       const { data } = await API.post("/order", {
         ...order,
+        // user: user._id,
         email: order.shippingAddress.email,
-        paymentMethod: "Cash on Delivery",
-        paymentStatus: "Pending",
         total: finalTotal,
         discount,
         coupon,
+        // ...payload,
       });
-
       localStorage.removeItem("orderSummary");
       navigate(`/order-success/${data.order._id}`);
     } catch (err) {
-      Swal.fire("Error", "Failed to place COD order", "error");
+      Swal.fire("Error", "Failed to place COD order", err);
     }
   };
 
-  // Handle PayPal order creation after success
-  const handlePayPalSuccess = async (details) => {
-    try {
-      const { data } = await API.post("/order", {
-        ...order,
-        email: order.shippingAddress.email,
-        paymentMethod: "PayPal",
-        paymentStatus: "Paid",
-        transactionId: details.id,
-        total: finalTotal,
-        discount,
-        coupon,
-      });
-
-      localStorage.removeItem("orderSummary");
-      navigate(`/order-success/${data.order._id}`);
-    } catch (err) {
-      Swal.fire("Error", "Failed to save PayPal order", "error");
-    }
+  // Handle PayPal success
+  const handlePayPalSuccess = (details) => {
+    createOrder({
+      paymentMethod: "PayPal",
+      paymentStatus: "Paid",
+      transactionId: details.id,
+    });
   };
 
-  // Handle Coupon
   const handleApplyCoupon = async () => {
     if (!coupon.trim()) {
       Swal.fire("Error", "Please enter a coupon code", "error");
@@ -95,17 +79,22 @@ const Payment = () => {
           );
         }
       } else {
-        Swal.fire("Invalid", "Coupon code is not valid", "error");
+        setDiscount(0);
+        Swal.fire("Invalid", data.message || "Coupon not valid", "error");
       }
     } catch (err) {
-      Swal.fire("Error", "Failed to apply coupon", "error");
+      setDiscount(0);
+      Swal.fire(
+        "Error",
+        err.response?.data?.message || "Failed to apply coupon",
+        "error"
+      );
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-[80vh] bg-gray-200 pt-20 pb-20">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md border border-red-600">
-        {/* Title */}
         <h2 className="text-2xl font-bold mb-6 text-center text-red-600">
           Complete Your Payment
         </h2>
@@ -121,17 +110,32 @@ const Payment = () => {
 
             {/* Discount row */}
             {discount > 0 && (
-              <div className="flex justify-between text-green-600">
-                <span>Discount</span>
-                <span>- ${discount.toFixed(2)}</span>
+              <div className="flex justify-between items-start text-green-600 mt-2">
+                {/* Discount label */}
+                <span className="font-semibold">Discount</span>
+
+                {/* Amount and Remove button in column */}
+                <div className="flex flex-col items-end">
+                  <span className="font-semibold text-green-700">
+                    - ${discount.toFixed(2)}
+                  </span>
+                  <button
+                    onClick={() => {
+                      setDiscount(0);
+                      setCoupon(""); // clear coupon input
+                      Swal.fire("Removed", "Coupon removed", "info");
+                    }}
+                    className="text-red-500 rounded hover:text-red-600 text-sm mt-1"
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             )}
 
             <div className="flex justify-between">
               <span>Shipping</span>
-              <span>
-                {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
-              </span>
+              <span>{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</span>
             </div>
             <div className="flex justify-between">
               <span>Tax</span>
@@ -170,8 +174,8 @@ const Payment = () => {
             shape: "rect",
             label: "paypal",
           }}
-          createOrder={(data, actions) => {
-            return actions.order.create({
+          createOrder={(data, actions) =>
+            actions.order.create({
               purchase_units: [
                 {
                   amount: {
@@ -181,10 +185,10 @@ const Payment = () => {
                   },
                 },
               ],
-            });
-          }}
-          onApprove={(data, actions) => {
-            return actions.order.capture().then((details) => {
+            })
+          }
+          onApprove={(data, actions) =>
+            actions.order.capture().then((details) => {
               Swal.fire({
                 toast: true,
                 position: "top-end",
@@ -195,8 +199,8 @@ const Payment = () => {
                 timerProgressBar: true,
               });
               handlePayPalSuccess(details);
-            });
-          }}
+            })
+          }
           onError={(err) => {
             console.error("PayPal Checkout Error:", err);
             Swal.fire("Error", "PayPal Checkout Failed", "error");

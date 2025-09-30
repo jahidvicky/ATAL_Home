@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import API from "../../API/Api";
+import API, { IMAGE_URL } from "../../API/Api";
+import Swal from "sweetalert2";
 
 const EyeExam = () => {
   const location = useLocation();
@@ -42,7 +43,12 @@ const EyeExam = () => {
       const res = await API.post("/addEyeExam", payload);
 
       if (res.data.success) {
-        alert("Appointment booked successfully!");
+        Swal.fire({
+          title: "Appointment Booked",
+          text: "Appointment booked successfully!",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
         setExamData({
           firstName: "",
           lastName: "",
@@ -56,7 +62,12 @@ const EyeExam = () => {
       }
     } catch (error) {
       console.error("Error booking appointment:", error.response?.data || error);
-      alert("Failed to book appointment. Please try again.");
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to book appointment. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -92,9 +103,11 @@ const EyeExam = () => {
                 </h3>
                 <div className="flex items-center">
                   <img
-                    src={doctorImage}
-                    alt="Doctor"
+                    src={IMAGE_URL + doctorImage}
+                    alt={doctorName}
                     className="w-14 h-14 rounded-full border-2 border-red-500 mr-4"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <p className="text-gray-800 font-medium">{doctorName}</p>
                 </div>

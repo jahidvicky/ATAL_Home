@@ -54,7 +54,7 @@ export default function InsuranceClaimForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log("Submitting insurance claim:", formData);
+
     Swal.fire({
       toast: true,
       position: "top-end",

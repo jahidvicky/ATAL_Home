@@ -1,39 +1,21 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import API from "../../API/Api";
 
 const AppointmentType = () => {
-
-  const navigate = useNavigate();
-
-
-  const appointments = [
-    {
-      title: "FULL EYE EXAM",
-      description:
-        "Please arrive 10 mins before your appointment for your pre-test. The eye exam fee is $95. If you also require contact lens fitting with your eye exam, the fitting fee will be an additional $30-50",
-    },
-    {
-      title: "SENIOR FULL EYE EXAM - COVERED",
-      description:
-        "Patients 65 and over are eligible for OHIP covered exam once per year. Please bring valid OHIP card to the appointment and arrive 10 mins early for pre-testing.",
-    },
-    {
-      title: "CHILD FULL EYE EXAM - COVERED",
-      description:
-        "Children 19 years of age and under are eligible for an OHIP covered exam once per year. Please bring your valid OHIP card and arrive 10 minutes before your appointment for pre-testing.",
-    },
-    {
-      title: "FULL EYE EXAM 20-64 MEDICAL",
-      description:
-        "If you have diabetes or certain eye diseases, you are eligible for an OHIP covered eye exam once per year. New Patients, please bring either a doctor’s note or official medication list and OHIP card.",
-    },
-  ];
+  const [eyeExam, setEyeExam] = useState([])
 
 
-  const handleSelect = (title) => {
-    navigate("/appointmentSchedule", { state: { examType: title } })
-  };
+  const fetchEyeExam = async () => {
+    try {
+      const res = await API.get("/getExam")
+      setEyeExam(res.data.data)
+    } catch (error) {
+
+    }
+  }
+  useEffect(() => { fetchEyeExam() }, [])
 
   const listVariants = {
     hidden: { opacity: 0 },
@@ -57,7 +39,7 @@ const AppointmentType = () => {
       <h1 className="text-2xl font-bold text-center mb-6">Dr. Yuen Optometry</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
-        {appointments.map((item, index) => (
+        {eyeExam.map((item, index) => (
           <motion.div
             key={index}
             className="border shadow-lg hover:shadow-red-600 rounded-lg p-6 flex flex-col justify-between"
@@ -66,16 +48,20 @@ const AppointmentType = () => {
             transition={{ duration: 0.6, delay: index * 0.2, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <h2 className="text-lg font-bold mb-3 text-center">{item.title}</h2>
+            <h2 className="text-lg font-bold mb-3 text-center">{item.examName}</h2>
             <p className="text-sm text-gray-600 mb-6">{item.description}</p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => handleSelect(item.title)}
-              className="bg-red-600 hover:bg-red-700 text-white hover:cursor-pointer py-2 px-4 rounded font-semibold"
-            >
-              SELECT
-            </motion.button>
+            <p className="text-sm text-gray-600 mb-6">Fee: ${item.price}</p>
+            <Link to="/appointmentSchedule"
+              state={{ examType: item.examName }}>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleSelect(item.title)}
+                className="bg-red-600 hover:bg-red-700 text-white hover:cursor-pointer py-2 px-4 rounded font-semibold"
+              >
+                SELECT
+              </motion.button>
+            </Link>
           </motion.div>
         ))}
       </div>
@@ -127,10 +113,6 @@ const AppointmentType = () => {
           </motion.li>
         </motion.ul>
       </motion.div>
-
-      <p className="text-center text-xs text-red-600 mt-6 ">
-        © Atal Opticals - Cookie Policy
-      </p>
     </div>
   );
 };
