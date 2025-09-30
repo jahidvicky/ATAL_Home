@@ -131,9 +131,11 @@ function App() {
         {
           path: "/payment",
           element: (
-            <PayPalScriptProvider
-              options={{ "client-id": "AXf1IDZMUR6E_q8lxGRiRvOAnLZ3E5DgnyYAV0eaIB3VdLn4KlZ9Msm8kZyvu_XLGcziwc31Lc7nrWPY", currency: "USD" }}
-            >
+            <PayPalScriptProvider>
+              {/* options={{ "client-id":
+               "ASd_eglHRf2fJV1ZH982s_OzC21XDPgIyJrp-1MBTJJx47dCzXUmi9pUOkJ58ogmd3YhpzjNjdIWxkXw", 
+               currency: "USD" }}
+            > */}
               <Payment />
             </PayPalScriptProvider>
           )

@@ -6,8 +6,8 @@ import API from "../../API/Api";
 
 const Payment = () => {
   const [order, setOrder] = useState(null);
-  const [coupon, setCoupon] = useState(""); // coupon input
-  const [discount, setDiscount] = useState(0); // discount value
+  const [coupon, setCoupon] = useState("");
+  const [discount, setDiscount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,31 +24,47 @@ const Payment = () => {
   }
 
   const { subtotal, tax, shipping, items } = order;
-  const finalTotal = subtotal - discount + shipping + tax;
+  const finalTotal = Math.max(subtotal - discount + shipping + tax, 0.01); // minimum 0.01 for PayPal
 
-  // Handle COD order creation
-  const handleCOD = async () => {
+  // Unified createOrder function for both PayPal & COD
+  const createOrder = async (payload) => {
+    console.log("Creating order with payload:", payload);
     try {
       const { data } = await API.post("/order", {
         ...order,
-        // user: user._id,
         email: order.shippingAddress.email,
         total: finalTotal,
         discount,
         coupon,
         // ...payload,
       });
-      localStorage.removeItem("orderSummary");
-      navigate(`/order-success/${data.order._id}`);
-    } catch (err) {
-      console.log(err);
-      Swal.fire("Error", "Failed to place COD order",);
 
+      Swal.fire({
+        icon: "success",
+        title: "Order Placed!",
+        html: `<p>Tracking Number: <b>${data.order.trackingNumber}</b></p>`,
+        confirmButtonText: "View Order",
+      }).then(() => {
+        localStorage.removeItem("orderSummary");
+        navigate(`/order-success/${data.order._id}`);
+      });
+    } catch (err) {
+      console.error("Order creation failed:", err);
+      Swal.fire("Error", "Failed to place order", "error");
     }
   };
 
-  // Handle PayPal success
+  // COD handler
+  const handleCOD = () => {
+    createOrder({
+      paymentMethod: "Cash on Delivery",
+      paymentStatus: "Pending",
+    });
+  };
+
+  // PayPal success handler
   const handlePayPalSuccess = (details) => {
+    console.log("PayPal success details:", details);
     createOrder({
       paymentMethod: "PayPal",
       paymentStatus: "Paid",
@@ -56,6 +72,21 @@ const Payment = () => {
     });
   };
 
+  const handlePayPalFail = () => {
+    createOrder({
+      paymentMethod: "PayPal",
+      paymentStatus: "Failed", // mark order as pending
+      transactionId: null, // no transaction yet
+    });
+
+    Swal.fire(
+      "Payment Failed",
+      "PayPal payment could not be completed. Your order marked as Failed",
+      "error"
+    );
+  };
+
+  // Coupon logic
   const handleApplyCoupon = async () => {
     if (!coupon.trim()) {
       Swal.fire("Error", "Please enter a coupon code", "error");
@@ -63,8 +94,7 @@ const Payment = () => {
     }
 
     try {
-      // Pass subtotal and category as query params
-      const category = order.items?.[0]?.category || ""; // example: take first item category
+      const category = order.items?.[0]?.category || "";
       const { data } = await API.get(
         `/validateCoupon/${coupon}?cartTotal=${subtotal}&category=${category}`
       );
@@ -73,9 +103,10 @@ const Payment = () => {
         setDiscount(data.data.discountAmount);
         Swal.fire(
           "Success",
-          `Coupon applied! ${data.data.discountType === "percentage"
-            ? "Discounted " + data.data.discountAmount.toFixed(2)
-            : "Flat discount " + data.data.discountAmount.toFixed(2)
+          `Coupon applied! ${
+            data.data.discountType === "percentage"
+              ? "Discounted $" + data.data.discountAmount.toFixed(2)
+              : "Flat discount $" + data.data.discountAmount.toFixed(2)
           }`,
           "success"
         );
@@ -109,13 +140,9 @@ const Payment = () => {
               <span>${subtotal.toFixed(2)}</span>
             </div>
 
-            {/* Discount row */}
             {discount > 0 && (
               <div className="flex justify-between items-start text-green-600 mt-2">
-                {/* Discount label */}
                 <span className="font-semibold">Discount</span>
-
-                {/* Amount and Remove button in column */}
                 <div className="flex flex-col items-end">
                   <span className="font-semibold text-green-700">
                     - ${discount.toFixed(2)}
@@ -123,7 +150,7 @@ const Payment = () => {
                   <button
                     onClick={() => {
                       setDiscount(0);
-                      setCoupon(""); // clear coupon input
+                      setCoupon("");
                       Swal.fire("Removed", "Coupon removed", "info");
                     }}
                     className="text-red-500 rounded hover:text-red-600 text-sm mt-1"
@@ -162,18 +189,59 @@ const Payment = () => {
           {/* current */}
           <button
             onClick={handleApplyCoupon}
-            disabled={coupon.trim().length < 3} // disable if less than 3 characters
-            className={`px-4 rounded-lg 
-    ${coupon.trim().length < 3
-                ? "bg-gray-400 cursor-not-allowed" // disabled style
-                : "bg-red-600 text-white hover:bg-black" // enabled style
-              }`}
+            disabled={coupon.trim().length < 3}
+            className={`px-4 rounded-lg ${
+              coupon.trim().length < 3
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-red-600 text-white hover:bg-black"
+            }`}
           >
             Apply
           </button>
         </div>
 
         {/* PayPal Buttons */}
+        {/* <PayPalButtons
+          style={{
+            layout: "vertical",
+            color: "gold",
+            shape: "rect",
+            label: "paypal",
+          }}
+          createOrder={(data, actions) => {
+            console.log(
+              "Creating PayPal order for total:",
+              finalTotal.toFixed(2)
+            );
+            return actions.order.create({
+              purchase_units: [
+                {
+                  amount: {
+                    value: finalTotal.toFixed(2),
+                    currency_code: "USD",
+                  },
+                },
+              ],
+            });
+          }}
+          onApprove={(data, actions) =>
+            actions.order
+              .capture()
+              .then((details) => {
+                console.log("PayPal capture success:", details);
+                handlePayPalSuccess(details);
+              })
+              .catch((err) => {
+                console.error("PayPal capture error:", err);
+                Swal.fire("Error", "PayPal capture failed", "error");
+              })
+          }
+          onError={(err) => {
+            console.error("PayPal error:", err);
+            Swal.fire("Error", "PayPal checkout failed", "error");
+          }}
+        /> */}
+
         <PayPalButtons
           style={{
             layout: "vertical",
@@ -181,37 +249,54 @@ const Payment = () => {
             shape: "rect",
             label: "paypal",
           }}
-          createOrder={(data, actions) =>
-            actions.order.create({
+          createOrder={(data, actions) => {
+            return actions.order.create({
               purchase_units: [
                 {
                   amount: {
-                    value: finalTotal.toFixed(2), // use final total
+                    value: finalTotal.toFixed(2),
                     currency_code: "USD",
-
                   },
                 },
               ],
-            })
-          }
-          onApprove={(data, actions) =>
-            actions.order.capture().then((details) => {
-              Swal.fire({
-                toast: true,
-                position: "top-end",
-                icon: "success",
-                title: `Transaction completed by ${details.payer.name.given_name}`,
-                showConfirmButton: false,
-                timer: 1500,
-                timerProgressBar: true,
-              });
-              handlePayPalSuccess(details);
-            })
-          }
-          onError={(err) => {
-            console.error("PayPal Checkout Error:", err);
-            Swal.fire("Error", "PayPal Checkout Failed", "error");
+            });
           }}
+          // onApprove={(data, actions) =>
+          //   actions.order.capture().then((details) => {
+          //     handlePayPalSuccess(details); // only for success
+          //   })
+          // }
+
+          onApprove={(data, actions) =>
+            actions.order
+              .capture()
+              .then((details) => {
+                console.log("PayPal capture response:", details);
+
+                if (details.status === "COMPLETED") {
+                  handlePayPalSuccess(details);
+                } else {
+                  // treat anything else as a failure
+                  Swal.fire(
+                    "Payment Failed",
+                    "Your payment could not be completed. Please check your balance or try another method.",
+                    "error"
+                  );
+                  handlePayPalFail();
+                }
+              })
+              .catch((err) => {
+                console.error("PayPal capture error:", err);
+                Swal.fire(
+                  "Payment Failed",
+                  "There was an error completing your payment.",
+                  "error"
+                );
+                handlePayPalFail();
+              })
+          }
+          onError={() => handlePayPalFail()} // call pending order
+          onCancel={() => handlePayPalFail()} // also call pending if user cancels
         />
 
         {/* COD Button */}
