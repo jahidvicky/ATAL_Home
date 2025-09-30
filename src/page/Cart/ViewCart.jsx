@@ -1,21 +1,34 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import {
   incrementQuantity,
   decrementQuantity,
   removeFromCart,
-} from '../../redux/cartSlice';
-import { Link } from 'react-router-dom';
+} from "../../redux/cartSlice";
+import { Link } from "react-router-dom";
 
 const ViewCart = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
-  // Calculate subtotal
-  const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  // Calculate subtotal including lens and policy prices
+  const subtotal = cartItems.reduce((total, item) => {
+    const lensPrice = item.lens?.totalPrice || 0;
+    const policyPrice = item.policy?.price || 0;
+
+    console.log(item.name, "Lens:", lensPrice, "Policy:", policyPrice); // debug for each item
+
+    return total + (item.price + lensPrice + policyPrice) * item.quantity;
+  }, 0);
+
+  const orderItems = cartItems.map((item) => ({
+    productId: item.id,
+    quantity: item.quantity,
+    framePrice: item.price,
+    lens: item.lens,
+    policy: item.policy,
+  }));
+
+  console.log("policy", cartItems);
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -38,7 +51,7 @@ const ViewCart = () => {
             {cartItems.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between border p-4 rounded shadow-sm"
+                className="flex flex-col md:flex-row items-center justify-between border p-4 rounded shadow-sm"
               >
                 <Link to={`/product/${item.name}`} state={{ ID: item.id }}>
                   <img
@@ -47,13 +60,98 @@ const ViewCart = () => {
                     className="w-50 h-24 object-cover rounded mr-4 hover:cursor-pointer"
                   />
                 </Link>
-                <div className="flex-1">
+
+                <div className="flex-1 mt-4 md:mt-0">
                   <Link to={`/product/${item.name}`} state={{ ID: item.id }}>
                     <h4 className="text-lg font-semibold hover:cursor-pointer">
                       {item.name}
                     </h4>
                   </Link>
                   <p className="text-gray-600">${item.price}</p>
+
+                  {item.lens && (
+                    <div className="mt-2 text-sm text-gray-700">
+                      <p>
+                        <strong>Lens:</strong> {item.lens.lens.selectedLens}
+                      </p>
+                      <p>
+                        <strong>Prescription Method:</strong>{" "}
+                        {item.lens.lens.prescriptionMethod}
+                      </p>
+
+                      {item.lens.lens.prescription && (
+                        <div className="ml-2">
+                          <p>
+                            OD: {item.lens.lens.prescription.odSph}/
+                            {item.lens.lens.prescription.odCyl}
+                          </p>
+                          <p>
+                            OS: {item.lens.lens.prescription.osSph}/
+                            {item.lens.lens.prescription.osCyl}
+                          </p>
+                          <p>
+                            PD: {item.lens.lens.prescription.pdLeft}/
+                            {item.lens.lens.prescription.pdRight}
+                          </p>
+                          <p>Doctor: {item.lens.lens.prescription.doctor}</p>
+                        </div>
+                      )}
+
+                      {item.lens.lens.lensType && (
+                        <p>
+                          <strong>Lens Type:</strong>{" "}
+                          {item.lens.lens.lensType.name} (
+                          {item.lens.lens.lensType.price})
+                        </p>
+                      )}
+
+                      {item.lens.lens.thickness && (
+                        <p>
+                          <strong>Thickness:</strong>{" "}
+                          {item.lens.lens.thickness.name} (
+                          {item.lens.lens.thickness.price})
+                        </p>
+                      )}
+
+                      {item.lens.lens.tint && (
+                        <p>
+                          <strong>Tint:</strong> {item.lens.lens.tint.name} (
+                          {item.lens.lens.tint.price})
+                        </p>
+                      )}
+
+                      {item.lens.lens.enhancement && (
+                        <p>
+                          <strong>Enhancement:</strong>{" "}
+                          {item.lens.lens.enhancement.name} (
+                          {item.lens.lens.enhancement.price})
+                        </p>
+                      )}
+
+                      <p>
+                        <strong>Total Lens Price:</strong> $
+                        {item.lens.totalPrice.toFixed(2)}
+                      </p>
+                    </div>
+                  )}
+
+                  {item.policy && (
+                    <div className="mt-2 text-sm text-gray-700">
+                      <p>
+                        <strong>Policy Name:</strong> {item.policy.name}
+                      </p>
+                      <p>
+                        <strong>Company:</strong> {item.policy.companyName}
+                      </p>
+                      <p>
+                        <strong>Coverage:</strong> {item.policy.coverage}
+                      </p>
+                      <p>
+                        <strong>Price:</strong> ${item.policy.price}
+                      </p>
+                    </div>
+                  )}
+
                   <div className="flex items-center mt-2 gap-2">
                     <button
                       onClick={() => dispatch(decrementQuantity(item.id))}
@@ -70,9 +168,16 @@ const ViewCart = () => {
                     </button>
                   </div>
                 </div>
-                <div className="text-right">
+
+                <div className="text-right mt-4 md:mt-0">
                   <p className="font-bold">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    $
+                    {(
+                      (item.price +
+                        (item.lens?.totalPrice || 0) +
+                        (item.policy?.price || 0)) *
+                      item.quantity
+                    ).toFixed(2)}
                   </p>
                   <button
                     onClick={() => dispatch(removeFromCart(item.id))}
@@ -90,29 +195,51 @@ const ViewCart = () => {
             <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
 
             {cartItems.map((item, index) => (
-              <div key={index} className="flex items-center justify-between border-b pb-2">
+              <div
+                key={index}
+                className="flex flex-col md:flex-row items-center justify-between border-b pb-2 mb-2"
+              >
                 <img
                   src={item.image}
                   alt={item.name}
                   className="w-30 h-15 object-cover rounded mr-4"
                 />
-                <div className="flex-1">
+                <div className="flex-1 text-sm md:text-base">
                   <h4 className="font-semibold">{item.name}</h4>
                   <p>Quantity: {item.quantity}</p>
-                  <p>Total: ${(item.price * item.quantity).toFixed(2)}</p>
+                  <p>Frame: ${item.price.toFixed(2)}</p>
+                  {item.lens && (
+                    <p>
+                      Lens: ${item.lens.totalPrice.toFixed(2)} (
+                      {item.lens.selectedLens})
+                    </p>
+                  )}
+                  {item.policy && (
+                    <p>
+                      Policy: ${item.policy.price.toFixed(2)} (
+                      {item.policy.name})
+                    </p>
+                  )}
+                  <p className="font-bold">
+                    Total: $
+                    {(
+                      (item.price +
+                        (item.lens?.totalPrice || 0) +
+                        (item.policy?.price || 0)) *
+                      item.quantity
+                    ).toFixed(2)}
+                  </p>
                 </div>
               </div>
             ))}
 
             <div className="flex justify-between text-lg font-bold border-t pt-2">
-              <span>Subtotal (Before Tax) :</span>
+              <span>Subtotal:</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
 
             <Link to="/checkout">
-              <button
-                className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition hover:cursor-pointer"
-              >
+              <button className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition hover:cursor-pointer">
                 Proceed to Checkout
               </button>
             </Link>

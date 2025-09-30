@@ -24,9 +24,14 @@ const Cartpage = () => {
   const [wishlist, setWishlist] = useState([]);
   // const [subCategory, setSubCategory] = useState([]);
   const [selectedPolicy, setSelectedPolicy] = useState(null);
+  const [lensDetails, setLensDetails] = useState(null);
+  const isLensSelected = !!lensDetails; // true if lens is already selected
+
+  const sizes = ["S", "M", "L"];
+  const [selectedSize, setSelectedSize] = useState(null);
 
   const totalPrice = selectedPolicy
-    ? Number(product.product_sale_price) + Number(selectedPolicy.price)
+    ? Number(product.product_sale_price)
     : Number(product.product_sale_price);
 
   const dispatch = useDispatch();
@@ -36,9 +41,9 @@ const Cartpage = () => {
     price: totalPrice,
     // price: product.product_sale_price,
     image: mainImage,
+    lens: lensDetails || null, // use full lensDetails object
+    policy: selectedPolicy || null, // make sure policy has all fields
   };
-
-
 
   const fetchProducts = async () => {
     try {
@@ -55,6 +60,23 @@ const Cartpage = () => {
       console.error("Failed to fetch products:", err);
     }
   };
+
+  useEffect(() => {
+    const storedLens = localStorage.getItem("lensSelectionDetails");
+    if (storedLens) {
+      setLensDetails(JSON.parse(storedLens));
+    }
+  }, []);
+
+  // Example in Cartpage.jsx
+  const lensSelectionDetails = JSON.parse(
+    localStorage.getItem("lensSelectionDetails")
+  );
+
+  // Safely get the total price
+  const lensTotalPrice = lensSelectionDetails?.totalPrice || 0;
+
+  // const lensPrice = lensDetails?.lens?.price || 0;
 
   // Toggle wishlist (add/remove)
   const toggleWishlist = async (productId) => {
@@ -123,8 +145,9 @@ const Cartpage = () => {
                     <img
                       src={img}
                       alt={`frame-${index}`}
-                      className={`w-[100px] hover:cursor-pointer rounded ${mainImage === img ? "ring-2 ring-green-700" : ""
-                        }`}
+                      className={`w-[100px] hover:cursor-pointer rounded ${
+                        mainImage === img ? "ring-2 ring-green-700" : ""
+                      }`}
                     />
                   </button>
                 ))}
@@ -162,10 +185,114 @@ const Cartpage = () => {
                 </div>
 
                 {/* Size */}
-                <Size />
+                {/* <Size /> */}
+                <label className="text-xl font-medium">Size:</label>
+                <div className="flex space-x-2 mt-2">
+                  {sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)} // Update selected size on click
+                      className={`border px-3 py-1 rounded text-sm hover:border-red-600 hover:cursor-pointer
+              ${
+                selectedSize === size
+                  ? "bg-red-500 text-white border-red-500"
+                  : "bg-white text-black"
+              }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
 
                 {/* Color */}
                 <Color />
+
+                {lensDetails && (
+                  <div className="mt-6 p-4 border rounded bg-gray-50 relative">
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-xl font-semibold">Selected Lenses</h3>
+
+                      <div className="flex ">
+                        <Link to="lens-selection-flow" state={{ ID: ID }}>
+                          <button className="text-gray-500 text-sm font-sm hover:underline transition-colors px-2 py-2 hover: cursor-pointer">
+                            Edit
+                          </button>
+                        </Link>
+
+                        <button
+                          onClick={() => {
+                            localStorage.removeItem("lensSelectionDetails");
+                            setLensDetails(null);
+                            Swal.fire({
+                              toast: true,
+                              position: "top-end",
+                              icon: "info",
+                              title: "Lens selection removed!",
+                              showConfirmButton: false,
+                              timer: 1500,
+                            });
+                          }}
+                          className="text-red-600 text-sm font-sm hover:underline transition-colors px-2 py-2 hover:cursor-pointer"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+
+                    <p>
+                      <strong>Vision Need:</strong>{" "}
+                      {lensDetails.lens.selectedLens}
+                    </p>
+                    <p>
+                      <strong>Prescription:</strong>{" "}
+                      {lensDetails.lens.selectedLens ===
+                      "Non-prescription lenses"
+                        ? "Not required"
+                        : lensDetails.lens.prescriptionMethod || "Not provided"}
+                    </p>
+                    <p>
+                      <strong>Lens Type:</strong>{" "}
+                      {lensDetails.lens.lensType?.name || "Clear lenses"}{" "}
+                      {lensDetails.lens.lensType?.price && (
+                        <span className="text-blue-600">
+                          {lensDetails.lens.lensType.price}
+                        </span>
+                      )}
+                    </p>
+                    {lensDetails.lens.lensType?.name === "Sun lenses" &&
+                      lensDetails.lens.tint && (
+                        <p>
+                          <strong>Tint:</strong> {lensDetails.lens.tint.name}{" "}
+                          <span className="text-blue-600">
+                            {lensDetails.lens.tint.price}
+                          </span>
+                        </p>
+                      )}
+                    {lensDetails.lens.thickness && (
+                      <p>
+                        <strong>Thickness:</strong>{" "}
+                        {lensDetails.lens.thickness.name}{" "}
+                        <span className="text-blue-600">
+                          {lensDetails.lens.thickness.price}
+                        </span>
+                      </p>
+                    )}
+                    {lensDetails.lens.enhancement && (
+                      <p>
+                        <strong>Finishings:</strong>{" "}
+                        {lensDetails.lens.enhancement.name}{" "}
+                        <span className="text-blue-600">
+                          {lensDetails.lens.enhancement.price}
+                        </span>
+                      </p>
+                    )}
+
+                    {/* Lens Total Price */}
+                    <p className="mt-2 font-semibold">
+                      <strong>Lens Total:</strong> ${lensTotalPrice.toFixed(2)}
+                    </p>
+                  </div>
+                )}
 
                 {/* Insurance */}
                 <Insurance onPolicySelect={setSelectedPolicy} />
@@ -183,9 +310,17 @@ const Cartpage = () => {
                       </p>
                     </div>
                   </div>
+
                   <Link to="lens-selection-flow" state={{ ID: ID }}>
-                    <button className="bg-black text-white px-42 py-3 mb-4 rounded hover:bg-gray-900 ml-10 text-xl border-1 border-black hover:cursor-pointer w-115">
-                      SELECT LENS
+                    <button
+                      className={`${
+                        isLensSelected
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-black hover:bg-gray-900"
+                      } text-white px-42 py-3 mb-4 rounded ml-10 text-xl border-1 border-black w-115`}
+                      disabled={isLensSelected}
+                    >
+                      {isLensSelected ? "Lens Selected" : "SELECT LENS"}
                     </button>
                   </Link>
 
