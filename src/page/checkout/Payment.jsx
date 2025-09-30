@@ -41,7 +41,9 @@ const Payment = () => {
       localStorage.removeItem("orderSummary");
       navigate(`/order-success/${data.order._id}`);
     } catch (err) {
-      Swal.fire("Error", "Failed to place COD order", err);
+      console.log(err);
+      Swal.fire("Error", "Failed to place COD order",);
+
     }
   };
 
@@ -61,23 +63,22 @@ const Payment = () => {
     }
 
     try {
-      const { data } = await API.get(`/validateCoupon/${coupon}`);
+      // Pass subtotal and category as query params
+      const category = order.items?.[0]?.category || ""; // example: take first item category
+      const { data } = await API.get(
+        `/validateCoupon/${coupon}?cartTotal=${subtotal}&category=${category}`
+      );
 
-      if (data.valid) {
-        const match = coupon.match(/(\d+)$/);
-        let percentOff = match ? parseInt(match[1]) : 0;
-
-        if (percentOff > 0) {
-          const discountAmount = (subtotal * percentOff) / 100;
-          setDiscount(discountAmount);
-          Swal.fire("Success", `${percentOff}% discount applied!`, "success");
-        } else {
-          Swal.fire(
-            "Error",
-            "Coupon code is valid but no discount % found",
-            "error"
-          );
-        }
+      if (data.success) {
+        setDiscount(data.data.discountAmount);
+        Swal.fire(
+          "Success",
+          `Coupon applied! ${data.data.discountType === "percentage"
+            ? "Discounted " + data.data.discountAmount.toFixed(2)
+            : "Flat discount " + data.data.discountAmount.toFixed(2)
+          }`,
+          "success"
+        );
       } else {
         setDiscount(0);
         Swal.fire("Invalid", data.message || "Coupon not valid", "error");
@@ -158,9 +159,15 @@ const Payment = () => {
             onChange={(e) => setCoupon(e.target.value.toUpperCase())}
             className="flex-1 border p-2 rounded-lg uppercase"
           />
+          {/* current */}
           <button
             onClick={handleApplyCoupon}
-            className="bg-red-600 text-white px-4 rounded-lg hover:bg-black"
+            disabled={coupon.trim().length < 3} // disable if less than 3 characters
+            className={`px-4 rounded-lg 
+    ${coupon.trim().length < 3
+                ? "bg-gray-400 cursor-not-allowed" // disabled style
+                : "bg-red-600 text-white hover:bg-black" // enabled style
+              }`}
           >
             Apply
           </button>
