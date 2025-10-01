@@ -14,8 +14,8 @@ const Checkout = () => {
 
   const subtotal = cartItems.reduce((total, item) => {
     const frameTotal = item.price * item.quantity;
-    const lensTotal = (item.lens?.totalPrice || 0) * item.quantity; // multiply by quantity if lens is per frame
-    const policyTotal = (item.policy?.price || 0) * item.quantity; // multiply by quantity if policy is per frame
+    const lensTotal = (item.lens?.totalPrice || 0) * item.quantity;
+    const policyTotal = (item.policy?.price || 0) * item.quantity;
     return total + frameTotal + lensTotal + policyTotal;
   }, 0);
 
@@ -76,9 +76,8 @@ const Checkout = () => {
   const validateStep = () => {
     switch (currentStep) {
       case 0: {
-        // Contact
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const phoneRegex = /^[0-9]{10}$/;
+        const phoneRegex = /^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/;
         return (
           emailRegex.test(formData.email || "") &&
           phoneRegex.test(formData.phone || "")
@@ -129,6 +128,8 @@ const Checkout = () => {
   const handleSubmit = () => {
     const orderSummary = {
       userId,
+      email: formData.email,
+      phone: formData.phone,
       cartItems: cartItems.map((item) => ({
         productId: item.id,
         name: item.name,
@@ -151,23 +152,23 @@ const Checkout = () => {
 
       billingAddress: billingDifferent
         ? {
-            fullName: formData.shippingName,
-            address: formData.billingStreet,
-            city: formData.billingCity,
-            province: formData.billingProvince,
-            postalCode: formData.billingPostal,
-            country: "Canada",
-            phone: formData.phone,
-          }
+          fullName: formData.shippingName,
+          address: formData.billingStreet,
+          city: formData.billingCity,
+          province: formData.billingProvince,
+          postalCode: formData.billingPostal,
+          country: "Canada",
+          phone: formData.phone,
+        }
         : {
-            fullName: formData.shippingName,
-            address: formData.shippingStreet,
-            city: formData.shippingCity,
-            province: formData.shippingProvince,
-            postalCode: formData.shippingPostal,
-            country: "Canada",
-            phone: formData.phone,
-          },
+          fullName: formData.shippingName,
+          address: formData.shippingStreet,
+          city: formData.shippingCity,
+          province: formData.shippingProvince,
+          postalCode: formData.shippingPostal,
+          country: "Canada",
+          phone: formData.phone,
+        },
 
       subtotal,
       tax,
@@ -180,23 +181,21 @@ const Checkout = () => {
 
       insurance: cartItems.some((i) => i.policy)
         ? {
-            policyId: cartItems.find((i) => i.policy)?._id || null,
-            purchasedAt: new Date(),
-            validTill: null, // can be set on backend according to durationDays
-            pricePaid: cartItems.reduce(
-              (acc, i) => acc + (i.policy?.price || 0),
-              0
-            ),
-            status: "Active",
-          }
+          policyId: cartItems.find((i) => i.policy)?._id || null,
+          purchasedAt: new Date(),
+          validTill: null, // can be set on backend according to durationDays
+          pricePaid: cartItems.reduce(
+            (acc, i) => acc + (i.policy?.price || 0),
+            0
+          ),
+          status: "Active",
+        }
         : null,
     };
 
     localStorage.setItem("orderSummary", JSON.stringify(orderSummary));
     navigate("/payment");
   };
-
-  console.log("item", cartItems);
 
   const shippingOptions = {
     Standard: { min: 10, max: 17 },
@@ -228,6 +227,19 @@ const Checkout = () => {
     }
   }, [formData.shippingMethod]);
 
+
+  const handleStepClick = (step) => {
+    if (step < currentStep || validateStep()) {
+      setCurrentStep(step);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please fill all required fields before continuing!",
+      });
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       {/* Progress Bar */}
@@ -243,20 +255,18 @@ const Checkout = () => {
               >
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all
-                  ${
-                    idx <= currentStep
+                  ${idx <= currentStep
                       ? "bg-red-600 text-white border-red-600"
                       : "border-black text-black group-hover:bg-black group-hover:text-white"
-                  }`}
+                    }`}
                 >
                   {idx + 1}
                 </div>
                 <span
-                  className={`mt-2 text-sm ${
-                    idx === currentStep
-                      ? "text-red-600 font-bold"
-                      : "text-gray-700"
-                  }`}
+                  className={`mt-2 text-sm ${idx === currentStep
+                    ? "text-red-600 font-bold"
+                    : "text-gray-700"
+                    }`}
                 >
                   {step}
                 </span>
@@ -282,11 +292,10 @@ const Checkout = () => {
               value={formData.email || ""}
               onChange={(e) => handleChange("email", e.target.value)}
               className={`border p-2 rounded w-full 
-          ${
-            formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
-              ? "border-red-500"
-              : "border-black"
-          }`}
+          ${formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+                  ? "border-red-500"
+                  : "border-black"
+                }`}
               required
             />
             {formData.email &&
@@ -303,16 +312,15 @@ const Checkout = () => {
               placeholder="416 123 4567"
               value={formData.phone || ""}
               onChange={(e) => handleChange("phone", e.target.value)}
-              className={`border p-2 rounded w-full ${
-                formData.phone &&
-                !/^\+1\s?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone)
-                  ? "border-red-500"
-                  : "border-black"
-              }`}
+              className={`border p-2 rounded w-full ${formData.phone &&
+                !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone)
+                ? "border-red-500"
+                : "border-black"
+                }`}
               required
             />
             {formData.phone &&
-              !/^\s?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone) && (
+              !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone) && (
                 <p className="text-red-500 text-sm mt-1">
                   Invalid phone number. Use 416 123 4567 format.
                 </p>
@@ -330,11 +338,10 @@ const Checkout = () => {
           </h1>
           <br />
           <hr
-            className={`border-t-2 -mt-2 ${
-              !deliveryRange
-                ? "w-[418px] border-black"
-                : "w-[498px] border-black"
-            }`}
+            className={`border-t-2 -mt-2 ${!deliveryRange
+              ? "w-[418px] border-black"
+              : "w-[498px] border-black"
+              }`}
           />
 
           <input
@@ -369,14 +376,13 @@ const Checkout = () => {
               const val = e.target.value.toUpperCase();
               handleChange("shippingPostal", val);
             }}
-            className={`border p-2 rounded w-full ${
-              formData.shippingPostal &&
+            className={`border p-2 rounded w-full ${formData.shippingPostal &&
               !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                 formData.shippingPostal
               )
-                ? "border-red-500"
-                : "border-black"
-            }`}
+              ? "border-red-500"
+              : "border-black"
+              }`}
             required
           />
           {formData.shippingPostal &&
@@ -465,14 +471,13 @@ const Checkout = () => {
                   const val = e.target.value.toUpperCase(); // convert to uppercase
                   handleChange("billingPostal", val);
                 }}
-                className={`border p-2 rounded w-full ${
-                  formData.billingPostal &&
+                className={`border p-2 rounded w-full ${formData.billingPostal &&
                   !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                     formData.billingPostal
                   )
-                    ? "border-red-500"
-                    : "border-black"
-                }`}
+                  ? "border-red-500"
+                  : "border-black"
+                  }`}
                 required
               />
               {formData.billingPostal &&
@@ -498,7 +503,6 @@ const Checkout = () => {
               handleChange("prescription", e.target.files[0]?.name)
             }
             className="border border-black p-2 rounded w-full mt-3"
-            required
           />
         </div>
       )}
@@ -519,7 +523,7 @@ const Checkout = () => {
             </p>
             <p>
               <strong>Shipping Address:</strong> {formData.shippingStreet},{" "}
-              {formData.shippingCity} {formData.shippingZip} (
+              {formData.shippingCity} {formData.shippingPostal} (
               {formData.shippingMethod})
             </p>
             <p>
@@ -528,7 +532,7 @@ const Checkout = () => {
             {billingDifferent && (
               <p>
                 <strong>Billing:</strong> {formData.billingStreet},{" "}
-                {formData.billingCity} {formData.billingZip}
+                {formData.billingCity} {formData.billingPostal}
               </p>
             )}
             {formData.prescription && (
@@ -602,7 +606,7 @@ const Checkout = () => {
                       </p>
                     )}
 
-          
+
 
                     {item.lens && item.lens.totalPrice != null && (
                       <p className="text-gray-600 text-sm">
@@ -610,7 +614,7 @@ const Checkout = () => {
                       </p>
                     )}
 
-              
+
                     <p className="text-gray-800 font-bold mt-1">
                       Frame: ${(item.price || 0).toFixed(2)}
                     </p>
@@ -618,7 +622,7 @@ const Checkout = () => {
                 </div>
 
                 <div className="text-right mt-8">
-              
+
                   <p className="text-gray-800 font-bold">
                     $
                     {((item.price || 0) +

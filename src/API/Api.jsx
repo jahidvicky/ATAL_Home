@@ -33,3 +33,4 @@ export default API;
 export const IMAGE_URL = "https://atal-back-updated.onrender.com/uploads/"
 // export const PDF_URL = "http://localhost:4000/api";
 export const PDF_URL = "https://atal-back-updated.onrender.com/api"
+
