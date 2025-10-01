@@ -4,6 +4,7 @@ import { FiArrowRight } from "react-icons/fi";
 import API, { IMAGE_URL } from "../../API/Api";
 import { Link } from "react-router-dom";
 import { useRecentlyViewed } from "../../page/collections/RecentlyViewedContext";
+import StockAvailability from "../../page/collections/StockAvailability";
 
 const Trending = () => {
   const [reviews, setReviews] = useState([{}]);
@@ -68,6 +69,7 @@ const Trending = () => {
           <div key={index} className="px-2 mb-4" onClick={() => handleProductClick(item)} >
             <Link to={`/product/${item.product_name}`} state={{ ID: item._id }}>
               <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full hover:cursor-pointer shadow-white">
+                <StockAvailability data={item.stockAvailability} />
                 {item.product_image_collection &&
                   item.product_image_collection.length > 0 ? (
                   <img

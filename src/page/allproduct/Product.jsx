@@ -8,6 +8,7 @@ import { addToCart } from "../../redux/cartSlice";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useRecentlyViewed } from "../collections/RecentlyViewedContext";
 import RecentlyView from "../collections/RecentlyView";
+import StockAvailability from "../collections/StockAvailability";
 
 function Product() {
   const location = useLocation();
@@ -16,7 +17,7 @@ function Product() {
 
   const [product, setProduct] = useState([]);
   const [wishlist, setWishlist] = useState([]);
-  const {handleProductClick} = useRecentlyViewed();
+  const { handleProductClick } = useRecentlyViewed();
 
   // Fetch products
   const fetchProduct = async () => {
@@ -27,6 +28,7 @@ function Product() {
       console.error("Failed to fetch products:", err);
     }
   };
+
 
   // Fetch wishlist
   const fetchWishlist = async () => {
@@ -98,16 +100,20 @@ function Product() {
             className="w-64 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 flex flex-col items-center border-red-500 border shadow-gray-200"
             key={index}
             onClick={() => handleProductClick(data)}
-            
+
           >
             {/* Wishlist toggle, no CSS change */}
-            <div className="ml-40" onClick={() => toggleWishlist(data._id)}>
-              {wishlist.includes(data._id) ? (
-                <AiFillHeart className="fill-red-500 hover:cursor-pointer text-3xl" />
-              ) : (
-                <AiOutlineHeart className="fill-gray-500 hover:cursor-pointer text-3xl" />
-              )}
+            <div className="flex items-center space-x-30">
+              <StockAvailability data={data.stockAvailability} />
+              <div onClick={() => toggleWishlist(data._id)} className="cursor-pointer">
+                {wishlist.includes(data._id) ? (
+                  <AiFillHeart className="text-red-500 text-3xl" />
+                ) : (
+                  <AiOutlineHeart className="text-gray-500 text-3xl" />
+                )}
+              </div>
             </div>
+
 
             {/* Image */}
             {data.product_image_collection &&
@@ -187,10 +193,11 @@ function Product() {
                 Add to cart
               </button>
             </div>
+
           </div>
         ))}
       </div>
-         <RecentlyView/>
+      <RecentlyView />
     </>
   );
 }
