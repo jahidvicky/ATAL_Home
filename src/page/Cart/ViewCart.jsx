@@ -22,13 +22,15 @@ const ViewCart = () => {
 
   const orderItems = cartItems.map((item) => ({
     productId: item.id,
+    selectedSize: item.selectedSize,
+    selectedColor: item.selectedColor,
     quantity: item.quantity,
     framePrice: item.price,
     lens: item.lens,
     policy: item.policy,
   }));
 
-  console.log("policy", cartItems);
+  console.log("cart", cartItems);
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -67,6 +69,23 @@ const ViewCart = () => {
                       {item.name}
                     </h4>
                   </Link>
+                  <p>
+                    Size:{" "}
+                    {item.selectedSize?.length
+                      ? item.selectedSize.join(", ")
+                      : "None"}
+                  </p>
+                  <p>
+                    Color:{" "}
+                    <span
+                      style={{
+                        backgroundColor: item.selectedColor,
+                        padding: "0 10px",
+                        borderRadius: "50%",
+                      }}
+                    ></span>{" "}
+                    {item.selectedColor || "None"}
+                  </p>
                   <p className="text-gray-600">${item.price}</p>
 
                   {item.lens && (
@@ -130,7 +149,7 @@ const ViewCart = () => {
 
                       <p>
                         <strong>Total Lens Price:</strong> $
-                        {item.lens.totalPrice.toFixed(2)}
+                        {(item.lens.totalPrice || 0).toFixed(2)}
                       </p>
                     </div>
                   )}
@@ -146,8 +165,10 @@ const ViewCart = () => {
                       <p>
                         <strong>Coverage:</strong> {item.policy.coverage}
                       </p>
+
                       <p>
-                        <strong>Price:</strong> ${item.policy.price}
+                        <strong>Price:</strong> $
+                        {(item.policy.price || 0).toFixed(2)}
                       </p>
                     </div>
                   )}
@@ -207,19 +228,22 @@ const ViewCart = () => {
                 <div className="flex-1 text-sm md:text-base">
                   <h4 className="font-semibold">{item.name}</h4>
                   <p>Quantity: {item.quantity}</p>
-                  <p>Frame: ${item.price.toFixed(2)}</p>
+                  <p>Frame: ${(item.price || 0).toFixed(2)}</p>
+
                   {item.lens && (
                     <p>
-                      Lens: ${item.lens.totalPrice.toFixed(2)} (
+                      Lens: ${(item.lens.totalPrice || 0).toFixed(2)} (
                       {item.lens.selectedLens})
                     </p>
                   )}
+
                   {item.policy && (
                     <p>
-                      Policy: ${item.policy.price.toFixed(2)} (
+                      Policy: ${(item.policy.price || 0).toFixed(2)} (
                       {item.policy.name})
                     </p>
                   )}
+
                   <p className="font-bold">
                     Total: $
                     {(
