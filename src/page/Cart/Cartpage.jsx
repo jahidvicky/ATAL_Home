@@ -27,8 +27,8 @@ const Cartpage = () => {
   const [lensDetails, setLensDetails] = useState(null);
   const isLensSelected = !!lensDetails; // true if lens is already selected
 
-  const sizes = ["S", "M", "L"];
-  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedSize, setSelectedSize] = useState([]);
+  const [selectedColor, setSelectedColor] = useState([]); // instead of null
 
   const totalPrice = selectedPolicy
     ? Number(product.product_sale_price)
@@ -38,6 +38,8 @@ const Cartpage = () => {
   const product1 = {
     id: ID,
     name: product.product_name,
+    selectedSize: selectedSize, // <--- add this
+    selectedColor: selectedColor,
     price: totalPrice,
     // price: product.product_sale_price,
     image: mainImage,
@@ -131,6 +133,16 @@ const Cartpage = () => {
     // fetchProductCategory();
   }, []);
 
+  const toggleSize = (size) => {
+    if (selectedSize.includes(size)) {
+      // remove size
+      setSelectedSize(selectedSize.filter((s) => s !== size));
+    } else {
+      // add size
+      setSelectedSize([...selectedSize, size]);
+    }
+  };
+
   return (
     <>
       {subCategoryName === "Contact Lenses" ? (
@@ -170,7 +182,6 @@ const Cartpage = () => {
                     <h2 className="text-3xl font-semibold capitalize">
                       {product.product_name}
                     </h2>
-                    <p className="text text-gray-600">{product.product_sku}</p>
                   </div>
                   <div
                     className="text-3xl font-semibold"
@@ -184,28 +195,62 @@ const Cartpage = () => {
                   </div>
                 </div>
 
-                {/* Size */}
-                {/* <Size /> */}
-                <label className="text-xl font-medium">Size:</label>
-                <div className="flex space-x-2 mt-2">
-                  {sizes.map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)} // Update selected size on click
-                      className={`border px-3 py-1 rounded text-sm hover:border-red-600 hover:cursor-pointer
-              ${
-                selectedSize === size
-                  ? "bg-red-500 text-white border-red-500"
-                  : "bg-white text-black"
-              }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
+                <div>
+                  <label className="text-xl font-medium">Size:</label>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {(product.product_size || []).map((size) =>
+                      size
+                        .replace(/,/g, "") // remove any commas from the string
+                        .split("")
+                        .map((letter, idx) => {
+                          const key = size + idx; // unique key for each letter
+                          const isSelected = selectedSize.includes(letter);
+                          return (
+                            <div
+                              key={key}
+                              onClick={() => toggleSize(letter)}
+                              className={`px-4 py-2 border rounded cursor-pointer text-center transition-all ${
+                                isSelected
+                                  ? "bg-red-500 text-white border-red-500"
+                                  : "bg-white text-black border-gray-300 hover:border-red-500"
+                              }`}
+                            >
+                              {letter}
+                            </div>
+                          );
+                        })
+                    )}
+                  </div>
+                  <div className="mt-2">
+                    <strong>Selected Sizes:</strong>{" "}
+                    {selectedSize.length > 0 ? selectedSize.join(", ") : "None"}
+                  </div>
                 </div>
 
                 {/* Color */}
-                <Color />
+                <div>
+                  <label className="font-medium text-xl mb-2 block">
+                    Available Colors
+                  </label>
+                  <div className="flex space-x-2 mt-1">
+                    {(product.product_color || [])
+                      .flatMap((c) => c.split(",")) // split comma-separated string into array
+                      .map((color, index) => (
+                        <span
+                          key={index}
+                          onClick={() => setSelectedColor(color.trim())} // trim extra spaces
+                          style={{ backgroundColor: color.trim() }}
+                          className={`w-6 h-6 rounded-full cursor-pointer transition-all
+            ${
+              selectedColor === color.trim()
+                ? "border-2 border-red-500"
+                : "border border-gray-300"
+            }
+          `}
+                        ></span>
+                      ))}
+                  </div>
+                </div>
 
                 {lensDetails && (
                   <div className="mt-6 p-4 border rounded bg-gray-50 relative">
