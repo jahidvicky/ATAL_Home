@@ -35,7 +35,7 @@ export default function Insurance({ onPolicySelect }) {
         }}
         value={selectedPolicy?._id || ""}
       >
-        <option value="">-- Select an insurance policy --</option>
+        <option value="" disabled>------------------ Select an insurance policy -----------------</option>
         {policies.map((p) => (
           <option key={p._id} value={p._id}>
             {p.name} — ${p.price} ({p.companyName})
@@ -55,7 +55,7 @@ export default function Insurance({ onPolicySelect }) {
           </div>
           <button
             onClick={() => setShowModal(true)}
-            className="text-blue-600 text-sm font-semibold hover:underline"
+            className="text-blue-600 text-sm font-semibold hover:underline hover:cursor-pointer"
           >
             Know More
           </button>
@@ -67,7 +67,7 @@ export default function Insurance({ onPolicySelect }) {
         <div className="fixed inset-0 z-50 flex justify-center items-center">
           {/* Blurred background overlay */}
           <div
-            className="absolute inset-0 bg-black bg-opacity-30 backdrop-blur-md transition-opacity duration-300"
+            className="absolute inset-0 bg-blur bg-opacity-30 backdrop-blur-sm transition-opacity duration-300"
             onClick={() => setShowModal(false)}
           ></div>
 
@@ -75,7 +75,7 @@ export default function Insurance({ onPolicySelect }) {
           <div className="relative bg-white rounded-xl shadow-lg w-[90%] max-w-md p-6 transform transition-transform duration-300 ease-out animate-slide-up">
             <button
               onClick={() => setShowModal(false)}
-              className="absolute top-3 right-3 text-gray-500 text-xl font-bold hover:text-gray-800"
+              className="absolute top-3 right-3 text-gray-500 text-xl font-bold hover:cursor-pointer hover:text-gray-800"
             >
               ×
             </button>
@@ -119,7 +119,7 @@ export default function Insurance({ onPolicySelect }) {
             <div className="mt-6 flex justify-end">
               <button
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition hover:cursor-pointer"
               >
                 Close
               </button>
