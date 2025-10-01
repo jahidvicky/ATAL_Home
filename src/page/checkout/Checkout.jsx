@@ -126,75 +126,77 @@ const Checkout = () => {
 
   const prevStep = () => setCurrentStep((p) => Math.max(p - 1, 0));
 
-  
   const handleSubmit = () => {
-  const orderSummary = {
-    userId,
-    cartItems: cartItems.map((item) => ({
-      productId: item.id,
-      name: item.name,
-      image: item.image,
-      price: item.price,
-      quantity: item.quantity,
-      lens: item.lens || null,   // lens details per product
-      policy: item.policy || null, // policy details per product
-    })),
+    const orderSummary = {
+      userId,
+      cartItems: cartItems.map((item) => ({
+        productId: item.id,
+        name: item.name,
+        image: item.image,
+        price: item.price,
+        quantity: item.quantity,
+        lens: item.lens || null, // lens details per product
+        policy: item.policy || null, // policy details per product
+      })),
 
-    shippingAddress: {
-      fullName: formData.shippingName,
-      address: formData.shippingStreet,
-      city: formData.shippingCity,
-      province: formData.shippingProvince,
-      postalCode: formData.shippingPostal,
-      country: "Canada",
-      phone: formData.phone,
-    },
+      shippingAddress: {
+        fullName: formData.shippingName,
+        address: formData.shippingStreet,
+        city: formData.shippingCity,
+        province: formData.shippingProvince,
+        postalCode: formData.shippingPostal,
+        country: "Canada",
+        phone: formData.phone,
+      },
 
-    billingAddress: billingDifferent
-      ? {
-          fullName: formData.shippingName,
-          address: formData.billingStreet,
-          city: formData.billingCity,
-          province: formData.billingProvince,
-          postalCode: formData.billingPostal,
-          country: "Canada",
-          phone: formData.phone,
-        }
-      : {
-          fullName: formData.shippingName,
-          address: formData.shippingStreet,
-          city: formData.shippingCity,
-          province: formData.shippingProvince,
-          postalCode: formData.shippingPostal,
-          country: "Canada",
-          phone: formData.phone,
-        },
+      billingAddress: billingDifferent
+        ? {
+            fullName: formData.shippingName,
+            address: formData.billingStreet,
+            city: formData.billingCity,
+            province: formData.billingProvince,
+            postalCode: formData.billingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          }
+        : {
+            fullName: formData.shippingName,
+            address: formData.shippingStreet,
+            city: formData.shippingCity,
+            province: formData.shippingProvince,
+            postalCode: formData.shippingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          },
 
-    subtotal,
-    tax,
-    shipping,
-    total,
+      subtotal,
+      tax,
+      shipping,
+      total,
 
-    paymentMethod: "COD",
-    paymentStatus: "Pending",
-    orderStatus: "Placed", // default as per model
+      paymentMethod: "COD",
+      paymentStatus: "Pending",
+      orderStatus: "Placed", // default as per model
 
-    insurance: cartItems.some((i) => i.policy)
-      ? {
-          policyId: cartItems.find((i) => i.policy)?._id || null,
-          purchasedAt: new Date(),
-          validTill: null, // can be set on backend according to durationDays
-          pricePaid: cartItems.reduce((acc, i) => acc + (i.policy?.price || 0), 0),
-          status: "Active",
-        }
-      : null,
+      insurance: cartItems.some((i) => i.policy)
+        ? {
+            policyId: cartItems.find((i) => i.policy)?._id || null,
+            purchasedAt: new Date(),
+            validTill: null, // can be set on backend according to durationDays
+            pricePaid: cartItems.reduce(
+              (acc, i) => acc + (i.policy?.price || 0),
+              0
+            ),
+            status: "Active",
+          }
+        : null,
+    };
+
+    localStorage.setItem("orderSummary", JSON.stringify(orderSummary));
+    navigate("/payment");
   };
 
-  localStorage.setItem("orderSummary", JSON.stringify(orderSummary));
-  navigate("/payment");
-};
-
-console.log("item", cartItems)
+  console.log("item", cartItems);
 
   const shippingOptions = {
     Standard: { min: 10, max: 17 },
@@ -541,7 +543,6 @@ console.log("item", cartItems)
               Your Order
             </h2>
 
-    
             {cartItems.map((item, index) => (
               <div
                 key={index}
@@ -561,37 +562,69 @@ console.log("item", cartItems)
                       </span>
                     </h4>
 
+                    {/* NEW: Selected Size */}
+                    {item.selectedSize?.length > 0 && (
+                      <p className="text-gray-600 text-sm">
+                        Size: {item.selectedSize.join(", ")}
+                      </p>
+                    )}
+
+                    {/* NEW: Selected Color */}
+                    {item.selectedColor?.length > 0 && (
+                      <p className="text-gray-600 text-sm flex items-center">
+                        Color:{" "}
+                        <span
+                          style={{
+                            backgroundColor: item.selectedColor,
+                            width: "15px",
+                            height: "15px",
+                            display: "inline-block",
+                            borderRadius: "50%",
+                            marginRight: "5px",
+                          }}
+                        ></span>
+                        {item.selectedColor}
+                      </p>
+                    )}
+
                     {/* Insurance / Policy */}
-                    {item.policy && item.policy.active && (
+                    {/* {item.policy && item.policy.active && (
                       <p className="text-gray-600 text-sm mt-1">
                         Policy: {item.policy.name} ($
                         {item.policy.price.toFixed(2)})
                       </p>
-                    )}
+                    )} */}
 
-                    {/* Lens Total (optional) */}
-                    {item.lens && item.lens.totalPrice && (
-                      <p className="text-gray-600 text-sm">
-                        Lens: ${item.lens.totalPrice.toFixed(2)}
+                    {item.policy && item.policy.active && (
+                      <p className="text-gray-600 text-sm mt-1">
+                        Policy: {item.policy.name} ($
+                        {(item.policy.price || 0).toFixed(2)})
                       </p>
                     )}
 
-                    {/* Frame Price */}
+          
+
+                    {item.lens && item.lens.totalPrice != null && (
+                      <p className="text-gray-600 text-sm">
+                        Lens: ${(item.lens.totalPrice || 0).toFixed(2)}
+                      </p>
+                    )}
+
+              
                     <p className="text-gray-800 font-bold mt-1">
-                      Frame: ${item.price.toFixed(2)}
+                      Frame: ${(item.price || 0).toFixed(2)}
                     </p>
                   </div>
                 </div>
 
                 <div className="text-right mt-8">
+              
                   <p className="text-gray-800 font-bold">
-                     $
-                    {(
-                      (item.price +
-                        (item.lens?.totalPrice || 0) +
-                        (item.policy?.price || 0)) *
-                      (item.quantity || 1)
-                    ).toFixed(2)}
+                    $
+                    {((item.price || 0) +
+                      (item.lens?.totalPrice || 0) +
+                      (item.policy?.price || 0)) *
+                      (item.quantity || 1).toFixed(2)}
                   </p>
                 </div>
               </div>
