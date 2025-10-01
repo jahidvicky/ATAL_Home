@@ -57,6 +57,7 @@ import UpdateProfile from "./page/updateProfile/UpdateProfile";
 import Collections from "./page/collections/Collections";
 import LensSelection from "./page/lensSelection/LensSelectionFlow";
 import TrackOrder from "./page/order/TrackOrder";
+import TestLoader from "./loader/TestLoader";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -131,13 +132,9 @@ function App() {
         {
           path: "/payment",
           element: (
-            <PayPalScriptProvider>
-              {/* options={{ "client-id":
-               "ASd_eglHRf2fJV1ZH982s_OzC21XDPgIyJrp-1MBTJJx47dCzXUmi9pUOkJ58ogmd3YhpzjNjdIWxkXw", 
-               currency: "USD" }}
-            > */}
-              <Payment />
-            </PayPalScriptProvider>
+
+            <Payment />
+
           )
         },
         {
@@ -163,6 +160,10 @@ function App() {
         {
           path: "/services",
           element: <Services />,
+        },
+        {
+          path: "/loading",
+          element: <TestLoader />,
         },
         {
           path: "/category",
