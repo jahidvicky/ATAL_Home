@@ -1,4 +1,3 @@
-// frontend/src/pages/Payment.jsx
 import React, { useEffect, useState } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import Swal from "sweetalert2";
