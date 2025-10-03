@@ -57,7 +57,6 @@ import UpdateProfile from "./page/updateProfile/UpdateProfile";
 import Collections from "./page/collections/Collections";
 import LensSelection from "./page/lensSelection/LensSelectionFlow";
 import TrackOrder from "./page/order/TrackOrder";
-import TestLoader from "./loader/TestLoader";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -160,10 +159,6 @@ function App() {
         {
           path: "/services",
           element: <Services />,
-        },
-        {
-          path: "/loading",
-          element: <TestLoader />,
         },
         {
           path: "/category",
