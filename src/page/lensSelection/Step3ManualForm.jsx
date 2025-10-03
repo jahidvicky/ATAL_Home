@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 
-const Step3ManualForm = ({ goBack, onContinue }) => {
+const Step3ManualForm = ({ goBack, onContinue, preFilledData}) => {
+
+  
+
   const [form, setForm] = useState({
     odSph: "",
     odCyl: "",
@@ -11,6 +14,21 @@ const Step3ManualForm = ({ goBack, onContinue }) => {
     date: "",
     doctor: "",
   });
+
+    useEffect(() => {
+    if (preFilledData) {
+      setForm({
+        odSph: preFilledData.odSph || "",
+        odCyl: preFilledData.odCyl || "",
+        osSph: preFilledData.osSph || "",
+        osCyl: preFilledData.osCyl || "",
+        pdLeft: preFilledData.pdLeft || "",
+        pdRight: preFilledData.pdRight || "",
+        date: preFilledData.date || "",
+        doctor: preFilledData.doctor || "",
+      });
+    }
+  }, [preFilledData]);
 
   const [errors, setErrors] = useState({});
 

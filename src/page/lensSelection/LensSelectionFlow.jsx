@@ -11,11 +11,11 @@ import Step7EnhancementsSelection from "./Step7EnhancementsSelection";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
-import { IMAGE_URL } from "../../API/Api";
 import { useNavigate } from "react-router-dom";
 
 const LensSelectionFlow = () => {
   const navigate = useNavigate();
+ 
 
   // Load from localStorage if available
   const loadData = (key, fallback) => {
@@ -38,8 +38,8 @@ const LensSelectionFlow = () => {
   const [showPrescription, setShowPrescription] = useState(false);
   const [product, setProduct] = useState(loadData("product", null));
 
-  const location = useLocation();
-  const { ID } = location.state;
+    const location = useLocation();
+  const { ID, previousLens} = location.state || {}; 
 
   const dispatch = useDispatch();
 
@@ -121,6 +121,19 @@ const LensSelectionFlow = () => {
     setProduct(prod);
   };
 
+
+  useEffect(() => {
+  if (previousLens?.lens) {
+    setSelectedLens(previousLens.lens.selectedLens || null);
+    setPrescriptionMethod(previousLens.lens.prescriptionMethod || null);
+    setPrescription(previousLens.lens.prescription || null);
+    setLensType(previousLens.lens.lensType || null);
+    setTint(previousLens.lens.tint || null);
+    setThickness(previousLens.lens.thickness || null);
+    setEnhancement(previousLens.lens.enhancement || null);
+  }
+}, [previousLens]);
+
   
 
   return (
@@ -142,6 +155,7 @@ const LensSelectionFlow = () => {
 
         {step === 2 && (
           <Step2PrescriptionMethod
+             preSelectedMethod={previousLens?.lens?.prescriptionMethod}
             onManual={() => {
               setPrescriptionMethod("Manually added");
               setStep(3);
@@ -156,6 +170,7 @@ const LensSelectionFlow = () => {
 
         {step === 3 && (
           <Step3ManualForm
+           preFilledData={prescription} 
             goBack={() => setStep(2)}
             onContinue={(data) => {
               setPrescription(data);
@@ -165,11 +180,12 @@ const LensSelectionFlow = () => {
         )}
 
         {step === 4 && (
-          <Step3UploadForm goBack={() => setStep(2)} onContinue={() => setStep(5)} />
+          <Step3UploadForm  preFilledData={prescription} goBack={() => setStep(2)} onContinue={() => setStep(5)} />
         )}
 
         {step === 5 && (
           <Step4LensTypeSelection
+          preSelectedType={lensType} 
             goBack={() => setStep(selectedLens === "Non-prescription lenses" ? 1 : 2)}
             onSelectLensType={(type) => {
               setLensType(type);
@@ -189,6 +205,7 @@ const LensSelectionFlow = () => {
 
         {step === 7 && (
           <Step6LensThicknessSelection
+           preSelectedThickness={thickness} 
             goBack={() => setStep(lensType?.name === "Sun lenses" ? 6 : 5)}
             onSelectThickness={(t) => {
               setThickness(t);
