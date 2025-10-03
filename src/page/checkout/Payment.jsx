@@ -320,7 +320,7 @@ export default Payment;
 //     );
 //   };
 
-//   // ✅ payload defaults to {}
+//   //  payload defaults to {}
 //   const createOrder = async (payload = {}) => {
 //     console.log("Creating order with payload:", payload);
 //     try {
