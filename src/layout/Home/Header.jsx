@@ -266,6 +266,12 @@ function Header() {
                 <FaUser className="text-red-600 hover:text-black w-8 h-8" />
               )}
             </Link>
+            <Link to="/order-history">
+              <button
+                className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:cursor-pointer hover:bg-black">
+                My Orders
+              </button>
+            </Link>
             {!user ? (
               <div
                 onClick={handleLogin}

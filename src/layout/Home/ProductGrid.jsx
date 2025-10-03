@@ -4,7 +4,6 @@ import { FiArrowRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import API, { IMAGE_URL } from "../../API/Api";
 import { useRecentlyViewed } from "../../page/collections/RecentlyViewedContext";
-import RecentlyView from "../../page/collections/RecentlyView";
 import StockAvailability from "../../page/collections/StockAvailability";
 
 const ProductCard = ({ product, onClick }) => {
