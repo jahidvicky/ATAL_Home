@@ -14,9 +14,11 @@ const ViewCart = () => {
   const subtotal = cartItems.reduce((total, item) => {
     const lensPrice = item.lens?.totalPrice || 0;
     const policyPrice = item.policy?.price || 0;
-
     return total + (item.price + lensPrice + policyPrice) * item.quantity;
   }, 0);
+
+  console.log(cartItems);
+
 
   const orderItems = cartItems.map((item) => ({
     productId: item.id,
@@ -27,6 +29,8 @@ const ViewCart = () => {
     lens: item.lens,
     policy: item.policy,
   }));
+
+  console.log("cart", cartItems);
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -258,7 +262,8 @@ const ViewCart = () => {
               <span>${subtotal.toFixed(2)}</span>
             </div>
 
-            <Link to="/checkout">
+            <Link to="/checkout"
+            >
               <button className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition hover:cursor-pointer">
                 Proceed to Checkout
               </button>
