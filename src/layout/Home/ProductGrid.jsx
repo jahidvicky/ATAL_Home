@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import API, { IMAGE_URL } from "../../API/Api";
 import { useRecentlyViewed } from "../../page/collections/RecentlyViewedContext";
 import RecentlyView from "../../page/collections/RecentlyView";
+import StockAvailability from "../../page/collections/StockAvailability";
 
 const ProductCard = ({ product, onClick }) => {
   const [imageSrc, setImageSrc] = useState(product.product_image_collection[0]);
@@ -101,9 +102,9 @@ const ProductGrid = () => {
             }}
             className="hover:cursor-pointer"
           >
+            <StockAvailability data={product.stockAvailability} />
             <ProductCard product={product}
               onClick={() => handleProductClick(product)}
-
             />
           </Link>
         ))}
