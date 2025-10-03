@@ -111,6 +111,7 @@ const Checkout = () => {
     }
   };
 
+
   const nextStep = () => {
     if (!validateStep()) {
       Swal.fire({
@@ -136,6 +137,8 @@ const Checkout = () => {
         image: item.image,
         price: item.price,
         quantity: item.quantity,
+        product_size: item.selectedSize || [],
+        product_color: item.selectedColor || null,
         lens: item.lens || null, // lens details per product
         policy: item.policy || null, // policy details per product
       })),
@@ -177,25 +180,15 @@ const Checkout = () => {
 
       paymentMethod: "COD",
       paymentStatus: "Pending",
-      orderStatus: "Placed", // default as per model
-
-      insurance: cartItems.some((i) => i.policy)
-        ? {
-          policyId: cartItems.find((i) => i.policy)?._id || null,
-          purchasedAt: new Date(),
-          validTill: null, // can be set on backend according to durationDays
-          pricePaid: cartItems.reduce(
-            (acc, i) => acc + (i.policy?.price || 0),
-            0
-          ),
-          status: "Active",
-        }
-        : null,
+      orderStatus: "Placed",
     };
 
     localStorage.setItem("orderSummary", JSON.stringify(orderSummary));
     navigate("/payment");
   };
+
+  console.log(cartItems);
+
 
   const shippingOptions = {
     Standard: { min: 10, max: 17 },
