@@ -15,8 +15,6 @@ const ViewCart = () => {
     const lensPrice = item.lens?.totalPrice || 0;
     const policyPrice = item.policy?.price || 0;
 
-    console.log(item.name, "Lens:", lensPrice, "Policy:", policyPrice); // debug for each item
-
     return total + (item.price + lensPrice + policyPrice) * item.quantity;
   }, 0);
 
@@ -29,8 +27,6 @@ const ViewCart = () => {
     lens: item.lens,
     policy: item.policy,
   }));
-
-  console.log("cart", cartItems);
 
   return (
     <div className="container mx-auto px-4 py-10">
