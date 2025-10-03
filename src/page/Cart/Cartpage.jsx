@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { CiHeart } from "react-icons/ci";
 import OurPromise from "./OurPromise";
-import Size from "./Size";
-import Color from "./Color";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import Insurance from "./Insurance";
@@ -17,7 +14,7 @@ import { Link } from "react-router-dom";
 
 const Cartpage = () => {
   const location = useLocation();
-  const { ID, category, subcategory, subCategoryName } = location.state;
+  const { ID, subCategoryName } = location.state;
   const [product, setProduct] = useState({});
   const [mainImage, setMainImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
@@ -134,12 +131,12 @@ const Cartpage = () => {
   }, []);
 
   const toggleSize = (size) => {
-    if (selectedSize.includes(size)) {
-      // remove size
-      setSelectedSize(selectedSize.filter((s) => s !== size));
+    if (selectedSize === size) {
+      // unselect if already selected
+      setSelectedSize(null);
     } else {
-      // add size
-      setSelectedSize([...selectedSize, size]);
+      // set only this size
+      setSelectedSize(size);
     }
   };
 
@@ -219,9 +216,10 @@ const Cartpage = () => {
                         })
                     )}
                   </div>
+
                   <div className="mt-2">
-                    <strong>Selected Sizes:</strong>{" "}
-                    {selectedSize.length > 0 ? selectedSize.join(", ") : "None"}
+                    <strong>Selected Size:</strong>{" "}
+                    {selectedSize ? selectedSize : "None"}
                   </div>
                 </div>
 
@@ -255,7 +253,10 @@ const Cartpage = () => {
                       <h3 className="text-xl font-semibold">Selected Lenses</h3>
 
                       <div className="flex ">
-                        <Link to="lens-selection-flow" state={{ ID: ID }}>
+                        <Link
+                          to="lens-selection-flow"
+                          state={{ ID: ID, previousLens: lensDetails, lensSelectionDetails }}
+                        >
                           <button className="text-gray-500 text-sm font-sm hover:underline transition-colors px-2 py-2 hover: cursor-pointer">
                             Edit
                           </button>
