@@ -121,7 +121,7 @@ function App() {
           ),
         },
         {
-          path: "/order-success/:id",
+          path: "/order/:id",
           element: (
             // <ProtectedRoute>
             <OrderSuccess />

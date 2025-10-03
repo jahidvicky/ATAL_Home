@@ -340,7 +340,7 @@ const Payment = () => {
         confirmButtonText: "View Order",
       }).then(() => {
         localStorage.removeItem("orderSummary");
-        navigate(`/order-success/${data.order._id}`);
+        navigate(`/order/${data.order._id}`);
       });
     } catch (err) {
       console.error("Order creation failed:", err);
