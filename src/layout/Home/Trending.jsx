@@ -68,8 +68,12 @@ const Trending = () => {
         {reviews.map((item, index) => (
           <div key={index} className="px-2 mb-4" onClick={() => handleProductClick(item)} >
             <Link to={`/product/${item.product_name}`} state={{ ID: item._id }}>
-              <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full hover:cursor-pointer shadow-white">
-                <StockAvailability data={item.stockAvailability} />
+              <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full hover:cursor-pointer shadow-white relative">
+
+                <div className="absolute top-4 left-6 z-20">
+                  <StockAvailability data={item.stockAvailability} />
+                </div>
+
                 {item.product_image_collection &&
                   item.product_image_collection.length > 0 ? (
                   <img

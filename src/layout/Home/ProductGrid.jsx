@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { FaHeart } from "react-icons/fa";
 import { FiArrowRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import API, { IMAGE_URL } from "../../API/Api";
 import { useRecentlyViewed } from "../../page/collections/RecentlyViewedContext";
 import StockAvailability from "../../page/collections/StockAvailability";
 
-const ProductCard = ({ product, onClick }) => {
+
+const ProductCard = ({ product, onClick, children }) => {
   const [imageSrc, setImageSrc] = useState(product.product_image_collection[0]);
 
-
   return (
-    <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full cursor-pointer shadow-white relative duration-500"
-      onClick={onClick} >
+    <div
+      className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full cursor-pointer shadow-white relative duration-500"
+      onClick={onClick}
+    >
       {/* Product Image */}
-      <div className="mb-4">
+      <div className="mb-4 relative">
         <img
           src={imageSrc?.startsWith("http") ? imageSrc : IMAGE_URL + imageSrc}
           alt={product.product_name}
@@ -22,6 +23,9 @@ const ProductCard = ({ product, onClick }) => {
           loading="lazy"
           decoding="async"
         />
+
+        {/* StockAvailability passed as children */}
+        <div className="absolute top-1 left-2">{children}</div>
       </div>
 
       {/* Product Name */}
@@ -101,10 +105,12 @@ const ProductGrid = () => {
             }}
             className="hover:cursor-pointer"
           >
-            <StockAvailability data={product.stockAvailability} />
-            <ProductCard product={product}
+            <ProductCard
+              product={product}
               onClick={() => handleProductClick(product)}
-            />
+            >
+              <StockAvailability data={product.stockAvailability} />
+            </ProductCard>
           </Link>
         ))}
       </div>

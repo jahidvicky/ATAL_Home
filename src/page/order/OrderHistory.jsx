@@ -1,71 +1,122 @@
 import React, { useEffect, useState } from "react";
-import API from "../../API/Api";
+import API, { IMAGE_URL } from "../../API/Api";
+import { Link } from "react-router-dom";
 
 const OrderHistory = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const user = localStorage.getItem("user")
-
-
-    const fetchOrders = async () => {
-        try {
-            const res = await API.get(`/order/history/${user}`, {
-                // headers: {
-                //     Authorization: `Bearer ${localStorage.getItem("token")}`, // if using auth
-                // },
-            });
-            setOrders(res.data.orders || []);
-        } catch (err) {
-            setError(err.response?.data?.message || "Failed to fetch order history");
-        } finally {
-            setLoading(false);
-        }
-    };
+    const user = localStorage.getItem("user");
 
     useEffect(() => {
-        fetchOrders();
+        const fetchOrders = async () => {
+            try {
+                const res = await API.get(`/order/history/${user}`);
+                setOrders(res.data.orders || []);
+            } catch (err) {
+                setError(err.response?.data?.message || "Failed to fetch order history");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (user) {
+            fetchOrders();
+        } else {
+            setError("User not logged in");
+            setLoading(false);
+        }
     }, [user]);
 
-    if (loading) return <p>Loading order history...</p>;
-    if (error) return <p style={{ color: "red" }}>{error}</p>;
+    if (loading) {
+        return <p className="text-center">Loading order history...</p>;
+    }
+
+    if (error) {
+        return (
+            <div className="text-center mt-10">
+                <h2 className="text-3xl font-bold text-red-600">Order History</h2>
+                <p className="text-black mt-4 text-lg">{error}</p>
+                <Link
+                    to="/"
+                    className="mt-6 inline-block bg-red-600 text-white px-6 py-2 mb-10 rounded-lg hover:bg-black"
+                >
+                    Go to Home
+                </Link>
+            </div>
+        );
+    }
 
     return (
         <div className="p-6">
-            <h2 className="text-xl font-bold mb-4">Order History</h2>
+            <h2 className="text-3xl font-bold mb-6 text-center text-red-600">
+                Order History
+            </h2>
 
             {orders.length === 0 ? (
-                <p>No orders found.</p>
+                <div className="text-center mt-6">
+                    <p>No orders found.</p>
+                    <Link
+                        to="/"
+                        className="mt-4 inline-block bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-black"
+                    >
+                        Go to Home
+                    </Link>
+                </div>
             ) : (
                 <table className="w-full border-collapse border border-gray-300">
                     <thead>
                         <tr className="bg-gray-200">
-                            <th className="border border-gray-300 px-4 py-2">Order ID</th>
-                            <th className="border border-gray-300 px-4 py-2">Products</th>
-                            <th className="border border-gray-300 px-4 py-2">Total Amount</th>
-                            <th className="border border-gray-300 px-4 py-2">Status</th>
-                            <th className="border border-gray-300 px-4 py-2">Date</th>
+                            <th className="border px-4 py-2">Order ID</th>
+                            <th className="border px-4 py-2">Tracking no.</th>
+                            <th className="border px-10 py-2">Image</th>
+                            <th className="border px-4 py-2">Products</th>
+                            <th className="border px-4 py-2">Total Amount</th>
+                            <th className="border px-4 py-2">Status</th>
+                            <th className="border px-4 py-2">Date</th>
+                            <th className="border px-4 py-2">Track Order</th>
                         </tr>
                     </thead>
                     <tbody>
                         {orders.map((order) => (
-                            <tr key={order._id} className="hover:bg-gray-50">
-                                <td className="border border-gray-300 px-4 py-2">{order._id}</td>
-                                <td className="border border-gray-300 px-4 py-2">
-                                    {order.products.map((p, idx) => (
+                            <tr key={order._id} className="hover:bg-gray-50 text-center">
+                                <td className="border px-4 py-2">{order._id}</td>
+                                <td className="border px-4 py-2">{order.trackingNumber}</td>
+                                <td className="border px-4 py-2 text-center">
+                                    <div className="flex justify-center gap-2 flex-wrap">
+                                        {order.cartItems.map((cartItem, idx) => {
+                                            const imageUrl = cartItem.image.startsWith("http")
+                                                ? cartItem.image
+                                                : IMAGE_URL + cartItem.image;
+                                            return (
+                                                <img
+                                                    key={idx}
+                                                    src={imageUrl}
+                                                    alt={cartItem.image.split("/").pop()}
+                                                    className="h-13 w-30 object-cover rounded"
+                                                />
+                                            );
+                                        })}
+                                    </div>
+                                </td>
+                                <td className="border px-4 py-2">
+                                    {order.cartItems.map((p, idx) => (
                                         <div key={idx}>
-                                            {p.productId?.product_name} (x{p.quantity})
+                                            {p.name} (x{p.quantity})
                                         </div>
                                     ))}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2">
-                                    ${order.totalAmount}
-                                </td>
-                                <td className="border border-gray-300 px-4 py-2">
-                                    {order.orderStatus}
-                                </td>
-                                <td className="border border-gray-300 px-4 py-2">
+                                <td className="border px-4 py-2">${order.total}</td>
+                                <td className="border px-4 py-2">{order.orderStatus}</td>
+                                <td className="border px-4 py-2">
                                     {new Date(order.createdAt).toLocaleString()}
+                                </td>
+                                <td className="border px-4 py-2">
+                                    <Link to={`/track/${order.trackingNumber}`}>
+                                        <button className="bg-red-600 text-white px-4 rounded-lg hover:bg-black hover:cursor-pointer">
+                                            Track Order
+                                        </button>
+                                    </Link>
                                 </td>
                             </tr>
                         ))}

@@ -266,12 +266,6 @@ function Header() {
                 <FaUser className="text-red-600 hover:text-black w-8 h-8" />
               )}
             </Link>
-            <Link to="/order-history">
-              <button
-                className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:cursor-pointer hover:bg-black">
-                My Orders
-              </button>
-            </Link>
             {!user ? (
               <div
                 onClick={handleLogin}
@@ -282,6 +276,12 @@ function Header() {
               </div>
             ) : (
               <div className="flex items-center gap-3">
+                <Link to="/order-history">
+                  <button
+                    className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:cursor-pointer hover:bg-black">
+                    My Orders
+                  </button>
+                </Link>
                 {/* logout button */}
                 <button
                   onClick={handleLogout}
@@ -321,9 +321,7 @@ function Header() {
               <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
             </Link>
             <Link to="/how-to-order">
-              <li className="cursor-pointer hover:text-red-600">
-                HOW TO ORDER
-              </li>
+              <li className="cursor-pointer hover:text-red-600">HOW TO ORDER</li>
             </Link>
 
             <Link to="/eye-schedule-test">
