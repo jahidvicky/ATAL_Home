@@ -112,16 +112,18 @@ const Cartpage = () => {
     }
   };
 
-  // Fetch wishlist
   const fetchWishlist = async () => {
     try {
       const userId2 = localStorage.getItem("user");
       const res = await API.get(`/getWishlist/${userId2}`);
-      setWishlist(res.data?.products.map((p) => p.productId._id) || []);
+
+      const validProducts = res.data?.products?.filter((p) => p.productId) || [];
+      setWishlist(validProducts.map((p) => p.productId._id));
     } catch (err) {
       console.error("Failed to fetch wishlist:", err);
     }
   };
+
 
   useEffect(() => {
     fetchProducts();

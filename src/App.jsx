@@ -57,6 +57,7 @@ import UpdateProfile from "./page/updateProfile/UpdateProfile";
 import Collections from "./page/collections/Collections";
 import LensSelection from "./page/lensSelection/LensSelectionFlow";
 import TrackOrder from "./page/order/TrackOrder";
+import OrderHistory from "./page/order/OrderHistory";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -240,6 +241,10 @@ function App() {
         {
           path: "/track/:trackingNumber",
           element: <TrackOrder />,
+        },
+        {
+          path: "/order-history",
+          element: <OrderHistory />,
         },
         {
           path: "/place-order",

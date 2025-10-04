@@ -23,15 +23,15 @@ function WishlistPage({ userId }) {
     }, [userId]);
 
 
-    // Toggle wishlist (add/remove)
+
     const toggleWishlist = async (productId) => {
         const userId2 = localStorage.getItem("user");
         try {
-            if (wishlist.some((item) => item.productId._id === productId)) {
+            if (wishlist.some((item) => item?.productId?._id === productId)) {
                 // remove
                 await API.delete("/removeWishlist", { data: { userId: userId2, productId } });
                 setWishlist((prev) =>
-                    prev.filter((item) => item.productId._id !== productId)
+                    prev.filter((item) => item?.productId?._id !== productId)
                 );
                 Swal.fire({
                     toast: true,
@@ -44,9 +44,7 @@ function WishlistPage({ userId }) {
                 });
             } else {
                 // add
-                const userId2 = localStorage.getItem("user");
                 await API.post("/addWishlist", { userId: userId2, productId });
-                // refresh wishlist from server after add
                 const res = await API.get(`/getWishlist/${userId2}`);
                 setWishlist(res.data?.products || []);
             }
@@ -54,6 +52,7 @@ function WishlistPage({ userId }) {
             console.error("Wishlist toggle failed:", err);
         }
     };
+
 
     return (
         <div className="min-h-screen bg-gray-50 text-gray-900 p-8">
@@ -83,7 +82,7 @@ function WishlistPage({ userId }) {
 
                                 {/* Product Image */}
                                 {product.image || product.product_image_collection ? (
-                                    <Link to={`/product/${item.product_name}`}
+                                    <Link to={`/product/${product.product_name}`}
                                         state={{ ID: product._id }}>
                                         <img
                                             src={
@@ -126,7 +125,7 @@ function WishlistPage({ userId }) {
 
                                     </div>
                                     <Link
-                                        to={`/product/${item.product_name}`}
+                                        to={`/product/${product.product_name}`}
                                         state={{ ID: product._id }}
                                         className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium hover:cursor-pointer"
                                     >
