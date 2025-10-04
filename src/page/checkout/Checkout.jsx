@@ -187,9 +187,6 @@ const Checkout = () => {
     navigate("/payment");
   };
 
-  console.log(cartItems);
-
-
   const shippingOptions = {
     Standard: { min: 10, max: 17 },
     Express: { min: 8, max: 14 },
