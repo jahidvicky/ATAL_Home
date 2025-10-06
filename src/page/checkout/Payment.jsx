@@ -37,7 +37,6 @@ const Payment = () => {
 
   //  Unified createOrder with all required fields (from old code)
   const createOrder = async (payload) => {
-    console.log("Creating order with payload:", payload);
     try {
       const { data } = await API.post("/order", {
         userId: order.userId,
@@ -82,7 +81,7 @@ const Payment = () => {
 
   //  Updated PayPal success with safe transaction ID
   const handlePayPalSuccess = (details) => {
-    const transactionId = getPayPalTransactionId(details); //  safer extraction
+    const transactionId = getPayPalTransactionId(details);
     createOrder({
       paymentMethod: "PayPal",
       paymentStatus: "Paid",
