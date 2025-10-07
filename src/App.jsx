@@ -20,8 +20,8 @@ import CustHome from "./components/CustHome";
 import ViewCart from "./page/Cart/ViewCart";
 import Product from "./page/allproduct/Product";
 
-import InsuranceClaimForm from "./page/form/InsuranceClaimForm";
-import DocumentUploadForm from "./page/form/DocumentUploadForm";
+// import InsuranceClaimForm from "./page/form/InsuranceClaimForm";
+// import DocumentUploadForm from "./page/form/DocumentUploadForm";
 import Checkout from "./page/checkout/Checkout";
 import OrderPlaced from "./page/order/OrderPlaced";
 import Register from "./page/register/Register";
@@ -58,6 +58,8 @@ import Collections from "./page/collections/Collections";
 import LensSelection from "./page/lensSelection/LensSelectionFlow";
 import TrackOrder from "./page/order/TrackOrder";
 import OrderHistory from "./page/order/OrderHistory";
+import ViewOrder from "./page/order/ViewOrder";
+import InsuranceClaim from "./page/insurance/InsuranceClaim";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -145,13 +147,17 @@ function App() {
           path: "book-eye-exam",
           element: <EyeExam />
         },
+        // {
+        //   path: "/form",
+        //   element: <InsuranceClaimForm />,
+        // },
+        // {
+        //   path: "/form-new",
+        //   element: <DocumentUploadForm />,
+        // },
         {
-          path: "/form",
-          element: <InsuranceClaimForm />,
-        },
-        {
-          path: "/form-new",
-          element: <DocumentUploadForm />,
+          path: "/insurance-claim",
+          element: <InsuranceClaim />
         },
         {
           path: "/about-us",
@@ -241,6 +247,10 @@ function App() {
         {
           path: "/track/:trackingNumber",
           element: <TrackOrder />,
+        },
+        {
+          path: "/view-order",
+          element: <ViewOrder />,
         },
         {
           path: "/order-history",

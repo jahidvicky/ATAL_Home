@@ -46,11 +46,13 @@ const OrderHistory = () => {
             </div>
         );
     }
+    console.log(orders);
+
 
     return (
         <div className="p-6">
             <h2 className="text-3xl font-bold mb-6 text-center text-red-600">
-                Order History
+                My Order
             </h2>
 
             {orders.length === 0 ? (
@@ -67,20 +69,17 @@ const OrderHistory = () => {
                 <table className="w-full border-collapse border border-gray-300">
                     <thead>
                         <tr className="bg-gray-200">
-                            <th className="border px-4 py-2">Order ID</th>
                             <th className="border px-4 py-2">Tracking no.</th>
                             <th className="border px-10 py-2">Image</th>
                             <th className="border px-4 py-2">Products</th>
                             <th className="border px-4 py-2">Total Amount</th>
                             <th className="border px-4 py-2">Status</th>
-                            <th className="border px-4 py-2">Date</th>
-                            <th className="border px-4 py-2">Track Order</th>
+                            <th className="border px-4 py-2">Manage Order</th>
                         </tr>
                     </thead>
                     <tbody>
                         {orders.map((order) => (
                             <tr key={order._id} className="hover:bg-gray-50 text-center">
-                                <td className="border px-4 py-2">{order._id}</td>
                                 <td className="border px-4 py-2">{order.trackingNumber}</td>
                                 <td className="border px-4 py-2 text-center">
                                     <div className="flex justify-center gap-2 flex-wrap">
@@ -109,14 +108,32 @@ const OrderHistory = () => {
                                 <td className="border px-4 py-2">${order.total}</td>
                                 <td className="border px-4 py-2">{order.orderStatus}</td>
                                 <td className="border px-4 py-2">
-                                    {new Date(order.createdAt).toLocaleString()}
-                                </td>
-                                <td className="border px-4 py-2">
+                                    <Link to={`/view-order`}
+
+                                        state={{ id: order._id }}>
+                                        <button className="bg-yellow-600 text-white mr-3 px-4 py-2 rounded-lg hover:bg-yellow-800 hover:cursor-pointer">
+                                            View Order
+                                        </button>
+                                    </Link>
+
+                                    {order?.cartItems?.some(item => item?.policy?.status === "Active") && (
+                                        <Link
+                                            to={`/insurance-claim`}
+                                            state={{ order: order }}
+                                        >
+                                            <button className="bg-blue-600 text-white mr-3 px-4 py-2 rounded-lg hover:bg-black hover:cursor-pointer">
+                                                Claim
+                                            </button>
+                                        </Link>
+                                    )}
+
+
                                     <Link to={`/track/${order.trackingNumber}`}>
-                                        <button className="bg-red-600 text-white px-4 rounded-lg hover:bg-black hover:cursor-pointer">
+                                        <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-black hover:cursor-pointer">
                                             Track Order
                                         </button>
                                     </Link>
+
                                 </td>
                             </tr>
                         ))}
