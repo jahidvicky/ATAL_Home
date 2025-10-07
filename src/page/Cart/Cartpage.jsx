@@ -21,7 +21,18 @@ const Cartpage = () => {
   // const [subCategory, setSubCategory] = useState([]);
   const [selectedPolicy, setSelectedPolicy] = useState(null);
   const [lensDetails, setLensDetails] = useState(null);
-  const isLensSelected = !!lensDetails; // true if lens is already selected
+  const isLensSelected = !!lensDetails; // true if lens is already
+
+  // --- STEP 1: Price helper and computed frame/original prices ---
+  const parsePrice = (p) => {
+    if (p === undefined || p === null || p === "") return 0;
+    const n = Number(String(p).replace(/[^0-9.-]+/g, ""));
+    return Number.isFinite(n) ? n : 0;
+  };
+
+  const originalPrice = parsePrice(
+    product.product_price ?? product.product_sale_price ?? 0
+  );
 
   const [selectedSize, setSelectedSize] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]); // instead of null
@@ -31,22 +42,25 @@ const Cartpage = () => {
     : Number(product.product_sale_price);
 
   const dispatch = useDispatch();
-  const product1 = {
+ const product1 = {
     id: ID,
     name: product.product_name,
-    selectedSize: selectedSize, // <--- add this
-    selectedColor: selectedColor,
-    price: totalPrice,
-    // price: product.product_sale_price,
+    selectedSize,
+    selectedColor,
+    price: product.discountedPrice ?? product.product_sale_price, // <--- main price (discounted if available)
+    originalPrice, // <--- keep for showing strike-through later
     image: mainImage,
-    lens: lensDetails || null, // use full lensDetails object
-    policy: selectedPolicy || null, // make sure policy has all fields
+    lens: lensDetails || null,
+    policy: selectedPolicy || null,
   };
+
 
   const fetchProducts = async () => {
     try {
       const res = await API.get(`/getproductbyid/${ID}`);
       const prod = res.data.product || {};
+
+      
       setProduct(prod);
       if (prod.product_image_collection?.length > 0) {
         setMainImage(`${IMAGE_URL + prod.product_image_collection[0]}`);
@@ -117,13 +131,13 @@ const Cartpage = () => {
       const userId2 = localStorage.getItem("user");
       const res = await API.get(`/getWishlist/${userId2}`);
 
-      const validProducts = res.data?.products?.filter((p) => p.productId) || [];
+      const validProducts =
+        res.data?.products?.filter((p) => p.productId) || [];
       setWishlist(validProducts.map((p) => p.productId._id));
     } catch (err) {
       console.error("Failed to fetch wishlist:", err);
     }
   };
-
 
   useEffect(() => {
     fetchProducts();
@@ -155,8 +169,9 @@ const Cartpage = () => {
                     <img
                       src={img}
                       alt={`frame-${index}`}
-                      className={`w-[100px] hover:cursor-pointer rounded ${mainImage === img ? "ring-2 ring-green-700" : ""
-                        }`}
+                      className={`w-[100px] hover:cursor-pointer rounded ${
+                        mainImage === img ? "ring-2 ring-green-700" : ""
+                      }`}
                     />
                   </button>
                 ))}
@@ -206,10 +221,11 @@ const Cartpage = () => {
                             <div
                               key={key}
                               onClick={() => toggleSize(letter)}
-                              className={`px-4 py-2 border rounded cursor-pointer text-center transition-all ${isSelected
-                                ? "bg-red-500 text-white border-red-500"
-                                : "bg-white text-black border-gray-300 hover:border-red-500"
-                                }`}
+                              className={`px-4 py-2 border rounded cursor-pointer text-center transition-all ${
+                                isSelected
+                                  ? "bg-red-500 text-white border-red-500"
+                                  : "bg-white text-black border-gray-300 hover:border-red-500"
+                              }`}
                             >
                               {letter}
                             </div>
@@ -237,10 +253,11 @@ const Cartpage = () => {
                           onClick={() => setSelectedColor(color.trim())} // trim extra spaces
                           style={{ backgroundColor: color.trim() }}
                           className={`w-6 h-6 rounded-full cursor-pointer transition-all
-            ${selectedColor === color.trim()
-                              ? "border-2 border-red-500"
-                              : "border border-gray-300"
-                            }
+            ${
+              selectedColor === color.trim()
+                ? "border-2 border-red-500"
+                : "border border-gray-300"
+            }
           `}
                         ></span>
                       ))}
@@ -286,7 +303,7 @@ const Cartpage = () => {
                     <p>
                       <strong>Prescription:</strong>{" "}
                       {lensDetails.lens.selectedLens ===
-                        "Non-prescription lenses"
+                      "Non-prescription lenses"
                         ? "Not required"
                         : lensDetails.lens.prescriptionMethod || "Not provided"}
                     </p>
@@ -346,17 +363,22 @@ const Cartpage = () => {
                         ${product.product_price} CAD
                       </p>
                       <p className="text-lg font-bold mr-8">
-                        ${product.product_sale_price} CAD
+                        $
+                        {product.discountedPrice
+                          ? product.discountedPrice
+                          : product.product_sale_price}{" "}
+                        CAD
                       </p>
                     </div>
                   </div>
 
                   <Link to="lens-selection-flow" state={{ ID: ID }}>
                     <button
-                      className={`${isLensSelected
-                        ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-black hover:bg-gray-900"
-                        } text-white px-42 py-3 mb-4 rounded ml-10 text-xl border-1 border-black w-115`}
+                      className={`${
+                        isLensSelected
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-black hover:bg-gray-900"
+                      } text-white px-42 py-3 mb-4 rounded ml-10 text-xl border-1 border-black w-115`}
                       disabled={isLensSelected}
                     >
                       {isLensSelected ? "Lens Selected" : "SELECT LENS"}
