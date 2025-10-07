@@ -166,7 +166,7 @@ function Product() {
                 <span>CAD</span>
                 <span className="line-through">${data.product_price}</span>
                 <span className="text-red-600 font-semibold">
-                  ${data.product_sale_price}
+                   ${product.discountedPrice ? product.discountedPrice :  product.product_sale_price} CAD
                 </span>
               </div>
               <button

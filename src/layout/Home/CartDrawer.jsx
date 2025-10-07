@@ -40,8 +40,8 @@ const CartDrawer = ({ isOpen, onClose }) => {
         {cartItems.length === 0 ? (
           <p>Your cart is empty</p>
         ) : (
-          cartItems.map(item => (
-            <div key={item.id} className="flex hover:cursor-pointer items-center mb-4">
+          cartItems.map((item,index) => (
+            <div key={index} className="flex hover:cursor-pointer items-center mb-4">
               <img
                 src={item.image}
                 alt={item.name}

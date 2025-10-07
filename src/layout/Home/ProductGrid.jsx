@@ -39,7 +39,7 @@ const ProductCard = ({ product, onClick, children }) => {
           ${product.product_price}
         </span>
         <span className="text-black font-bold">
-          ${product.product_sale_price}
+           ${product.discountedPrice ? product.discountedPrice :  product.product_sale_price} CAD
         </span>
       </div>
     </div>
