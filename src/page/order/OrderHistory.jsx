@@ -46,7 +46,6 @@ const OrderHistory = () => {
             </div>
         );
     }
-    console.log(orders);
 
 
     return (

@@ -13,7 +13,6 @@ const ViewOrder = () => {
         const fetchOrder = async () => {
             try {
                 const res = await API.get(`/order/${id}`);
-                console.log(res);
 
                 setOrder(res.data.order);
             } catch (error) {
