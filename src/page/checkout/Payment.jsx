@@ -23,6 +23,7 @@ const Payment = () => {
     );
   }
 
+
   const { subtotal, tax, shipping, items } = order;
   const finalTotal = Math.max(subtotal - discount + shipping + tax, 0.01);
 

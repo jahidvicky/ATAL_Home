@@ -26,6 +26,7 @@ const ViewCart = () => {
     framePrice: item.price,
     lens: item.lens,
     policy: item.policy,
+    
   }));
 
   return (
@@ -105,60 +106,64 @@ const ViewCart = () => {
 
                   {item.lens && (
                     <div className="mt-2 text-sm text-gray-700">
-                      <p>
-                        <strong>Lens:</strong> {item.lens.lens.selectedLens}
-                      </p>
+                      {item.lens && (
+  <p>
+    Lens: ${(item.lens.totalPrice || 0).toFixed(2)} (
+    {item.lens.lens?.selectedLens || "N/A"})
+  </p>
+)}
+
                       <p>
                         <strong>Prescription Method:</strong>{" "}
-                        {item.lens.lens.prescriptionMethod}
+                        {item.lens.lens?.prescriptionMethod}
                       </p>
 
-                      {item.lens.lens.prescription && (
+                      {item.lens.lens?.prescription && (
                         <div className="ml-2">
                           <p>
-                            OD: {item.lens.lens.prescription.odSph}/
+                            OD: {item.lens.lens?.prescription.odSph}/
                             {item.lens.lens.prescription.odCyl}
                           </p>
                           <p>
-                            OS: {item.lens.lens.prescription.osSph}/
+                            OS: {item.lens.lens?.prescription.osSph}/
                             {item.lens.lens.prescription.osCyl}
                           </p>
                           <p>
-                            PD: {item.lens.lens.prescription.pdLeft}/
-                            {item.lens.lens.prescription.pdRight}
+                            PD: {item.lens.lens?.prescription.pdLeft}/
+                            {item.lens.lens?.prescription.pdRight}
                           </p>
-                          <p>Doctor: {item.lens.lens.prescription.doctor}</p>
+                          <p>Doctor: {item.lens.lens?.prescription.doctor}</p>
                         </div>
                       )}
 
-                      {item.lens.lens.lensType && (
+                      {item.lens.lens?.lensType && (
                         <p>
                           <strong>Lens Type:</strong>{" "}
-                          {item.lens.lens.lensType.name} (
-                          {item.lens.lens.lensType.price})
+                          {item.lens.lens?.lensType.name} (
+                          {item.lens.lens?.lensType.price})
                         </p>
                       )}
 
-                      {item.lens.lens.thickness && (
+                      {item.lens.lens?.thickness && (
                         <p>
                           <strong>Thickness:</strong>{" "}
-                          {item.lens.lens.thickness.name} (
-                          {item.lens.lens.thickness.price})
+                          {item.lens.lens?.thickness.name} (
+                          {item.lens.lens?.thickness.price})
                         </p>
                       )}
 
-                      {item.lens.lens.tint && (
+                      {item.lens.lens?.tint && (
                         <p>
-                          <strong>Tint:</strong> {item.lens.lens.tint.name} (
-                          {item.lens.lens.tint.price})
+                          <strong>Tint:</strong> {item.lens.lens?.tint.name} (
+                          {item.lens.lens?.tint.price})
                         </p>
                       )}
 
-                      {item.lens.lens.enhancement && (
+                      {item.lens.lens?.enhancement && (
                         <p>
                           <strong>Enhancement:</strong>{" "}
-                          {item.lens.lens.enhancement.name} (
-                          {item.lens.lens.enhancement.price})
+                          {item.lens.lens?.enhancement.name} (
+                          {item.lens.lens?.enhancement.price})
                         </p>
                       )}
 

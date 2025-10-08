@@ -106,8 +106,14 @@ const OrderSuccess = () => {
           {order.cartItems.map((item, i) => {
             const lensPrice = item.lens?.totalPrice || 0;
             const policyPrice = item.policy?.price || 0;
+
+            const isContactLens = item.subCategoryName === "Contact Lenses";
+
             const itemTotal =
-              item.price * item.quantity + lensPrice + policyPrice;
+              item.price * item.quantity +
+              policyPrice +
+              (isContactLens ? 0 : lensPrice);
+          
 
             return (
               <div key={i} className="flex flex-col py-2 border-b">
@@ -128,7 +134,15 @@ const OrderSuccess = () => {
                       <p className="text-gray-500 text-sm">
                         Quantity: {item.quantity}
                       </p>
-                      {item.lens?.lens?.selectedLens && (
+                      {/* {item.lens?.lens?.selectedLens && (
+                        <p className="text-gray-500 text-sm">
+                          Lens: {item.lens.lens.selectedLens} ($
+                          {lensPrice.toFixed(2)})
+                        </p>
+                      )} */}
+
+                      {/* Hide lens info for contact lenses */}
+                      {!isContactLens && item.lens?.lens?.selectedLens && (
                         <p className="text-gray-500 text-sm">
                           Lens: {item.lens.lens.selectedLens} ($
                           {lensPrice.toFixed(2)})

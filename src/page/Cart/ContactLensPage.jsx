@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import API, { IMAGE_URL } from "../../API/Api";
 import Swal from "sweetalert2";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import Insurance from "./Insurance";
 
 const ContactLensPage = () => {
   const location = useLocation();
@@ -14,6 +15,8 @@ const ContactLensPage = () => {
   const [mainImage, setMainImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const [selectedColor, setSelectedColor] = useState([]);
+    const [selectedPolicy, setSelectedPolicy] = useState(null);
 
   const [formData, setFormData] = useState({
     // od_selected: true,
@@ -24,6 +27,7 @@ const ContactLensPage = () => {
     os_addition: "Low",
     quantity_od: 1,
     quantity_os: 1,
+    purchase_type: "One-time",
   });
 
   const sphereOptions = [
@@ -89,8 +93,6 @@ const ContactLensPage = () => {
     "+6.00",
   ];
 
-
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -115,11 +117,42 @@ const ContactLensPage = () => {
   };
 
   const dispatch = useDispatch();
-  const product1 = {
-    id: ID,
-    name: product.product_name,
-    price: product.product_sale_price,
-    image: mainImage,
+  const handleAddToCart = () => {
+    const cartItem = {
+      id: product._id,
+      name: product.product_name,
+      price: product.product_sale_price,
+      image: mainImage,
+      subCategoryName: product.subCategoryName,
+      selectedColor: selectedColor,
+      quantity: 1, // default quantity
+       policy: selectedPolicy || null,
+      lens: {
+        prescription: {
+          od_sphere: formData.od_sphere,
+          od_addition: formData.od_addition,
+          os_sphere: formData.os_sphere,
+          os_addition: formData.os_addition,
+          od_selected: formData.od_selected || false,
+          os_selected: formData.os_selected || false,
+          prescriptionDate: formData.prescriptionDate,
+          doctorName: formData.doctorName,
+          purchase_type: formData.purchase_type,
+        },
+        totalPrice: product.product_sale_price,
+      },
+    };
+
+    dispatch(addToCart(cartItem));
+
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: "Product added to cart!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
 
   const fetchProducts = async () => {
@@ -202,8 +235,9 @@ const ContactLensPage = () => {
                   <img
                     src={img}
                     alt={`frame-${index}`}
-                    className={`w-[100px] hover:cursor-pointer rounded ${mainImage === img ? "ring-2 ring-green-700" : ""
-                      }`}
+                    className={`w-[100px] hover:cursor-pointer rounded ${
+                      mainImage === img ? "ring-2 ring-green-700" : ""
+                    }`}
                   />{" "}
                 </button>
               ))}{" "}
@@ -229,7 +263,6 @@ const ContactLensPage = () => {
                     {" "}
                     {product.product_name}{" "}
                   </h2>{" "}
-                  <p className="text text-gray-600">{product.product_sku}</p>{" "}
                 </div>{" "}
                 <div
                   className="text-3xl font-semibold"
@@ -243,21 +276,40 @@ const ContactLensPage = () => {
                   )}{" "}
                 </div>{" "}
               </div>
-
-              <p className="text-center text-gray-600 mb-6">
-                {" "}
-                Base Curve: 8.4 mm | Diameter: 14.3 mm | Material: Senofilcon A
-                | Water Content: 38% | Daily Disposable Multifocal{" "}
-              </p>
+              {/* Color */}
+              <div>
+                <label className="font-medium text-xl mb-2 mt-5 block">
+                  Available Colors
+                </label>
+                <div className="flex space-x-2 mt-1">
+                  {(product.product_color || [])
+                    .flatMap((c) => c.split(",")) // split comma-separated string into array
+                    .map((color, index) => (
+                      <span
+                        key={index}
+                        onClick={() => setSelectedColor(color.trim())} // trim extra spaces
+                        style={{ backgroundColor: color.trim() }}
+                        className={`w-6 h-6 rounded-full cursor-pointer transition-all
+            ${
+              selectedColor === color.trim()
+                ? "border-2 border-red-500"
+                : "border border-gray-300"
+            }
+          `}
+                      ></span>
+                    ))}
+                </div>
+              </div>
               <form onSubmit={handleSubmit} className="space-y-6">
                 {" "}
                 {/* Right Eye */}
                 <div className="p-6 bg-white rounded-2xl shadow-md max-w-2xl mx-auto">
-                  <h2 className="text-xl font-semibold mb-4">Select Your Prescription</h2>
+                  <h2 className="text-xl font-semibold mb-4">
+                    Select Your Prescription
+                  </h2>
 
                   {/* Eye Selection */}
                   <div className="flex gap-6 mb-6">
-
                     <label className="flex items-center gap-2">
                       <input
                         type="checkbox"
@@ -283,8 +335,11 @@ const ContactLensPage = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* OD Right Eye */}
                     <div
-                      className={`p-4 rounded-lg border ${formData.od_selected ? "opacity-100" : "opacity-50 pointer-events-none"
-                        }`}
+                      className={`p-4 rounded-lg border ${
+                        formData.od_selected
+                          ? "opacity-100"
+                          : "opacity-50 pointer-events-none"
+                      }`}
                     >
                       <h3 className="font-semibold mb-2">OD (Right Eye)</h3>
                       <label className="block text-sm font-medium mb-1">
@@ -307,7 +362,9 @@ const ContactLensPage = () => {
 
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium">BC</label>
+                          <label className="block text-sm font-medium">
+                            BC
+                          </label>
                           <input
                             type="text"
                             value="8.4"
@@ -316,7 +373,9 @@ const ContactLensPage = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium">DIA</label>
+                          <label className="block text-sm font-medium">
+                            DIA
+                          </label>
                           <input
                             type="text"
                             value="14.2"
@@ -329,8 +388,11 @@ const ContactLensPage = () => {
 
                     {/* OS Left Eye */}
                     <div
-                      className={`p-4 rounded-lg border ${formData.os_selected ? "opacity-100" : "opacity-50 pointer-events-none"
-                        }`}
+                      className={`p-4 rounded-lg border ${
+                        formData.os_selected
+                          ? "opacity-100"
+                          : "opacity-50 pointer-events-none"
+                      }`}
                     >
                       <h3 className="font-semibold mb-2">OS (Left Eye)</h3>
                       <label className="block text-sm font-medium mb-1">
@@ -353,7 +415,9 @@ const ContactLensPage = () => {
 
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium">BC</label>
+                          <label className="block text-sm font-medium">
+                            BC
+                          </label>
                           <input
                             type="text"
                             value="8.4"
@@ -362,7 +426,9 @@ const ContactLensPage = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium">DIA</label>
+                          <label className="block text-sm font-medium">
+                            DIA
+                          </label>
                           <input
                             type="text"
                             value="14.2"
@@ -406,7 +472,7 @@ const ContactLensPage = () => {
                 {/* Purchase Type */}
                 <div>
                   <label
-                    htmlFor="purchase_type"
+                    name="purchase_type"
                     className="block text-sm font-medium mb-1"
                   >
                     Purchase Type
@@ -425,18 +491,10 @@ const ContactLensPage = () => {
                   </select>
                 </div>
                 <hr />
-                {/* Pricing */}
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-semibold mb-2">Pricing</h3>
-                  <p className="text-sm">
-                    Per box (90 lenses): $154.69 (15% off regular $181.99)
-                  </p>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Free delivery | Up to 2 days processing + shipping |
-                    Zero-rated for Canadian sales tax with valid prescription
-                  </p>
-                </div>
               </form>
+              <div>
+                <Insurance onPolicySelect={setSelectedPolicy}/>
+              </div>
               {/* Price and Add to Cart Button */}
               <div className="space-y-2 mt-4 bg-gray-200">
                 <div className="flex items-center justify-between">
@@ -451,17 +509,7 @@ const ContactLensPage = () => {
                   </div>
                 </div>
                 <button
-                  onClick={() => {
-                    dispatch(addToCart(product1));
-                    Swal.fire({
-                      toast: true,
-                      position: "top-end",
-                      icon: "success",
-                      title: "Product added to cart!",
-                      showConfirmButton: false,
-                      timer: 1500,
-                    });
-                  }}
+                  onClick={handleAddToCart}
                   className="bg-red-600 text-white px-42 py-3 mb-4 rounded hover:bg-red-800 ml-10 text-xl border-1 border-black hover:cursor-pointer"
                 >
                   ADD TO CART
@@ -482,20 +530,20 @@ const ContactLensPage = () => {
           <ul className="text-lg space-y-1">
             <li>
               <strong>LENS TYPE: </strong>
-              {product.product_frame_shape}
+              {product.contact_type}
             </li>
             <li>
               <strong>MATERIAL: </strong>
-              {product.product_frame_material}
+              {product.material}
             </li>
 
             <li>
               <strong>MANUFACTURER: </strong>
-              {product.product_frame_color}
+              {product.manufacturer}
             </li>
             <li>
               <strong>WATER % OF CONTENT: </strong>
-              {product.product_frame_fit}
+              {product.water_content}
             </li>
             <li>
               <strong>Gender: </strong>
@@ -504,41 +552,11 @@ const ContactLensPage = () => {
           </ul>
           <p className="mt-4 text-lg">{product.product_description}</p>
         </div>
-        {/* Lenses Info */}
-        <div className="py-12">
-          <div className="mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div className="text-center">
-              <img
-                src={`${IMAGE_URL + product.product_lens_image1}`}
-                alt={product.product_lens_title1}
-                className="mx-auto mb-6 object-cover hover:scale-105"
-              />
-              <h3 className="text-3xl font-semibold mb-4">
-                {product.product_lens_title1}
-              </h3>
-              <p>{product.product_lens_description1}</p>
-            </div>
-
-            <div className="text-center">
-              <img
-                src={`${IMAGE_URL + product.product_lens_image2}`}
-                alt={product.product_lens_title2}
-                className="mx-auto mb-6 object-cover hover:scale-105"
-              />
-              <h3 className="text-3xl font-semibold mb-4">
-                {product.product_lens_title2}
-              </h3>
-              <p>{product.product_lens_description1}</p>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div className="bg-stone-900"></div>
-
     </>
   );
 };
 
 export default ContactLensPage;
-

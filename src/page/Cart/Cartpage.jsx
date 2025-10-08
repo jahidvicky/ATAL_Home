@@ -52,6 +52,7 @@ const Cartpage = () => {
     image: mainImage,
     lens: lensDetails || null,
     policy: selectedPolicy || null,
+     subCategoryName: product.subCategoryName || product.subCategoryName || "",
   };
 
 
@@ -60,7 +61,6 @@ const Cartpage = () => {
       const res = await API.get(`/getproductbyid/${ID}`);
       const prod = res.data.product || {};
 
-      
       setProduct(prod);
       if (prod.product_image_collection?.length > 0) {
         setMainImage(`${IMAGE_URL + prod.product_image_collection[0]}`);
