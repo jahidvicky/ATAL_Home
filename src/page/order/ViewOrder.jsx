@@ -13,8 +13,6 @@ const ViewOrder = () => {
         const fetchOrder = async () => {
             try {
                 const res = await API.get(`/order/${id}`);
-                console.log(res);
-
                 setOrder(res.data.order);
             } catch (error) {
                 console.error("Error fetching order:", error);
@@ -45,10 +43,10 @@ const ViewOrder = () => {
                         <p><strong>Order Status:</strong> {order.orderStatus}</p>
                         <p><strong>Payment Status:</strong> {order.paymentStatus}</p>
                         <p><strong>Payment Method:</strong> {order.paymentMethod}</p>
-                        <p><strong>Total:</strong> ₹{order.total}</p>
-                        <p><strong>Subtotal:</strong> ₹{order.subtotal}</p>
-                        <p><strong>Tax:</strong> ₹{order.tax}</p>
-                        <p><strong>Shipping:</strong> ₹{order.shipping}</p>
+                        <p><strong>Total:</strong> ${order.total}</p>
+                        <p><strong>Subtotal:</strong> ${order.subtotal}</p>
+                        <p><strong>Tax:</strong> ${order.tax}</p>
+                        <p><strong>Shipping:</strong> ${order.shipping}</p>
                     </div>
                 </section>
 
@@ -106,7 +104,7 @@ const ViewOrder = () => {
                         <h2 className="text-xl font-semibold mb-2">Policy Information</h2>
                         <hr className="border-gray-300 mb-3" />
                         <p><strong>Policy Name:</strong> {order.cartItems[0].policy.name}</p>
-                        <p><strong>Price:</strong> ₹{order.cartItems[0].policy.price}</p>
+                        <p><strong>Price:</strong> ${order.cartItems[0].policy.price}</p>
                         <p><strong>Company:</strong> {order.cartItems[0].policy.companyName}</p>
                         <p><strong>Coverage:</strong> {order.cartItems[0].policy.coverage}</p>
                         <p><strong>Duration:</strong> {order.cartItems[0].policy.durationDays} days</p>
