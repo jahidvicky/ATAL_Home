@@ -60,6 +60,7 @@ import TrackOrder from "./page/order/TrackOrder";
 import OrderHistory from "./page/order/OrderHistory";
 import ViewOrder from "./page/order/ViewOrder";
 import InsuranceClaim from "./page/insurance/InsuranceClaim";
+import CartPageWrapper from "./page/Cart/CartPageWrapper";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -111,7 +112,7 @@ function App() {
           path: "/cart",
           element: (
             // <ProtectedRoute>
-            <ViewCart />
+            <CartPageWrapper />
             // </ProtectedRoute>
           ),
         },

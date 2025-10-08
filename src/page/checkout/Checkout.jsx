@@ -13,10 +13,18 @@ const Checkout = () => {
   const userId = localStorage.getItem("user");
 
   const subtotal = cartItems.reduce((total, item) => {
+    const subName = item.subCategoryName?.toLowerCase() || "";
+    const isContactLens = subName.includes("contact lenses");
+
     const frameTotal = item.price * item.quantity;
     const lensTotal = (item.lens?.totalPrice || 0) * item.quantity;
     const policyTotal = (item.policy?.price || 0) * item.quantity;
-    return total + frameTotal + lensTotal + policyTotal;
+
+    if (isContactLens) {
+      return total + frameTotal + policyTotal;
+    } else {
+      return total + frameTotal + lensTotal + policyTotal;
+    }
   }, 0);
 
   const steps = [
@@ -111,7 +119,6 @@ const Checkout = () => {
     }
   };
 
-
   const nextStep = () => {
     if (!validateStep()) {
       Swal.fire({
@@ -136,6 +143,7 @@ const Checkout = () => {
         name: item.name,
         image: item.image,
         price: item.price,
+        subCategoryName: item.subCategoryName,
         quantity: item.quantity,
         product_size: item.selectedSize || [],
         product_color: item.selectedColor || null,
@@ -155,23 +163,23 @@ const Checkout = () => {
 
       billingAddress: billingDifferent
         ? {
-          fullName: formData.shippingName,
-          address: formData.billingStreet,
-          city: formData.billingCity,
-          province: formData.billingProvince,
-          postalCode: formData.billingPostal,
-          country: "Canada",
-          phone: formData.phone,
-        }
+            fullName: formData.shippingName,
+            address: formData.billingStreet,
+            city: formData.billingCity,
+            province: formData.billingProvince,
+            postalCode: formData.billingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          }
         : {
-          fullName: formData.shippingName,
-          address: formData.shippingStreet,
-          city: formData.shippingCity,
-          province: formData.shippingProvince,
-          postalCode: formData.shippingPostal,
-          country: "Canada",
-          phone: formData.phone,
-        },
+            fullName: formData.shippingName,
+            address: formData.shippingStreet,
+            city: formData.shippingCity,
+            province: formData.shippingProvince,
+            postalCode: formData.shippingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          },
 
       subtotal,
       tax,
@@ -217,7 +225,6 @@ const Checkout = () => {
     }
   }, [formData.shippingMethod]);
 
-
   const handleStepClick = (step) => {
     if (step < currentStep || validateStep()) {
       setCurrentStep(step);
@@ -245,18 +252,20 @@ const Checkout = () => {
               >
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all
-                  ${idx <= currentStep
+                  ${
+                    idx <= currentStep
                       ? "bg-red-600 text-white border-red-600"
                       : "border-black text-black group-hover:bg-black group-hover:text-white"
-                    }`}
+                  }`}
                 >
                   {idx + 1}
                 </div>
                 <span
-                  className={`mt-2 text-sm ${idx === currentStep
-                    ? "text-red-600 font-bold"
-                    : "text-gray-700"
-                    }`}
+                  className={`mt-2 text-sm ${
+                    idx === currentStep
+                      ? "text-red-600 font-bold"
+                      : "text-gray-700"
+                  }`}
                 >
                   {step}
                 </span>
@@ -282,10 +291,11 @@ const Checkout = () => {
               value={formData.email || ""}
               onChange={(e) => handleChange("email", e.target.value)}
               className={`border p-2 rounded w-full 
-          ${formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
-                  ? "border-red-500"
-                  : "border-black"
-                }`}
+          ${
+            formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+              ? "border-red-500"
+              : "border-black"
+          }`}
               required
             />
             {formData.email &&
@@ -302,15 +312,18 @@ const Checkout = () => {
               placeholder="416 123 4567"
               value={formData.phone || ""}
               onChange={(e) => handleChange("phone", e.target.value)}
-              className={`border p-2 rounded w-full ${formData.phone &&
+              className={`border p-2 rounded w-full ${
+                formData.phone &&
                 !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone)
-                ? "border-red-500"
-                : "border-black"
-                }`}
+                  ? "border-red-500"
+                  : "border-black"
+              }`}
               required
             />
             {formData.phone &&
-              !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone) && (
+              !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(
+                formData.phone
+              ) && (
                 <p className="text-red-500 text-sm mt-1">
                   Invalid phone number. Use 416 123 4567 format.
                 </p>
@@ -328,10 +341,11 @@ const Checkout = () => {
           </h1>
           <br />
           <hr
-            className={`border-t-2 -mt-2 ${!deliveryRange
-              ? "w-[418px] border-black"
-              : "w-[498px] border-black"
-              }`}
+            className={`border-t-2 -mt-2 ${
+              !deliveryRange
+                ? "w-[418px] border-black"
+                : "w-[498px] border-black"
+            }`}
           />
 
           <input
@@ -366,13 +380,14 @@ const Checkout = () => {
               const val = e.target.value.toUpperCase();
               handleChange("shippingPostal", val);
             }}
-            className={`border p-2 rounded w-full ${formData.shippingPostal &&
+            className={`border p-2 rounded w-full ${
+              formData.shippingPostal &&
               !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                 formData.shippingPostal
               )
-              ? "border-red-500"
-              : "border-black"
-              }`}
+                ? "border-red-500"
+                : "border-black"
+            }`}
             required
           />
           {formData.shippingPostal &&
@@ -461,13 +476,14 @@ const Checkout = () => {
                   const val = e.target.value.toUpperCase(); // convert to uppercase
                   handleChange("billingPostal", val);
                 }}
-                className={`border p-2 rounded w-full ${formData.billingPostal &&
+                className={`border p-2 rounded w-full ${
+                  formData.billingPostal &&
                   !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                     formData.billingPostal
                   )
-                  ? "border-red-500"
-                  : "border-black"
-                  }`}
+                    ? "border-red-500"
+                    : "border-black"
+                }`}
                 required
               />
               {formData.billingPostal &&
@@ -596,30 +612,37 @@ const Checkout = () => {
                       </p>
                     )}
 
-
-
                     {item.lens && item.lens.totalPrice != null && (
                       <p className="text-gray-600 text-sm">
                         Lens: ${(item.lens.totalPrice || 0).toFixed(2)}
                       </p>
                     )}
 
-
                     <p className="text-gray-800 font-bold mt-1">
-                      Frame: ${(item.price || 0).toFixed(2)}
+                      {item.subCategoryName === "Contact Lenses"
+                        ? "Contact Lens"
+                        : "Frame"}{" "}
+                      ${(item.price || 0).toFixed(2)}
                     </p>
                   </div>
                 </div>
 
                 <div className="text-right mt-8">
-
-                  <p className="text-gray-800 font-bold">
-                    $
-                    {((item.price || 0) +
-                      (item.lens?.totalPrice || 0) +
-                      (item.policy?.price || 0)) *
-                      (item.quantity || 1).toFixed(2)}
-                  </p>
+                  {item.subCategoryName === "Contact Lenses" ? (
+                    <p className="text-gray-800 font-bold">
+                      $
+                      {((item.price || 0) + (item.policy?.price || 0)) *
+                        (item.quantity || 1).toFixed(2)}
+                    </p>
+                  ) : (
+                    <p className="text-gray-800 font-bold">
+                      $
+                      {((item.price || 0) +
+                        (item.lens?.totalPrice || 0) +
+                        (item.policy?.price || 0)) *
+                        (item.quantity || 1).toFixed(2)}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}

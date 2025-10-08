@@ -18,6 +18,9 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const newItem = { ...action.payload };
+
+        newItem.subCategoryName= newItem.subCategoryName|| "";
+
       newItem.variantId = generateVariantId(newItem);
 
       const existingItem = state.items.find(
