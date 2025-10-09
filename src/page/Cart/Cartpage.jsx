@@ -42,7 +42,7 @@ const Cartpage = () => {
     : Number(product.product_sale_price);
 
   const dispatch = useDispatch();
- const product1 = {
+  const product1 = {
     id: ID,
     name: product.product_name,
     selectedSize,
@@ -52,9 +52,8 @@ const Cartpage = () => {
     image: mainImage,
     lens: lensDetails || null,
     policy: selectedPolicy || null,
-     subCategoryName: product.subCategoryName || product.subCategoryName || "",
+    subCategoryName: product.subCategoryName || product.subCategoryName || "",
   };
-
 
   const fetchProducts = async () => {
     try {
@@ -146,12 +145,12 @@ const Cartpage = () => {
   }, []);
 
   const toggleSize = (size) => {
-    if (selectedSize.includes(size)) {
-      // remove size
-      setSelectedSize(selectedSize.filter((s) => s !== size));
+    // If the clicked size is already selected, deselect it
+    if (selectedSize === size) {
+      setSelectedSize(null);
     } else {
-      // add size
-      setSelectedSize([...selectedSize, size]);
+      // Select the clicked size
+      setSelectedSize(size);
     }
   };
 
@@ -212,11 +211,11 @@ const Cartpage = () => {
                   <div className="flex flex-wrap gap-2 mt-2">
                     {(product.product_size || []).map((size) =>
                       size
-                        .replace(/,/g, "") // remove any commas from the string
+                        .replace(/,/g, "") // remove commas
                         .split("")
                         .map((letter, idx) => {
-                          const key = size + idx; // unique key for each letter
-                          const isSelected = selectedSize.includes(letter);
+                          const key = size + idx; // unique key
+                          const isSelected = selectedSize === letter; // only one selected at a time
                           return (
                             <div
                               key={key}
@@ -234,8 +233,12 @@ const Cartpage = () => {
                     )}
                   </div>
                   <div className="mt-2">
-                    <strong>Selected Sizes:</strong>{" "}
-                    {selectedSize.length > 0 ? selectedSize.join(", ") : "None"}
+                    <p>
+                      Selected Size:{" "}
+                      {Array.isArray(selectedSize)
+                        ? selectedSize
+                        : selectedSize || "None"}
+                    </p>
                   </div>
                 </div>
 
