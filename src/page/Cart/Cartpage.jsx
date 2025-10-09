@@ -11,9 +11,11 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import ContactLensPage from "./ContactLensPage";
 import { Link } from "react-router-dom";
 
+
+
 const Cartpage = () => {
   const location = useLocation();
-  const { ID, category, subcategory, subCategoryName } = location.state;
+  const { ID, subcategory } = location.state;
   const [product, setProduct] = useState({});
   const [mainImage, setMainImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
@@ -30,12 +32,13 @@ const Cartpage = () => {
     return Number.isFinite(n) ? n : 0;
   };
 
+
   const originalPrice = parsePrice(
     product.product_price ?? product.product_sale_price ?? 0
   );
 
   const [selectedSize, setSelectedSize] = useState([]);
-  const [selectedColor, setSelectedColor] = useState([]); // instead of null
+  const [selectedColor, setSelectedColor] = useState([]);
 
   const totalPrice = selectedPolicy
     ? Number(product.product_sale_price)
@@ -47,18 +50,20 @@ const Cartpage = () => {
     name: product.product_name,
     selectedSize,
     selectedColor,
-    price: product.discountedPrice ?? product.product_sale_price, // <--- main price (discounted if available)
-    originalPrice, // <--- keep for showing strike-through later
+    price: product.discountedPrice ?? product.product_sale_price,
+    originalPrice,
     image: mainImage,
     lens: lensDetails || null,
     policy: selectedPolicy || null,
-    subCategoryName: product.subCategoryName || product.subCategoryName || "",
+    subCat_id: subcategory,
   };
 
   const fetchProducts = async () => {
     try {
       const res = await API.get(`/getproductbyid/${ID}`);
       const prod = res.data.product || {};
+      console.log("prod", prod);
+      
 
       setProduct(prod);
       if (prod.product_image_collection?.length > 0) {
@@ -130,6 +135,8 @@ const Cartpage = () => {
       const userId2 = localStorage.getItem("user");
       const res = await API.get(`/getWishlist/${userId2}`);
 
+      
+
       const validProducts =
         res.data?.products?.filter((p) => p.productId) || [];
       setWishlist(validProducts.map((p) => p.productId._id));
@@ -154,9 +161,13 @@ const Cartpage = () => {
     }
   };
 
+    const contactLensSubCatId = "68caa86cd72068a7d3a0f0bf"; // your Contact Lenses ID
+
+
+
   return (
     <>
-      {subCategoryName === "Contact Lenses" ? (
+      {subcategory === contactLensSubCatId ? (
         <ContactLensPage />
       ) : (
         <div>

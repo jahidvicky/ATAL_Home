@@ -123,7 +123,7 @@ const ContactLensPage = () => {
       name: product.product_name,
       price: product.product_sale_price,
       image: mainImage,
-      subCategoryName: product.subCategoryName,
+      subCat_id: product.subCat_id,
       selectedColor: selectedColor,
       quantity: 1, // default quantity
        policy: selectedPolicy || null,
