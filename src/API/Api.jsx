@@ -7,8 +7,8 @@ export const registerLoader = (fn) => {
 };
 
 const API = axios.create({
-  baseURL: "http://localhost:4000/api",
-  // baseURL: "https://atal-back-updated.onrender.com/api",
+  // baseURL: "http://localhost:4000/api",
+  baseURL: "https://atal-back-updated.onrender.com/api",
   withCredentials: true,
 });
 
