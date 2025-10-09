@@ -64,6 +64,7 @@ const Payment = () => {
         localStorage.removeItem("orderSummary");
         localStorage.removeItem("cartItems");
         localStorage.removeItem("checkoutDraft");
+        localStorage.removeItem("lensSelectionDetails");
         navigate(`/order/${data.order._id}`);
       });
     } catch (err) {
