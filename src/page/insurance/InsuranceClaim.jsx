@@ -9,10 +9,10 @@ const InsuranceClaim = () => {
     const [loading, setLoading] = useState(false);
     const [existingClaim, setExistingClaim] = useState(null);
     const navigate = useNavigate();
-
     const location = useLocation();
     const { order } = location.state || {};
 
+    // 🔹 Fetch existing claim
     useEffect(() => {
         const fetchClaimStatus = async () => {
             try {
@@ -27,6 +27,7 @@ const InsuranceClaim = () => {
         if (order) fetchClaimStatus();
     }, [order]);
 
+    // 🔹 Submit new claim
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -35,10 +36,7 @@ const InsuranceClaim = () => {
         formData.append("orderId", order._id);
         formData.append("userId", order.userId);
         formData.append("description", description);
-
-        Array.from(photos).forEach((photo) => {
-            formData.append("photos", photo);
-        });
+        Array.from(photos).forEach((photo) => formData.append("photos", photo));
 
         try {
             const res = await API.post("/submitClaim", formData, {
@@ -58,20 +56,23 @@ const InsuranceClaim = () => {
     return (
         <div className="bg-gray-100 min-h-screen flex justify-center py-10">
             <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl border border-gray-200 p-8">
-                {/* Back Button */}
-                <button
-                    onClick={handleBack}
-                    className="mb-6 bg-black text-white font-semibold px-5 py-2 rounded-lg hover:bg-red-700 transition-all"
-                >
-                    ← Back
-                </button>
+                {/* 🔙 Back Button */}
+                <div className="flex justify-start mb-6">
+                    <button
+                        onClick={handleBack}
+                        className="bg-gray-800 text-white font-semibold px-5 py-2 rounded-lg hover:bg-gray-900 transition-all"
+                    >
+                        ← Back
+                    </button>
+                </div>
 
-                {/* If Claim Exists */}
+                {/* 🔹 If Claim Exists */}
                 {existingClaim ? (
                     <>
                         <h2 className="text-3xl font-bold text-center text-black mb-6">
-                            Claim Status
+                            Claim Details
                         </h2>
+
                         <div className="space-y-4 text-gray-800">
                             <p>
                                 <strong>Order ID:</strong> {existingClaim.orderId}
@@ -80,24 +81,41 @@ const InsuranceClaim = () => {
                                 <strong>Claim Date:</strong>{" "}
                                 {new Date(existingClaim.createdAt).toLocaleDateString()}
                             </p>
-                            <p>
-                                <strong>Description:</strong> {existingClaim.description}
-                            </p>
+                            {existingClaim.description && (
+                                <p>
+                                    <strong>Description:</strong> {existingClaim.description}
+                                </p>
+                            )}
+                            {existingClaim.claimAmount && (
+                                <p>
+                                    <strong>Claim Amount:</strong> ₹{existingClaim.claimAmount}
+                                </p>
+                            )}
+                            {existingClaim.notes && (
+                                <p>
+                                    <strong>Notes:</strong> {existingClaim.notes}
+                                </p>
+                            )}
                             <p>
                                 <strong>Status:</strong>{" "}
                                 <span
                                     className={`px-3 py-1 rounded text-white font-semibold ${existingClaim.status === "Approved"
-                                            ? "bg-green-600"
-                                            : existingClaim.status === "Rejected"
-                                                ? "bg-red-600"
-                                                : "bg-yellow-500"
+                                        ? "bg-green-600"
+                                        : existingClaim.status === "Rejected"
+                                            ? "bg-red-600"
+                                            : "bg-yellow-500"
                                         }`}
                                 >
                                     {existingClaim.status}
                                 </span>
                             </p>
+                            {existingClaim.rejectionReason && (
+                                <p>
+                                    <strong>Reason:</strong> {existingClaim.rejectionReason}
+                                </p>
+                            )}
 
-                            {/* Uploaded Photos */}
+                            {/* 📷 Uploaded Photos */}
                             {existingClaim.photos?.length > 0 && (
                                 <div>
                                     <strong>Uploaded Photos:</strong>
@@ -117,6 +135,7 @@ const InsuranceClaim = () => {
                     </>
                 ) : (
                     <>
+                        {/* 🔹 Claim Form */}
                         <h2 className="text-3xl font-bold text-center text-red-600 mb-6">
                             Submit Insurance Claim
                         </h2>
@@ -176,13 +195,13 @@ const InsuranceClaim = () => {
                                 />
                             </div>
 
-                            {/* Submit Button */}
+                            {/* Submit */}
                             <button
                                 type="submit"
                                 disabled={loading}
                                 className={`w-full py-3 text-white text-lg font-semibold rounded-lg transition-all ${loading
-                                        ? "bg-gray-400 cursor-not-allowed"
-                                        : "bg-red-600 hover:bg-black"
+                                    ? "bg-gray-400 cursor-not-allowed"
+                                    : "bg-red-600 hover:bg-black"
                                     }`}
                             >
                                 {loading ? "Submitting..." : "Submit Claim"}
