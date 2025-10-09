@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 const CartPageWrapper = () => {
   const cartItems = useSelector((state) => state.cart.items || []);
 
+  const contactLensSubCatId = "68caa86cd72068a7d3a0f0bf";
+
   if (cartItems.length === 0) {
     return (
       <div className="text-center text-red-600 mt-8 mb-8">
@@ -20,16 +22,12 @@ const CartPageWrapper = () => {
     );
   }
 
-  const lensItems = cartItems.filter(
-    (item) =>
-      item?.subcategory?.toLowerCase()?.includes("contact lenses") ||
-      item?.subCategoryName?.toLowerCase()?.includes("contact lenses")
+const lensItems = cartItems.filter(
+    (item) => item?.subCat_id === contactLensSubCatId
   );
 
   const normalItems = cartItems.filter(
-    (item) =>
-      !item?.subcategory?.toLowerCase()?.includes("contact lenses") &&
-      !item?.subCategoryName?.toLowerCase()?.includes("contact lenses")
+    (item) => item?.subCat_id !== contactLensSubCatId
   );
 
   const hideCheckout = lensItems.length > 0 && normalItems.length > 0;

@@ -9,7 +9,7 @@ import StockAvailability from "../collections/StockAvailability";
 
 function Product() {
   const location = useLocation();
-  const { category, subcategory, subCategoryName } = location.state;
+  const { category, subcategory, subCategoryName} = location.state;
 
   const [product, setProduct] = useState([]);
   const [wishlist, setWishlist] = useState([]);
