@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   incrementQuantity,
   decrementQuantity,
@@ -7,16 +7,10 @@ import {
 import { Link } from "react-router-dom";
 import { IMAGE_URL } from "../../API/Api";
 
-const ViewLensCart = () => {
+const ViewLensCart = ({ items, hideCheckout }) => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.items);
-
-  // Filter only contact lens items
-  const lensItems = cartItems.filter(
-    (item) =>
-      item?.subcategory?.toLowerCase()?.includes("contact lenses") ||
-      item?.subCategoryName?.toLowerCase()?.includes("contact lenses")
-  );
+  // const cartItems = useSelector((state) => state.cart.items);
+  const lensItems = items || [];
 
   const subtotal = lensItems.reduce(
     (total, item) =>
@@ -36,7 +30,7 @@ const ViewLensCart = () => {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-8">Your Shopping Cart</h2>
+      {/* <h2 className="text-3xl font-bold mb-8">Your Shopping Cart</h2> */}
 
       <div className="grid md:grid-cols-3 gap-8">
         {/* Lens Items */}
@@ -184,47 +178,72 @@ const ViewLensCart = () => {
         </div>
 
         {/* Order Summary */}
-        {/* Order Summary */}
         <div className="bg-gray-100 p-6 rounded shadow-sm h-fit">
-          <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
+          {/* {!hideHeading && <h3 className="text-xl font-semibold mb-4">Order Summary</h3>} */}
+
           {lensItems.map((item) => (
-            <div key={item.variantId || item.id} className="mb-3">
-              <div className="flex justify-between text-sm mb-1">
-                <span className="text-lg">
-                  <strong>
-                    {item.name} x {item.quantity}
-                  </strong>
-                </span>
-                <span>
-                  <strong>
-                    $
-                    {(
-                      (item.price + (item.policy?.price || 0)) *
-                      item.quantity
-                    ).toFixed(2)}
-                  </strong>
-                </span>
-              </div>
-              {/* Policy info */}
-              {item.policy && (
-                <p className="text-sm text-gray-700 ml-2">
-                  Policy: ${(item.policy.price || 0).toFixed(2)} (
-                  {item.policy.name})
+            <div
+              key={item.variantId || item.id}
+              className="flex flex-col md:flex-row items-center justify-between border-b pb-2 mb-2"
+            >
+              {/* Product Image */}
+              <img
+                src={item.image || `${IMAGE_URL + item.product_image}`}
+                alt={item.name}
+                className="w-30 h-15 object-cover rounded mr-4"
+              />
+
+              {/* Product & Pricing Info */}
+              <div className="flex-1 text-sm md:text-base">
+                <h4 className="font-semibold">{item.name}</h4>
+                <p>Quantity: {item.quantity}</p>
+                <span><strong>${item.price}</strong></span>
+
+                {item.policy && (
+                  <p>
+                    Policy: ${(item.policy.price || 0).toFixed(2)} (
+                    {item.policy.name})
+                  </p>
+                )}
+
+                <p className="font-bold">
+                  Total: $
+                  {(
+                    (Number(item.price || 0) +
+                      Number(item.policy?.price || 0)) *
+                    Number(item.quantity || 1)
+                  ).toFixed(2)}
                 </p>
-              )}
+              </div>
             </div>
           ))}
 
+          {/* Subtotal */}
           <div className="flex justify-between text-lg font-bold border-t pt-2">
             <span>Subtotal:</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>
+              $
+              {lensItems
+                .reduce(
+                  (total, item) =>
+                    total +
+                    (Number(item.price || 0) +
+                      Number(item.policy?.price || 0)) *
+                      Number(item.quantity || 1),
+                  0
+                )
+                .toFixed(2)}
+            </span>
           </div>
 
-          <Link to="/checkout">
-            <button className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition hover:cursor-pointer">
-              Proceed to Checkout
-            </button>
-          </Link>
+          {/* Checkout Button */}
+          {!hideCheckout && (
+            <Link to="/checkout">
+              <button className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition hover:cursor-pointer">
+                Proceed to Checkout
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

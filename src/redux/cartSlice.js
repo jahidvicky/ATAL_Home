@@ -5,7 +5,7 @@ const savedCart = localStorage.getItem("cartItems")
   : [];
 
 const generateVariantId = (item) => {
-  const size = item.selectedSize?.join(",") || "";
+  const size = item.selectedSize || "";
   const color = item.selectedColor || "";
   const lens = item.lens?.selectedLens || "";
   const policy = item.policy?.name || "";
@@ -19,7 +19,7 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const newItem = { ...action.payload };
 
-        newItem.subCategoryName= newItem.subCategoryName|| "";
+      newItem.subCategoryName = newItem.subCategoryName || "";
 
       newItem.variantId = generateVariantId(newItem);
 
