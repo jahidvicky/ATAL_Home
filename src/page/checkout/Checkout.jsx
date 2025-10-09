@@ -31,7 +31,6 @@ const Checkout = () => {
     "Contact",
     "Shipping",
     "Billing",
-    "Prescription",
     "Review & Pay",
   ];
 
@@ -110,9 +109,9 @@ const Checkout = () => {
           );
         }
         return true;
-      case 3: // Prescription
-        return !!formData.prescription;
-      case 4: // Review & Pay
+      // case 3: // Prescription
+      //   return !!formData.prescription;
+      case 3: // Review & Pay
         return formData.terms && formData.warranty && formData.privacy;
       default:
         return false;
@@ -499,7 +498,7 @@ const Checkout = () => {
         </div>
       )}
 
-      {/* Step 3: Prescription */}
+      {/* Step 3: Prescription
       {currentStep === 3 && (
         <div>
           <label className="block mb-2 font-medium">Prescription</label>
@@ -511,10 +510,10 @@ const Checkout = () => {
             className="border border-black p-2 rounded w-full mt-3"
           />
         </div>
-      )}
+      )} */}
 
-      {/* Step 4: Review & Pay */}
-      {currentStep === 4 && (
+      {/* Step 3: Review & Pay */}
+      {currentStep === 3 && (
         <div className="border-2 border-black rounded-xl shadow-lg bg-white p-6 space-y-6">
           {/* Review */}
           <div>
@@ -541,11 +540,11 @@ const Checkout = () => {
                 {formData.billingCity} {formData.billingPostal}
               </p>
             )}
-            {formData.prescription && (
+            {/* {formData.prescription && (
               <p>
                 <strong>Prescription:</strong> {formData.prescription}
               </p>
-            )}
+            )} */}
           </div>
 
           <div className="w-full ml-auto bg-white shadow-lg border border-gray-200 rounded-xl p-6">
@@ -575,7 +574,7 @@ const Checkout = () => {
                     {/* NEW: Selected Size */}
                     {item.selectedSize?.length > 0 && (
                       <p className="text-gray-600 text-sm">
-                        Size: {item.selectedSize.join(", ")}
+                        Size: {item.selectedSize}
                       </p>
                     )}
 

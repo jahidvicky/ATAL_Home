@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   incrementQuantity,
   decrementQuantity,
@@ -6,8 +6,9 @@ import {
 } from "../../redux/cartSlice";
 import { Link } from "react-router-dom";
 
-const ViewCart = () => {
-  const cartItems = useSelector((state) => state.cart.items);
+const ViewCart = ({ items, hideCheckout }) => {
+  // const cartItems = useSelector((state) => state.cart.items);
+  const cartItems = items || [];
   const dispatch = useDispatch();
 
   const subtotal = cartItems.reduce((total, item) => {
@@ -26,12 +27,11 @@ const ViewCart = () => {
     framePrice: item.price,
     lens: item.lens,
     policy: item.policy,
-    
   }));
 
   return (
     <div className="container mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-8">Your Shopping Cart</h2>
+      {/* <h2 className="text-3xl font-bold mb-8">Your Shopping Cart</h2> */}
 
       {cartItems.length === 0 ? (
         <div className="text-center text-gray-600">
@@ -69,9 +69,7 @@ const ViewCart = () => {
 
                   <p>
                     Size:{" "}
-                    {item.selectedSize?.length
-                      ? item.selectedSize.join(", ")
-                      : "None"}
+                    {item.selectedSize?.length ? item.selectedSize : "None"}
                   </p>
 
                   <p>
@@ -107,11 +105,11 @@ const ViewCart = () => {
                   {item.lens && (
                     <div className="mt-2 text-sm text-gray-700">
                       {item.lens && (
-  <p>
-    Lens: ${(item.lens.totalPrice || 0).toFixed(2)} (
-    {item.lens.lens?.selectedLens || "N/A"})
-  </p>
-)}
+                        <p>
+                          Lens: ${(item.lens.totalPrice || 0).toFixed(2)} (
+                          {item.lens.lens?.selectedLens || "N/A"})
+                        </p>
+                      )}
 
                       <p>
                         <strong>Prescription Method:</strong>{" "}
@@ -194,14 +192,18 @@ const ViewCart = () => {
 
                   <div className="flex items-center mt-2 gap-2">
                     <button
-                      onClick={() => dispatch(decrementQuantity(item.variantId))}
+                      onClick={() =>
+                        dispatch(decrementQuantity(item.variantId))
+                      }
                       className="px-2 py-1 border rounded hover:bg-gray-100 hover:cursor-pointer"
                     >
                       -
                     </button>
                     <span className="px-2">{item.quantity}</span>
                     <button
-                      onClick={() => dispatch(incrementQuantity(item.variantId))}
+                      onClick={() =>
+                        dispatch(incrementQuantity(item.variantId))
+                      }
                       className="px-2 py-1 border rounded hover:bg-gray-100 hover:cursor-pointer"
                     >
                       +
@@ -295,11 +297,19 @@ const ViewCart = () => {
               <span>${subtotal.toFixed(2)}</span>
             </div>
 
-            <Link to="/checkout">
+            {/* <Link to="/checkout">
               <button className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition hover:cursor-pointer">
                 Proceed to Checkout
               </button>
-            </Link>
+            </Link> */}
+
+            {!hideCheckout && (
+              <Link to="/checkout">
+                <button className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition hover:cursor-pointer">
+                  Proceed to Checkout
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       )}
