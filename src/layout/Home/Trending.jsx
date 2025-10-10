@@ -90,9 +90,7 @@ const Trending = () => {
                 ) : (
                   "No Images"
                 )}
-                <p className="text-xl font-semibold tracking-wide text-red-600 capitalize">
-                  {item.product_name}
-                </p>
+                 <p className="text-lg font-semibold tracking-wide text-red-600 capitalize line-clamp-1"> {item.product_name}</p>
               </div>
             </Link>
           </div>
