@@ -9,7 +9,7 @@ import StockAvailability from "../collections/StockAvailability";
 
 function Product() {
   const location = useLocation();
-  const { category, subcategory, subCategoryName} = location.state;
+  const { category, subcategory, subCategoryName } = location.state;
 
   const [product, setProduct] = useState([]);
   const [wishlist, setWishlist] = useState([]);
@@ -166,19 +166,28 @@ function Product() {
                 </span>
               </div>
 
-              <Link
-                to={`/product/${data.product_name}`}
-                state={{
-                  ID: data._id,
-                  category: category,
-                  subcategory: subcategory,
-                }}
-                className="hover:cursor-pointer"
-              >
-                <button className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium hover:cursor-pointer">
-                  Buy
+              {data.stockAvailability > 0 ? (
+                <Link
+                  to={`/product/${data.product_name}`}
+                  state={{
+                    ID: data._id,
+                    category: category,
+                    subcategory: subcategory,
+                  }}
+                  className="hover:cursor-pointer"
+                >
+                  <button className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium">
+                    Buy
+                  </button>
+                </Link>
+              ) : (
+                <button
+                  disabled
+                  className="bg-gray-400 text-white px-3 py-1 rounded-lg text-sm font-medium cursor-not-allowed"
+                >
+                  Out of Stock
                 </button>
-              </Link>
+              )}
             </div>
           </div>
         ))}

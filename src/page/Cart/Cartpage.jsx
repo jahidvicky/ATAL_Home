@@ -11,8 +11,6 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import ContactLensPage from "./ContactLensPage";
 import { Link } from "react-router-dom";
 
-
-
 const Cartpage = () => {
   const location = useLocation();
   const { ID, subcategory } = location.state;
@@ -31,7 +29,6 @@ const Cartpage = () => {
     const n = Number(String(p).replace(/[^0-9.-]+/g, ""));
     return Number.isFinite(n) ? n : 0;
   };
-
 
   const originalPrice = parsePrice(
     product.product_price ?? product.product_sale_price ?? 0
@@ -62,8 +59,6 @@ const Cartpage = () => {
     try {
       const res = await API.get(`/getproductbyid/${ID}`);
       const prod = res.data.product || {};
-      console.log("prod", prod);
-      
 
       setProduct(prod);
       if (prod.product_image_collection?.length > 0) {
@@ -135,8 +130,6 @@ const Cartpage = () => {
       const userId2 = localStorage.getItem("user");
       const res = await API.get(`/getWishlist/${userId2}`);
 
-      
-
       const validProducts =
         res.data?.products?.filter((p) => p.productId) || [];
       setWishlist(validProducts.map((p) => p.productId._id));
@@ -161,9 +154,7 @@ const Cartpage = () => {
     }
   };
 
-    const contactLensSubCatId = "68caa86cd72068a7d3a0f0bf"; // your Contact Lenses ID
-
-
+  const contactLensSubCatId = "68caa86cd72068a7d3a0f0bf"; // your Contact Lenses ID
 
   return (
     <>
@@ -399,22 +390,31 @@ const Cartpage = () => {
                     </button>
                   </Link>
 
-                  <button
-                    onClick={() => {
-                      dispatch(addToCart(product1));
-                      Swal.fire({
-                        toast: true,
-                        position: "top-end",
-                        icon: "success",
-                        title: "Product added to cart!",
-                        showConfirmButton: false,
-                        timer: 1500,
-                      });
-                    }}
-                    className="bg-red-600 text-white px-42 py-3 mb-4 rounded hover:bg-red-800 ml-10 text-xl border-1 border-black hover:cursor-pointer"
-                  >
-                    ADD TO CART
-                  </button>
+                  {product.stockAvailability > 0 ? (
+                    <button
+                      onClick={() => {
+                        dispatch(addToCart(product1));
+                        Swal.fire({
+                          toast: true,
+                          position: "top-end",
+                          icon: "success",
+                          title: "Product added to cart!",
+                          showConfirmButton: false,
+                          timer: 1500,
+                        });
+                      }}
+                      className="bg-red-600 text-white px-42 py-3 mb-4 rounded hover:bg-red-800 ml-10 text-xl border-1 border-black hover:cursor-pointer"
+                    >
+                      ADD TO CART
+                    </button>
+                  ) : (
+                    <button
+                      disabled
+                      className="bg-gray-400 text-white px-42 py-3 mb-4 rounded ml-10 text-xl border-1 border-gray-300 cursor-not-allowed"
+                    >
+                      OUT OF STOCK
+                    </button>
+                  )}
                 </div>
 
                 {/* Discount Info */}
