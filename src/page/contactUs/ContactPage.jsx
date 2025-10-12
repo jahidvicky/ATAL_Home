@@ -7,6 +7,7 @@ const ContactPage = () => {
   const [showCompany, setShowCompany] = useState(false);
   const [customer, setCustomer] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [document, setDocument] = useState(null)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,6 +16,7 @@ const ContactPage = () => {
     registrationNumber: "",
     vendorType: "",
     message: "",
+    uploadDocument: null,
   });
 
   const handleChange = (e) => {
@@ -29,7 +31,15 @@ const ContactPage = () => {
     setLoading(true);
 
     try {
-      await API.post("/addInquiry", formData);
+      const form = new FormData();
+      Object.keys(formData).forEach((key) => {
+        if (formData[key]) form.append(key, formData[key]);
+      });
+      if (document) form.append("uploadDocument", document);
+
+      await API.post("/addInquiry", form, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       Swal.fire({
         icon: "success",
@@ -41,7 +51,6 @@ const ContactPage = () => {
         toast: true,
       });
 
-      // Reset form
       setFormData({
         name: "",
         email: "",
@@ -50,17 +59,17 @@ const ContactPage = () => {
         registrationNumber: "",
         vendorType: "",
         message: "",
+        uploadDocument: null,
       });
-
+      setDocument(null);
       setShowVendor(false);
       setShowCompany(false);
     } catch (error) {
       console.error("Error submitting inquiry:", error);
-
       Swal.fire({
         icon: "error",
         title: "Failed to submit inquiry",
-        text: "Something went wrong. Please try again later.",
+        text: "Something went wrong. Please try again later or Check File type.",
         showConfirmButton: false,
         timer: 2000,
         position: "top-end",
@@ -70,6 +79,7 @@ const ContactPage = () => {
       setLoading(false);
     }
   };
+
 
 
   const getCustomer = async (id) => {
@@ -205,6 +215,15 @@ const ContactPage = () => {
                 <option value="supplier">Supplier</option>
               </select>
 
+              <input
+                type="file"
+                name="uploadDocument"
+                accept=".pdf"
+                onChange={(e) => setDocument(e.target.files[0])}
+                className="w-full border border-gray-300 rounded-md p-2 mb-3"
+                required
+              />
+
               <textarea
                 name="message"
                 value={formData.message}
@@ -273,6 +292,15 @@ const ContactPage = () => {
                 className="w-full border p-2 rounded"
                 placeholder="Registration Number"
               />
+              <input
+                type="file"
+                name="uploadDocument"
+                accept=".pdf"
+                onChange={(e) => setDocument(e.target.files[0])}
+                className="w-full border border-gray-300 rounded-md p-2 mb-3"
+                required
+              />
+
               <textarea
                 name="message"
                 value={formData.message}
