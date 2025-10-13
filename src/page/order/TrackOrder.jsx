@@ -63,7 +63,7 @@ const TrackOrder = () => {
                     </h2>
                     <button
                         onClick={() => navigate(-1)}
-                        className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition"
+                        className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition hover:cursor-pointer"
                     >
                         ← Back
                     </button>
@@ -81,7 +81,7 @@ const TrackOrder = () => {
                     <button
                         onClick={handleTrack}
                         disabled={loading}
-                        className={`px-4 rounded-lg text-white transition ${loading
+                        className={`px-4 rounded-lg text-white transition hover:cursor-pointer ${loading
                             ? "bg-gray-400 cursor-not-allowed"
                             : "bg-red-600 hover:bg-black"
                             }`}

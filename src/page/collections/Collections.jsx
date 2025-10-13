@@ -1,5 +1,5 @@
+import ExploreCollection from '../../layout/Home/ExploreCollection';
 import ProductGrid from '../../layout/Home/ProductGrid'
-import Trending from '../../layout/Home/Trending'
 import RecentlyView from './RecentlyView'
 
 function Collections() {
@@ -9,9 +9,8 @@ function Collections() {
         <h1 className="text-5xl font-bold text-white">Our Collections</h1>
         <hr className="border-white w-90 mt-3 mx-auto" />
       </div>
-
+      <ExploreCollection />
       <ProductGrid />
-      <Trending />
       <RecentlyView />
     </div>
   )
