@@ -162,23 +162,23 @@ const Checkout = () => {
 
       billingAddress: billingDifferent
         ? {
-            fullName: formData.shippingName,
-            address: formData.billingStreet,
-            city: formData.billingCity,
-            province: formData.billingProvince,
-            postalCode: formData.billingPostal,
-            country: "Canada",
-            phone: formData.phone,
-          }
+          fullName: formData.shippingName,
+          address: formData.billingStreet,
+          city: formData.billingCity,
+          province: formData.billingProvince,
+          postalCode: formData.billingPostal,
+          country: "Canada",
+          phone: formData.phone,
+        }
         : {
-            fullName: formData.shippingName,
-            address: formData.shippingStreet,
-            city: formData.shippingCity,
-            province: formData.shippingProvince,
-            postalCode: formData.shippingPostal,
-            country: "Canada",
-            phone: formData.phone,
-          },
+          fullName: formData.shippingName,
+          address: formData.shippingStreet,
+          city: formData.shippingCity,
+          province: formData.shippingProvince,
+          postalCode: formData.shippingPostal,
+          country: "Canada",
+          phone: formData.phone,
+        },
 
       subtotal,
       tax,
@@ -251,27 +251,25 @@ const Checkout = () => {
               >
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all
-                  ${
-                    idx <= currentStep
+                  ${idx <= currentStep
                       ? "bg-red-600 text-white border-red-600"
                       : "border-black text-black group-hover:bg-black group-hover:text-white"
-                  }`}
+                    }`}
                 >
                   {idx + 1}
                 </div>
                 <span
-                  className={`mt-2 text-sm ${
-                    idx === currentStep
-                      ? "text-red-600 font-bold"
-                      : "text-gray-700"
-                  }`}
+                  className={`mt-2 text-sm ${idx === currentStep
+                    ? "text-red-600 font-bold"
+                    : "text-gray-700"
+                    }`}
                 >
                   {step}
                 </span>
               </button>
               {idx < steps.length - 1 && (
                 <div
-                  className={`flex-1 h-2 rounded-sm transition-colors
+                  className={`flex-1 h-2 rounded-sm transition-colors hover:cursor-pointer
                   ${idx < currentStep ? "bg-red-600" : "bg-gray-300"}`}
                 />
               )}
@@ -290,11 +288,10 @@ const Checkout = () => {
               value={formData.email || ""}
               onChange={(e) => handleChange("email", e.target.value)}
               className={`border p-2 rounded w-full 
-          ${
-            formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
-              ? "border-red-500"
-              : "border-black"
-          }`}
+          ${formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+                  ? "border-red-500"
+                  : "border-black"
+                }`}
               required
             />
             {formData.email &&
@@ -311,12 +308,11 @@ const Checkout = () => {
               placeholder="416 123 4567"
               value={formData.phone || ""}
               onChange={(e) => handleChange("phone", e.target.value)}
-              className={`border p-2 rounded w-full ${
-                formData.phone &&
+              className={`border p-2 rounded w-full ${formData.phone &&
                 !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone)
-                  ? "border-red-500"
-                  : "border-black"
-              }`}
+                ? "border-red-500"
+                : "border-black"
+                }`}
               required
             />
             {formData.phone &&
@@ -340,11 +336,10 @@ const Checkout = () => {
           </h1>
           <br />
           <hr
-            className={`border-t-2 -mt-2 ${
-              !deliveryRange
-                ? "w-[418px] border-black"
-                : "w-[498px] border-black"
-            }`}
+            className={`border-t-2 -mt-2 ${!deliveryRange
+              ? "w-[418px] border-black"
+              : "w-[498px] border-black"
+              }`}
           />
 
           <input
@@ -379,14 +374,13 @@ const Checkout = () => {
               const val = e.target.value.toUpperCase();
               handleChange("shippingPostal", val);
             }}
-            className={`border p-2 rounded w-full ${
-              formData.shippingPostal &&
+            className={`border p-2 rounded w-full ${formData.shippingPostal &&
               !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                 formData.shippingPostal
               )
-                ? "border-red-500"
-                : "border-black"
-            }`}
+              ? "border-red-500"
+              : "border-black"
+              }`}
             required
           />
           {formData.shippingPostal &&
@@ -475,14 +469,13 @@ const Checkout = () => {
                   const val = e.target.value.toUpperCase(); // convert to uppercase
                   handleChange("billingPostal", val);
                 }}
-                className={`border p-2 rounded w-full ${
-                  formData.billingPostal &&
+                className={`border p-2 rounded w-full ${formData.billingPostal &&
                   !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                     formData.billingPostal
                   )
-                    ? "border-red-500"
-                    : "border-black"
-                }`}
+                  ? "border-red-500"
+                  : "border-black"
+                  }`}
                 required
               />
               {formData.billingPostal &&
@@ -497,20 +490,6 @@ const Checkout = () => {
           )}
         </div>
       )}
-
-      {/* Step 3: Prescription
-      {currentStep === 3 && (
-        <div>
-          <label className="block mb-2 font-medium">Prescription</label>
-          <input
-            type="file"
-            onChange={(e) =>
-              handleChange("prescription", e.target.files[0]?.name)
-            }
-            className="border border-black p-2 rounded w-full mt-3"
-          />
-        </div>
-      )} */}
 
       {/* Step 3: Review & Pay */}
       {currentStep === 3 && (
@@ -540,11 +519,6 @@ const Checkout = () => {
                 {formData.billingCity} {formData.billingPostal}
               </p>
             )}
-            {/* {formData.prescription && (
-              <p>
-                <strong>Prescription:</strong> {formData.prescription}
-              </p>
-            )} */}
           </div>
 
           <div className="w-full ml-auto bg-white shadow-lg border border-gray-200 rounded-xl p-6">
@@ -595,14 +569,6 @@ const Checkout = () => {
                         {item.selectedColor}
                       </p>
                     )}
-
-                    {/* Insurance / Policy */}
-                    {/* {item.policy && item.policy.active && (
-                      <p className="text-gray-600 text-sm mt-1">
-                        Policy: {item.policy.name} ($
-                        {item.policy.price.toFixed(2)})
-                      </p>
-                    )} */}
 
                     {item.policy && item.policy.active && (
                       <p className="text-gray-600 text-sm mt-1">
@@ -662,7 +628,6 @@ const Checkout = () => {
                 <span>Tax ({(taxRate * 100).toFixed(0)}%)</span>
                 <span>${tax.toFixed(2)}</span>
               </div>
-              {/* <div className="flex justify-between text-green-600"><span>Discount</span><span>-${discount.toFixed(2)}</span></div> */}
               <div className="border-t pt-2 flex justify-between font-bold text-red-600 text-lg">
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>

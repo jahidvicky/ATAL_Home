@@ -108,8 +108,8 @@ function Product() {
 
             {/* Image */}
             {data.product_image_collection &&
-            data.product_name &&
-            data.product_image_collection.length > 0 ? (
+              data.product_name &&
+              data.product_image_collection.length > 0 ? (
               <Link
                 to={`/product/${data.product_name}`}
                 state={{
@@ -176,14 +176,14 @@ function Product() {
                   }}
                   className="hover:cursor-pointer"
                 >
-                  <button className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium">
+                  <button className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium hover:cursor-pointer">
                     Buy
                   </button>
                 </Link>
               ) : (
                 <button
                   disabled
-                  className="bg-gray-400 text-white px-3 py-1 rounded-lg text-sm font-medium cursor-not-allowed"
+                  className="bg-gray-400 text-white px-3 py-1 rounded-lg text-sm font-medium cursor-not-allowed hover:cursor-pointer"
                 >
                   Out of Stock
                 </button>

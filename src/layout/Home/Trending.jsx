@@ -50,8 +50,8 @@ const Trending = () => {
           <Link
             to="/allproduct"
             state={{
-              category: reviews[0].cat_sec,
-              subcategory: reviews[0].subCategoryName,
+              category: reviews[0]?.cat_id,
+              subcategory: reviews[0]?.subCat_id
             }}
           >
             <button className="flex items-center gap-4 text-white font-medium bg-red-600 px-4 py-2 rounded mr-1 hover:bg-black transition-colors duration-300 hover:cursor-pointer">
@@ -62,6 +62,7 @@ const Trending = () => {
             </button>
           </Link>
         )}
+
       </div>
 
       <Slider {...settings}>
@@ -90,7 +91,7 @@ const Trending = () => {
                 ) : (
                   "No Images"
                 )}
-                 <p className="text-lg font-semibold tracking-wide text-red-600 capitalize line-clamp-1"> {item.product_name}</p>
+                <p className="text-lg font-semibold tracking-wide text-red-600 capitalize line-clamp-1"> {item.product_name}</p>
               </div>
             </Link>
           </div>

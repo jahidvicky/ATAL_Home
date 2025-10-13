@@ -107,33 +107,40 @@ const OrderHistory = () => {
                                 <td className="border px-4 py-2">${order.total}</td>
                                 <td className="border px-4 py-2">{order.orderStatus}</td>
                                 <td className="border px-4 py-2">
-                                    <Link to={`/view-order`}
-
-                                        state={{ id: order._id }}>
+                                    <Link
+                                        to={`/view-order`}
+                                        state={{ id: order._id }}
+                                    >
                                         <button className="bg-yellow-600 text-white mr-3 px-4 py-2 rounded-lg hover:bg-yellow-800 hover:cursor-pointer">
                                             View Order
                                         </button>
                                     </Link>
 
+                                    {/* Show claim button only if policy is active AND order not cancelled */}
                                     {order?.cartItems?.some(item => item?.policy?.status === "Active") && (
                                         <Link
-                                            to={`/insurance-claim`}
-                                            state={{ order: order }}
+                                            to={order.orderStatus === "Cancelled" ? "#" : `/insurance-claim`}
+                                            state={order.orderStatus === "Cancelled" ? {} : { order }}
                                         >
-                                            <button className="bg-blue-600 text-white mr-3 px-4 py-2 rounded-lg hover:bg-black hover:cursor-pointer">
+                                            <button
+                                                className={`mr-3 px-4 py-2 rounded-lg ${order.orderStatus === "Cancelled"
+                                                    ? "bg-gray-400 text-white cursor-not-allowed"
+                                                    : "bg-blue-600 text-white hover:bg-black hover:cursor-pointer"
+                                                    }`}
+                                                disabled={order.orderStatus === "Cancelled"} // disable button
+                                            >
                                                 Claim
                                             </button>
                                         </Link>
                                     )}
-
 
                                     <Link to={`/track/${order.trackingNumber}`}>
                                         <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-black hover:cursor-pointer">
                                             Track Order
                                         </button>
                                     </Link>
-
                                 </td>
+
                             </tr>
                         ))}
                     </tbody>

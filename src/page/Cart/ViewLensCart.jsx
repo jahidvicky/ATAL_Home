@@ -9,14 +9,13 @@ import { IMAGE_URL } from "../../API/Api";
 
 const ViewLensCart = ({ items, hideCheckout }) => {
   const dispatch = useDispatch();
-  // const cartItems = useSelector((state) => state.cart.items);
   const lensItems = items || [];
 
   const subtotal = lensItems.reduce(
     (total, item) =>
       total +
       (Number(item.price) + (Number(item.policy?.price) || 0)) *
-        (Number(item.quantity) || 1),
+      (Number(item.quantity) || 1),
     0
   );
 
@@ -30,7 +29,6 @@ const ViewLensCart = ({ items, hideCheckout }) => {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      {/* <h2 className="text-3xl font-bold mb-8">Your Shopping Cart</h2> */}
 
       <div className="grid md:grid-cols-3 gap-8">
         {/* Lens Items */}
@@ -179,7 +177,6 @@ const ViewLensCart = ({ items, hideCheckout }) => {
 
         {/* Order Summary */}
         <div className="bg-gray-100 p-6 rounded shadow-sm h-fit">
-          {/* {!hideHeading && <h3 className="text-xl font-semibold mb-4">Order Summary</h3>} */}
 
           {lensItems.map((item) => (
             <div
@@ -229,7 +226,7 @@ const ViewLensCart = ({ items, hideCheckout }) => {
                     total +
                     (Number(item.price || 0) +
                       Number(item.policy?.price || 0)) *
-                      Number(item.quantity || 1),
+                    Number(item.quantity || 1),
                   0
                 )
                 .toFixed(2)}

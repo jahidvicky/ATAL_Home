@@ -60,7 +60,7 @@ const InsuranceClaim = () => {
                 <div className="flex justify-start mb-6">
                     <button
                         onClick={handleBack}
-                        className="bg-gray-800 text-white font-semibold px-5 py-2 rounded-lg hover:bg-gray-900 transition-all"
+                        className="bg-gray-800 text-white font-semibold px-5 py-2 rounded-lg hover:bg-gray-900 transition-all hover:cursor-pointer"
                     >
                         ← Back
                     </button>
@@ -199,9 +199,10 @@ const InsuranceClaim = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className={`w-full py-3 text-white text-lg font-semibold rounded-lg transition-all ${loading
-                                    ? "bg-gray-400 cursor-not-allowed"
-                                    : "bg-red-600 hover:bg-black"
+                                className={`w-full py-3 text-white text-lg font-semibold rounded-lg transition-all hover:cursor-pointer 
+                                    ${loading
+                                        ? "bg-gray-400 cursor-not-allowed"
+                                        : "bg-red-600 hover:bg-black"
                                     }`}
                             >
                                 {loading ? "Submitting..." : "Submit Claim"}
