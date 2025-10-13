@@ -1,7 +1,7 @@
 import React from 'react'
 import Frames from './Frames'
 import Frameshape from './Frameshape';
-import ExploreCollection from './ExploreCollection';
+import Trending from './Trending';
 
 function Category() {
   return (
@@ -12,7 +12,7 @@ function Category() {
       </div>
 
       <Frames />
-      <ExploreCollection />
+      <Trending />
       <Frameshape />
     </>
   )

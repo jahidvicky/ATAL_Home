@@ -23,7 +23,7 @@ const Footer = () => {
           <h1 className="text-red-600 text-2xl font-bold mb-2">
             Atal Opticals
           </h1>
-          <p className="mb-4 text-lg">
+          <p className="mb-4 text-md">
             Atal Optical has been providing luxury eyewear for clients in
             Toronto and the GTA since 2005. Atal Optical offers a wide selection
             of fashionable and practical eyewear to suit any lifestyle.
@@ -44,47 +44,47 @@ const Footer = () => {
           </h3>
           <ul className="space-y-1">
             <Link to="/">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 HOME
               </li>
             </Link>
             <Link to="/about-us">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 ABOUT
               </li>
             </Link>
             <Link to="/atal-meaning">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 MEANING OF ATAL
               </li>
             </Link>
             <Link to="/services">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 SERVICES
               </li>
             </Link>
             <Link to="/privacy-policy">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 PRIVACY-POLICY
               </li>
             </Link>
             <Link to="/eye-schedule-test">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 BOOK EYE EXAM
               </li>
             </Link>
             <Link to="/faq">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 FAQ
               </li>
             </Link>
             <Link to="/contact-us">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 CONTACT US
               </li>
             </Link>
             <Link to="/terms&Conditions">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 TERMS & CONDITION
               </li>
             </Link>
@@ -98,47 +98,47 @@ const Footer = () => {
           </h3>
           <ul className="space-y-1">
             <Link to="/our-mission">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 OUR MISSION
               </li>
             </Link>
             <Link to="/our-vision">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 OUR VISION
               </li>
             </Link>
             <Link to="/disclaimer">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 DISCLAIMER
               </li>
             </Link>
             <Link to="/general-info">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 GENERAL INFORMATION
               </li>
             </Link>
             <Link to="/eyeglasses-contact-policy">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 EYE GLASSES CONTACT POLICY
               </li>
             </Link>
             <Link to="/liability">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 LIMITAIONS OF LIABILITY
               </li>
             </Link>
             <Link to="/rights-enforcement-policy">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 RIGHT ENFORCEMENT POLICY
               </li>
             </Link>
             <Link to="/responsibility">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 VISION & RESPONSIBILITY
               </li>
             </Link>
             <Link to="/intellectual-property">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-lg">
+              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
                 INTELLECTUAL PROPERTY
               </li>
             </Link>

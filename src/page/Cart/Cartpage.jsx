@@ -87,8 +87,6 @@ const Cartpage = () => {
   // Safely get the total price
   const lensTotalPrice = lensSelectionDetails?.totalPrice || 0;
 
-  // const lensPrice = lensDetails?.lens?.price || 0;
-
   // Toggle wishlist (add/remove)
   const toggleWishlist = async (productId) => {
     const userId2 = localStorage.getItem("user");
@@ -170,9 +168,8 @@ const Cartpage = () => {
                     <img
                       src={img}
                       alt={`frame-${index}`}
-                      className={`w-[100px] hover:cursor-pointer rounded ${
-                        mainImage === img ? "ring-2 ring-green-700" : ""
-                      }`}
+                      className={`w-[100px] hover:cursor-pointer rounded ${mainImage === img ? "ring-2 ring-green-700" : ""
+                        }`}
                     />
                   </button>
                 ))}
@@ -222,11 +219,10 @@ const Cartpage = () => {
                             <div
                               key={key}
                               onClick={() => toggleSize(letter)}
-                              className={`px-4 py-2 border rounded cursor-pointer text-center transition-all ${
-                                isSelected
-                                  ? "bg-red-500 text-white border-red-500"
-                                  : "bg-white text-black border-gray-300 hover:border-red-500"
-                              }`}
+                              className={`px-4 py-2 border rounded cursor-pointer text-center transition-all ${isSelected
+                                ? "bg-red-500 text-white border-red-500"
+                                : "bg-white text-black border-gray-300 hover:border-red-500"
+                                }`}
                             >
                               {letter}
                             </div>
@@ -258,11 +254,10 @@ const Cartpage = () => {
                           onClick={() => setSelectedColor(color.trim())} // trim extra spaces
                           style={{ backgroundColor: color.trim() }}
                           className={`w-6 h-6 rounded-full cursor-pointer transition-all
-            ${
-              selectedColor === color.trim()
-                ? "border-2 border-red-500"
-                : "border border-gray-300"
-            }
+            ${selectedColor === color.trim()
+                              ? "border-2 border-red-500"
+                              : "border border-gray-300"
+                            }
           `}
                         ></span>
                       ))}
@@ -276,7 +271,7 @@ const Cartpage = () => {
 
                       <div className="flex ">
                         <Link to="lens-selection-flow" state={{ ID: ID }}>
-                          <button className="text-gray-500 text-sm font-sm hover:underline transition-colors px-2 py-2 hover: cursor-pointer">
+                          <button className="text-gray-500 text-sm font-sm hover:underline transition-colors px-2 py-2 hover:cursor-pointer">
                             Edit
                           </button>
                         </Link>
@@ -308,7 +303,7 @@ const Cartpage = () => {
                     <p>
                       <strong>Prescription:</strong>{" "}
                       {lensDetails.lens.selectedLens ===
-                      "Non-prescription lenses"
+                        "Non-prescription lenses"
                         ? "Not required"
                         : lensDetails.lens.prescriptionMethod || "Not provided"}
                     </p>
@@ -379,11 +374,10 @@ const Cartpage = () => {
 
                   <Link to="lens-selection-flow" state={{ ID: ID }}>
                     <button
-                      className={`${
-                        isLensSelected
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-black hover:bg-gray-900"
-                      } text-white px-42 py-3 mb-4 rounded ml-10 text-xl border-1 border-black w-115`}
+                      className={`${isLensSelected
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-black hover:bg-gray-900"
+                        } text-white px-42 py-3 mb-4 rounded ml-10 text-xl border-1 border-black w-115 hover:cursor-pointer`}
                       disabled={isLensSelected}
                     >
                       {isLensSelected ? "Lens Selected" : "SELECT LENS"}

@@ -113,7 +113,7 @@ const OrderSuccess = () => {
               item.price * item.quantity +
               policyPrice +
               (isContactLens ? 0 : lensPrice);
-          
+
 
             return (
               <div key={i} className="flex flex-col py-2 border-b">
@@ -170,7 +170,7 @@ const OrderSuccess = () => {
               onClick={() =>
                 window.open(`${PDF_URL}/${order._id}/invoice`, "_blank")
               }
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-black"
+              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-black hover:cursor-pointer"
             >
               Download Invoice
             </button>
@@ -182,7 +182,7 @@ const OrderSuccess = () => {
           <div className="mb-6 flex justify-center">
             <Link
               to={`/track/${order.trackingNumber}`} //  Correct tracking number
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-black"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-black hover:cursor-pointer"
             >
               Track My Order
             </Link>
@@ -192,7 +192,7 @@ const OrderSuccess = () => {
         {/* Continue Shopping */}
         <Link
           to="/"
-          className="block text-center bg-red-600 text-white py-3 px-6 rounded-xl hover:bg-black transition-colors duration-300 font-semibold"
+          className="block text-center bg-red-600 text-white py-3 px-6 rounded-xl hover:bg-black transition-colors duration-300 font-semibold hover:cursor-pointer"
         >
           Continue Shopping
         </Link>
