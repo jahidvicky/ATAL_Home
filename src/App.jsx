@@ -61,6 +61,7 @@ import OrderHistory from "./page/order/OrderHistory";
 import ViewOrder from "./page/order/ViewOrder";
 import InsuranceClaim from "./page/insurance/InsuranceClaim";
 import CartPageWrapper from "./page/Cart/CartPageWrapper";
+import PolicyPayment from "./page/order/PolicyPayment"
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -129,6 +130,14 @@ function App() {
           element: (
             // <ProtectedRoute>
             <OrderSuccess />
+            // </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/payment-policy",
+          element: (
+            // <ProtectedRoute>
+            <PolicyPayment />
             // </ProtectedRoute>
           ),
         },
