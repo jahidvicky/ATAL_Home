@@ -8,12 +8,12 @@ const InsuranceClaim = () => {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [existingClaim, setExistingClaim] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null); // selected product
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { order } = location.state || {};
 
-  //  Fetch existing claim
+  // Fetch existing claim
   useEffect(() => {
     const fetchClaimStatus = async () => {
       try {
@@ -28,7 +28,7 @@ const InsuranceClaim = () => {
     if (order) fetchClaimStatus();
   }, [order]);
 
-  //  Submit new claim
+  // Submit new claim
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -38,13 +38,10 @@ const InsuranceClaim = () => {
     }
 
     setLoading(true);
-
     const formData = new FormData();
     formData.append("orderId", order._id);
     formData.append("userId", order.userId);
     formData.append("productId", selectedProduct._id);
-
-    //  Include product details as JSON string
     formData.append(
       "productDetails",
       JSON.stringify({
@@ -59,7 +56,6 @@ const InsuranceClaim = () => {
         thickness: selectedProduct.thickness,
       })
     );
-
     formData.append("description", description);
     Array.from(photos).forEach((photo) => formData.append("photos", photo));
 
@@ -81,7 +77,7 @@ const InsuranceClaim = () => {
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center py-10">
       <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl border border-gray-200 p-8">
-        {/*  Back Button */}
+        {/* Back Button */}
         <div className="flex justify-start mb-6">
           <button
             onClick={handleBack}
@@ -91,7 +87,7 @@ const InsuranceClaim = () => {
           </button>
         </div>
 
-        {/*  If Claim Exists */}
+        {/* If Claim Exists */}
         {existingClaim ? (
           <>
             <h2 className="text-3xl font-bold text-center text-black mb-6">
@@ -145,7 +141,7 @@ const InsuranceClaim = () => {
                 </p>
               )}
 
-              {/*  Uploaded Photos */}
+              {/* Uploaded Photos */}
               {existingClaim.photos?.length > 0 && (
                 <div>
                   <strong>Uploaded Photos:</strong>
@@ -165,7 +161,7 @@ const InsuranceClaim = () => {
           </>
         ) : (
           <>
-            {/*  Claim Form */}
+            {/* Claim Form */}
             <h2 className="text-3xl font-bold text-center text-red-600 mb-6">
               Submit Insurance Claim
             </h2>

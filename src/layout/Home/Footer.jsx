@@ -171,7 +171,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="bg-red-600 w-full md:h-[60px] flex justify-evenly items-center text-white text-lg py-3 px-2">
+      <div className="bg-red-600 w-full md:h-[60px] flex justify-evenly items-center text-white text-sm py-3 px-2">
         <div>
           <p>&copy; 2025 Atal Optical. All rights reserved</p>
         </div>
