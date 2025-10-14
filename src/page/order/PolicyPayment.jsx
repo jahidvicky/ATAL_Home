@@ -1,56 +1,55 @@
 import React, { useEffect, useState } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import API from "../../API/Api";
 
 const PaymentPolicy = () => {
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const data = location.state;
 
-  useEffect(() => {
-    const stored = localStorage.getItem("renewPolicy") || localStorage.getItem("payPolicy");
-    if (stored) setData(JSON.parse(stored));
-    else navigate("/order-history");
-  }, [navigate]);
-
-  if (!data) return null;
+  if (!data) {
+    navigate("/order-history");
+    return null;
+  }
 
   const { policy, orderId } = data;
 
- const handlePayPalSuccess = async (details) => {
-  try {
-    const isRenew = !!localStorage.getItem("renewPolicy");
+  const handlePayPalSuccess = async (details) => {
+    try {
+      const { policy, orderId, type } = data;
+      const isRenew = type === "renew";
 
-    const endpoint = isRenew
-      ? `/renewPolicy/${orderId}`
-      : `/payPolicy/${orderId}`;  
+      const endpoint = isRenew
+        ? `/renewPolicy/${orderId}`
+        : `/payPolicy/${orderId}`;
 
-    await API.put(endpoint, {
-      policyId: policy._id || policy.policyId,
-      transactionId: details.id,
-      paymentMethod: "PayPal",
-    });
+      await API.put(endpoint, {
+        policyId: policy._id || policy.policyId,
+        transactionId: details.id,
+        paymentMethod: "PayPal",
+      });
 
-    await Swal.fire({
-      icon: "success",
-      title: "Payment Successful",
-      text: isRenew
-        ? "Your policy has been renewed successfully."
-        : "Your policy is now active.",
-      confirmButtonColor: "#2563eb",
-    });
+      await Swal.fire({
+        icon: "success",
+        title: "Payment Successful",
+        text: isRenew
+          ? "Your policy has been renewed successfully."
+          : "Your policy is now active.",
+        confirmButtonColor: "#2563eb",
+      });
 
-    
-    localStorage.removeItem("renewPolicy");
-    localStorage.removeItem("payPolicy");
-
-    navigate(`/view-order`, { state: { id: orderId } });
-  } catch (err) {
-    Swal.fire("Error", err.response?.data?.message || "Payment failed", "error");
-  }
-};
-
+      navigate(`/view-order`, { state: { id: orderId } });
+    } catch (err) {
+      Swal.fire(
+        "Error",
+        err.response?.data?.message || "Payment failed",
+        "error"
+      );
+    }
+  };
 
   const handlePayPalFail = () => {
     Swal.fire("Payment Failed", "Policy payment was not completed.", "error");
@@ -75,10 +74,22 @@ const PaymentPolicy = () => {
         </div>
 
         <PayPalButtons
-          style={{ layout: "vertical", color: "gold", shape: "rect", label: "paypal" }}
+          style={{
+            layout: "vertical",
+            color: "gold",
+            shape: "rect",
+            label: "paypal",
+          }}
           createOrder={(data, actions) =>
             actions.order.create({
-              purchase_units: [{ amount: { value: policy.price.toFixed(2), currency_code: "USD" } }],
+              purchase_units: [
+                {
+                  amount: {
+                    value: policy.price.toFixed(2),
+                    currency_code: "USD",
+                  },
+                },
+              ],
             })
           }
           onApprove={(data, actions) =>
