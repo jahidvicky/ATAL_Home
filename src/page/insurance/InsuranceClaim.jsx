@@ -12,7 +12,7 @@ const InsuranceClaim = () => {
     const location = useLocation();
     const { order } = location.state || {};
 
-    // 🔹 Fetch existing claim
+    //  Fetch existing claim
     useEffect(() => {
         const fetchClaimStatus = async () => {
             try {
@@ -27,7 +27,7 @@ const InsuranceClaim = () => {
         if (order) fetchClaimStatus();
     }, [order]);
 
-    // 🔹 Submit new claim
+    //  Submit new claim
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -66,7 +66,7 @@ const InsuranceClaim = () => {
                     </button>
                 </div>
 
-                {/* 🔹 If Claim Exists */}
+                {/*  If Claim Exists */}
                 {existingClaim ? (
                     <>
                         <h2 className="text-3xl font-bold text-center text-black mb-6">
@@ -88,7 +88,7 @@ const InsuranceClaim = () => {
                             )}
                             {existingClaim.claimAmount && (
                                 <p>
-                                    <strong>Claim Amount:</strong> ₹{existingClaim.claimAmount}
+                                    <strong>Claim Amount:</strong> ${existingClaim.claimAmount}
                                 </p>
                             )}
                             {existingClaim.notes && (
@@ -115,7 +115,7 @@ const InsuranceClaim = () => {
                                 </p>
                             )}
 
-                            {/* 📷 Uploaded Photos */}
+                            {/* Uploaded Photos */}
                             {existingClaim.photos?.length > 0 && (
                                 <div>
                                     <strong>Uploaded Photos:</strong>
@@ -135,7 +135,7 @@ const InsuranceClaim = () => {
                     </>
                 ) : (
                     <>
-                        {/* 🔹 Claim Form */}
+                        {/*  Claim Form */}
                         <h2 className="text-3xl font-bold text-center text-red-600 mb-6">
                             Submit Insurance Claim
                         </h2>
