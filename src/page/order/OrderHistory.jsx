@@ -104,7 +104,7 @@ const OrderHistory = () => {
                                         </div>
                                     ))}
                                 </td>
-                                <td className="border px-4 py-2">${order.total}</td>
+                                <td className="border px-4 py-2">${order.total.toFixed(2)}</td>
                                 <td className="border px-4 py-2">{order.orderStatus}</td>
                                 <td className="border px-4 py-2">
                                     <Link
