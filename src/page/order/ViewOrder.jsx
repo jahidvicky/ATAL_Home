@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import API from "../../API/Api";
 import Swal from "sweetalert2";
 
-
 const ViewOrder = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -29,60 +28,43 @@ const ViewOrder = () => {
 
   const handleBack = () => navigate("/order-history");
 
-  // const handleRenew = async (policy) => {
-  //   const result = await Swal.fire({
-  //     title: "Renew Policy?",
-  //     text: `Do you want to renew the policy "${policy.name}"?`,
-  //     icon: "question",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#2563eb",
-  //     cancelButtonColor: "#6b7280",
-  //     confirmButtonText: "Proceed to Payment",
-  //   });
-
-  //   if (!result.isConfirmed) return;
-
-  //   // Store policy & order info in localStorage to access in payment page
-  //   localStorage.setItem(
-  //     "renewPolicy",
-  //     JSON.stringify({ policy, orderId: order._id })
-  //   );
-
-  //   // Navigate to Payment Page
-  //   navigate("/payment-policy");
-  // };
-
   const handleRenew = async (policy) => {
-  const result = await Swal.fire({
-    title: "Renew Policy?",
-    text: `Do you want to renew the policy "${policy.name}"?`,
-    icon: "question",
-    showCancelButton: true,
-    confirmButtonColor: "#2563eb",
-    cancelButtonColor: "#6b7280",
-    confirmButtonText: "Proceed to Payment",
-  });
+    const result = await Swal.fire({
+      title: "Renew Policy?",
+      text: `Do you want to renew the policy "${policy.name}"?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#2563eb",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Proceed to Payment",
+    });
 
-  if (!result.isConfirmed) return;
+    if (!result.isConfirmed) return;
 
-  try {
-    // ✅ Save renewal data to localStorage before redirect
-    localStorage.setItem(
-      "renewPolicy",
-      JSON.stringify({
-        policy,                 // full policy data
-        orderId: order._id,     // order ID
-        from: location.pathname // for going back later
-      })
-    );
+    try {
+      const renewData = {
+        policy: {
+          _id: policy._id,
+          name: policy.name,
+          companyId: policy.companyId,
+          price: policy.price,
+        },
+        orderId: order._id,
+        from: location.pathname,
+      };
 
-    // ✅ Redirect to payment policy page
-    navigate("/payment-policy", { state: { from: location.pathname } });
-  } catch (error) {
-    console.error("Error while setting renew policy:", error);
-    Swal.fire("Error", "Something went wrong while renewing policy.", "error");
-  }
-};
+      localStorage.setItem("renewPolicy", JSON.stringify(renewData));
+
+      navigate("/payment-policy", { state: { from: location.pathname } });
+    } catch (error) {
+      console.error("Error while setting renew policy:", error);
+      Swal.fire(
+        "Error",
+        "Something went wrong while renewing policy.",
+        "error"
+      );
+    }
+  };
 
   const handleCancel = async () => {
     const userId = localStorage.getItem("user");

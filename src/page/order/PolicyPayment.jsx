@@ -18,27 +18,39 @@ const PaymentPolicy = () => {
 
   const { policy, orderId } = data;
 
-  const handlePayPalSuccess = async (details) => {
-    try {
-      await API.put(`/payPolicy/${orderId}`, {
-        policyId: policy._id || policy.policyId,
-        transactionId: details.id,
-        paymentMethod: "PayPal",
-      });
+ const handlePayPalSuccess = async (details) => {
+  try {
+    const isRenew = !!localStorage.getItem("renewPolicy");
 
-      Swal.fire({
-        icon: "success",
-        title: "Payment Successful",
-        text: "Your policy is now active.",
-      });
+    const endpoint = isRenew
+      ? `/renewPolicy/${orderId}`
+      : `/payPolicy/${orderId}`;  
 
-      localStorage.removeItem("renewPolicy");
-      localStorage.removeItem("payPolicy");
-      navigate(`/order/${orderId}`);
-    } catch (err) {
-      Swal.fire("Error", err.response?.data?.message || "Payment failed", "error");
-    }
-  };
+    await API.put(endpoint, {
+      policyId: policy._id || policy.policyId,
+      transactionId: details.id,
+      paymentMethod: "PayPal",
+    });
+
+    await Swal.fire({
+      icon: "success",
+      title: "Payment Successful",
+      text: isRenew
+        ? "Your policy has been renewed successfully."
+        : "Your policy is now active.",
+      confirmButtonColor: "#2563eb",
+    });
+
+    
+    localStorage.removeItem("renewPolicy");
+    localStorage.removeItem("payPolicy");
+
+    navigate(`/view-order`, { state: { id: orderId } });
+  } catch (err) {
+    Swal.fire("Error", err.response?.data?.message || "Payment failed", "error");
+  }
+};
+
 
   const handlePayPalFail = () => {
     Swal.fire("Payment Failed", "Policy payment was not completed.", "error");
