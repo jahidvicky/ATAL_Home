@@ -184,6 +184,7 @@ function Register() {
         onSubmit={handleSubmit}
         encType="multipart/form-data"
         className="space-y-10"
+         autoComplete="off" 
       >
         {/* Personal Info */}
         <section>
@@ -243,6 +244,7 @@ function Register() {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="example@gmail.com"
+                autoComplete="off" 
                 className="w-full border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 rounded-lg p-2.5"
                 required
               />
@@ -255,6 +257,7 @@ function Register() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm Password"
+                 autoComplete="new-password" 
                 className="w-full border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 rounded-lg mt-1 p-2.5"
                 required
               />
@@ -304,6 +307,7 @@ function Register() {
                 value={form.password}
                 onChange={handleChange}
                 placeholder="Enter Password"
+                 autoComplete="new-password" 
                 className="w-full border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 rounded-lg p-2.5"
                 required
               />
