@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Eye, EyeOff } from "lucide-react";
 import API from "../../API/Api";
 import Swal from "sweetalert2";
 
@@ -14,10 +15,11 @@ function Login() {
   });
 
   const [error, setError] = useState("");
-  const [mode, setMode] = useState("login"); 
+  const [mode, setMode] = useState("login");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   //  Handle input change
   const handleChange = (e) => {
@@ -64,7 +66,11 @@ function Login() {
       Swal.fire("Success", res.data.message, "success");
       setMode("verify");
     } catch (err) {
-      Swal.fire("Error", err.response?.data?.message || "Failed to send OTP", "error");
+      Swal.fire(
+        "Error",
+        err.response?.data?.message || "Failed to send OTP",
+        "error"
+      );
     } finally {
       setLoading(false);
     }
@@ -145,7 +151,7 @@ function Login() {
         {mode === "login" && (
           <>
             {/* Password */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="block text-gray-700 font-semibold mb-1">
                 Password
               </label>
@@ -158,6 +164,28 @@ function Login() {
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-600"
                 placeholder="Enter your password"
               />
+            </div> */}
+            <div className="mb-4 relative">
+              <label className="block text-gray-700 font-semibold mb-1">
+                Password
+              </label>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-red-600"
+                placeholder="Enter your password"
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-3 top-9 transform -translate-y-1/2 text-gray-600 mt-3.5"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
             </div>
 
             {/* Forgot Password Link */}
