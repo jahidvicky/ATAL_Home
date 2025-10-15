@@ -39,7 +39,6 @@ function Login() {
       localStorage.setItem("token", res.data.token);
       isAuthenticated;
 
-      Swal.fire("Success", "Login successful!", "success");
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");

@@ -15,7 +15,6 @@ import { useSelector, useDispatch } from "react-redux";
 import CartDrawer from "./CartDrawer";
 import API, { IMAGE_URL } from "../../API/Api";
 
-
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,7 +29,7 @@ function Header() {
   const [openDesktop, setOpenDesktop] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
 
-  const [custProfile, setCustProfile] = useState([])
+  const [custProfile, setCustProfile] = useState([]);
 
   // cart quantity from redux
   const totalQuantity = useSelector((state) =>
@@ -75,21 +74,17 @@ function Header() {
     }
   };
 
-
   const getCustProfile = async () => {
     try {
-      const response = await API.get(`/customer/${user}`)
+      const response = await API.get(`/customer/${user}`);
 
-      setCustProfile(response.data.data.profileImage)
-    } catch (error) {
-
-    }
-  }
+      setCustProfile(response.data.data.profileImage);
+    } catch (error) {}
+  };
 
   useEffect(() => {
-    getCustProfile()
-  }, [])
-
+    getCustProfile();
+  }, []);
 
   const handleSelect = (product) => {
     setQuery(product.name);
@@ -143,16 +138,17 @@ function Header() {
     }
   }, [query]);
 
-
   useEffect(() => {
     function handleClickOutside(event) {
       if (
-        desktopSearchRef.current && !desktopSearchRef.current.contains(event.target)
+        desktopSearchRef.current &&
+        !desktopSearchRef.current.contains(event.target)
       ) {
         setOpenDesktop(false);
       }
       if (
-        mobileSearchRef.current && !mobileSearchRef.current.contains(event.target)
+        mobileSearchRef.current &&
+        !mobileSearchRef.current.contains(event.target)
       ) {
         setOpenMobile(false);
       }
@@ -165,15 +161,20 @@ function Header() {
     };
   }, []);
 
-
-
   return (
     <>
       {/* Top Bar */}
       <div className="bg-red-600 py-1 text-white flex justify-between items-center px-4 lg:px-6">
-        <p className="text-sm lg:text-base">
-          Call Us Today! 1-866-242-3545 | info.ataloptical@gmail.com
-        </p>
+        <div className="mt-1 text-md">
+          {" "}
+          Call Us Today! 1-866-242-3545 |
+          <a
+            href="mailto:info.ataloptical@gmail.com"
+            className="text-white hover:underline hover:text-black pl-1"
+          >
+            info.ataloptical@gmail.com
+          </a>
+        </div>
         <div className="flex gap-4 text-lg lg:text-xl">
           <FaFacebookF className="hover:cursor-pointer hover:text-black" />
           <FaYoutube className="hover:cursor-pointer hover:text-black" />
@@ -271,14 +272,12 @@ function Header() {
                 onClick={handleLogin}
                 className="flex items-center gap-1 text-red-600 cursor-pointer hover:text-black"
               >
-
                 <span className="hover:underline">Sign In</span>
               </div>
             ) : (
               <div className="flex items-center gap-3">
                 <Link to="/order-history">
-                  <button
-                    className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:cursor-pointer hover:bg-black">
+                  <button className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:cursor-pointer hover:bg-black">
                     My Orders
                   </button>
                 </Link>
@@ -321,7 +320,9 @@ function Header() {
               <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
             </Link>
             <Link to="/how-to-order">
-              <li className="cursor-pointer hover:text-red-600">HOW TO ORDER</li>
+              <li className="cursor-pointer hover:text-red-600">
+                HOW TO ORDER
+              </li>
             </Link>
 
             <Link to="/eye-schedule-test">
@@ -394,8 +395,9 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } transition-transform duration-300 z-50 text-center`}
+        className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 z-50 text-center`}
       >
         <div className="flex justify-between items-center p-4 border-b border-gray-700 bg-white">
           {/* Logo */}
@@ -451,10 +453,7 @@ function Header() {
           >
             FAQ
           </Link>
-          <Link
-            to="/collections"
-            onClick={() => setSidebarOpen(false)}
-          >
+          <Link to="/collections" onClick={() => setSidebarOpen(false)}>
             <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
           </Link>
           <Link
