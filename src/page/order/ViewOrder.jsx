@@ -42,20 +42,18 @@ const ViewOrder = () => {
     if (!result.isConfirmed) return;
 
     try {
-      const renewData = {
-        policy: {
-          _id: policy._id,
-          name: policy.name,
-          companyId: policy.companyId,
-          price: policy.price,
+      navigate("/payment-policy", {
+        state: {
+          policy: {
+            _id: policy._id,
+            name: policy.name,
+            companyId: policy.companyId,
+            price: policy.price,
+          },
+          orderId: order._id,
+          type: "renew",
         },
-        orderId: order._id,
-        from: location.pathname,
-      };
-
-      localStorage.setItem("renewPolicy", JSON.stringify(renewData));
-
-      navigate("/payment-policy", { state: { from: location.pathname } });
+      });
     } catch (error) {
       console.error("Error while setting renew policy:", error);
       Swal.fire(

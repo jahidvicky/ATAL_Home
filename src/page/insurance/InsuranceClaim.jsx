@@ -8,11 +8,12 @@ const InsuranceClaim = () => {
     const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(false);
     const [existingClaim, setExistingClaim] = useState(null);
+    const [selectedProduct, setSelectedProduct] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
     const { order } = location.state || {};
 
-    // 🔹 Fetch existing claim
+    // Fetch existing claim
     useEffect(() => {
         const fetchClaimStatus = async () => {
             try {
@@ -27,14 +28,34 @@ const InsuranceClaim = () => {
         if (order) fetchClaimStatus();
     }, [order]);
 
-    // 🔹 Submit new claim
+    // Submit new claim
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
 
+        if (!selectedProduct) {
+            Swal.fire("Error", "Please select a product for the claim", "error");
+            return;
+        }
+
+        setLoading(true);
         const formData = new FormData();
         formData.append("orderId", order._id);
         formData.append("userId", order.userId);
+        formData.append("productId", selectedProduct._id);
+        formData.append(
+            "productDetails",
+            JSON.stringify({
+                name: selectedProduct.name,
+                price: selectedProduct.price,
+                color: selectedProduct.product_color,
+                size: selectedProduct.product_size,
+                quantity: selectedProduct.quantity,
+                image: selectedProduct.image,
+                policy: selectedProduct.policy,
+                lens: selectedProduct.lens,
+                thickness: selectedProduct.thickness,
+            })
+        );
         formData.append("description", description);
         Array.from(photos).forEach((photo) => formData.append("photos", photo));
 
@@ -56,7 +77,7 @@ const InsuranceClaim = () => {
     return (
         <div className="bg-gray-100 min-h-screen flex justify-center py-10">
             <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl border border-gray-200 p-8">
-                {/* 🔙 Back Button */}
+                {/* Back Button */}
                 <div className="flex justify-start mb-6">
                     <button
                         onClick={handleBack}
@@ -66,7 +87,7 @@ const InsuranceClaim = () => {
                     </button>
                 </div>
 
-                {/* 🔹 If Claim Exists */}
+                {/* If Claim Exists */}
                 {existingClaim ? (
                     <>
                         <h2 className="text-3xl font-bold text-center text-black mb-6">
@@ -76,6 +97,10 @@ const InsuranceClaim = () => {
                         <div className="space-y-4 text-gray-800">
                             <p>
                                 <strong>Order ID:</strong> {existingClaim.orderId}
+                            </p>
+                            <p>
+                                <strong>Product:</strong>{" "}
+                                {existingClaim.productDetails?.name || "N/A"}
                             </p>
                             <p>
                                 <strong>Claim Date:</strong>{" "}
@@ -88,7 +113,7 @@ const InsuranceClaim = () => {
                             )}
                             {existingClaim.claimAmount && (
                                 <p>
-                                    <strong>Claim Amount:</strong> ₹{existingClaim.claimAmount}
+                                    <strong>Claim Amount:</strong> ${existingClaim.claimAmount}
                                 </p>
                             )}
                             {existingClaim.notes && (
@@ -115,7 +140,7 @@ const InsuranceClaim = () => {
                                 </p>
                             )}
 
-                            {/* 📷 Uploaded Photos */}
+                            {/* Uploaded Photos */}
                             {existingClaim.photos?.length > 0 && (
                                 <div>
                                     <strong>Uploaded Photos:</strong>
@@ -135,36 +160,35 @@ const InsuranceClaim = () => {
                     </>
                 ) : (
                     <>
-                        {/* 🔹 Claim Form */}
+                        {/* Claim Form */}
                         <h2 className="text-3xl font-bold text-center text-red-600 mb-6">
                             Submit Insurance Claim
                         </h2>
 
                         <form onSubmit={handleSubmit} className="space-y-6">
-                            {/* Order ID */}
+                            {/* Product Selection */}
                             <div>
                                 <label className="block text-gray-700 font-semibold mb-2">
-                                    Order ID
+                                    Select Product
                                 </label>
-                                <input
-                                    type="text"
-                                    value={order._id}
-                                    readOnly
-                                    className="border border-gray-300 bg-gray-100 text-gray-600 p-2 w-full rounded cursor-not-allowed"
-                                />
-                            </div>
-
-                            {/* User ID */}
-                            <div>
-                                <label className="block text-gray-700 font-semibold mb-2">
-                                    User ID
-                                </label>
-                                <input
-                                    type="text"
-                                    value={order.userId}
-                                    readOnly
-                                    className="border border-gray-300 bg-gray-100 text-gray-600 p-2 w-full rounded cursor-not-allowed"
-                                />
+                                <select
+                                    value={selectedProduct?._id || ""}
+                                    onChange={(e) => {
+                                        const product = order.cartItems.find(
+                                            (item) => item._id === e.target.value
+                                        );
+                                        setSelectedProduct(product);
+                                    }}
+                                    required
+                                    className="border border-gray-300 p-2 w-full rounded focus:ring-2 focus:ring-red-500 focus:outline-none"
+                                >
+                                    <option value="">-- Select Product --</option>
+                                    {order.cartItems.map((item) => (
+                                        <option key={item._id} value={item._id}>
+                                            {item.name} (${item.price})
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
 
                             {/* Description */}
@@ -199,10 +223,9 @@ const InsuranceClaim = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className={`w-full py-3 text-white text-lg font-semibold rounded-lg transition-all hover:cursor-pointer 
-                                    ${loading
-                                        ? "bg-gray-400 cursor-not-allowed"
-                                        : "bg-red-600 hover:bg-black"
+                                className={`w-full py-3 text-white text-lg font-semibold rounded-lg transition-all hover:cursor-pointer ${loading
+                                    ? "bg-gray-400 cursor-not-allowed"
+                                    : "bg-red-600 hover:bg-black"
                                     }`}
                             >
                                 {loading ? "Submitting..." : "Submit Claim"}
