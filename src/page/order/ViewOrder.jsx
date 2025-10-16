@@ -83,7 +83,8 @@ const ViewOrder = () => {
       showCancelButton: true,
       confirmButtonColor: "#dc2626",
       cancelButtonColor: "#6b7280",
-      confirmButtonText: "Yes, cancel it!",
+      confirmButtonText: "Yes",
+        cancelButtonText: "No", 
     });
 
     if (!result.isConfirmed) return;
@@ -240,7 +241,7 @@ const ViewOrder = () => {
             </Section>
 
             {/* Policy Details */}
-            {order.cartItems[0] && (
+            {order.cartItems[0]?.policy && (
               <Section title="Policy Details">
                 <div className="space-y-2 text-sm text-gray-600">
                   {/* Current Policy */}

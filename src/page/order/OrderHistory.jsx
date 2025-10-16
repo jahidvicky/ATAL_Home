@@ -83,14 +83,14 @@ const OrderHistory = () => {
                                 <td className="border px-4 py-2 text-center">
                                     <div className="flex justify-center gap-2 flex-wrap">
                                         {order.cartItems.map((cartItem, idx) => {
-                                            const imageUrl = cartItem.image.startsWith("http")
+                                            const imageUrl = cartItem.image?.startsWith("http")
                                                 ? cartItem.image
                                                 : IMAGE_URL + cartItem.image;
                                             return (
                                                 <img
                                                     key={idx}
                                                     src={imageUrl}
-                                                    alt={cartItem.image.split("/").pop()}
+                                                    alt={cartItem.image?.split("/").pop()}
                                                     className="h-13 w-30 object-cover rounded"
                                                 />
                                             );
