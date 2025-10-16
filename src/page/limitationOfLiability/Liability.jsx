@@ -9,7 +9,7 @@ const LimitationOfLiability = () => {
             {/* Header */}
 
             <div className="bg-gradient-to-r from-black via-red-600 to-black py-20 text-center">
-                <h1 className="text-5xl font-bold text-white">General Information</h1>
+                <h1 className="text-5xl font-bold text-white">Limitation of Liability</h1>
                 <hr className="border-white w-120 mt-3 mx-auto" />
             </div>
 
