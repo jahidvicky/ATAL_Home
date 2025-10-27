@@ -157,6 +157,7 @@ const Checkout = () => {
         product_color: item.selectedColor || null,
         lens: item.lens || null, // lens details per product
         policy: item.policy || null, // policy details per product
+        vendorID: item.vendorID || null,
       })),
 
       shippingAddress: {
