@@ -19,6 +19,8 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const newItem = { ...action.payload };
 
+      newItem.vendorID = newItem.vendorID || newItem.vendorId || null;
+
       newItem.subCategoryName = newItem.subCategoryName || "";
 
       newItem.variantId = generateVariantId(newItem);
