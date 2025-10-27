@@ -77,6 +77,7 @@ const TrackOrder = () => {
                         value={trackingNumber}
                         onChange={(e) => setTrackingNumber(e.target.value.toUpperCase())}
                         className="flex-1 border border-gray-300 p-2 rounded-lg uppercase focus:ring-2 focus:ring-red-500 outline-none"
+                        disabled
                     />
                     <button
                         onClick={handleTrack}
