@@ -16,7 +16,7 @@ const ContactLensPage = () => {
   const [galleryImages, setGalleryImages] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
-    const [selectedPolicy, setSelectedPolicy] = useState(null);
+  const [selectedPolicy, setSelectedPolicy] = useState(null);
 
   const [formData, setFormData] = useState({
     // od_selected: true,
@@ -126,7 +126,8 @@ const ContactLensPage = () => {
       subCat_id: product.subCat_id,
       selectedColor: selectedColor,
       quantity: 1, // default quantity
-       policy: selectedPolicy || null,
+      policy: selectedPolicy || null,
+      vendorID: product.vendorID || product.vendorId || null,
       lens: {
         prescription: {
           od_sphere: formData.od_sphere,
@@ -493,7 +494,7 @@ const ContactLensPage = () => {
                 <hr />
               </form>
               <div>
-                <Insurance onPolicySelect={setSelectedPolicy}/>
+                <Insurance onPolicySelect={setSelectedPolicy} />
               </div>
               {/* Price and Add to Cart Button */}
               <div className="space-y-2 mt-4 bg-gray-200">

@@ -27,12 +27,7 @@ const Checkout = () => {
     }
   }, 0);
 
-  const steps = [
-    "Contact",
-    "Shipping",
-    "Billing",
-    "Review & Pay",
-  ];
+  const steps = ["Contact", "Shipping", "Billing", "Review & Pay"];
 
   // Tax and shipping logic
   const taxRates = {
@@ -79,6 +74,20 @@ const Checkout = () => {
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  useEffect(() => {
+    if (!userId) {
+      Swal.fire({
+        icon: "warning",
+        title: "Login Required",
+        text: "Please login to proceed with checkout.",
+        confirmButtonText: "Go to Login",
+        confirmButtonColor: "#dc2626",
+      }).then(() => {
+        navigate("/login"); // redirect to login page
+      });
+    }
+  }, [userId, navigate]);
 
   const validateStep = () => {
     switch (currentStep) {
@@ -148,6 +157,7 @@ const Checkout = () => {
         product_color: item.selectedColor || null,
         lens: item.lens || null, // lens details per product
         policy: item.policy || null, // policy details per product
+        vendorID: item.vendorID || null,
       })),
 
       shippingAddress: {
@@ -162,23 +172,23 @@ const Checkout = () => {
 
       billingAddress: billingDifferent
         ? {
-          fullName: formData.shippingName,
-          address: formData.billingStreet,
-          city: formData.billingCity,
-          province: formData.billingProvince,
-          postalCode: formData.billingPostal,
-          country: "Canada",
-          phone: formData.phone,
-        }
+            fullName: formData.shippingName,
+            address: formData.billingStreet,
+            city: formData.billingCity,
+            province: formData.billingProvince,
+            postalCode: formData.billingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          }
         : {
-          fullName: formData.shippingName,
-          address: formData.shippingStreet,
-          city: formData.shippingCity,
-          province: formData.shippingProvince,
-          postalCode: formData.shippingPostal,
-          country: "Canada",
-          phone: formData.phone,
-        },
+            fullName: formData.shippingName,
+            address: formData.shippingStreet,
+            city: formData.shippingCity,
+            province: formData.shippingProvince,
+            postalCode: formData.shippingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          },
 
       subtotal,
       tax,
@@ -251,18 +261,20 @@ const Checkout = () => {
               >
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all
-                  ${idx <= currentStep
+                  ${
+                    idx <= currentStep
                       ? "bg-red-600 text-white border-red-600"
                       : "border-black text-black group-hover:bg-black group-hover:text-white"
-                    }`}
+                  }`}
                 >
                   {idx + 1}
                 </div>
                 <span
-                  className={`mt-2 text-sm ${idx === currentStep
-                    ? "text-red-600 font-bold"
-                    : "text-gray-700"
-                    }`}
+                  className={`mt-2 text-sm ${
+                    idx === currentStep
+                      ? "text-red-600 font-bold"
+                      : "text-gray-700"
+                  }`}
                 >
                   {step}
                 </span>
@@ -288,10 +300,11 @@ const Checkout = () => {
               value={formData.email || ""}
               onChange={(e) => handleChange("email", e.target.value)}
               className={`border p-2 rounded w-full 
-          ${formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
-                  ? "border-red-500"
-                  : "border-black"
-                }`}
+          ${
+            formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+              ? "border-red-500"
+              : "border-black"
+          }`}
               required
             />
             {formData.email &&
@@ -308,11 +321,12 @@ const Checkout = () => {
               placeholder="416 123 4567"
               value={formData.phone || ""}
               onChange={(e) => handleChange("phone", e.target.value)}
-              className={`border p-2 rounded w-full ${formData.phone &&
+              className={`border p-2 rounded w-full ${
+                formData.phone &&
                 !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone)
-                ? "border-red-500"
-                : "border-black"
-                }`}
+                  ? "border-red-500"
+                  : "border-black"
+              }`}
               required
             />
             {formData.phone &&
@@ -336,10 +350,11 @@ const Checkout = () => {
           </h1>
           <br />
           <hr
-            className={`border-t-2 -mt-2 ${!deliveryRange
-              ? "w-[418px] border-black"
-              : "w-[498px] border-black"
-              }`}
+            className={`border-t-2 -mt-2 ${
+              !deliveryRange
+                ? "w-[418px] border-black"
+                : "w-[498px] border-black"
+            }`}
           />
 
           <input
@@ -374,13 +389,14 @@ const Checkout = () => {
               const val = e.target.value.toUpperCase();
               handleChange("shippingPostal", val);
             }}
-            className={`border p-2 rounded w-full ${formData.shippingPostal &&
+            className={`border p-2 rounded w-full ${
+              formData.shippingPostal &&
               !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                 formData.shippingPostal
               )
-              ? "border-red-500"
-              : "border-black"
-              }`}
+                ? "border-red-500"
+                : "border-black"
+            }`}
             required
           />
           {formData.shippingPostal &&
@@ -469,13 +485,14 @@ const Checkout = () => {
                   const val = e.target.value.toUpperCase(); // convert to uppercase
                   handleChange("billingPostal", val);
                 }}
-                className={`border p-2 rounded w-full ${formData.billingPostal &&
+                className={`border p-2 rounded w-full ${
+                  formData.billingPostal &&
                   !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                     formData.billingPostal
                   )
-                  ? "border-red-500"
-                  : "border-black"
-                  }`}
+                    ? "border-red-500"
+                    : "border-black"
+                }`}
                 required
               />
               {formData.billingPostal &&
