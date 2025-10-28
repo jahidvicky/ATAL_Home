@@ -23,7 +23,6 @@ const Payment = () => {
     );
   }
 
-
   const { subtotal, tax, shipping, items } = order;
   const finalTotal = Math.max(subtotal - discount + shipping + tax, 0.01);
 
@@ -36,13 +35,17 @@ const Payment = () => {
     );
   };
 
-  //  Unified createOrder with all required fields (from old code)
   const createOrder = async (payload) => {
     try {
+      const fixedCartItems = order.cartItems.map((item) => ({
+        ...item,
+        vendorID: item.vendorID || item.vendorId || null,
+      }));
+
       const { data } = await API.post("/order", {
         userId: order.userId,
-        email: order.email, //  fixed to match backend expectation
-        cartItems: order.cartItems, //  explicit field
+        email: order.email,
+        cartItems: fixedCartItems,
         shippingAddress: order.shippingAddress,
         billingAddress: order.billingAddress,
         subtotal: order.subtotal,
@@ -60,7 +63,6 @@ const Payment = () => {
         html: `<p>Tracking Number: <b>${data.order.trackingNumber}</b></p>`,
         confirmButtonText: "View Order",
       }).then(() => {
-        //  Added these two back from old code
         localStorage.removeItem("orderSummary");
         localStorage.removeItem("cartItems");
         localStorage.removeItem("checkoutDraft");
@@ -68,7 +70,7 @@ const Payment = () => {
         navigate(`/order/${data.order._id}`);
       });
     } catch (err) {
-      console.error("Order creation failed:", err);
+      console.error(" Order creation failed:", err);
       Swal.fire("Error", "Failed to place order", "error");
     }
   };
@@ -107,7 +109,7 @@ const Payment = () => {
 
   // Coupon logic
   const handleApplyCoupon = async () => {
-    setCoupon("")
+    setCoupon("");
     if (!coupon.trim()) {
       Swal.fire("Error", "Please enter a coupon code", "error");
       return;
@@ -123,9 +125,10 @@ const Payment = () => {
         setDiscount(data.data.discountAmount);
         Swal.fire(
           "Success",
-          `Coupon applied! ${data.data.discountType === "percentage"
-            ? "Discounted $" + data.data.discountAmount.toFixed(2)
-            : "Flat discount $" + data.data.discountAmount.toFixed(2)
+          `Coupon applied! ${
+            data.data.discountType === "percentage"
+              ? "Discounted $" + data.data.discountAmount.toFixed(2)
+              : "Flat discount $" + data.data.discountAmount.toFixed(2)
           }`,
           "success"
         );
@@ -182,9 +185,7 @@ const Payment = () => {
 
             <div className="flex justify-between">
               <span>Shipping</span>
-              <span>
-                {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
-              </span>
+              <span>{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</span>
             </div>
             <div className="flex justify-between">
               <span>Tax</span>
@@ -210,10 +211,11 @@ const Payment = () => {
           <button
             onClick={handleApplyCoupon}
             disabled={coupon.trim().length < 3}
-            className={`px-4 rounded-lg ${coupon.trim().length < 3
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-red-600 text-white hover:bg-black hover:cursor-pointer"
-              }`}
+            className={`px-4 rounded-lg ${
+              coupon.trim().length < 3
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-red-600 text-white hover:bg-black hover:cursor-pointer"
+            }`}
           >
             Apply
           </button>
