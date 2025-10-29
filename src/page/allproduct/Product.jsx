@@ -40,7 +40,7 @@ function Product() {
   useEffect(() => {
     fetchProduct();
     fetchWishlist();
-  }, []);
+  }, [category, subcategory]);
 
   // Toggle wishlist (add/remove)
   const toggleWishlist = async (productId) => {
