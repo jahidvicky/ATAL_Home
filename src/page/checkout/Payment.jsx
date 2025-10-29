@@ -125,10 +125,9 @@ const Payment = () => {
         setDiscount(data.data.discountAmount);
         Swal.fire(
           "Success",
-          `Coupon applied! ${
-            data.data.discountType === "percentage"
-              ? "Discounted $" + data.data.discountAmount.toFixed(2)
-              : "Flat discount $" + data.data.discountAmount.toFixed(2)
+          `Coupon applied! ${data.data.discountType === "percentage"
+            ? "Discounted $" + data.data.discountAmount.toFixed(2)
+            : "Flat discount $" + data.data.discountAmount.toFixed(2)
           }`,
           "success"
         );
@@ -211,11 +210,10 @@ const Payment = () => {
           <button
             onClick={handleApplyCoupon}
             disabled={coupon.trim().length < 3}
-            className={`px-4 rounded-lg ${
-              coupon.trim().length < 3
+            className={`px-4 rounded-lg ${coupon.trim().length < 3
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-red-600 text-white hover:bg-black hover:cursor-pointer"
-            }`}
+              }`}
           >
             Apply
           </button>
