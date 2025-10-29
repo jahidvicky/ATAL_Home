@@ -7,7 +7,7 @@ const ContactPage = () => {
   const [showCompany, setShowCompany] = useState(false);
   const [customer, setCustomer] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [document, setDocument] = useState(null)
+  const [document, setDocument] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,14 +32,20 @@ const ContactPage = () => {
 
     try {
       const form = new FormData();
-      Object.keys(formData).forEach((key) => {
-        if (formData[key]) form.append(key, formData[key]);
-      });
-      if (document) form.append("uploadDocument", document);
 
-      await API.post("/addInquiry", form, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      form.append("name", formData.name || "");
+      form.append("email", formData.email || "");
+      form.append("userType", formData.userType || "");
+      form.append("businessNumber", formData.businessNumber || "");
+      form.append("registrationNumber", formData.registrationNumber || "");
+      form.append("vendorType", formData.vendorType || "");
+      form.append("message", formData.message || "");
+
+      if (document) {
+        form.append("uploadDocument", document);
+      }
+
+      await API.post("/addInquiry", form);
 
       Swal.fire({
         icon: "success",
@@ -66,21 +72,31 @@ const ContactPage = () => {
       setShowCompany(false);
     } catch (error) {
       console.error("Error submitting inquiry:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Failed to submit inquiry",
-        text: "Something went wrong. Please try again later or Check File type.",
-        showConfirmButton: false,
-        timer: 2000,
-        position: "top-end",
-        toast: true,
-      });
+
+      if (error?.response?.status === 409) {
+        Swal.fire({
+          icon: "warning",
+          title: "Duplicate Found",
+          text: error.response.data?.message || "Duplicate inquiry detected.",
+          showConfirmButton: true,
+          position: "top-end",
+          toast: true,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Failed to submit inquiry",
+          text: "Something went wrong. Please try again later or Check File type.",
+          showConfirmButton: false,
+          timer: 2000,
+          position: "top-end",
+          toast: true,
+        });
+      }
     } finally {
       setLoading(false);
     }
   };
-
-
 
   const getCustomer = async (id) => {
     try {
@@ -103,24 +119,27 @@ const ContactPage = () => {
       <h1 className="text-4xl font-bold text-red-600 mb-12">Contact Us</h1>
 
       <div className="w-full max-w-4xl bg-white border border-red-500 rounded-lg">
-
         <div className="mt-5 p-8">
-          <h2 className="text-2xl font-semibold text-red-600 mb-4">Atal Opticals</h2>
+          <h2 className="text-2xl font-semibold text-red-600 mb-4">
+            Atal Opticals
+          </h2>
 
           <div className="bg-white border border-red-500 rounded-md p-6 text-black shadow-md">
             <p className="mb-4 text-gray-700">
-              Your trusted destination for premium sunglasses & eyewear.
-              Visit us or get in touch using the details below.
+              Your trusted destination for premium sunglasses & eyewear. Visit
+              us or get in touch using the details below.
             </p>
 
             <ul className="space-y-3">
               <li>
-                <span className="font-semibold text-red-600">Store Address:</span>{" "}
+                <span className="font-semibold text-red-600">
+                  Store Address:
+                </span>{" "}
                 Atal Opticals, 45 Fashion Street, Toronto, ON M5V 2B6, Canada
               </li>
               <li>
-                <span className="font-semibold text-red-600">Phone:</span>{" "}
-                +1 5698765 43210
+                <span className="font-semibold text-red-600">Phone:</span> +1
+                5698765 43210
               </li>
               <li>
                 <span className="font-semibold text-red-600">Email:</span>{" "}
@@ -132,20 +151,25 @@ const ContactPage = () => {
               </li>
             </ul>
           </div>
-
         </div>
-
 
         <hr className="border-t-2 border-black w-full" />
 
         {/* Vendor Section */}
         <div className="mt-5 p-8">
-          <h2 className="text-2xl font-semibold text-red-600 mb-4">Become A Vendor</h2>
+          <h2 className="text-2xl font-semibold text-red-600 mb-4">
+            Become A Vendor
+          </h2>
           <p className="text-black mb-4">
-            Join our network of trusted vendors. Partner with us to supply quality products and services.
+            Join our network of trusted vendors. Partner with us to supply
+            quality products and services.
           </p>
+
           <button
-            onClick={() => setShowVendor(true)}
+            onClick={() => {
+              setFormData((prev) => ({ ...prev, userType: "vendor" }));
+              setShowVendor(true);
+            }}
             className="bg-red-600 hover:bg-black hover:text-red-500 text-white font-semibold py-2 px-4 rounded-md w-full hover:cursor-pointer"
           >
             Click Here
@@ -156,12 +180,19 @@ const ContactPage = () => {
 
         {/* Company Section */}
         <div className="mt-5 p-8">
-          <h2 className="text-2xl font-semibold text-red-600 mb-4">Become A Company</h2>
+          <h2 className="text-2xl font-semibold text-red-600 mb-4">
+            Become A Insurance Company
+          </h2>
           <p className="text-black mb-4">
-            Collaborate with us as an insurance company. Work together to provide innovative solutions.
+            Collaborate with us as an insurance company. Work together to
+            provide innovative solutions.
           </p>
+
           <button
-            onClick={() => setShowCompany(true)}
+            onClick={() => {
+              setFormData((prev) => ({ ...prev, userType: "company" }));
+              setShowCompany(true);
+            }}
             className="bg-red-600 hover:bg-black hover:text-red-500 text-white font-semibold py-2 px-4 rounded-md w-full hover:cursor-pointer"
           >
             Click Here
@@ -173,9 +204,12 @@ const ContactPage = () => {
       {showVendor && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
-            <h2 className="text-xl font-semibold text-red-600 mb-4">Vendor Inquiry</h2>
+            <h2 className="text-xl font-semibold text-red-600 mb-4">
+              Vendor Inquiry
+            </h2>
 
             <form onSubmit={sendInquiry} className="space-y-4">
+              <input type="hidden" name="userType" value={formData.userType} />
               <input
                 name="name"
                 value={formData.name}
@@ -243,7 +277,6 @@ const ContactPage = () => {
 
                 <button
                   type="submit"
-                  onClick={() => setFormData({ ...formData, userType: "vendor" })}
                   className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 hover:cursor-pointer"
                 >
                   Submit
@@ -265,9 +298,12 @@ const ContactPage = () => {
       {showCompany && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
-            <h2 className="text-xl font-semibold text-red-600 mb-4">Company Inquiry</h2>
+            <h2 className="text-xl font-semibold text-red-600 mb-4">
+              Company Inquiry
+            </h2>
 
             <form onSubmit={sendInquiry} className="space-y-4">
+              <input type="hidden" name="userType" value={formData.userType} />
               <input
                 name="name"
                 value={formData.name}
@@ -319,9 +355,6 @@ const ContactPage = () => {
                 </button>
                 <button
                   type="submit"
-                  onClick={() =>
-                    setFormData({ ...formData, userType: "company" })
-                  }
                   className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 hover:cursor-pointer"
                 >
                   Submit
