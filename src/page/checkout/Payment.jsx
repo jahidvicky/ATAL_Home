@@ -42,19 +42,43 @@ const Payment = () => {
         vendorID: item.vendorID || item.vendorId || null,
       }));
 
-      const { data } = await API.post("/order", {
-        userId: order.userId,
-        email: order.email,
-        cartItems: fixedCartItems,
-        shippingAddress: order.shippingAddress,
-        billingAddress: order.billingAddress,
-        subtotal: order.subtotal,
-        tax: order.tax,
-        shipping: order.shipping,
-        total: finalTotal,
-        coupon,
-        discount,
-        ...payload,
+      // const { data } = await API.post("/order", {
+      //   userId: order.userId,
+      //   email: order.email,
+      //   cartItems: fixedCartItems,
+      //   shippingAddress: order.shippingAddress,
+      //   billingAddress: order.billingAddress,
+      //   subtotal: order.subtotal,
+      //   tax: order.tax,
+      //   shipping: order.shipping,
+      //   total: finalTotal,
+      //   coupon,
+      //   discount,
+      //   prescriptionUrl: order.prescriptionUrl,
+      //   ...payload,
+      // });
+
+
+      const formData = new FormData();
+
+      formData.append("userId", order.userId);
+      formData.append("email", order.email);
+      formData.append("subtotal", order.subtotal);
+      formData.append("tax", order.tax);
+      formData.append("shipping", order.shipping);
+      formData.append("total", finalTotal);
+      formData.append("paymentMethod", paymentMethod);
+      formData.append("paymentStatus", paymentStatus);
+      formData.append("transactionId", transactionId || "");
+      formData.append("cartItems", JSON.stringify(order.cartItems));
+      formData.append("shippingAddress", JSON.stringify(order.shippingAddress));
+      formData.append("billingAddress", JSON.stringify(order.billingAddress));
+      if (order.prescriptionFile) {
+        formData.append("prescription", order.prescriptionFile); // file object
+      }
+
+      await API.post("/order", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       Swal.fire({
@@ -211,8 +235,8 @@ const Payment = () => {
             onClick={handleApplyCoupon}
             disabled={coupon.trim().length < 3}
             className={`px-4 rounded-lg ${coupon.trim().length < 3
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-red-600 text-white hover:bg-black hover:cursor-pointer"
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-red-600 text-white hover:bg-black hover:cursor-pointer"
               }`}
           >
             Apply

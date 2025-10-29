@@ -59,11 +59,10 @@ const Step3UploadForm = ({ goBack, onContinue }) => {
       <button
         onClick={onContinue}
         disabled={!file}
-        className={`hover:cursor-pointer mt-6 px-4 py-2 rounded w-full ${
-          file
+        className={`hover:cursor-pointer mt-6 px-4 py-2 rounded w-full ${file
             ? "bg-green-600 text-white hover:bg-green-700"
             : "bg-gray-300 text-gray-500 cursor-not-allowed"
-        }`}
+          }`}
       >
         Continue
       </button>
