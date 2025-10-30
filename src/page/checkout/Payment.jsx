@@ -3,18 +3,18 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import API from "../../API/Api";
-
+ 
 const Payment = () => {
   const [order, setOrder] = useState(null);
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
   const navigate = useNavigate();
-
+ 
   useEffect(() => {
     const savedOrder = localStorage.getItem("orderSummary");
     if (savedOrder) setOrder(JSON.parse(savedOrder));
   }, []);
-
+ 
   if (!order) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -22,10 +22,10 @@ const Payment = () => {
       </div>
     );
   }
-
+ 
   const { subtotal, tax, shipping, items } = order;
   const finalTotal = Math.max(subtotal - discount + shipping + tax, 0.01);
-
+ 
   //  Added safe transaction ID extractor from old code
   const getPayPalTransactionId = (details) => {
     return (
@@ -34,53 +34,29 @@ const Payment = () => {
       null
     );
   };
-
+ 
   const createOrder = async (payload) => {
     try {
       const fixedCartItems = order.cartItems.map((item) => ({
         ...item,
         vendorID: item.vendorID || item.vendorId || null,
       }));
-
-      // const { data } = await API.post("/order", {
-      //   userId: order.userId,
-      //   email: order.email,
-      //   cartItems: fixedCartItems,
-      //   shippingAddress: order.shippingAddress,
-      //   billingAddress: order.billingAddress,
-      //   subtotal: order.subtotal,
-      //   tax: order.tax,
-      //   shipping: order.shipping,
-      //   total: finalTotal,
-      //   coupon,
-      //   discount,
-      //   prescriptionUrl: order.prescriptionUrl,
-      //   ...payload,
-      // });
-
-
-      const formData = new FormData();
-
-      formData.append("userId", order.userId);
-      formData.append("email", order.email);
-      formData.append("subtotal", order.subtotal);
-      formData.append("tax", order.tax);
-      formData.append("shipping", order.shipping);
-      formData.append("total", finalTotal);
-      formData.append("paymentMethod", paymentMethod);
-      formData.append("paymentStatus", paymentStatus);
-      formData.append("transactionId", transactionId || "");
-      formData.append("cartItems", JSON.stringify(order.cartItems));
-      formData.append("shippingAddress", JSON.stringify(order.shippingAddress));
-      formData.append("billingAddress", JSON.stringify(order.billingAddress));
-      if (order.prescriptionFile) {
-        formData.append("prescription", order.prescriptionFile); // file object
-      }
-
-      await API.post("/order", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+ 
+      const { data } = await API.post("/order", {
+        userId: order.userId,
+        email: order.email,
+        cartItems: fixedCartItems,
+        shippingAddress: order.shippingAddress,
+        billingAddress: order.billingAddress,
+        subtotal: order.subtotal,
+        tax: order.tax,
+        shipping: order.shipping,
+        total: finalTotal,
+        coupon,
+        discount,
+        ...payload,
       });
-
+ 
       Swal.fire({
         icon: "success",
         title: "Order Placed!",
@@ -98,7 +74,7 @@ const Payment = () => {
       Swal.fire("Error", "Failed to place order", "error");
     }
   };
-
+ 
   // COD handler
   const handleCOD = () => {
     createOrder({
@@ -106,7 +82,7 @@ const Payment = () => {
       paymentStatus: "Pending",
     });
   };
-
+ 
   //  Updated PayPal success with safe transaction ID
   const handlePayPalSuccess = (details) => {
     const transactionId = getPayPalTransactionId(details);
@@ -116,21 +92,21 @@ const Payment = () => {
       transactionId,
     });
   };
-
+ 
   const handlePayPalFail = () => {
     createOrder({
       paymentMethod: "PayPal",
       paymentStatus: "Failed",
       transactionId: null,
     });
-
+ 
     Swal.fire(
       "Payment Failed",
       "PayPal payment could not be completed. Your order marked as Failed",
       "error"
     );
   };
-
+ 
   // Coupon logic
   const handleApplyCoupon = async () => {
     setCoupon("");
@@ -138,13 +114,13 @@ const Payment = () => {
       Swal.fire("Error", "Please enter a coupon code", "error");
       return;
     }
-
+ 
     try {
       const category = order.items?.[0]?.category || "";
       const { data } = await API.get(
         `/validateCoupon/${coupon}?cartTotal=${subtotal}&category=${category}`
       );
-
+ 
       if (data.success) {
         setDiscount(data.data.discountAmount);
         Swal.fire(
@@ -168,14 +144,14 @@ const Payment = () => {
       );
     }
   };
-
+ 
   return (
     <div className="flex justify-center items-center min-h-[80vh] bg-gray-200 pt-20 pb-20">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md border border-red-600">
         <h2 className="text-2xl font-bold mb-6 text-center text-red-600">
           Complete Your Payment
         </h2>
-
+ 
         {/* Order Summary */}
         <div className="bg-gray-100 p-4 rounded-lg mb-6">
           <h3 className="text-lg font-semibold mb-2">Order Summary</h3>
@@ -184,7 +160,7 @@ const Payment = () => {
               <span>Subtotal</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
-
+ 
             {discount > 0 && (
               <div className="flex justify-between items-start text-green-600 mt-2">
                 <span className="font-semibold">Discount</span>
@@ -205,7 +181,7 @@ const Payment = () => {
                 </div>
               </div>
             )}
-
+ 
             <div className="flex justify-between">
               <span>Shipping</span>
               <span>{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</span>
@@ -214,14 +190,14 @@ const Payment = () => {
               <span>Tax</span>
               <span>${tax.toFixed(2)}</span>
             </div>
-
+ 
             <div className="border-t pt-2 flex justify-between font-bold text-red-600 text-lg">
               <span>Total</span>
               <span>${finalTotal.toFixed(2)}</span>
             </div>
           </div>
         </div>
-
+ 
         {/* Coupon Input */}
         <div className="flex gap-2 mb-6">
           <input
@@ -235,14 +211,14 @@ const Payment = () => {
             onClick={handleApplyCoupon}
             disabled={coupon.trim().length < 3}
             className={`px-4 rounded-lg ${coupon.trim().length < 3
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-red-600 text-white hover:bg-black hover:cursor-pointer"
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-red-600 text-white hover:bg-black hover:cursor-pointer"
               }`}
           >
             Apply
           </button>
         </div>
-
+ 
         {/* PayPal Button */}
         <PayPalButtons
           style={{
@@ -291,7 +267,7 @@ const Payment = () => {
           onError={() => handlePayPalFail()}
           onCancel={() => handlePayPalFail()}
         />
-
+ 
         {/* COD Button */}
         <div className="mt-5">
           <button
@@ -305,5 +281,6 @@ const Payment = () => {
     </div>
   );
 };
-
+ 
 export default Payment;
+ 
