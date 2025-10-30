@@ -26,11 +26,11 @@ const ViewCart = ({ items, hideCheckout }) => {
     framePrice: item.price,
     lens: item.lens,
     policy: item.policy,
+    vendorID: item.vendorID || null,
   }));
 
   return (
     <div className="container mx-auto px-4 py-10">
-
       {cartItems.length === 0 ? (
         <div className="text-center text-gray-600">
           Your cart is empty.

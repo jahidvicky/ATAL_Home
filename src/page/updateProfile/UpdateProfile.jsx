@@ -35,10 +35,10 @@ function UpdateProfile() {
       score <= 1
         ? "Weak"
         : score === 2
-        ? "Medium"
-        : score === 3
-        ? "Strong"
-        : "Very Strong"
+          ? "Medium"
+          : score === 3
+            ? "Strong"
+            : "Very Strong"
     );
   };
 
@@ -310,15 +310,14 @@ function UpdateProfile() {
                   <p className="text-sm">
                     Password Strength:{" "}
                     <span
-                      className={`font-semibold ${
-                        strength <= 1
-                          ? "text-red-500"
-                          : strength === 2
+                      className={`font-semibold ${strength <= 1
+                        ? "text-red-500"
+                        : strength === 2
                           ? "text-yellow-500"
                           : strength === 3
-                          ? "text-green-500"
-                          : "text-blue-600"
-                      }`}
+                            ? "text-green-500"
+                            : "text-blue-600"
+                        }`}
                     >
                       {strengthLabel}
                     </span>
@@ -329,15 +328,14 @@ function UpdateProfile() {
                     max="4"
                     value={strength}
                     readOnly
-                    className={`w-full h-2 rounded-lg mt-2 appearance-none cursor-default ${
-                      strength <= 1
-                        ? "bg-red-400"
-                        : strength === 2
+                    className={`w-full h-2 rounded-lg mt-2 appearance-none cursor-default ${strength <= 1
+                      ? "bg-red-400"
+                      : strength === 2
                         ? "bg-yellow-400"
                         : strength === 3
-                        ? "bg-green-400"
-                        : "bg-blue-400"
-                    }`}
+                          ? "bg-green-400"
+                          : "bg-blue-400"
+                      }`}
                   />
                 </div>
               )}

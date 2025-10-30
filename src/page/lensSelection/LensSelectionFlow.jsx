@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 const LensSelectionFlow = () => {
   const navigate = useNavigate();
 
-
   // Load from localStorage if available
   const loadData = (key, fallback) => {
     try {
@@ -28,13 +27,19 @@ const LensSelectionFlow = () => {
   };
 
   const [step, setStep] = useState(loadData("step", 1));
-  const [selectedLens, setSelectedLens] = useState(loadData("selectedLens", null));
-  const [prescriptionMethod, setPrescriptionMethod] = useState(loadData("prescriptionMethod", null));
+  const [selectedLens, setSelectedLens] = useState(
+    loadData("selectedLens", null)
+  );
+  const [prescriptionMethod, setPrescriptionMethod] = useState(
+    loadData("prescriptionMethod", null)
+  );
   const [lensType, setLensType] = useState(loadData("lensType", null));
   const [tint, setTint] = useState(loadData("tint", null));
   const [thickness, setThickness] = useState(loadData("thickness", null));
   const [enhancement, setEnhancement] = useState(loadData("enhancement", null));
-  const [prescription, setPrescription] = useState(loadData("prescription", null));
+  const [prescription, setPrescription] = useState(
+    loadData("prescription", null)
+  );
   const [showPrescription, setShowPrescription] = useState(false);
   const [product, setProduct] = useState(loadData("product", null));
 
@@ -60,14 +65,27 @@ const LensSelectionFlow = () => {
   useEffect(() => {
     localStorage.setItem("lensFlow_step", JSON.stringify(step));
     localStorage.setItem("lensFlow_selectedLens", JSON.stringify(selectedLens));
-    localStorage.setItem("lensFlow_prescriptionMethod", JSON.stringify(prescriptionMethod));
+    localStorage.setItem(
+      "lensFlow_prescriptionMethod",
+      JSON.stringify(prescriptionMethod)
+    );
     localStorage.setItem("lensFlow_lensType", JSON.stringify(lensType));
     localStorage.setItem("lensFlow_tint", JSON.stringify(tint));
     localStorage.setItem("lensFlow_thickness", JSON.stringify(thickness));
     localStorage.setItem("lensFlow_enhancement", JSON.stringify(enhancement));
     localStorage.setItem("lensFlow_prescription", JSON.stringify(prescription));
     localStorage.setItem("lensFlow_product", JSON.stringify(product));
-  }, [step, selectedLens, prescriptionMethod, lensType, tint, thickness, enhancement, prescription, product]);
+  }, [
+    step,
+    selectedLens,
+    prescriptionMethod,
+    lensType,
+    tint,
+    thickness,
+    enhancement,
+    prescription,
+    product,
+  ]);
 
   // Handle Add to Cart
   const handleAddToCart = () => {
@@ -87,7 +105,10 @@ const LensSelectionFlow = () => {
       totalPrice: lensPrice,
     };
 
-    localStorage.setItem("lensSelectionDetails", JSON.stringify(lensSelectionDetails));
+    localStorage.setItem(
+      "lensSelectionDetails",
+      JSON.stringify(lensSelectionDetails)
+    );
 
     Swal.fire({
       toast: true,
@@ -121,7 +142,6 @@ const LensSelectionFlow = () => {
     setProduct(prod);
   };
 
-
   useEffect(() => {
     if (previousLens?.lens) {
       setSelectedLens(previousLens.lens.selectedLens || null);
@@ -133,8 +153,6 @@ const LensSelectionFlow = () => {
       setEnhancement(previousLens.lens.enhancement || null);
     }
   }, [previousLens]);
-
-
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -180,13 +198,22 @@ const LensSelectionFlow = () => {
         )}
 
         {step === 4 && (
-          <Step3UploadForm preFilledData={prescription} goBack={() => setStep(2)} onContinue={() => setStep(5)} />
+          <Step3UploadForm
+            preFilledData={prescription}
+            goBack={() => setStep(2)}
+            onContinue={(data) => {
+              setPrescription(data);
+              setStep(5);
+            }}
+          />
         )}
 
         {step === 5 && (
           <Step4LensTypeSelection
             preSelectedType={lensType}
-            goBack={() => setStep(selectedLens === "Non-prescription lenses" ? 1 : 2)}
+            goBack={() =>
+              setStep(selectedLens === "Non-prescription lenses" ? 1 : 2)
+            }
             onSelectLensType={(type) => {
               setLensType(type);
               setStep(type.name === "Sun lenses" ? 6 : 7);
@@ -240,7 +267,9 @@ const LensSelectionFlow = () => {
               </p>
               <p>
                 <strong>Lens Type:</strong> {lensType?.name || "Clear lenses"}{" "}
-                {lensType?.price && <span className="text-blue-600">{lensType.price}</span>}
+                {lensType?.price && (
+                  <span className="text-blue-600">{lensType.price}</span>
+                )}
               </p>
               {lensType?.name === "Sun lenses" && tint && (
                 <p>
@@ -265,7 +294,9 @@ const LensSelectionFlow = () => {
             {/* TOTAL */}
             <div className="border-t pt-4 mt-4 flex justify-between items-center text-xl font-semibold">
               <span>Lenses Total:</span>
-              <span className="text-green-600 font-bold">${lensPrice.toFixed(2)}</span>
+              <span className="text-green-600 font-bold">
+                ${lensPrice.toFixed(2)}
+              </span>
             </div>
 
             {/* Actions */}

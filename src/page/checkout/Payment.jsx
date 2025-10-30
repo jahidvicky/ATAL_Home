@@ -23,7 +23,6 @@ const Payment = () => {
     );
   }
 
-
   const { subtotal, tax, shipping, items } = order;
   const finalTotal = Math.max(subtotal - discount + shipping + tax, 0.01);
 
@@ -36,13 +35,17 @@ const Payment = () => {
     );
   };
 
-  //  Unified createOrder with all required fields (from old code)
   const createOrder = async (payload) => {
     try {
+      const fixedCartItems = order.cartItems.map((item) => ({
+        ...item,
+        vendorID: item.vendorID || item.vendorId || null,
+      }));
+
       const { data } = await API.post("/order", {
         userId: order.userId,
-        email: order.email, //  fixed to match backend expectation
-        cartItems: order.cartItems, //  explicit field
+        email: order.email,
+        cartItems: fixedCartItems,
         shippingAddress: order.shippingAddress,
         billingAddress: order.billingAddress,
         subtotal: order.subtotal,
@@ -60,7 +63,6 @@ const Payment = () => {
         html: `<p>Tracking Number: <b>${data.order.trackingNumber}</b></p>`,
         confirmButtonText: "View Order",
       }).then(() => {
-        //  Added these two back from old code
         localStorage.removeItem("orderSummary");
         localStorage.removeItem("cartItems");
         localStorage.removeItem("checkoutDraft");
@@ -68,17 +70,9 @@ const Payment = () => {
         navigate(`/order/${data.order._id}`);
       });
     } catch (err) {
-      console.error("Order creation failed:", err);
+      console.error(" Order creation failed:", err);
       Swal.fire("Error", "Failed to place order", "error");
     }
-  };
-
-  // COD handler
-  const handleCOD = () => {
-    createOrder({
-      paymentMethod: "Cash on Delivery",
-      paymentStatus: "Pending",
-    });
   };
 
   //  Updated PayPal success with safe transaction ID
@@ -107,7 +101,7 @@ const Payment = () => {
 
   // Coupon logic
   const handleApplyCoupon = async () => {
-    setCoupon("")
+    setCoupon("");
     if (!coupon.trim()) {
       Swal.fire("Error", "Please enter a coupon code", "error");
       return;
@@ -182,9 +176,7 @@ const Payment = () => {
 
             <div className="flex justify-between">
               <span>Shipping</span>
-              <span>
-                {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
-              </span>
+              <span>{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</span>
             </div>
             <div className="flex justify-between">
               <span>Tax</span>
@@ -267,16 +259,6 @@ const Payment = () => {
           onError={() => handlePayPalFail()}
           onCancel={() => handlePayPalFail()}
         />
-
-        {/* COD Button */}
-        <div className="mt-5">
-          <button
-            onClick={handleCOD}
-            className="bg-black text-white text-2xl p-3 rounded-lg w-full hover:bg-red-600 hover:text-white"
-          >
-            Cash On Delivery
-          </button>
-        </div>
       </div>
     </div>
   );

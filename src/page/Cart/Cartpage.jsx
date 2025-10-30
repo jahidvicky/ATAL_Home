@@ -53,6 +53,7 @@ const Cartpage = () => {
     lens: lensDetails || null,
     policy: selectedPolicy || null,
     subCat_id: subcategory,
+    vendorID: product.vendorID || product.vendorId || null,
   };
 
   const fetchProducts = async () => {
@@ -220,8 +221,8 @@ const Cartpage = () => {
                               key={key}
                               onClick={() => toggleSize(letter)}
                               className={`px-4 py-2 border rounded cursor-pointer text-center transition-all ${isSelected
-                                ? "bg-red-500 text-white border-red-500"
-                                : "bg-white text-black border-gray-300 hover:border-red-500"
+                                  ? "bg-red-500 text-white border-red-500"
+                                  : "bg-white text-black border-gray-300 hover:border-red-500"
                                 }`}
                             >
                               {letter}
@@ -375,8 +376,8 @@ const Cartpage = () => {
                   <Link to="lens-selection-flow" state={{ ID: ID }}>
                     <button
                       className={`${isLensSelected
-                        ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-black hover:bg-gray-900"
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-black hover:bg-gray-900"
                         } text-white px-42 py-3 mb-4 rounded ml-10 text-xl border-1 border-black w-115 hover:cursor-pointer`}
                       disabled={isLensSelected}
                     >
@@ -387,6 +388,24 @@ const Cartpage = () => {
                   {product.stockAvailability > 0 ? (
                     <button
                       onClick={() => {
+                        if (!product) return;
+
+                        if (
+                          selectedSize.length === 0 ||
+                          selectedColor.length === 0
+                        ) {
+                          Swal.fire({
+                            icon: "warning",
+                            title: "Please select size and color!",
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true,
+                          });
+                          return;
+                        }
+
                         dispatch(addToCart(product1));
                         Swal.fire({
                           toast: true,

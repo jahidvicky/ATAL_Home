@@ -14,6 +14,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import CartDrawer from "./CartDrawer";
 import API, { IMAGE_URL } from "../../API/Api";
+import HeaderCategoryMenu from "./CategoryDropdown";
 
 function Header() {
   const navigate = useNavigate();
@@ -79,7 +80,7 @@ function Header() {
       const response = await API.get(`/customer/${user}`);
 
       setCustProfile(response.data.data.profileImage);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -306,9 +307,9 @@ function Header() {
               <li className="cursor-pointer hover:text-red-600">SERVICES</li>
             </Link>
 
-            <Link to="/category">
-              <li className="cursor-pointer hover:text-red-600">CATEGORY</li>
-            </Link>
+            <li>
+              <HeaderCategoryMenu />
+            </li>
 
             <Link to="/contact-us">
               <li className="cursor-pointer hover:text-red-600">CONTACT US</li>
@@ -395,9 +396,8 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 z-50 text-center`}
+        className={`fixed top-0 left-0 h-full w-full bg-black text-white transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } transition-transform duration-300 z-50 text-center`}
       >
         <div className="flex justify-between items-center p-4 border-b border-gray-700 bg-white">
           {/* Logo */}
