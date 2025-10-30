@@ -393,6 +393,23 @@ const Cartpage = () => {
                     <button
                       onClick={() => {
                         if (!product) return;
+
+                        if (
+                          selectedSize.length === 0 ||
+                          selectedColor.length === 0
+                        ) {
+                          Swal.fire({
+                            icon: "warning",
+                            title: "Please select size and color!",
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true,
+                          });
+                          return;
+                        }
+
                         dispatch(addToCart(product1));
                         Swal.fire({
                           toast: true,
