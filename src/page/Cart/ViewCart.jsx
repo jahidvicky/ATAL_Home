@@ -84,7 +84,7 @@ const ViewCart = ({ items, hideCheckout }) => {
 
                   <div className="mt-1">
                     {item.originalPrice &&
-                    Number(item.originalPrice) > Number(item.price) ? (
+                      Number(item.originalPrice) > Number(item.price) ? (
                       <div className="flex items-center gap-3">
                         <span className="line-through text-sm">
                           ${Number(item.originalPrice).toFixed(2)}
@@ -250,7 +250,7 @@ const ViewCart = ({ items, hideCheckout }) => {
                   <p>
                     Frame:{" "}
                     {item.originalPrice &&
-                    Number(item.originalPrice) > Number(item.price) ? (
+                      Number(item.originalPrice) > Number(item.price) ? (
                       <>
                         <span className="line-through text-sm mr-2">
                           ${Number(item.originalPrice).toFixed(2)}

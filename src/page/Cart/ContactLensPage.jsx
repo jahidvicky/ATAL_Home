@@ -236,9 +236,8 @@ const ContactLensPage = () => {
                   <img
                     src={img}
                     alt={`frame-${index}`}
-                    className={`w-[100px] hover:cursor-pointer rounded ${
-                      mainImage === img ? "ring-2 ring-green-700" : ""
-                    }`}
+                    className={`w-[100px] hover:cursor-pointer rounded ${mainImage === img ? "ring-2 ring-green-700" : ""
+                      }`}
                   />{" "}
                 </button>
               ))}{" "}
@@ -291,11 +290,10 @@ const ContactLensPage = () => {
                         onClick={() => setSelectedColor(color.trim())} // trim extra spaces
                         style={{ backgroundColor: color.trim() }}
                         className={`w-6 h-6 rounded-full cursor-pointer transition-all
-            ${
-              selectedColor === color.trim()
-                ? "border-2 border-red-500"
-                : "border border-gray-300"
-            }
+            ${selectedColor === color.trim()
+                            ? "border-2 border-red-500"
+                            : "border border-gray-300"
+                          }
           `}
                       ></span>
                     ))}
@@ -336,11 +334,10 @@ const ContactLensPage = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* OD Right Eye */}
                     <div
-                      className={`p-4 rounded-lg border ${
-                        formData.od_selected
+                      className={`p-4 rounded-lg border ${formData.od_selected
                           ? "opacity-100"
                           : "opacity-50 pointer-events-none"
-                      }`}
+                        }`}
                     >
                       <h3 className="font-semibold mb-2">OD (Right Eye)</h3>
                       <label className="block text-sm font-medium mb-1">
@@ -389,11 +386,10 @@ const ContactLensPage = () => {
 
                     {/* OS Left Eye */}
                     <div
-                      className={`p-4 rounded-lg border ${
-                        formData.os_selected
+                      className={`p-4 rounded-lg border ${formData.os_selected
                           ? "opacity-100"
                           : "opacity-50 pointer-events-none"
-                      }`}
+                        }`}
                     >
                       <h3 className="font-semibold mb-2">OS (Left Eye)</h3>
                       <label className="block text-sm font-medium mb-1">

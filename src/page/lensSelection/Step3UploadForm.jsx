@@ -95,8 +95,8 @@ const Step3UploadForm = ({ preFilledData, goBack, onContinue }) => {
         onClick={() => onContinue(uploadInfo)}
         disabled={!uploadInfo || uploading}
         className={`mt-6 w-full py-2 rounded ${uploadInfo
-            ? "bg-green-600 text-white hover:bg-green-700"
-            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+          ? "bg-green-600 text-white hover:bg-green-700"
+          : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
       >
         {uploading ? "Uploading..." : "Continue"}
