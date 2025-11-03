@@ -1,144 +1,163 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import API from "../../API/Api";
 
-const HeaderCategoryMenu = () => {
-    const [categories, setCategories] = useState([]);
-    const [subcategories, setSubcategories] = useState({}); // stores fetched arrays
-    const [menuVisible, setMenuVisible] = useState(false);
-    const [hoveredCategory, setHoveredCategory] = useState(null);
-    const [fetchedCategories, setFetchedCategories] = useState({}); // tracks which categories are fetched
+const MegaMenu = ({ label, columns = [], promo }) => {
+    const [open, setOpen] = useState(false);
     const timeoutRef = useRef(null);
+    const rootRef = useRef(null);
+    const location = useLocation();
+    const menuId = `mega-${label.replace(/\s+/g, "-").toLowerCase()}`;
 
+    // Optional hover behavior (keep if you want hover + click)
+    const onEnter = () => {
+        clearTimeout(timeoutRef.current);
+        setOpen(true);
+    };
+    const onLeave = () => {
+        timeoutRef.current = setTimeout(() => setOpen(false), 120);
+    };
+
+    // Click-to-toggle
+    const onToggleClick = (e) => {
+        e.stopPropagation();
+        clearTimeout(timeoutRef.current);
+        setOpen((v) => !v);
+    };
+
+    // Close on outside click
     useEffect(() => {
-        fetchCategories();
+        const handler = (e) => {
+            if (rootRef.current && !rootRef.current.contains(e.target)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handler);
+        document.addEventListener("touchstart", handler, { passive: true });
+        return () => {
+            document.removeEventListener("mousedown", handler);
+            document.removeEventListener("touchstart", handler);
+        };
     }, []);
 
-    const fetchCategories = async () => {
-        try {
-            const res = await API.get("/getcategories");
-            setCategories(res.data?.categories || res.data);
-        } catch (error) {
-            console.error("Error fetching categories:", error);
-        }
-    };
-
-    const fetchSubcategories = async (categoryId) => {
-        try {
-            const res = await API.get(`/getSubCatByCatId/${categoryId}`);
-            setSubcategories((prev) => ({
-                ...prev,
-                [categoryId]: res.data?.subcategories || [],
-            }));
-            setFetchedCategories((prev) => ({ ...prev, [categoryId]: true }));
-        } catch (error) {
-            console.error("Error fetching subcategories:", error);
-            setSubcategories((prev) => ({ ...prev, [categoryId]: [] }));
-            setFetchedCategories((prev) => ({ ...prev, [categoryId]: true }));
-        }
-    };
-
-    const handleMouseEnter = () => {
-        clearTimeout(timeoutRef.current);
-        setMenuVisible(true);
-    };
-
-    const handleMouseLeave = () => {
-        timeoutRef.current = setTimeout(() => {
-            setMenuVisible(false);
-            setHoveredCategory(null);
-        }, 200);
-    };
-
-    const handleCategoryHover = (cat) => {
-        setHoveredCategory(cat._id);
-        if (!fetchedCategories[cat._id]) {
-            fetchSubcategories(cat._id);
-        }
-    };
+    // Close on route change
+    useEffect(() => {
+        setOpen(false);
+    }, [location.pathname]);
 
     return (
-        <div
+        <li
+            ref={rootRef}
             className="relative"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseEnter={onEnter}
+            onMouseLeave={onLeave}
         >
-            <span className="cursor-pointer text-white font-semibold tracking-wide hover:text-red-500 transition duration-300">
-                CATEGORIES
-            </span>
+            {/* Button trigger for click toggle + a11y */}
+            <button
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={open}
+                aria-controls={menuId}
+                className="cursor-pointer hover:text-red-600 outline-none"
+                onClick={onToggleClick}
+                onKeyDown={(e) => {
+                    if (e.key === "Escape") setOpen(false);
+                    if (e.key === "ArrowDown") setOpen(true);
+                }}
+            >
+                {label}
+            </button>
 
             <AnimatePresence>
-                {menuVisible && (
+                {open && (
                     <motion.div
-                        initial={{ opacity: 0, scaleY: 0.9, y: -10 }}
-                        animate={{ opacity: 1, scaleY: 1, y: 0 }}
-                        exit={{ opacity: 0, scaleY: 0.9, y: -10 }}
-                        transition={{ duration: 0.25, ease: "easeInOut" }}
-                        className="absolute left-0 top-full mt-3 bg-white text-gray-800 border border-gray-200 rounded-xl shadow-xl flex z-50 min-h-[200px] origin-top"
+                        id={menuId}
+                        role="menu"
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.18, ease: "easeInOut" }}
+                        className="absolute left-1/2 -translate-x-1/2 top-full mt-3 bg-white text-gray-800 border border-gray-200 rounded-xl shadow-2xl z-50 ml-46 w-[890px] overflow-hidden pointer-events-auto"
                     >
-                        {/* Categories */}
-                        <ul className="min-w-[220px] border-r border-gray-100 py-2">
-                            {categories.map((cat) => (
-                                <li
-                                    key={cat._id}
-                                    className={`px-5 py-2 text-sm font-medium cursor-pointer transition duration-200 ${hoveredCategory === cat._id
-                                        ? "bg-gray-100 text-red-600"
-                                        : "hover:bg-gray-50"
-                                        }`}
-                                    onMouseEnter={() => handleCategoryHover(cat)}
-                                >
-                                    {cat.categoryName}
-                                </li>
-                            ))}
-                        </ul>
+                        <div className="grid grid-cols-4">
+                            {/* Link columns */}
+                            <div className="col-span-3 grid grid-cols-3 gap-6 p-5">
+                                {columns.map((col) => (
+                                    <div key={col.title}>
+                                        <h4 className="text-sm font-semibold text-gray-700 mb-2">
+                                            {col.title}
+                                        </h4>
+                                        <ul className="space-y-1">
+                                            {col.links.map((l) => (
+                                                <li key={`${col.title}-${l.label}`}>
+                                                    <Link
+                                                        to={l.to}
+                                                        state={l.state}
+                                                        role="menuitem"
+                                                        className="block text-sm text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded px-2 py-1"
+                                                        onMouseDown={(e) => e.preventDefault()}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setOpen(false);
+                                                        }}
+                                                    >
+                                                        {l.label}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
+                            </div>
 
-                        {/* Subcategories */}
-                        {hoveredCategory && fetchedCategories[hoveredCategory] && (
-                            <motion.ul
-                                key={hoveredCategory}
-                                initial={{ opacity: 0, x: 10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: 10 }}
-                                transition={{ duration: 0.2 }}
-                                className="min-w-[220px] py-2 bg-gray-50"
-                            >
-                                {subcategories[hoveredCategory]?.length > 0 ? (
-                                    subcategories[hoveredCategory].map((sub) => (
-                                        <li
-                                            key={sub._id}
-                                            className="px-5 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 transition duration-200 cursor-pointer"
+                            {/* Visual promo panel */}
+                            <div className="col-span-1 border-l border-gray-100 bg-white">
+                                <div className="p-5 h-full flex flex-col">
+                                    <div className="relative rounded-xl overflow-hidden shadow-sm">
+                                        {promo?.image && (
+                                            <img
+                                                src={promo.image}
+                                                alt={promo?.headline || "Promo"}
+                                                className="w-full h-44 object-cover"
+                                                loading="lazy"
+                                                decoding="async"
+                                            />
+                                        )}
+                                        {promo?.badge && (
+                                            <span className="absolute top-2 left-2 bg-black text-white text-xs tracking-wide px-2 py-1 rounded">
+                                                {promo.badge}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <h5 className="mt-3 text-base font-semibold text-gray-900">
+                                        {promo?.headline}
+                                    </h5>
+                                    <p className="text-sm text-gray-600 mt-1">{promo?.text}</p>
+                                    {promo?.ctaLabel && (
+                                        <Link
+                                            to={promo.ctaTo || "#"}
+                                            state={promo.state}
+                                            className="inline-block mt-3 bg-black text-white text-sm px-4 py-2 rounded-lg hover:bg-red-600"
+                                            onMouseDown={(e) => e.preventDefault()}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setOpen(false);
+                                            }}
                                         >
-                                            <Link
-                                                to="/allproduct"
-                                                className="block w-full"
-                                                state={{
-                                                    category: sub.cat_id,
-                                                    subcategory: sub._id,
-                                                    subCategoryName: sub.subCategoryName,
-                                                }}
-                                                onClick={() => {
-                                                    setMenuVisible(false);
-                                                    setHoveredCategory(null);
-                                                }}
-                                            >
-                                                {sub.subCategoryName}
-                                            </Link>
-                                        </li>
-                                    ))
-                                ) : (
-                                    <li className="px-5 py-2 text-gray-400 text-sm">
-                                        No subcategories
-                                    </li>
-                                )}
-                            </motion.ul>
-                        )}
+                                            {promo.ctaLabel}
+                                        </Link>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </div>
+        </li>
     );
 };
 
-export default HeaderCategoryMenu;
+export default MegaMenu;
+
+
 

@@ -335,8 +335,8 @@ const ContactLensPage = () => {
                     {/* OD Right Eye */}
                     <div
                       className={`p-4 rounded-lg border ${formData.od_selected
-                          ? "opacity-100"
-                          : "opacity-50 pointer-events-none"
+                        ? "opacity-100"
+                        : "opacity-50 pointer-events-none"
                         }`}
                     >
                       <h3 className="font-semibold mb-2">OD (Right Eye)</h3>
@@ -387,8 +387,8 @@ const ContactLensPage = () => {
                     {/* OS Left Eye */}
                     <div
                       className={`p-4 rounded-lg border ${formData.os_selected
-                          ? "opacity-100"
-                          : "opacity-50 pointer-events-none"
+                        ? "opacity-100"
+                        : "opacity-50 pointer-events-none"
                         }`}
                     >
                       <h3 className="font-semibold mb-2">OS (Left Eye)</h3>
@@ -498,10 +498,10 @@ const ContactLensPage = () => {
                   <p className="text-lg font-bold m-5">Lens</p>
                   <div className="flex">
                     <p className="text-lg font-bold mr-8 line-through">
-                      ${product.product_price} CAD
+                      ${product.product_price}
                     </p>
                     <p className="text-lg font-bold mr-8">
-                      ${product.product_sale_price} CAD
+                      ${product.product_sale_price}
                     </p>
                   </div>
                 </div>
