@@ -38,7 +38,7 @@ const ProductCard = ({ product, onClick, children }) => {
           ${product.product_price}
         </span>
         <span className="text-black font-bold">
-          ${product.discountedPrice ? product.discountedPrice : product.product_sale_price} CAD
+          ${product.discountedPrice ? product.discountedPrice : product.product_sale_price}
         </span>
       </div>
     </div>
@@ -81,7 +81,7 @@ const ProductGrid = () => {
         {/* Show "Find More" button only if more than 4 products */}
         {bestSellerData.length > 4 && (
           <Link
-            to="/allproduct"
+            to={`/allProduct/${bestSellerData[0]?.cat_sec}/${bestSellerData[0]?.subCategoryName}`}
             state={{
               category: bestSellerData[0]?.cat_id,
               subcategory: bestSellerData[0]?.subCat_id,

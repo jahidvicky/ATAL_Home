@@ -116,10 +116,10 @@ function WishlistPage({ userId }) {
                                             </span>
                                         )}
                                         <span className="text-gray-500 font-bold line-through mr-2">
-                                            ${product.product_price} CAD
+                                            ${product.product_price}
                                         </span>
                                         <span className="text-red-600 font-semibold">
-                                            ${product.product_sale_price} CAD
+                                            ${product.product_sale_price}
                                         </span>
 
 

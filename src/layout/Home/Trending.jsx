@@ -48,7 +48,7 @@ const Trending = () => {
         </h2>
         {reviews.length > 0 && (
           <Link
-            to="/allproduct"
+            to={`/allProduct/${reviews[0]?.cat_sec}/${reviews[0]?.subCategoryName}`}
             state={{
               category: reviews[0]?.cat_id,
               subcategory: reviews[0]?.subCat_id

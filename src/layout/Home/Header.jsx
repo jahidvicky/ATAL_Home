@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   FaUser,
   FaHeart,
@@ -6,7 +6,7 @@ import {
   FaFacebookF,
   FaYoutube,
 } from "react-icons/fa";
-import { FaSquareInstagram, FaBars } from "react-icons/fa6";
+import { FaSquareInstagram } from "react-icons/fa6";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/category/logo.png";
@@ -14,36 +14,185 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import CartDrawer from "./CartDrawer";
 import API, { IMAGE_URL } from "../../API/Api";
-import HeaderCategoryMenu from "./CategoryDropdown";
+import { motion, AnimatePresence } from "framer-motion";
+import { CAT, SUB, SUB_IMG } from "../../constants/catalogIds";
 
+/* ------------------------ Shared Mega Menu Panel ------------------------ */
+function MegaMenuPanel({ open, onClose, activeKey, dataByKey }) {
+  const panelRef = useRef(null);
+
+  // Outside click
+  useEffect(() => {
+    const onDoc = (e) => {
+      if (!panelRef.current) return;
+      if (!panelRef.current.contains(e.target)) onClose?.();
+    };
+    if (open) {
+      document.addEventListener("mousedown", onDoc);
+      document.addEventListener("touchstart", onDoc, { passive: true });
+    }
+    return () => {
+      document.removeEventListener("mousedown", onDoc);
+      document.removeEventListener("touchstart", onDoc);
+    };
+  }, [open, onClose]);
+
+  // ESC to close
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose?.();
+    };
+    if (open) window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  const menu = dataByKey[activeKey] || null;
+
+  const panelMotion = {
+    initial: { opacity: 0, y: -8 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -8 },
+    transition: { duration: 0.18, ease: "easeInOut" },
+  };
+
+
+  const getImageSrc = (img) => {
+    if (!img) return // if empty value, use local fallback
+
+    // If imported local file (it becomes a full local path or module URL)
+    if (typeof img === "string" && img.startsWith("/")) return img;
+    if (img.includes("assets") || img.includes("static")) return img;
+
+    // If full external URL
+    if (img.startsWith("http")) return img;
+
+    // Otherwise backend stored image → add prefix
+    return IMAGE_URL + img;
+  };
+
+
+  return (
+    <AnimatePresence>
+      {open && menu && (
+        <motion.div
+          {...panelMotion}
+          ref={panelRef}
+          className="absolute left-1/2 -translate-x-1/2 top-full bg-white text-gray-800 border border-gray-200 rounded-xl shadow-2xl z-50 w-[1040px] max-w-[90vw] overflow-hidden"
+          role="menu"
+          aria-label={`${activeKey} mega menu`}
+        >
+          <div className="grid grid-cols-[620px_1fr]">
+            {/* Left: link columns */}
+            <div className="grid grid-cols-3 gap-6 p-6">
+              {menu.columns.map((col) => (
+                <div key={col.title}>
+                  <h4 className="text-sm font-semibold text-gray-700 mb-2">
+                    {col.title}
+                  </h4>
+                  <ul className="space-y-1">
+                    {col.links.map((l) => (
+                      <li
+                        key={`${col.title}-${l.label}`}>
+                        <Link
+                          to={l.to}
+                          state={l.state}
+                          role="menuitem"
+                          className="flex items-center gap-2 text-sm text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded px-2 py-1"
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onClose?.();
+                          }}
+                        >
+                          <img
+                            className="w-12 h-12 object-cover rounded-full"
+                            src={getImageSrc(l.state.subCategoryImage)}
+                            alt={l.label}
+                          />
+                          <span>{l.label}</span>
+                        </Link>
+
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            {/* Right: promo */}
+            <div className="border-l border-gray-100 bg-white">
+              <div className="p-6 h-full flex flex-col">
+                <div className="relative rounded-md overflow-hidden">
+                  {menu.promo?.image && (
+                    <img
+                      src={menu.promo.image}
+                      alt={menu.promo?.headline || "Promo"}
+                      className="w-full h-[300px] object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
+                  {menu.promo?.badge && (
+                    <span className="absolute top-3 left-3 bg-black text-white text-[11px] tracking-wide px-2 py-1 rounded">
+                      {menu.promo.badge}
+                    </span>
+                  )}
+                </div>
+                <h5 className="mt-4 text-base font-semibold text-gray-900">
+                  {menu.promo?.headline}
+                </h5>
+                <p className="text-sm text-gray-600 mt-1">{menu.promo?.text}</p>
+                {menu.promo?.ctaLabel && (
+                  <Link
+                    to={menu.promo.ctaTo || "#"}
+                    state={menu.promo.state}
+                    className="inline-block mt-3 bg-black text-white text-sm px-4 py-2 rounded-lg hover:bg-red-600"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={(e) => onClose?.()}
+                  >
+                    {menu.promo.ctaLabel}
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+/* --------------------------------- Header -------------------------------- */
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [query, setQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
-  // const searchRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [activeIdx, setActiveIdx] = useState(-1);
+  const [showResults, setShowResults] = useState(false);
+
   const desktopSearchRef = useRef(null);
   const mobileSearchRef = useRef(null);
+  const debounceRef = useRef(null);
+  const abortRef = useRef(null);
 
-  // const [open, setOpen] = useState(false);
   const [openDesktop, setOpenDesktop] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
 
   const [custProfile, setCustProfile] = useState([]);
 
-  // cart quantity from redux
-  const totalQuantity = useSelector((state) =>
-    state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
+  const totalQuantity = useSelector(
+    (state) => state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
   );
 
-  // auth state from redux (example: state.auth.user)
   const user = localStorage.getItem("user");
 
   const [cartOpen, setCartOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // rotating placeholder logic
   const placeholders = [
     "Search for sunglasses...",
     "Search for eyeglasses...",
@@ -51,54 +200,385 @@ function Header() {
     "Search for offers...",
   ];
   const [index, setIndex] = useState(0);
-  const [fade, setFade] = useState(false);
 
-  const handleSearch = async (e) => {
+  // Shared mega menu state (fixed position)
+  const [megaOpen, setMegaOpen] = useState(false);
+  const [activeKey, setActiveKey] = useState(null);
+
+  // Build data for each mega menu tab
+  const megaData = useMemo(
+    () => ({
+      glasses: {
+        columns: [
+          {
+            title: "Shop by Category",
+            links: [
+              {
+                label: "Men's Frames",
+                to: "/glasses/men",
+                state: {
+                  category: CAT.SHOP_BY_CATEGORY,
+                  subcategory: SUB.MENS_FRAMES,
+                  subCategoryName: "Men's Frames",
+                  subCategoryImage: SUB_IMG.MENS_FRAME
+                },
+              },
+              {
+                label: "Women's Frames",
+                to: "/glasses/women",
+                state: {
+                  category: CAT.SHOP_BY_CATEGORY,
+                  subcategory: SUB.WOMENS_FRAMES,
+                  subCategoryName: "Women's Frames",
+                  subCategoryImage: SUB_IMG.WOMENS_FRAME
+                },
+              },
+            ],
+          },
+          {
+            title: "Our Collection",
+            links: [
+              {
+                label: "Eyeglasses",
+                to: "/glasses",
+                state: {
+                  category: CAT.OUR_COLLECTION,
+                  subcategory: SUB.EYEGLASSES,
+                  subCategoryName: "Eyeglasses",
+                  subCategoryImage: SUB_IMG.EYEGLASSES
+                },
+              },
+              {
+                label: "Sunglasses",
+                to: "/sunglasses",
+                state: {
+                  category: CAT.OUR_COLLECTION,
+                  subcategory: SUB.SUNGLASSES,
+                  subCategoryName: "Sunglasses",
+                  subCategoryImage: SUB_IMG.SUNGLASSES
+                },
+              },
+              {
+                label: "Kids Glasses",
+                to: "/glasses/kids",
+                state: {
+                  category: CAT.OUR_COLLECTION,
+                  subcategory: SUB.KIDS_GLASSES,
+                  subCategoryName: "Kids Glasses",
+                  subCategoryImage: SUB_IMG.KIDS_GLASSES
+                },
+              },
+            ],
+          },
+          {
+            title: "Frame Shape",
+            links: [
+              {
+                label: "Aviator",
+                to: "/glasses/aviator",
+                state: {
+                  category: CAT.FRAME_SHAPE,
+                  subcategory: SUB.AVIATOR,
+                  subCategoryName: "Aviator Frame",
+                  subCategoryImage: SUB_IMG.AVIATOR
+                },
+              },
+              {
+                label: "Round",
+                to: "/glasses/round",
+                state: {
+                  category: CAT.FRAME_SHAPE,
+                  subcategory: SUB.ROUND,
+                  subCategoryName: "Round Frame",
+                  subCategoryImage: SUB_IMG.ROUND
+                },
+              },
+              {
+                label: "Rectangle",
+                to: "/glasses/rectangle",
+                state: {
+                  category: CAT.FRAME_SHAPE,
+                  subcategory: SUB.RECTANGLE,
+                  subCategoryName: "Rectangle Frame",
+                  subCategoryImage: SUB_IMG.RECTANGLE
+                },
+              },
+              {
+                label: "Cat‑Eye",
+                to: "/glasses/cat-eye",
+                state: {
+                  category: CAT.FRAME_SHAPE,
+                  subcategory: SUB.CAT_EYE,
+                  subCategoryName: "Cat‑Eye Frame",
+                  subCategoryImage: SUB_IMG.CAT_EYE
+                },
+              },
+              {
+                label: "Oval",
+                to: "/glasses/oval",
+                state: {
+                  category: CAT.FRAME_SHAPE,
+                  subcategory: SUB.OVAL,
+                  subCategoryName: "Oval Frame",
+                  subCategoryImage: SUB_IMG.OVAL
+                },
+              },
+              {
+                label: "Square",
+                to: "/glasses/square",
+                state: {
+                  category: CAT.FRAME_SHAPE,
+                  subcategory: SUB.SQUARE,
+                  subCategoryName: "Square Frame",
+                  subCategoryImage: SUB_IMG.SQUARE
+                },
+              },
+            ],
+          },
+        ],
+        promo: {
+          image: SUB_IMG.Banner1,
+          headline: "Meet the new collections",
+          text: "Fresh arrivals inspired by the latest trends.",
+          ctaLabel: "Shop Eyeglasses",
+          ctaTo: "/glasses",
+          state: {
+            category: CAT.OUR_COLLECTION,
+            subcategory: SUB.EYEGLASSES,
+            subCategoryName: "Eyeglasses",
+            subCategoryImage: SUB_IMG.EYEGLASSES
+          },
+          badge: "NEW",
+        },
+      },
+      sunglasses: {
+        columns: [
+          {
+            title: "Shop",
+            links: [
+              {
+                label: "Sunglasses",
+                to: "/sunglasses",
+                state: {
+                  category: CAT.OUR_COLLECTION,
+                  subcategory: SUB.SUNGLASSES,
+                  subCategoryName: "Sunglasses",
+                  subCategoryImage: SUB_IMG.EYEGLASSES
+                },
+              },
+              {
+                label: "Sports Glasses",
+                to: "/glasses/sports",
+                state: {
+                  category: CAT.OUR_COLLECTION,
+                  subcategory: SUB.SPORTS_GLASSES,
+                  subCategoryName: "Sports Glasses",
+                  subCategoryImage: SUB_IMG.SPORTS_GLASSES
+                },
+              },
+              {
+                label: "Blue Glasses",
+                to: "/glasses/blue",
+                state: {
+                  category: CAT.OUR_COLLECTION,
+                  subcategory: SUB.BLUE_GLASSES,
+                  subCategoryName: "Blue Glasses",
+                  subCategoryImage: SUB_IMG.BLUE_GLASSES
+                },
+              },
+            ],
+          },
+          {
+            title: "Trending & Seller",
+            links: [
+              {
+                label: "Trending",
+                to: "/trending",
+                state: {
+                  category: CAT.CURRENTLY_TRENDING,
+                  subcategory: SUB.TRENDING,
+                  subCategoryName: "Trending",
+                  subCategoryImage: SUB_IMG.Trending
+                },
+              },
+              {
+                label: "Best Seller",
+                to: "/best-sellers",
+                state: {
+                  category: CAT.SELLER,
+                  subcategory: SUB.BEST_SELLER,
+                  subCategoryName: "Best Seller",
+                  subCategoryImage: SUB_IMG.Best_Seller
+                },
+              },
+            ],
+          },
+        ],
+        promo: {
+          image: SUB_IMG.Banner2,
+          headline: "Seasonal offers",
+          text: "Save on top silhouettes and lens upgrades.",
+          ctaLabel: "Shop Sunglasses",
+          ctaTo: "/sunglasses",
+          state: {
+            category: CAT.OUR_COLLECTION,
+            subcategory: SUB.SUNGLASSES,
+            subCategoryName: "Sunglasses",
+          },
+          badge: "SALE",
+        },
+      },
+      contacts: {
+        columns: [
+          {
+            title: "Shop",
+            links: [
+              {
+                label: "Contact Lenses",
+                to: "/contact-lenses",
+                state: {
+                  category: CAT.SHOP_BY_CATEGORY,
+                  subcategory: SUB.CONTACT_LENSES,
+                  subCategoryName: "Contact Lenses",
+                  subCategoryImage: SUB_IMG.Contact_Lens2
+                },
+              },
+            ],
+          },
+          {
+            title: "Explore",
+            links: [
+              {
+                label: "Trending",
+                to: "/trending",
+                state: {
+                  category: CAT.SHOP_BY_CATEGORY,
+                  subcategory: SUB.CONTACT_LENSES,
+                  subCategoryName: "Trending",
+                  subCategoryImage: SUB_IMG.Contact_Lens
+                },
+              },
+              {
+                label: "Best Seller",
+                to: "/best-sellers",
+                state: {
+                  category: CAT.SHOP_BY_CATEGORY,
+                  subcategory: SUB.CONTACT_LENSES,
+                  subCategoryName: "Best Seller",
+                  subCategoryImage: SUB_IMG.CONTACT_LENSE
+                },
+              },
+            ],
+          },
+        ],
+        promo: {
+          image: SUB_IMG.Banner3,
+          headline: "Subscribe & save 20%",
+          text: "Auto‑delivery with free shipping.",
+          ctaLabel: "Shop Contacts",
+          ctaTo: "/contact-lenses",
+          state: {
+            category: CAT.SHOP_BY_CATEGORY,
+            subcategory: SUB.CONTACT_LENSES,
+            subCategoryName: "Contact Lenses",
+          },
+          badge: "SAVE",
+        },
+      },
+    }),
+    []
+  );
+
+  const openMega = (key) => {
+    // Toggle if same key clicked; otherwise open with new key
+    setMegaOpen((prev) => (activeKey === key ? !prev : true));
+    setActiveKey(key);
+  };
+  const closeMega = () => setMegaOpen(false);
+
+  /* ------------------------------ Search logic ------------------------------ */
+  const handleSearch = (e) => {
     const value = e.target.value;
     setQuery(value);
+    setErrorMsg("");
 
-    if (value.trim() === "") {
+    if (!value.trim()) {
       setFilteredProducts([]);
-    } else {
-      try {
-        const res = await API.get(`/products/search?search=${value}`);
-        if (res.data.success) {
-          setFilteredProducts(
-            Array.isArray(res.data.products) ? res.data.products : []
-          );
-        } else {
-          setFilteredProducts([]);
-        }
-      } catch (error) {
-        console.error("Search error:", error);
-      }
+      setShowResults(false);
+      setActiveIdx(-1);
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      if (abortRef.current) abortRef.current.abort();
+      return;
     }
+
+    if (window.innerWidth >= 1024) setOpenDesktop(true);
+    else setOpenMobile(true);
+    setShowResults(true);
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(async () => {
+      try {
+        if (abortRef.current) abortRef.current.abort();
+        const controller = new AbortController();
+        abortRef.current = controller;
+
+        setIsLoading(true);
+        const res = await API.get(
+          `/products/search?search=${encodeURIComponent(value)}`,
+          { signal: controller.signal }
+        );
+
+        const ok = res?.data?.success;
+        if (ok) {
+          const list = Array.isArray(res?.data?.products)
+            ? res.data.products
+            : [];
+          setFilteredProducts(list);
+          setActiveIdx(list.length ? 0 : -1);
+          setErrorMsg(!ok || list.length === 0 ? "No results found" : "");
+        }
+      } catch (err) {
+        if (err.name !== "CanceledError" && err.name !== "AbortError") {
+          setErrorMsg("Something went wrong. Try again.");
+          setFilteredProducts([]);
+          setActiveIdx(-1);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }, 250);
   };
 
   const getCustProfile = async () => {
     try {
       const response = await API.get(`/customer/${user}`);
-
-      setCustProfile(response.data.data.profileImage);
+      setCustProfile(response?.data?.data?.profileImage);
     } catch (error) { }
   };
 
   useEffect(() => {
     getCustProfile();
-  }, []);
+  }, [user]);
 
-  const handleSelect = (product) => {
-    setQuery(product.name);
-    setFilteredProducts([]); // hide dropdown after selection
+  const goToSelected = (product) => {
+    navigate(`/product/${product.product_name}`, {
+      state: {
+        prefill: query,
+        ID: product._id,
+        categoryId: product.cat_id,
+        subcategory: product.subCat_id,
+      },
+    });
+
+    setShowResults(false);
+    setOpenDesktop(false);
+    setOpenMobile(false);
+    setActiveIdx(-1);
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setFade(true);
-      setTimeout(() => {
-        setIndex((prev) => (prev + 1) % placeholders.length);
-        setFade(false);
-      }, 300);
+      setIndex((prev) => (prev + 1) % 4);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
@@ -121,18 +601,10 @@ function Header() {
     setSidebarOpen(false);
   };
 
-  const handleCartMenu = () => {
-    setCartOpen(true);
-    setSidebarOpen(false);
-  };
-
   useEffect(() => {
     if (query) {
-      if (window.innerWidth >= 1024) {
-        setOpenDesktop(true);
-      } else {
-        setOpenMobile(true);
-      }
+      if (window.innerWidth >= 1024) setOpenDesktop(true);
+      else setOpenMobile(true);
     } else {
       setOpenDesktop(false);
       setOpenMobile(false);
@@ -146,19 +618,26 @@ function Header() {
         !desktopSearchRef.current.contains(event.target)
       ) {
         setOpenDesktop(false);
+        setShowResults(false);
+        setActiveIdx(-1);
       }
       if (
         mobileSearchRef.current &&
         !mobileSearchRef.current.contains(event.target)
       ) {
         setOpenMobile(false);
+        setShowResults(false);
+        setActiveIdx(-1);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
+  useEffect(() => {
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      if (abortRef.current) abortRef.current.abort();
     };
   }, []);
 
@@ -167,7 +646,6 @@ function Header() {
       {/* Top Bar */}
       <div className="bg-red-600 py-1 text-white flex justify-between items-center px-4 lg:px-6">
         <div className="mt-1 text-md">
-          {" "}
           Call Us Today! 1-866-242-3545 |
           <a
             href="mailto:info.ataloptical@gmail.com"
@@ -184,7 +662,7 @@ function Header() {
       </div>
 
       {/* Desktop Header */}
-      <header className="hidden lg:block bg-white shadow-xl">
+      <header className="hidden lg:block bg-white shadow-xl relative">
         <div className="flex items-center justify-between px-6 py-2">
           {/* Logo */}
           <Link to="/">
@@ -202,36 +680,82 @@ function Header() {
             <div className="relative">
               <input
                 type="text"
-                placeholder={placeholders[index]}
+                placeholder={["Search for sunglasses...", "Search for eyeglasses...", "Search for contact lenses...", "Search for offers..."][index]}
                 value={query || ""}
                 onChange={handleSearch}
+                onKeyDown={(e) => {
+                  if (!showResults || filteredProducts.length === 0) return;
+                  if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    setActiveIdx((prev) => (prev + 1) % filteredProducts.length);
+                  } else if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    setActiveIdx(
+                      (prev) =>
+                        (prev - 1 + filteredProducts.length) %
+                        filteredProducts.length
+                    );
+                  } else if (e.key === "Enter") {
+                    e.preventDefault();
+                    const chosen =
+                      filteredProducts[activeIdx] || filteredProducts[0];
+                    if (chosen) goToSelected(chosen);
+                  } else if (e.key === "Escape") {
+                    setShowResults(false);
+                    setOpenDesktop(false);
+                    setActiveIdx(-1);
+                  }
+                }}
                 className="w-full rounded-full border border-gray-300 bg-gray-100 py-2 pl-6 pr-10 placeholder-gray-500 focus:outline-none ring-2 ring-red-600 text-black"
               />
               <FaSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-black hover:cursor-pointer" />
 
-              {openDesktop && (
+              {openDesktop && showResults && (
                 <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg z-50">
-                  {filteredProducts.length > 0 ? (
-                    <ul>
-                      {filteredProducts.map((product, index) => (
-                        <li className="mt-4" key={index}>
-                          <Link
-                            to="/allProduct"
-                            key={index}
-                            onClick={() => handleSelect(product)}
-                            className="px-4 py-2 cursor-pointer"
-                            state={{
-                              category: product.cat_id,
-                              subcategory: product.subCat_id,
-                            }}
-                          >
-                            {product.product_name}
-                          </Link>
+                  {isLoading ? (
+                    <p className="px-4 py-3 text-gray-500">Searching…</p>
+                  ) : errorMsg ? (
+                    <p className="px-4 py-3 text-gray-500">{errorMsg}</p>
+                  ) : filteredProducts.length > 0 ? (
+                    <ul className="max-h-80 overflow-auto py-1">
+                      {filteredProducts.map((product, idx) => (
+                        <li
+                          key={product._id || idx}
+                          className={`px-4 py-2 cursor-pointer flex items-center gap-3 ${activeIdx === idx ? "bg-gray-100" : "hover:bg-gray-50"
+                            }`}
+                          onMouseEnter={() => setActiveIdx(idx)}
+                          onClick={() => goToSelected(product)}
+                        >
+                          {product.product_image_collection?.[0] ? (
+                            <img
+                              src={
+                                product.product_image_collection[0].startsWith(
+                                  "http"
+                                )
+                                  ? product.product_image_collection[0]
+                                  : `${IMAGE_URL}/${product.product_image_collection[0]}`
+                              }
+                              alt={product.product_name}
+                              className="w-20 h-10 object-cover rounded"
+                              loading="lazy"
+                              decoding="async"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 bg-gray-100 rounded" />
+                          )}
+                          <div className="min-w-0">
+                            <p className="text-sm text-gray-900 truncate">
+                              {product.product_name}
+                            </p>
+                            <p className="text-xs text-gray-500 truncate">
+                              {product.brand || product.categoryName || "Product"}
+                            </p>
+                          </div>
                         </li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="px-4 py-2 text-gray-500">No results found</p>
+                    <p className="px-4 py-3 text-gray-500">No results found</p>
                   )}
                 </div>
               )}
@@ -244,8 +768,6 @@ function Header() {
               onClick={handleWishlist}
               className="text-red-600 cursor-pointer hover:text-black"
             />
-
-            {/* Cart */}
             <div className="relative">
               <FaCartShopping
                 onClick={() => setCartOpen(true)}
@@ -261,7 +783,7 @@ function Header() {
               {custProfile && user ? (
                 <img
                   src={`${IMAGE_URL}${custProfile}`}
-                  alt="ProfileImage"
+                  alt="Profile"
                   className="w-12 h-12 rounded-full object-cover border border-red-600"
                 />
               ) : (
@@ -270,7 +792,10 @@ function Header() {
             </Link>
             {!user ? (
               <div
-                onClick={handleLogin}
+                onClick={() => {
+                  navigate("/login");
+                  setSidebarOpen(false);
+                }}
                 className="flex items-center gap-1 text-red-600 cursor-pointer hover:text-black"
               >
                 <span className="hover:underline">Sign In</span>
@@ -278,14 +803,19 @@ function Header() {
             ) : (
               <div className="flex items-center gap-3">
                 <Link to="/order-history">
-                  <button className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:cursor-pointer hover:bg-black">
+                  <button className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-black">
                     My Orders
                   </button>
                 </Link>
-                {/* logout button */}
                 <button
-                  onClick={handleLogout}
-                  className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:cursor-pointer hover:bg-black"
+                  onClick={() => {
+                    dispatch({ type: "LOGOUT" });
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("cartItems");
+                    navigate("/");
+                  }}
+                  className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-black"
                 >
                   Logout
                 </button>
@@ -294,104 +824,77 @@ function Header() {
           </div>
         </div>
 
-        {/* Nav Menu */}
-        <nav>
-          <ul className="flex items-center justify-center gap-12 py-3 font-semibold text-white bg-black tracking-wide text-base">
-            <Link to="/">
-              <li className="cursor-pointer hover:text-red-600">HOME</li>
-            </Link>
-            <Link to="/about-us">
-              <li className="cursor-pointer hover:text-red-600">ABOUT US</li>
-            </Link>
-            <Link to="/services">
-              <li className="cursor-pointer hover:text-red-600">SERVICES</li>
-            </Link>
+        {/* Navbar triggers + single centered mega panel */}
+        <nav className="relative">
+          <ul className="flex items-center justify-center gap-10 py-3 font-semibold text-white bg-black tracking-wide text-base">
+            <Link to="/"><li className="cursor-pointer hover:text-red-600">Home</li></Link>
 
             <li>
-              <HeaderCategoryMenu />
+              <button
+                type="button"
+                className="cursor-pointer hover:text-red-600"
+                aria-haspopup="true"
+                aria-expanded={megaOpen && activeKey === "glasses"}
+                onClick={() => openMega("glasses")}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") closeMega();
+                  if (e.key === "ArrowDown") setMegaOpen(true);
+                }}
+              >
+                Glasses
+              </button>
             </li>
 
-            <Link to="/contact-us">
-              <li className="cursor-pointer hover:text-red-600">CONTACT US</li>
-            </Link>
-            <Link to="/faq">
-              <li className="cursor-pointer hover:text-red-600">FAQ</li>
-            </Link>
-            <Link to="/collections">
-              <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
-            </Link>
-            <Link to="/how-to-order">
-              <li className="cursor-pointer hover:text-red-600">
-                HOW TO ORDER
-              </li>
-            </Link>
+            <li>
+              <button
+                type="button"
+                className="cursor-pointer hover:text-red-600"
+                aria-haspopup="true"
+                aria-expanded={megaOpen && activeKey === "sunglasses"}
+                onClick={() => openMega("sunglasses")}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") closeMega();
+                  if (e.key === "ArrowDown") setMegaOpen(true);
+                }}
+              >
+                Sunglasses
+              </button>
+            </li>
 
+            <li>
+              <button
+                type="button"
+                className="cursor-pointer hover:text-red-600"
+                aria-haspopup="true"
+                aria-expanded={megaOpen && activeKey === "contacts"}
+                onClick={() => openMega("contacts")}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") closeMega();
+                  if (e.key === "ArrowDown") setMegaOpen(true);
+                }}
+              >
+                Contact Lenses
+              </button>
+            </li>
+
+            <Link to="/contact-us"><li className="cursor-pointer hover:text-red-600">Contact Us</li></Link>
+            <Link to="/services"><li className="cursor-pointer hover:text-red-600">Services</li></Link>
+            <Link to="/faq"><li className="cursor-pointer hover:text-red-600">FAQ</li></Link>
+            <Link to="/how-to-order"><li className="cursor-pointer hover:text-red-600">How To Order</li></Link>
             <Link to="/eye-schedule-test">
               <li className="cursor-pointer hover:text-black hover:bg-white bg-red-600 py-1 px-4 rounded-xl">
                 BOOK EYE EXAM
               </li>
             </Link>
           </ul>
-        </nav>
-      </header>
 
-      {/* Mobile Header */}
-      <header className="lg:hidden bg-white shadow-xl">
-        <div className="flex items-center justify-between px-4 md:py-3">
-          <Link to="/">
-            <img
-              src={logo}
-              className="h-[100px] w-[100px]"
-              alt="Logo"
-              loading="lazy"
-              decoding="async"
-            />
-          </Link>
-          <div className="flex-grow max-w-2xl" ref={mobileSearchRef}>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder={placeholders[index]}
-                value={query || ""}
-                onChange={handleSearch}
-                className="w-55 rounded-full border border-gray-300 bg-gray-100 py-2 pl-6 pr-10 placeholder-gray-500 focus:outline-none ring-2 ring-red-600 text-black"
-              />
-              <FaSearch className="absolute right-6 top-1/2 -translate-y-1/2 text-black hover:cursor-pointer" />
-
-              {openMobile && (
-                <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg z-50">
-                  {filteredProducts.length > 0 ? (
-                    <ul>
-                      {filteredProducts.map((product, index) => (
-                        <li className="mt-4" key={index}>
-                          <Link
-                            to="/allProduct"
-                            key={index}
-                            onClick={() => handleSelect(product)}
-                            className="px-4 py-2 cursor-pointer"
-                            state={{
-                              category: product.cat_id,
-                              subcategory: product.subCat_id,
-                            }}
-                          >
-                            {product.product_name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="px-4 py-2 text-gray-500">No results found</p>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-          <FaBars
-            size={24}
-            className="text-black cursor-pointer"
-            onClick={() => setSidebarOpen(true)}
+          <MegaMenuPanel
+            open={megaOpen}
+            onClose={closeMega}
+            activeKey={activeKey}
+            dataByKey={megaData}
           />
-        </div>
+        </nav>
       </header>
 
       {/* Mobile Sidebar */}
@@ -400,11 +903,10 @@ function Header() {
           } transition-transform duration-300 z-50 text-center`}
       >
         <div className="flex justify-between items-center p-4 border-b border-gray-700 bg-white">
-          {/* Logo */}
-          <Link to="/">
+          <Link to="/" onClick={() => setSidebarOpen(false)}>
             <img
               src={logo}
-              className="object-cover h-[60px] w-[100px] hover:cursor-pointer"
+              className="object-cover h-[60px] w-[100px]"
               alt="Logo"
               loading="lazy"
               decoding="async"
@@ -416,88 +918,66 @@ function Header() {
             onClick={() => setSidebarOpen(false)}
           />
         </div>
+
         <ul className="flex flex-col gap-4 p-4 text-lg font-semibold">
-          <Link
-            to="/"
+          <Link to="/"
             onClick={() => setSidebarOpen(false)}
-            className="cursor-pointer hover:text-red-600"
-          >
-            HOME
-          </Link>
-          <Link
-            to="/about-us"
+            className="hover:text-red-600">Home</Link>
+
+          <Link to="/glasses"
             onClick={() => setSidebarOpen(false)}
-            className="cursor-pointer hover:text-red-600"
-          >
-            ABOUT US
-          </Link>
-          <Link
-            to="/services"
+            className="hover:text-red-600"
+            state={{
+              category: CAT.OUR_COLLECTION,
+              subcategory: SUB.EYEGLASSES,
+              subCategoryName: "Glasses"
+            }}>Glasses</Link>
+
+          <Link to="/sunglasses"
             onClick={() => setSidebarOpen(false)}
-            className="cursor-pointer hover:text-red-600"
-          >
-            SERVICES
-          </Link>
-          <li className="cursor-pointer hover:text-red-600">CATEGORY</li>
-          <Link
-            to="/contact-us"
+            className="hover:text-red-600"
+            state={{
+              category: CAT.OUR_COLLECTION,
+              subcategory: SUB.SUNGLASSES, subCategoryName: "Sunglasses"
+            }}>Sunglasses</Link>
+
+          <Link to="/contact-lenses"
             onClick={() => setSidebarOpen(false)}
-            className="cursor-pointer hover:text-red-600"
-          >
-            CONTACT US
-          </Link>
-          <Link
-            to="/faq"
+            className="hover:text-red-600"
+            state={{
+              category: CAT.SHOP_BY_CATEGORY,
+              subcategory: SUB.CONTACT_LENSES,
+              subCategoryName: "Contact Lenses"
+            }}>Contact Lenses</Link>
+
+          <Link to="/contact-us"
             onClick={() => setSidebarOpen(false)}
-            className="cursor-pointer hover:text-red-600"
-          >
-            FAQ
-          </Link>
-          <Link to="/collections" onClick={() => setSidebarOpen(false)}>
-            <li className="cursor-pointer hover:text-red-600">COLLECTIONS</li>
-          </Link>
-          <Link
-            to="/eye-schedule-test"
+            className="hover:text-red-600">Contact Us</Link>
+
+          <Link to="/faq"
             onClick={() => setSidebarOpen(false)}
-            className="py-2 px-4 rounded-lg text-center cursor-pointer hover:text-red-600"
-          >
-            BOOK EYE EXAM
-          </Link>
+            className="hover:text-red-600">FAQ</Link>
+
+          <Link to="/services"
+            onClick={() => setSidebarOpen(false)}
+            className="hover:text-red-600">Services</Link>
+
+
+          <Link to="/eye-exams"
+            onClick={() => setSidebarOpen(false)}
+            className="py-2 px-4 rounded-lg hover:text-red-600">BOOK EYE EXAM</Link>
+
           <li>
-            {" "}
-            <button
-              onClick={handleWishlist}
-              className="text-white cursor-pointer hover:text-red-600"
-            >
-              WISHLIST
-            </button>
+            <button onClick={() => navigate("/wishlist-page")} className="hover:text-red-600">WISHLIST</button>
           </li>
           <li>
-            <div>
-              <button
-                onClick={handleCartMenu}
-                className="text-white cursor-pointer hover:text-red-600"
-              >
-                CART
-              </button>
-            </div>
+            <button onClick={() => setCartOpen(true)} className="hover:text-red-600">CART</button>
           </li>
           <li>
-            {/* Auth Section */}
             {!user ? (
-              <div
-                onClick={handleLogin}
-                className=" text-white cursor-pointer hover:text-red-600"
-              >
-                <span className="hover:underline">Sign In</span>
-              </div>
+              <button onClick={() => navigate("/login")} className="hover:text-red-600">Sign In</button>
             ) : (
-              <div
-                onClick={handleLogout}
-                className="text-white cursor-pointer hover:text-red-600"
-              >
-                <span className="hover:underline">Logout</span>
-              </div>
+              <button onClick={handleLogout} className="hover:text-red-600">Logout</button>
             )}
           </li>
         </ul>
@@ -506,15 +986,19 @@ function Header() {
       {/* Cart Drawer */}
       <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
 
-      {/* Overlay when sidebar is open */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-40 z-40"
-          onClick={() => setSidebarOpen(false)}
-        ></div>
-      )}
+      {/* Overlay */}
+      {
+        sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-40 z-40"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )
+      }
     </>
   );
 }
 
 export default Header;
+
+

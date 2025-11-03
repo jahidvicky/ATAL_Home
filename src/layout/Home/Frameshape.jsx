@@ -33,7 +33,8 @@ const Frameshape = () => {
         </p>
         <div className="flex justify-between md:mx-26 mt-6 flex-wrap gap-y-4 mx-12">
           {subCategory.map((data, idx) => (
-            <Link to="/allProduct"
+            <Link
+              to={`/allProduct/${data.cat_sec}/${data.subCategoryName}`}
               key={idx}
               state={{
                 category: data.cat_id,
