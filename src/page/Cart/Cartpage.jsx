@@ -221,8 +221,8 @@ const Cartpage = () => {
                               key={key}
                               onClick={() => toggleSize(letter)}
                               className={`px-4 py-2 border rounded cursor-pointer text-center transition-all ${isSelected
-                                  ? "bg-red-500 text-white border-red-500"
-                                  : "bg-white text-black border-gray-300 hover:border-red-500"
+                                ? "bg-red-500 text-white border-red-500"
+                                : "bg-white text-black border-gray-300 hover:border-red-500"
                                 }`}
                             >
                               {letter}
@@ -361,14 +361,14 @@ const Cartpage = () => {
                     <p className="text-lg font-bold m-5">FRAME</p>
                     <div className="flex">
                       <p className="text-lg font-bold mr-8 line-through">
-                        ${product.product_price} CAD
+                        ${product.product_price}
                       </p>
                       <p className="text-lg font-bold mr-8">
                         $
                         {product.discountedPrice
                           ? product.discountedPrice
                           : product.product_sale_price}{" "}
-                        CAD
+
                       </p>
                     </div>
                   </div>
@@ -376,8 +376,8 @@ const Cartpage = () => {
                   <Link to="lens-selection-flow" state={{ ID: ID }}>
                     <button
                       className={`${isLensSelected
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-black hover:bg-gray-900"
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-black hover:bg-gray-900"
                         } text-white px-42 py-3 mb-4 rounded ml-10 text-xl border-1 border-black w-115 hover:cursor-pointer`}
                       disabled={isLensSelected}
                     >
@@ -466,34 +466,37 @@ const Cartpage = () => {
             </ul>
             <p className="mt-4 text-lg">{product.product_description}</p>
           </div>
-          {/* Lenses Info */}
-          <div className="py-12">
-            <div className="mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
-              <div className="text-center">
-                <img
-                  src={`${IMAGE_URL + product.product_lens_image1}`}
-                  alt={product.product_lens_title1}
-                  className="mx-auto mb-6 object-cover hover:scale-105"
-                />
-                <h3 className="text-3xl font-semibold mb-4">
-                  {product.product_lens_title1}
-                </h3>
-                <p>{product.product_lens_description1}</p>
-              </div>
 
-              <div className="text-center">
-                <img
-                  src={`${IMAGE_URL + product.product_lens_image2}`}
-                  alt={product.product_lens_title2}
-                  className="mx-auto mb-6 object-cover hover:scale-105"
-                />
-                <h3 className="text-3xl font-semibold mb-4">
-                  {product.product_lens_title2}
-                </h3>
-                <p>{product.product_lens_description1}</p>
+          {/* Lenses Info */}
+          {product.product_lens_image1 && product.product_lens_image2 &&
+            <div className="py-12">
+              <div className="mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="text-center">
+                  <img
+                    src={`${IMAGE_URL + product.product_lens_image1}`}
+                    alt={product.product_lens_title1}
+                    className="mx-auto mb-6 object-cover hover:scale-105"
+                  />
+                  <h3 className="text-3xl font-semibold mb-4">
+                    {product.product_lens_title1}
+                  </h3>
+                  <p>{product.product_lens_description1}</p>
+                </div>
+
+                <div className="text-center">
+                  <img
+                    src={`${IMAGE_URL + product.product_lens_image2}`}
+                    alt={product.product_lens_title2}
+                    className="mx-auto mb-6 object-cover hover:scale-105"
+                  />
+                  <h3 className="text-3xl font-semibold mb-4">
+                    {product.product_lens_title2}
+                  </h3>
+                  <p>{product.product_lens_description1}</p>
+                </div>
               </div>
             </div>
-          </div>
+          }
         </div>
       )}
 

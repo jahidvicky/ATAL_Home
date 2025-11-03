@@ -20,6 +20,7 @@ const Frames = () => {
     getAllFrames();
   }, []);
 
+
   return (
     <div className="py-16 md:pl-12 mb-14 mx-6 md:mx-0">
       <h1 className="text-3xl font-bold text-center">
@@ -30,7 +31,7 @@ const Frames = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {frameData.map((frame, index) => (
           <Link
-            to="/allproduct"
+            to={`/allProduct/${frame.cat_sec}/${frame.subCategoryName}`}
             key={index}
             className="hover:cursor-pointer"
             state={{
