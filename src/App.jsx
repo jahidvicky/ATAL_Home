@@ -7,7 +7,6 @@ import Layout from "./layout/Layout";
 
 import Cartpage from "./page/Cart/Cartpage";
 import ViewCart from "./page/Cart/ViewCart";
-import CartPageWrapper from "./page/Cart/CartPageWrapper";
 
 import FAQ from "./page/FAQ/FAQ";
 import PrivacyPolicy from "./page/Privacy-Policy/PrivacyPolicy";
