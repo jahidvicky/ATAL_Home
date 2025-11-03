@@ -62,6 +62,14 @@ import ViewOrder from "./page/order/ViewOrder";
 import InsuranceClaim from "./page/insurance/InsuranceClaim";
 import CartPageWrapper from "./page/Cart/CartPageWrapper";
 import PolicyPayment from "./page/order/PolicyPayment"
+import EyeWearGlasses from "./page/allEyeServices/EyeWearGlasses";
+import ContactLens from "./page/allEyeServices/ContactLens";
+import EyeExamService from "./page/allEyeServices/EyeExamService";
+import Promotions from "./page/allEyeServices/Promotions";
+import Brands from "./page/allEyeServices/Brands";
+import Optometrists from "./page/allEyeServices/Optometrists";
+import InsuranceClaims from "./page/allEyeServices/Insurance";
+import BlueLightTechnology from "./page/allEyeServices/BlueLightTechnology";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -265,6 +273,38 @@ function App() {
         {
           path: "/order-history",
           element: <OrderHistory />,
+        },
+        {
+          path: "/eye-services/eye-wear-glass",
+          element: <EyeWearGlasses />,
+        },
+        {
+          path: "/eye-services/contact-lens",
+          element: <ContactLens />,
+        },
+        {
+          path: "/eye-services/eye-exam",
+          element: <EyeExamService />,
+        },
+        {
+          path: "/eye-services/promotions",
+          element: <Promotions />,
+        },
+        {
+          path: "/eye-services/brands",
+          element: <Brands />,
+        },
+        {
+          path: "/eye-services/optometrists",
+          element: <Optometrists />,
+        },
+        {
+          path: "/eye-services/insurance-claims",
+          element: <InsuranceClaims />,
+        },
+        {
+          path: "/eye-services/blue-light-technology",
+          element: <BlueLightTechnology />,
         },
         {
           path: "/place-order",
