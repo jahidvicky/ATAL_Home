@@ -1,6 +1,7 @@
 import React from "react";
 import { MdEmail } from "react-icons/md";
 import { FaMapMarkedAlt } from "react-icons/fa";
+import { MdLocalPhone } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -8,8 +9,8 @@ const Footer = () => {
     <>
       <div className="bg-red-600 text-center py-10 text-white">
         <h3 className="text-xl font-semibold">
-          To Schedule an Appointment Reach Us at <br />
-          Hurontario Location: 905-970-9444 | Airport Location: 905-497-2692
+          Corporate Office : 34 Shining Willow Crescent, <br />
+          Brampton, ON L6P 2A2, Canada
         </h3>
         <Link to="/eye-schedule-test">
           <button className="bg-white text-black mt-4 rounded-xl hover:bg-black hover:text-white text-xl font-semibold py-4 px-6 hover:cursor-pointer transition-colors duration-300 ">
@@ -34,11 +35,11 @@ const Footer = () => {
             </div>
             <div className="text-2xl">Email</div>
           </div>
-         <div className="mt-1 text-md">
-  <a href="mailto:info.ataloptical@gmail.com" className="text-white hover:underline hover:text-red-600">
-    info.ataloptical@gmail.com
-  </a>
-</div>
+          <div className="mt-1 text-md">
+            <a href="mailto:info.ataloptical@gmail.com" className="text-white hover:underline hover:text-red-600">
+              info.ataloptical@gmail.com
+            </a>
+          </div>
 
         </div>
 
@@ -162,17 +163,14 @@ const Footer = () => {
             <div className="text-xl">Brompton west</div>
           </div>
           <p className="max-w-[200px] mt-1 ">
-            10906 Hurontario St, Unit D7 Brampton, ON L7A 3R9 905-970-9444
+            Corporate Office : 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
           </p>
-          <div className="flex items-center gap-2 text-red-600 mt-4">
+          <div className="flex items-center gap-2 mt-4 mb-5">
             <div>
-              <FaMapMarkedAlt className="text-3xl" />
+              <MdLocalPhone className="text-3xl text-red-600" />
             </div>
-            <div className="text-xl">Airport Rd</div>
+            <div className="text-l">1866-242-3545</div>
           </div>
-          <p className="max-w-[200px] mt-1">
-            34 Shining Willow Crescent, Brampton, Ontario, Canada
-          </p>
         </div>
       </div>
 

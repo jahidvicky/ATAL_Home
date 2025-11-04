@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import image from "../../assets/Services-images/Brand.jpg";
+import image from "../../assets/Services-images/Brands.jpeg";
 import { Link } from "react-router-dom";
 
 const Brands = () => {

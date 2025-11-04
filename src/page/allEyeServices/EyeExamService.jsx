@@ -102,7 +102,7 @@ const EyeExamService = () => {
                         at its best. Because great eyesight starts with great care.
                     </p>
                     <Link to="/eye-schedule-test">
-                        <button className="bg-white text-black mt-4 rounded-xl hover:bg-black hover:text-white text-xl font-semibold py-4 px-6 hover:cursor-pointer transition-colors duration-300 ">
+                        <button className="bg-white text-black mt-4 rounded-xl hover:bg-red-600 hover:text-white text-xl font-semibold py-4 px-6 hover:cursor-pointer transition-colors duration-300 ">
                             Book Eye Exam
                         </button>
                     </Link>

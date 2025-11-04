@@ -174,7 +174,7 @@ const InsuranceClaim = () => {
                                 <select
                                     value={selectedProduct?._id || ""}
                                     onChange={(e) => {
-                                        const product = order.cartItems.find(
+                                        const product = order?.cartItems.find(
                                             (item) => item._id === e.target.value
                                         );
                                         setSelectedProduct(product);
@@ -183,7 +183,7 @@ const InsuranceClaim = () => {
                                     className="border border-gray-300 p-2 w-full rounded focus:ring-2 focus:ring-red-500 focus:outline-none"
                                 >
                                     <option value="">-- Select Product --</option>
-                                    {order.cartItems.map((item) => (
+                                    {order?.cartItems.map((item) => (
                                         <option key={item._id} value={item._id}>
                                             {item.name} (${item.price})
                                         </option>

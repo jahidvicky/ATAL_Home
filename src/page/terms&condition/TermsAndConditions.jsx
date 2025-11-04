@@ -86,9 +86,9 @@ const TermsAndConditions = () => {
                 </a>
               </p>
               <p className="text-gray-600">
-                Address: 123 Vision Street, Toronto, ON, Canada
+                Address: Corporate Office : 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
               </p>
-              <p className="text-gray-600">Phone: 1-800-OPTIC-CA</p>
+              <p className="text-gray-600">Phone: 1866-242-3545</p>
             </div>
           </div>
         </div>
