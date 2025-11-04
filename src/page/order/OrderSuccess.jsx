@@ -35,7 +35,7 @@ const OrderSuccess = () => {
   const formatPrice = (price) =>
     new Intl.NumberFormat("en-CA", {
       style: "currency",
-      currency: "",
+      currency: "USD",
     }).format(price);
 
   return (

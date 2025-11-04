@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import API, { IMAGE_URL } from "../../API/Api";
 import Swal from "sweetalert2";
@@ -9,8 +9,7 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import Insurance from "./Insurance";
 
 const ContactLensPage = () => {
-  const location = useLocation();
-  const { ID } = location.state;
+  const { ID } = useParams();
   const [product, setProduct] = useState({});
   const [mainImage, setMainImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
@@ -96,6 +95,7 @@ const ContactLensPage = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
 
   const handleSelect = (e) => {
     const { name, value, type, checked } = e.target;

@@ -561,15 +561,7 @@ function Header() {
   }, [user]);
 
   const goToSelected = (product) => {
-    navigate(`/product/${product.product_name}`, {
-      state: {
-        prefill: query,
-        ID: product._id,
-        categoryId: product.cat_id,
-        subcategory: product.subCat_id,
-      },
-    });
-
+    navigate(`/product/${product._id}/${product.subCategoryName || "details"}/${product.subCat_id}`);
     setShowResults(false);
     setOpenDesktop(false);
     setOpenMobile(false);

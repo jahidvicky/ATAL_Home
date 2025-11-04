@@ -3,7 +3,7 @@ import OurPromise from "./OurPromise";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import Insurance from "./Insurance";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import API, { IMAGE_URL } from "../../API/Api";
 import Swal from "sweetalert2";
@@ -12,8 +12,7 @@ import ContactLensPage from "./ContactLensPage";
 import { Link } from "react-router-dom";
 
 const Cartpage = () => {
-  const location = useLocation();
-  const { ID, subcategory } = location.state;
+  const { ID, subCategory, subCatId } = useParams();
   const [product, setProduct] = useState({});
   const [mainImage, setMainImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
@@ -52,7 +51,7 @@ const Cartpage = () => {
     image: mainImage,
     lens: lensDetails || null,
     policy: selectedPolicy || null,
-    subCat_id: subcategory,
+    subCat_id: subCatId,
     vendorID: product.vendorID || product.vendorId || null,
   };
 
@@ -157,7 +156,7 @@ const Cartpage = () => {
 
   return (
     <>
-      {subcategory === contactLensSubCatId ? (
+      {subCatId === contactLensSubCatId ? (
         <ContactLensPage />
       ) : (
         <div>
@@ -492,7 +491,7 @@ const Cartpage = () => {
                   <h3 className="text-3xl font-semibold mb-4">
                     {product.product_lens_title2}
                   </h3>
-                  <p>{product.product_lens_description1}</p>
+                  <p>{product.product_lens_description2}</p>
                 </div>
               </div>
             </div>

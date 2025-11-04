@@ -81,11 +81,7 @@ const ProductGrid = () => {
         {/* Show "Find More" button only if more than 4 products */}
         {bestSellerData.length > 4 && (
           <Link
-            to={`/allProduct/${bestSellerData[0]?.cat_sec}/${bestSellerData[0]?.subCategoryName}`}
-            state={{
-              category: bestSellerData[0]?.cat_id,
-              subcategory: bestSellerData[0]?.subCat_id,
-            }}
+            to={`/allProduct/${bestSellerData[0]?.subCategoryName}/${bestSellerData[0]?.cat_id}/${bestSellerData[0]?.subCat_id}`}
           >
             <button className="flex items-center gap-4 text-white font-medium bg-red-600 px-4 py-2 rounded mr-1 hover:bg-black transition-colors duration-300 cursor-pointer">
               FIND MORE
@@ -104,13 +100,7 @@ const ProductGrid = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {visibleProducts.map((product, idx) => (
           <Link
-            key={product._id || idx}
-            to={`/product/${product.product_name}`}
-            state={{
-              category: product.cat_id,
-              subcategory: product.subCat_id,
-              ID: product._id,
-            }}
+            to={`/product/${product._id}/${product.subCategoryName}/${product.subCat_id}`}
             className="hover:cursor-pointer"
           >
             <ProductCard

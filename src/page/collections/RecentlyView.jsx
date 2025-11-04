@@ -23,28 +23,23 @@ function RecentlyView() {
             key={product._id || idx}
             className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all p-4 text-center cursor-pointer duration-500"
           >
-           <Link
-            to="/product/:name"
-            state={{
-              category: product.cat_id,
-              subcategory: product.subCat_id,
-              ID:product._id
-            }}>
-             {/* Product Image */}
-            <div className="mb-4">
-              <img
-                src={
-                  product.product_image_collection?.[0]?.startsWith("http")
-                    ? product.product_image_collection[0]
-                    : IMAGE_URL + product.product_image_collection?.[0]
-                }
-                alt={product.product_name}
-                className="w-full h-36 object-contain hover:scale-105 transition-transform duration-300"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-           </Link>
+            <Link
+              to={`/product/${product._id}/${product.subCategoryName}/${product.subCat_id}`}>
+              {/* Product Image */}
+              <div className="mb-4">
+                <img
+                  src={
+                    product.product_image_collection?.[0]?.startsWith("http")
+                      ? product.product_image_collection[0]
+                      : IMAGE_URL + product.product_image_collection?.[0]
+                  }
+                  alt={product.product_name}
+                  className="w-full h-36 object-contain hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </Link>
 
             {/* Product Name */}
             <p className="text-xl font-semibold tracking-wide text-red-600 capitalize mb-2">
