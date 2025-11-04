@@ -31,14 +31,9 @@ const Frames = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {frameData.map((frame, index) => (
           <Link
-            to={`/allProduct/${frame.cat_sec}/${frame.subCategoryName}`}
+            to={`/allProduct/${frame.subCategoryName}/${frame.cat_id}/${frame._id}`}
             key={index}
             className="hover:cursor-pointer"
-            state={{
-              category: frame.cat_id,
-              subcategory: frame._id,
-              subCategoryName: frame.subCategoryName
-            }}
           >
             <div key={index} className="flip-card">
               <div className="flip-card-inner">

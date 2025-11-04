@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import API, { IMAGE_URL } from "../../API/Api";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import RecentlyView from "../collections/RecentlyView";
@@ -37,8 +37,7 @@ const toggleSet = (s, v) => {
 
 
 function Product() {
-  const location = useLocation();
-  const navState = location.state || {};
+  const { catId, subCategory, subCatId } = useParams();
 
 
   const [products, setProducts] = useState([]);
@@ -56,9 +55,9 @@ function Product() {
   const isObjectId = (v) => /^[a-f0-9]{24}$/i.test(v);
 
 
-  const category = normalizeId(navState.category);
-  const subcategory = normalizeId(navState.subcategory);
-  const subCategoryName = navState.subCategoryName;
+  const category = normalizeId(catId);
+  const subcategory = normalizeId(subCatId);
+  const subCategoryName = subCategory;
 
 
   // ADDED: filter/sort states and drawer state
@@ -135,11 +134,10 @@ function Product() {
 
 
   useEffect(() => {
-    if (!navState) return;
     fetchProducts();
     fetchWishlist();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navState?.category, navState?.subcategory]);
+  }, [catId, subCatId]);
 
 
   // ADDED: derived facets and filtered/sorted projection feeding pagination
@@ -301,13 +299,6 @@ function Product() {
     };
     return (
       <div>
-        {/* <Section title="Brand">
-          <div className="max-h-40 overflow-auto pr-1">
-            {facetData.brands.map((b) => (
-              <Check key={b} label={b} setKey="brands" value={b} />
-            ))}
-          </div>
-        </Section> */}
         <Section title="Shape">
           <div className="max-h-40 overflow-auto pr-1">
             {facetData.shapes.map((s) => (
@@ -341,8 +332,7 @@ function Product() {
       <div className="w-full border-b border-gray-200 bg-red-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
           <div >
-            <div className="text-[33px] ml-112 tracking-wide font-semibold text-white">50% OFF ALL LENSES</div>
-            <div className="text-[14px] text-white ml-125">Combinable with sitewide offers</div>
+            <div className="text-[33px] ml-130 tracking-wide font-semibold uppercase text-white">{subCategory}</div>
           </div>
           <div className="flex items-center gap-3">
             <div className="relative">
@@ -473,7 +463,7 @@ function Product() {
                         }}
                         aria-pressed={inWishlist}
                         aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
-                        className="absolute top-2 z-50 right-2 p-1 rounded-full bg-white/90 border border-gray-200 shadow hover:bg-white"
+                        className="absolute top-2 right-2 p-1 rounded-full bg-white/90 border border-gray-200 shadow hover:bg-white"
                       >
                         {inWishlist ? (
                           <AiFillHeart className="text-red-500 text-2xl" />
@@ -484,22 +474,21 @@ function Product() {
 
 
                       {/* Stock chip */}
-                      <div className="absolute top-2 right-12">
+                      <div className="absolute top-3 right-15">
                         <StockAvailability data={data.stockAvailability} />
                       </div>
 
 
                       {/* Image */}
                       <Link
-                        to={`/product/${encodeURIComponent(data.product_name)}`}
-                        state={{ ID: data._id, category, subcategory, subCategoryName }}
+                        to={`/product/${data._id}/${data.subCategoryName}/${data.subCat_id}`}
                         className="block"
                       >
                         {img ? (
                           <img
                             src={img}
-                            alt={data.product_name}
-                            className="w-full h-36 object-contain mb-4 transition-transform duration-200 group-hover:scale-105"
+                            // alt={data.product_name}
+                            className="w-full h-36 object-contain mb-2 mt-4 pt-6 transition-transform duration-200 group-hover:scale-103"
                             loading="lazy"
                             decoding="async"
                           />
@@ -511,18 +500,17 @@ function Product() {
 
                       {/* Title */}
                       <Link
-                        to={`/product/${encodeURIComponent(data.product_name)}`}
-                        state={{ ID: data._id, category, subcategory }}
+                        to={`/product/${data._id}/${data.subCategoryName}/${data.subCat_id}`}
                         className="hover:underline"
                       >
-                        <h2 className="font-semibold text-gray-800 text-base line-clamp-2 min-h-[40px]">
+                        <h2 className="font-semibold text-gray-800 text-base line-clamp-2 min-h-[10px]">
                           {data.product_name}
                         </h2>
                       </Link>
 
 
                       {/* Price + CTA */}
-                      <div className="flex items-center justify-between mt-3">
+                      <div className="flex items-center justify-between mt-2">
                         <div className="flex items-center gap-2">
                           <span className="text-xs text-gray-600"></span>
                           {data.product_price &&
@@ -544,8 +532,7 @@ function Product() {
                         </div>
                         {isInStock ? (
                           <Link
-                            to={`/product/${encodeURIComponent(data.product_name)}`}
-                            state={{ ID: data._id, category, subcategory }}
+                            to={`/product/${data._id}/${data.subCategoryName}/${data.subCat_id}`}
                           >
                             <button className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-lg text-sm">
                               Buy

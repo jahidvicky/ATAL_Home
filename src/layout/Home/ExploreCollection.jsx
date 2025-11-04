@@ -35,11 +35,7 @@ const ExploreCollection = () => {
         {ourCollection.map((item, index) => (
           <Link
             key={index}
-            to={`/allProduct/${item.cat_sec}/${item.subCategoryName}`}
-            state={{
-              category: item.cat_id,
-              subcategory: item._id,
-            }}
+            to={`/allProduct/${item.subCategoryName}/${item.cat_id}/${item._id}`}
           >
             <div
               key={index}

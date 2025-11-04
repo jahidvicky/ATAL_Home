@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import {
+  GlassesResolver,
+  SunglassesResolver,
+  ContactsResolver,
+  // shapes
+  AviatorResolver, RoundResolver, RectangleResolver, CatEyeResolver, OvalResolver, SquareResolver,
+  // shop-by-category
+  MensFramesResolver, WomensFramesResolver, KidsGlassesResolver,
+  // collections
+  EyeglassesResolver, SportsGlassesResolver, BlueGlassesResolver,
+  // trending/seller
+  TrendingResolver, BestSellerResolver,
+} from "./constants/plpResolvers";
+
 import Home from "./page/Home/Home";
 import Page from "./page/Page";
 import Layout from "./layout/Layout";
@@ -70,7 +84,7 @@ import EyeExamService from "./page/allEyeServices/EyeExamService";
 import Promotions from "./page/allEyeServices/Promotions";
 import Brands from "./page/allEyeServices/Brands";
 import Optometrists from "./page/allEyeServices/Optometrists";
-import InsuranceClaims from "./page/allEyeServices/Insurance";
+import InsuranceClaimPage from "./page/allEyeServices/Insurance";
 import BlueLightTechnology from "./page/allEyeServices/BlueLightTechnology";
 
 function App() {
@@ -101,7 +115,7 @@ function App() {
         { path: "/faq", element: <FAQ /> },
         { path: "/privacy-policy", element: <PrivacyPolicy /> },
 
-        { path: "/allproduct/:category/:subCategory", element: <Product /> },
+        { path: "/allproduct/:subCategory/:catId/:subCatId", element: <Product /> },
 
         { path: "/disclaimer", element: <DisclaimerPage /> },
         { path: "/terms&Conditions", element: <TermsAndConditions /> },
@@ -110,7 +124,7 @@ function App() {
         { path: "/eyeglasses-contact-policy", element: <EyeglassesContactPolicy /> },
         { path: "/rights-enforcement-policy", element: <RightsEnforcementPolicy /> },
 
-        { path: "/product/:name", element: <Cartpage /> },
+        { path: "/product/:ID/:subCategory/:subCatId", element: <Cartpage /> },
 
         { path: "/cart", element: <CartPageWrapper /> },
         { path: "/checkout", element: <Checkout /> },
@@ -121,50 +135,34 @@ function App() {
         { path: "/contact-us", element: <ContactPage /> },
         { path: "/book-eye-exam", element: <EyeExam /> },
 
-        { path: "/glasses", element: <Product /> },
-        { path: "/glasses/men", element: <Product /> },
-        { path: "/glasses/women", element: <Product /> },
-        { path: "/glasses/kids", element: <Product /> },
+        // Friendly routes → resolvers
+        { path: "/glasses", element: <GlassesResolver /> },
+        { path: "/glasses/men", element: <MensFramesResolver /> },
+        { path: "/glasses/women", element: <WomensFramesResolver /> },
+        { path: "/glasses/kids", element: <KidsGlassesResolver /> },
 
-        { path: "/glasses/aviator", element: <Product /> },
-        { path: "/glasses/round", element: <Product /> },
-        { path: "/glasses/rectangle", element: <Product /> },
-        { path: "/glasses/cat-eye", element: <Product /> },
-        { path: "/glasses/oval", element: <Product /> },
-        { path: "/glasses/square", element: <Product /> },
-        { path: "/glasses/sports", element: <Product /> },
-        { path: "/glasses/blue", element: <Product /> },
+        { path: "/glasses/aviator", element: <AviatorResolver /> },
+        { path: "/glasses/round", element: <RoundResolver /> },
+        { path: "/glasses/rectangle", element: <RectangleResolver /> },
+        { path: "/glasses/cat-eye", element: <CatEyeResolver /> },
+        { path: "/glasses/oval", element: <OvalResolver /> },
+        { path: "/glasses/square", element: <SquareResolver /> },
 
-        { path: "/sunglasses", element: <Product /> },
-        { path: "/sunglasses/men", element: <Product /> },
-        { path: "/sunglasses/women", element: <Product /> },
-        { path: "/sunglasses/kids", element: <Product /> },
+        { path: "/glasses/sports", element: <SportsGlassesResolver /> },
+        { path: "/glasses/blue", element: <BlueGlassesResolver /> },
 
-        { path: "/contact-lenses", element: <Product /> },
-        { path: "/contact-lenses/daily", element: <Product /> },
-        { path: "/contact-lenses/biweekly", element: <Product /> },
-        { path: "/contact-lenses/monthly", element: <Product /> },
+        { path: "/sunglasses", element: <SunglassesResolver /> },
 
-        { path: "/collections", element: <Collections /> },
-        { path: "/collections/new", element: <Product /> },
-        { path: "/collections/best-sellers", element: <Product /> },
-        { path: "/collections/editors", element: <Product /> },
-        { path: "/collections/signature", element: <Product /> },
-        { path: "/collections/eco", element: <Product /> },
-        { path: "/collections/premium", element: <Product /> },
-        { path: "/collections/kids", element: <Product /> },
-        { path: "/collections/lookbook", element: <Product /> },
-        { path: "/collections/style-guide", element: <Product /> },
-        { path: "/collections/materials", element: <Product /> },
+        { path: "/contact-lenses", element: <ContactsResolver /> },
 
-        { path: "/trending", element: <Product /> },
-        { path: "/best-sellers", element: <Product /> },
+        { path: "/trending", element: <TrendingResolver /> },
+        { path: "/best-sellers", element: <BestSellerResolver /> },
 
         { path: "/products", element: <Product /> },
 
         { path: "/services", element: <Services /> },
         {
-          path: "/eye-services/insurance-claims",
+          path: "/insurance-claim",
           element: <InsuranceClaim />,
         },
         {
@@ -188,7 +186,7 @@ function App() {
         { path: "/appointmentSchedule", element: <AppointmentSchedule /> },
         { path: "/eye-schedule-test", element: <EyeExamStep1 /> },
         { path: "/update-profile", element: <UpdateProfile /> },
-        { path: "/product/:name/lens-selection-flow", element: <LensSelection /> },
+        { path: "/product/:ID/:subCategory/:subCatId/lens-selection-flow", element: <LensSelection /> },
         { path: "/track/:trackingNumber", element: <TrackOrder /> },
         { path: "/view-order", element: <ViewOrder /> },
         { path: "/order-history", element: <OrderHistory /> },
@@ -211,7 +209,7 @@ function App() {
           element: <UpdateProfile />,
         },
         {
-          path: "/product/:name/lens-selection-flow",
+          path: "/product/:ID/:subCategory/:subCatId/lens-selection-flow",
           element: <LensSelection />,
         },
         {
@@ -252,7 +250,7 @@ function App() {
         },
         {
           path: "/eye-services/insurance-claims",
-          element: <InsuranceClaims />,
+          element: <InsuranceClaimPage />,
         },
         {
           path: "/eye-services/blue-light-technology",
