@@ -23,7 +23,7 @@ const BlueLightTechnology = () => {
                 <img
                     src={image}
                     alt="Blue Light Protection"
-                    className="absolute inset-0 w-full h-full object-cover opacity-40"
+                    className="absolute inset-0 w-full h-full object-cover opacity-50"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/90 to-black/50" />
                 <motion.h1
