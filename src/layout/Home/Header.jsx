@@ -215,7 +215,7 @@ function Header() {
             links: [
               {
                 label: "Men's Frames",
-                to: "/glasses/men",
+                to: "/glasses/mens-frame",
                 state: {
                   category: CAT.SHOP_BY_CATEGORY,
                   subcategory: SUB.MENS_FRAMES,
@@ -638,7 +638,7 @@ function Header() {
       {/* Top Bar */}
       <div className="bg-red-600 py-1 text-white flex justify-between items-center px-4 lg:px-6">
         <div className="mt-1 text-md">
-          Call Us Today! 1-866-242-3545 |
+          Call Us Today! 1866-242-3545 |
           <a
             href="mailto:info.ataloptical@gmail.com"
             className="text-white hover:underline hover:text-black pl-1"
@@ -922,7 +922,7 @@ function Header() {
             state={{
               category: CAT.OUR_COLLECTION,
               subcategory: SUB.EYEGLASSES,
-              subCategoryName: "Glasses"
+              subCategoryName: "Eyeglasses"
             }}>Glasses</Link>
 
           <Link to="/sunglasses"
