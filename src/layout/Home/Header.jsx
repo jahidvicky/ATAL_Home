@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { FaSquareInstagram } from "react-icons/fa6";
 import { FaCartShopping } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import logo from "../../assets/category/logo.png";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
@@ -184,6 +184,9 @@ function Header() {
 
   const [custProfile, setCustProfile] = useState([]);
 
+  const { ID, subCategory, subCatId } = useParams();
+  const [product, setProduct] = useState()
+
   const totalQuantity = useSelector(
     (state) => state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
   );
@@ -204,6 +207,16 @@ function Header() {
   // Shared mega menu state (fixed position)
   const [megaOpen, setMegaOpen] = useState(false);
   const [activeKey, setActiveKey] = useState(null);
+
+  const fetchProducts = async () => {
+    try {
+      const res = await API.get(`/getproductbyid/${ID}`);
+      const prod = res.data.product || {};
+      setProduct(prod)
+    } catch (err) {
+      console.error("Failed to fetch products:", err);
+    }
+  };
 
   // Build data for each mega menu tab
   const megaData = useMemo(
@@ -590,6 +603,7 @@ function Header() {
     setOpenMobile(false);
     setActiveIdx(-1);
     setQuery("");
+    fetchProducts();
   };
 
   useEffect(() => {
