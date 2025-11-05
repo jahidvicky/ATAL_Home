@@ -1,7 +1,14 @@
 // src/routes/plpNavigate.js
 export const goToPLP = (navigate, subCategory, catId, subCatId) => {
-    navigate(
-        `/allproduct/${encodeURIComponent(subCategory)}/${catId}/${subCatId}`,
-        { replace: true }
-    );
+    const slugify = (str) =>
+        String(str)
+            .toLowerCase()
+            .replace(/['"]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/[^a-z0-9-]/g, "")
+            .trim();
+
+    const slug = slugify(subCategory);
+
+    navigate(`/allproduct/${slug}/${catId}/${subCatId}`, { replace: true });
 };

@@ -137,19 +137,19 @@ function App() {
 
         // Friendly routes → resolvers
         { path: "/glasses", element: <GlassesResolver /> },
-        { path: "/glasses/men", element: <MensFramesResolver /> },
-        { path: "/glasses/women", element: <WomensFramesResolver /> },
-        { path: "/glasses/kids", element: <KidsGlassesResolver /> },
+        { path: "/glasses/mens-frame", element: <MensFramesResolver /> },
+        { path: "/glasses/womens-frame", element: <WomensFramesResolver /> },
+        { path: "/glasses/kids-glasses", element: <KidsGlassesResolver /> },
 
-        { path: "/glasses/aviator", element: <AviatorResolver /> },
-        { path: "/glasses/round", element: <RoundResolver /> },
-        { path: "/glasses/rectangle", element: <RectangleResolver /> },
-        { path: "/glasses/cat-eye", element: <CatEyeResolver /> },
-        { path: "/glasses/oval", element: <OvalResolver /> },
-        { path: "/glasses/square", element: <SquareResolver /> },
+        { path: "/glasses/aviator-frames", element: <AviatorResolver /> },
+        { path: "/glasses/round-frames", element: <RoundResolver /> },
+        { path: "/glasses/rectangle-frames", element: <RectangleResolver /> },
+        { path: "/glasses/cat-eye-frames", element: <CatEyeResolver /> },
+        { path: "/glasses/oval-frames", element: <OvalResolver /> },
+        { path: "/glasses/square-frames", element: <SquareResolver /> },
 
-        { path: "/glasses/sports", element: <SportsGlassesResolver /> },
-        { path: "/glasses/blue", element: <BlueGlassesResolver /> },
+        { path: "/glasses/sports-glasses", element: <SportsGlassesResolver /> },
+        { path: "/glasses/blue-glasses", element: <BlueGlassesResolver /> },
 
         { path: "/sunglasses", element: <SunglassesResolver /> },
 
