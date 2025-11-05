@@ -11,6 +11,7 @@ const ViewOrder = () => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [cancelling, setCancelling] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -64,46 +65,61 @@ const ViewOrder = () => {
     }
   };
 
-  const handleCancel = async () => {
+
+  const handleProductCancel = async () => {
+    if (!selectedProduct) {
+      Swal.fire({
+        icon: "warning",
+        title: "No Product Selected",
+        text: "Please select a product to cancel.",
+        confirmButtonColor: "#2563eb",
+      });
+      return;
+    }
+
     const userId = localStorage.getItem("user");
     if (!userId) {
       Swal.fire({
         icon: "error",
         title: "Login Required",
-        text: "Please log in to cancel the order.",
+        text: "Please log in to cancel the product.",
         confirmButtonColor: "#2563eb",
       });
       return;
     }
 
     const result = await Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to cancel this order?",
+      title: "Cancel Product?",
+      text: `Do you want to cancel "${selectedProduct.name}"?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#dc2626",
       cancelButtonColor: "#6b7280",
-      confirmButtonText: "Yes",
-        cancelButtonText: "No", 
+      confirmButtonText: "Yes, Cancel",
     });
 
     if (!result.isConfirmed) return;
 
     setCancelling(true);
     try {
-      const res = await API.put(`/cancleOrder/${order._id}`, { userId });
+      const res = await API.put(`/cancleOrder/${order._id}`, {
+        userId,
+        productId: selectedProduct._id, // sending selected product ID
+      });
+
       Swal.fire({
         icon: "success",
-        title: "Order Cancelled",
-        text: res.data.message,
+        title: "Product Cancelled",
+        text: res.data.message || `${selectedProduct.name} has been cancelled.`,
         confirmButtonColor: "#2563eb",
       });
       setOrder(res.data.order);
+      setSelectedProduct(null);
     } catch (err) {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: err.response?.data?.message || "Error cancelling order",
+        text: err.response?.data?.message || "Error cancelling product",
         confirmButtonColor: "#2563eb",
       });
     } finally {
@@ -186,18 +202,46 @@ const ViewOrder = () => {
           <div className="text-center sm:text-right">
             <h1 className="text-xl font-bold text-gray-900">Order Details</h1>
           </div>
+          {/* Cancel Product Section */}
           {["Placed", "Processing"].includes(order.orderStatus) && (
-            <button
-              onClick={handleCancel}
-              disabled={cancelling}
-              className={`text-md font-medium px-4 py-3 rounded-md transition-colors ${
-                cancelling
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              {/* Product Selection */}
+              <div>
+                <label className="block text-gray-700 font-semibold mb-1">
+                  Select Product
+                </label>
+                <select
+                  value={selectedProduct?._id || ""}
+                  onChange={(e) => {
+                    const product = order?.cartItems.find(
+                      (item) => item._id === e.target.value
+                    );
+                    setSelectedProduct(product);
+                  }}
+                  required
+                  className="border border-gray-300 p-2 w-64 rounded focus:ring-2 focus:ring-red-500 focus:outline-none"
+                >
+                  <option value="">-- Select Product --</option>
+                  {order?.cartItems.map((item) => (
+                    <option key={item._id} value={item._id}>
+                      {item.name} (${item.price})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Cancel Button */}
+              <button
+                onClick={handleProductCancel}
+                disabled={cancelling || !selectedProduct}
+                className={`text-md font-medium px-4 py-3 rounded-md transition-colors ${cancelling || !selectedProduct
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : "bg-red-600 hover:cursor-pointer text-white hover:bg-red-700"
-              }`}
-            >
-              {cancelling ? "Cancelling..." : "Cancel Order"}
-            </button>
+                  }`}
+              >
+                {cancelling ? "Cancelling..." : "Cancel Selected Product"}
+              </button>
+            </div>
           )}
         </div>
 
@@ -222,8 +266,19 @@ const ViewOrder = () => {
                       className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-md border border-gray-200"
                     />
                     <div className="flex-1">
-                      <p className="text-base font-medium text-gray-900">
+                      <p
+                        className={`text-base font-medium ${item.status === "Cancelled"
+                          ? "text-gray-400 line-through"
+                          : "text-gray-900"
+                          }`}
+                      >
+
                         {item.name}
+                        {item.status === "Cancelled" && (
+                          <span className="inline-block ml-2 text-xs font-semibold text-red-600 bg-red-100 px-2 py-0.5 rounded-full">
+                            Cancelled
+                          </span>
+                        )}
                       </p>
                       <p className="text-sm text-gray-600">
                         ${Math.round(item.price)} × {item.quantity}
@@ -268,10 +323,10 @@ const ViewOrder = () => {
                           {key === "price"
                             ? `$${Math.round(order.cartItems[0].policy[key])}`
                             : key === "expiryDate"
-                            ? new Date(
+                              ? new Date(
                                 order.cartItems[0].policy[key]
                               ).toLocaleDateString()
-                            : order.cartItems[0].policy[key] || "N/A"}
+                              : order.cartItems[0].policy[key] || "N/A"}
                         </span>
                       </div>
                     ))}
@@ -280,15 +335,14 @@ const ViewOrder = () => {
                     <div className="flex justify-between mt-1">
                       <span className="font-medium">Status:</span>
                       <span
-                        className={`font-semibold ${
-                          new Date(order.cartItems[0].policy.expiryDate) <
+                        className={`font-semibold ${new Date(order.cartItems[0].policy.expiryDate) <
                           new Date()
-                            ? "text-red-600"
-                            : "text-green-600"
-                        }`}
+                          ? "text-red-600"
+                          : "text-green-600"
+                          }`}
                       >
                         {new Date(order.cartItems[0].policy.expiryDate) <
-                        new Date()
+                          new Date()
                           ? "Expired"
                           : "Active"}
                       </span>
@@ -327,19 +381,18 @@ const ViewOrder = () => {
                                   {key === "price"
                                     ? `$${Math.round(prev[key])}`
                                     : ["purchasedAt", "expiryDate"].includes(
-                                        key
-                                      )
-                                    ? new Date(prev[key]).toLocaleDateString()
-                                    : prev[key] || "N/A"}
+                                      key
+                                    )
+                                      ? new Date(prev[key]).toLocaleDateString()
+                                      : prev[key] || "N/A"}
                                 </span>
                               </div>
                             ))}
                             <div className="flex justify-between">
                               <span className="font-medium">Status:</span>
                               <span
-                                className={`font-semibold ${
-                                  isExpired ? "text-red-600" : "text-green-600"
-                                }`}
+                                className={`font-semibold ${isExpired ? "text-red-600" : "text-green-600"
+                                  }`}
                               >
                                 {isExpired ? "Expired" : "Active"}
                               </span>
@@ -403,13 +456,12 @@ const ViewOrder = () => {
                 <div className="flex justify-between">
                   <span className="font-medium">Status:</span>
                   <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium text-white ${
-                      order.orderStatus === "Cancelled"
-                        ? "bg-red-500"
-                        : order.orderStatus === "Delivered"
+                    className={`px-2 py-1 rounded-full text-xs font-medium text-white ${order.orderStatus === "Cancelled"
+                      ? "bg-red-500"
+                      : order.orderStatus === "Delivered"
                         ? "bg-green-500"
                         : "bg-yellow-500"
-                    }`}
+                      }`}
                   >
                     {order.orderStatus}
                   </span>

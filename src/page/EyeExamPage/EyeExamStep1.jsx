@@ -3,6 +3,9 @@ import { MapPin, Clock, Eye, Shield, Heart, Sparkles, Cpu } from "lucide-react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import image from "../../assets/Eye-Exam-images/Optometrists.webp"
+import image1 from "../../assets/Eye-Exam-images/Optometrists-1.jpg"
+import Optical_Store from "../../assets/Eye-Exam-images/Optical-Store.jpg"
 
 export default function EyeExamStep1() {
     const navigate = useNavigate();
@@ -57,7 +60,7 @@ export default function EyeExamStep1() {
                 <div>
                     <MapPin className="w-10 h-10 mx-auto mb-2 text-red-500" />
                     <h2 className="font-bold">Directions</h2>
-                    <p>123 Queen St, Toronto</p>
+                    <p>Corporate Office : 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada</p>
                 </div>
             </section>
 
@@ -68,10 +71,10 @@ export default function EyeExamStep1() {
                     initial={{ scale: 0.8, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 1, ease: "easeOut" }}
-                    viewport={{ once: true, amount: 0.3 }} // 👈 triggers when 30% visible
+                    viewport={{ once: true, amount: 0.3 }} // triggers when 30% visible
                 >
                     <img
-                        src="https://t4.ftcdn.net/jpg/02/44/14/05/360_F_244140583_MQ27ktdnXHxoWcDCRyX7YjZF49NsuJ86.jpg"
+                        src={Optical_Store}
                         alt="Atal Opticals Store"
                         className="rounded-2xl shadow-lg w-[90%]"
                     />
@@ -140,18 +143,18 @@ export default function EyeExamStep1() {
                 <div className="grid md:grid-cols-2 gap-6 text-center">
                     <div className="rounded-2xl p-6 shadow-lg hover:shadow-red-400 border border-red-200">
                         <img
-                            src="https://randomuser.me/api/portraits/women/44.jpg"
+                            src={image1}
                             alt="Dr. Yuen"
-                            className="w-24 h-24 rounded-full mx-auto mb-4"
+                            className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                         />
                         <h3 className="font-bold">Dr. Melissa Yuen</h3>
-                        <p>With Atal Opticals since 2015</p>
+                        <p>With Atal Opticals</p>
                     </div>
                     <div className="rounded-2xl p-6 shadow-lg hover:shadow-red-400 border border-red-200">
                         <img
-                            src="https://randomuser.me/api/portraits/men/32.jpg"
+                            src={image}
                             alt="Dr. Hughes"
-                            className="w-24 h-24 rounded-full mx-auto mb-4"
+                            className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                         />
                         <h3 className="font-bold">Dr. Ekow Hughes</h3>
                         <p>Specialist in Vision & Eye Health</p>
