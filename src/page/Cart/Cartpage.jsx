@@ -140,7 +140,7 @@ const Cartpage = () => {
     fetchProducts();
     fetchWishlist();
     // fetchProductCategory();
-  }, []);
+  }, [ID]);
 
   const toggleSize = (size) => {
     // If the clicked size is already selected, deselect it
