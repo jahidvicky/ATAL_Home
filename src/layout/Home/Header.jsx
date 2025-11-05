@@ -593,6 +593,7 @@ function Header() {
     } catch (error) { }
   };
 
+
   useEffect(() => {
     getCustProfile();
   }, [user]);

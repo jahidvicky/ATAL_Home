@@ -100,6 +100,7 @@ const ProductGrid = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {visibleProducts.map((product, idx) => (
           <Link
+            key={product._id || idx}
             to={`/product/${product._id}/${product.subCategoryName}/${product.subCat_id}`}
             className="hover:cursor-pointer"
           >
