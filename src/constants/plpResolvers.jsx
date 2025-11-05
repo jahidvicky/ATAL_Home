@@ -4,12 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { CAT, SUB } from "../constants/catalogIds";
 import { goToPLP } from "./plpNavigate";
 
-// Keep components tiny; each maps a slug to IDs and redirects once.
-
+// Glasses
 export function GlassesResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "glasses", CAT.OUR_COLLECTION, SUB.EYEGLASSES);
+        goToPLP(navigate, "Eyeglasses", CAT.OUR_COLLECTION, SUB.EYEGLASSES);
     }, [navigate]);
     return null;
 }
@@ -17,7 +16,7 @@ export function GlassesResolver() {
 export function MensFramesResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "men", CAT.SHOP_BY_CATEGORY, SUB.MENS_FRAMES);
+        goToPLP(navigate, "Men's Frames", CAT.SHOP_BY_CATEGORY, SUB.MENS_FRAMES);
     }, [navigate]);
     return null;
 }
@@ -25,7 +24,7 @@ export function MensFramesResolver() {
 export function WomensFramesResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "women", CAT.SHOP_BY_CATEGORY, SUB.WOMENS_FRAMES);
+        goToPLP(navigate, "Women's Frames", CAT.SHOP_BY_CATEGORY, SUB.WOMENS_FRAMES);
     }, [navigate]);
     return null;
 }
@@ -33,7 +32,7 @@ export function WomensFramesResolver() {
 export function KidsGlassesResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "kids", CAT.OUR_COLLECTION, SUB.KIDS_GLASSES);
+        goToPLP(navigate, "Kids Glasses", CAT.OUR_COLLECTION, SUB.KIDS_GLASSES);
     }, [navigate]);
     return null;
 }
@@ -42,7 +41,7 @@ export function KidsGlassesResolver() {
 export function AviatorResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "aviator", CAT.FRAME_SHAPE, SUB.AVIATOR);
+        goToPLP(navigate, "Aviator Frame", CAT.FRAME_SHAPE, SUB.AVIATOR);
     }, [navigate]);
     return null;
 }
@@ -50,7 +49,7 @@ export function AviatorResolver() {
 export function RoundResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "round", CAT.FRAME_SHAPE, SUB.ROUND);
+        goToPLP(navigate, "Round Frame", CAT.FRAME_SHAPE, SUB.ROUND);
     }, [navigate]);
     return null;
 }
@@ -58,7 +57,7 @@ export function RoundResolver() {
 export function RectangleResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "rectangle", CAT.FRAME_SHAPE, SUB.RECTANGLE);
+        goToPLP(navigate, "Rectangle Frame", CAT.FRAME_SHAPE, SUB.RECTANGLE);
     }, [navigate]);
     return null;
 }
@@ -66,7 +65,7 @@ export function RectangleResolver() {
 export function CatEyeResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "cat-eye", CAT.FRAME_SHAPE, SUB.CAT_EYE);
+        goToPLP(navigate, "Cat-Eye Frame", CAT.FRAME_SHAPE, SUB.CAT_EYE);
     }, [navigate]);
     return null;
 }
@@ -74,7 +73,7 @@ export function CatEyeResolver() {
 export function OvalResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "oval", CAT.FRAME_SHAPE, SUB.OVAL);
+        goToPLP(navigate, "Oval Frame", CAT.FRAME_SHAPE, SUB.OVAL);
     }, [navigate]);
     return null;
 }
@@ -82,7 +81,7 @@ export function OvalResolver() {
 export function SquareResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "square", CAT.FRAME_SHAPE, SUB.SQUARE);
+        goToPLP(navigate, "Square Frame", CAT.FRAME_SHAPE, SUB.SQUARE);
     }, [navigate]);
     return null;
 }
@@ -91,7 +90,7 @@ export function SquareResolver() {
 export function EyeglassesResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "eyeglasses", CAT.OUR_COLLECTION, SUB.EYEGLASSES);
+        goToPLP(navigate, "Eyeglasses", CAT.OUR_COLLECTION, SUB.EYEGLASSES);
     }, [navigate]);
     return null;
 }
@@ -99,7 +98,7 @@ export function EyeglassesResolver() {
 export function SportsGlassesResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "sports", CAT.OUR_COLLECTION, SUB.SPORTS_GLASSES);
+        goToPLP(navigate, "Sports Glasses", CAT.OUR_COLLECTION, SUB.SPORTS_GLASSES);
     }, [navigate]);
     return null;
 }
@@ -107,16 +106,16 @@ export function SportsGlassesResolver() {
 export function BlueGlassesResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "blue", CAT.OUR_COLLECTION, SUB.BLUE_GLASSES);
+        goToPLP(navigate, "Blue Glasses", CAT.OUR_COLLECTION, SUB.BLUE_GLASSES);
     }, [navigate]);
     return null;
 }
 
-// Sunglasses root
+// Sunglasses
 export function SunglassesResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "sunglasses", CAT.OUR_COLLECTION, SUB.SUNGLASSES);
+        goToPLP(navigate, "Sunglasses", CAT.OUR_COLLECTION, SUB.SUNGLASSES);
     }, [navigate]);
     return null;
 }
@@ -125,7 +124,7 @@ export function SunglassesResolver() {
 export function ContactsResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "contact-lenses", CAT.SHOP_BY_CATEGORY, SUB.CONTACT_LENSES);
+        goToPLP(navigate, "Contact Lenses", CAT.SHOP_BY_CATEGORY, SUB.CONTACT_LENSES);
     }, [navigate]);
     return null;
 }
@@ -134,7 +133,7 @@ export function ContactsResolver() {
 export function TrendingResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "trending", CAT.CURRENTLY_TRENDING, SUB.TRENDING);
+        goToPLP(navigate, "Trending", CAT.CURRENTLY_TRENDING, SUB.TRENDING);
     }, [navigate]);
     return null;
 }
@@ -142,7 +141,8 @@ export function TrendingResolver() {
 export function BestSellerResolver() {
     const navigate = useNavigate();
     useEffect(() => {
-        goToPLP(navigate, "best-sellers", CAT.SELLER, SUB.BEST_SELLER);
+        goToPLP(navigate, "Best Seller", CAT.SELLER, SUB.BEST_SELLER);
     }, [navigate]);
     return null;
 }
+
