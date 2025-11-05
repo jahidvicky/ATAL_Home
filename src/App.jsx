@@ -137,8 +137,8 @@ function App() {
 
         // Friendly routes → resolvers
         { path: "/glasses", element: <GlassesResolver /> },
-        { path: "/glasses/men", element: <MensFramesResolver /> },
-        { path: "/glasses/women", element: <WomensFramesResolver /> },
+        { path: "/glasses/mens-frame", element: <MensFramesResolver /> },
+        { path: "/glasses/womens-frame", element: <WomensFramesResolver /> },
         { path: "/glasses/kids", element: <KidsGlassesResolver /> },
 
         { path: "/glasses/aviator", element: <AviatorResolver /> },
