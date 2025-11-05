@@ -16,6 +16,7 @@ import CartDrawer from "./CartDrawer";
 import API, { IMAGE_URL } from "../../API/Api";
 import { motion, AnimatePresence } from "framer-motion";
 import { CAT, SUB, SUB_IMG } from "../../constants/catalogIds";
+import PostHeader from "./PostHeader";
 
 /* ------------------------ Shared Mega Menu Panel ------------------------ */
 function MegaMenuPanel({ open, onClose, activeKey, dataByKey }) {
@@ -930,6 +931,7 @@ function Header() {
             activeKey={activeKey}
             dataByKey={megaData}
           />
+          <PostHeader />
         </nav>
       </header>
 
