@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import image from "../../assets/Services-images/InsuranceClaims.jpg";
+import image1 from "../../assets/Services-images/Insurance1.png";
 import { Link } from "react-router-dom";
 
 const InsuranceClaims = () => {
@@ -94,8 +95,8 @@ const InsuranceClaims = () => {
             </section>
 
             {/* Red Info Section */}
-            <section className="relative bg-red-700 text-white py-20 md:py-28 -skew-y-2 mt-10">
-                <div className="max-w-6xl mx-auto px-6 md:px-20 skew-y-2">
+            <section className="relative bg-red-700 text-white py-20 md:py-28 -skew-y-2 mt-10 grid grid-cols-2">
+                <div className="max-w-6xl mx-auto px-6 md:px-20 skew-y-2 ml-30">
                     <h3 className="text-3xl font-bold mb-6">What’s Covered?</h3>
                     <p className="leading-relaxed text-gray-100 mb-6">
                         Insurance policies differ by provider, but most cover:
@@ -105,7 +106,27 @@ const InsuranceClaims = () => {
                         <li>Contact lenses (monthly, yearly, or specialized)</li>
                         <li>Comprehensive eye exams and vision tests</li>
                         <li>Replacement lenses due to damage or prescription change</li>
+                        <li>Frames and lens upgrades (anti-glare, blue-light filter, or transition lenses)</li>
+                        <li>Pediatric eye care and children’s eyewear</li>
+                        <li>Treatment for common eye conditions like dry eyes or allergies</li>
+                        <li>Coverage for diabetic eye exams or glaucoma screening</li>
+                        <li>Contact lens fitting and follow-up consultations</li>
+                        <li>Discounts on designer frames and premium lenses</li>
                     </ul>
+                </div>
+                <div className="px-6 md:px-20 skew-y-2">
+                    <motion.div
+                        initial={{ opacity: 0, x: 40 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <img
+                            src={image1}
+                            alt="Insurance Support"
+                            className="rounded-2xl w-full h-full object-cover shadow-md"
+                            loading="lazy"
+                        />
+                    </motion.div>
                 </div>
             </section>
 
