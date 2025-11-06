@@ -25,9 +25,7 @@ const Footer = () => {
             Atal Opticals
           </h1>
           <p className="mb-4 text-sm">
-            Atal Optical has been providing luxury eyewear for clients in
-            Toronto and the GTA since 2005. Atal Optical offers a wide selection
-            of fashionable and practical eyewear to suit any lifestyle.
+            Atal Optical stands as a beacon of dedication, vision, and community service in the Canadian optical industry.
           </p>
           <div className="flex items-center gap-2 text-red-600">
             <div>
