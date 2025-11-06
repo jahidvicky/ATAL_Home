@@ -27,11 +27,14 @@ const WhatsNew = () => {
                     transition={{ duration: 0.8 }}
                     className="flex flex-col items-center text-center"
                 >
-                    <img
-                        src={GlassImage}
-                        alt="Atal Collection"
-                        className="rounded-lg shadow-md w-full h-[360px] object-cover mb-6"
-                    />
+                    <div className="w-150 h-90 overflow-hidden rounded-xl shadow-lg mb-6">
+                        <img
+                            src={GlassImage}
+                            alt="Brand"
+                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                        />
+                    </div>
+
                     <h3 className="text-2xl font-semibold mb-3">
                         Meet the new <span className="text-red-600">Atal Optical collections</span>
                     </h3>
@@ -54,16 +57,18 @@ const WhatsNew = () => {
                     transition={{ duration: 1 }}
                     className="flex flex-col items-center text-center"
                 >
-                    <img
-                        src={raybanImage}
-                        alt="Wayfarer Puffer"
-                        className="rounded-lg shadow-md w-full h-[360px] object-cover mb-6"
-                    />
+                    <div className="w-150 h-90 overflow-hidden rounded-xl shadow-lg mb-6">
+                        <img
+                            src={raybanImage}
+                            alt="Brand"
+                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                        />
+                    </div>
                     <h3 className="text-2xl font-semibold mb-3">
                         Introducing the <span className="text-red-600">Atal Optical</span>
                     </h3>
                     <p className="text-gray-600 mb-6 max-w-md">
-                        With padded contours and fashion-forward edge, the Wayfarer Puffer
+                        With padded contours and fashion-forward edge, the Atal Optical frames
                         is a hip-hop take on the timeless classic frames, designed by Atal Optical.
                     </p>
                     <button
