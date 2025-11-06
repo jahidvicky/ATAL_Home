@@ -932,8 +932,8 @@ function Header() {
             activeKey={activeKey}
             dataByKey={megaData}
           />
-          <PostHeader />
         </nav>
+        <PostHeader />
       </header>
 
       {/* Mobile Sidebar */}
