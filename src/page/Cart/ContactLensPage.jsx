@@ -17,8 +17,8 @@ const ContactLensPage = () => {
   const [selectedPolicy, setSelectedPolicy] = useState(null);
 
   const [formData, setFormData] = useState({
-    // od_selected: true,
-    // os_selected: true,
+    od_selected: true,
+    os_selected: true,
     od_sphere: "",
     od_addition: "Low",
     os_sphere: "",
@@ -346,94 +346,120 @@ const ContactLensPage = () => {
 
               {/* Date of Prescription */}
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">Date of Prescription</label>
+                <label className="block text-lg font-medium mb-2">
+                  Date of Prescription
+                </label>
                 <input
                   type="date"
                   name="prescriptionDate"
                   value={formData.prescriptionDate}
                   onChange={handleChange}
-                  className="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500"
+                  className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 text-base"
                 />
               </div>
 
               {/* Doctor Name */}
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">Doctor Name</label>
+                <label className="block text-lg font-medium mb-2">
+                  Doctor Name
+                </label>
                 <input
                   type="text"
                   name="doctorName"
                   value={formData.doctorName}
                   onChange={handleChange}
                   placeholder="Enter doctor's name"
-                  className="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500"
+                  className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 text-base"
                 />
               </div>
 
-              <hr className="border-gray-200" />
+              <hr className="border-gray-300" />
 
               {/* Purchase Type */}
-              <div>
-                <label name="purchase_type" className="block text-sm font-medium mb-1">Purchase Type</label>
+              <div className="mb-4">
+                <label className="block text-lg font-medium mb-2">
+                  Purchase Type
+                </label>
                 <select
                   id="purchase_type"
                   name="purchase_type"
                   value={formData.purchase_type}
                   onChange={handleChange}
-                  className="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-500"
+                  className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 text-base"
                 >
                   <option value="One-time">One-time Purchase</option>
                   <option value="Subscription">Automatic Delivery (Unsubscribe anytime)</option>
                 </select>
               </div>
 
-              <hr className="border-gray-200" />
+              <hr className="my-4 border-gray-300" />
             </form>
 
+
+            {/* Insurance Section */}
             <div>
               <Insurance onPolicySelect={setSelectedPolicy} />
             </div>
 
-            {/* Price + Add to Cart, styled like Cartpage block */}
-            <div className="rounded-xl border border-gray-200">
-              <div className="flex items-center justify-between px-4 py-3">
-                <p className="text-base font-semibold">Lens</p>
-                <div className="flex items-center gap-3">
-                  {!!product.product_price && product.product_price > product.product_sale_price && (
-                    <span className="line-through text-gray-400">${Number(product.product_price).toFixed(2)}</span>
+            {/* Price and Add to Cart Section */}
+            <div className="space-y-2 mt-6 bg-gray-200 rounded-xl p-4">
+              <div className="flex items-center justify-between">
+                <p className="text-lg font-bold m-2">Lens</p>
+                <div className="flex items-center">
+                  {product.product_price > product.product_sale_price && (
+                    <p className="text-lg font-bold mr-8 line-through text-gray-500">
+                      ${Number(product.product_price).toFixed(2)}
+                    </p>
                   )}
-                  <span className="text-lg font-bold">${Number(product.product_sale_price ?? product.product_price ?? 0).toFixed(2)}</span>
+                  <p className="text-lg font-bold mr-8 text-black">
+                    ${Number(product.product_sale_price ?? product.product_price ?? 0).toFixed(2)}
+                  </p>
                 </div>
               </div>
-
-              <div className="px-4 pb-4">
-                <button
-                  onClick={handleAddToCart}
-                  className="bg-red-600 hover:bg-red-700 text-white w-full rounded-md py-3 text-sm"
-                >
-                  ADD TO CART
-                </button>
-              </div>
-            </div>
-
-            {/* Promo bar */}
-            <div className="bg-blue-100 text-blue-900 p-3 font-semibold rounded">
-              COMPLETE YOUR RAY-BAN WITH 50% OFF ALL LENSES
+              <button
+                onClick={handleAddToCart}
+                className="bg-red-600 w-full sm:w-[100%] md:w-[100%] lg:w-[100%] xl:w-[100%] text-white px-6 py-4 mt-6 mb-2 rounded-lg hover:bg-red-800 font-semibold text-lg sm:text-xl border border-black transition-all duration-200 mx-auto block"
+              >
+                ADD TO CART
+              </button>
             </div>
           </div>
-        </div>
 
-        {/* About Section (same content, styled to match) */}
-        <div className="mt-10 mb-10">
-          <h3 className="text-xl font-semibold mb-4">ABOUT THIS PRODUCT</h3>
-          <ul className="text-sm space-y-1">
-            <li><strong>LENS TYPE: </strong>{product.contact_type}</li>
-            <li><strong>MATERIAL: </strong>{product.material}</li>
-            <li><strong>MANUFACTURER: </strong>{product.manufacturer}</li>
-            <li><strong>WATER % OF CONTENT: </strong>{product.water_content}</li>
-            <li><strong>Gender: </strong>{product.gender}</li>
-          </ul>
-          {product.product_description && <p className="mt-4 text-sm">{product.product_description}</p>}
+          {/* Promo bar */}
+          <div className="bg-blue-100 text-blue-900 p-3 font-semibold rounded">
+            COMPLETE YOUR RAY-BAN WITH 50% OFF ALL LENSES
+          </div>
         </div>
+      </div>
+
+      {/* About Section */}
+      <div className="mt-10 ml-10">
+        <h3 className="text-2xl font-semibold mb-6">ABOUT THIS PRODUCT</h3>
+        <ul className="text-lg space-y-1">
+          <li>
+            <strong>LENS TYPE: </strong>
+            {product.contact_type}
+          </li>
+          <li>
+            <strong>MATERIAL: </strong>
+            {product.material}
+          </li>
+          <li>
+            <strong>MANUFACTURER: </strong>
+            {product.manufacturer}
+          </li>
+          <li>
+            <strong>WATER % OF CONTENT: </strong>
+            {product.water_content}
+          </li>
+          <li>
+            <strong>Gender: </strong>
+            {product.gender}
+          </li>
+        </ul>
+        {product.product_description && (
+          <p className="mt-4 mb-10 text-lg">{product.product_description}</p>
+        )}
       </div>
 
       <div className="bg-stone-900"></div>

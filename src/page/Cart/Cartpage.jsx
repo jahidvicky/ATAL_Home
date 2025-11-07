@@ -411,47 +411,55 @@ const Cartpage = () => {
         </div>
 
         {/* About this product */}
-        <div className="mt-10">
-          <h3 className="text-xl font-semibold mb-4">About this product</h3>
-          <ul className="text-sm space-y-1">
-            <DetailRow label="Frame material:" value={product.product_frame_material || product.frame_material} />
-            <DetailRow label="Frame shape:" value={product.product_frame_shape || product.frame_shape} />
-            <DetailRow label="Frame colour:" value={product.product_frame_color || product.frame_color} />
+        <div className="mt-6 ml-10">
+          <h3 className="text-2xl font-semibold mb-6">ABOUT THIS PRODUCT</h3>
+          <ul className="text-lg space-y-1">
+            <DetailRow label="Frame Material:" value={product.product_frame_material || product.frame_material} />
+            <DetailRow label="Frame Shape:" value={product.product_frame_shape || product.frame_shape} />
+            <DetailRow label="Frame Colour:" value={product.product_frame_color || product.frame_color} />
             <DetailRow label="Fit:" value={product.product_frame_fit || product.frame_fit} />
             <DetailRow label="Gender:" value={product.gender} />
           </ul>
-          {product.product_description && <p className="mt-4 text-sm">{product.product_description}</p>}
+          {product.product_description && (
+            <p className="mt-4 text-lg">{product.product_description}</p>
+          )}
         </div>
 
         {/* Lens promo tiles (optional) */}
         {product.product_lens_image1 && product.product_lens_image2 && (
           <div className="py-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
+              {/* Lens Tile 1 */}
               <div className="text-center">
                 <img
                   src={normalizeUrl(product.product_lens_image1)}
                   alt={product.product_lens_title1}
-                  className="mx-auto mb-4 max-h-64 object-cover"
+                  className="mx-auto mb-6 object-cover hover:scale-105 transition-transform duration-300"
                 />
-                <h4 className="text-xl font-semibold mb-2">{product.product_lens_title1}</h4>
-                <p className="text-sm">{product.product_lens_description1}</p>
+                <h4 className="text-3xl font-semibold mb-4">
+                  {product.product_lens_title1}
+                </h4>
+                <p className="text-lg">{product.product_lens_description1}</p>
               </div>
 
+              {/* Lens Tile 2 */}
               <div className="text-center">
                 <img
                   src={normalizeUrl(product.product_lens_image2)}
                   alt={product.product_lens_title2}
-                  className="mx-auto mb-4 max-h-64 object-cover"
+                  className="mx-auto mb-6 object-cover hover:scale-105 transition-transform duration-300"
                 />
-                <h4 className="text-xl font-semibold mb-2">{product.product_lens_title2}</h4>
-                <p className="text-sm">{product.product_lens_description2}</p>
+                <h4 className="text-3xl font-semibold mb-4">
+                  {product.product_lens_title2}
+                </h4>
+                <p className="text-lg">{product.product_lens_description2}</p>
               </div>
             </div>
           </div>
         )}
       </div>
 
-      <div className="bg-stone-900" />
+      <div className="bg-stone-900"></div>
       <OurPromise />
     </>
   );
