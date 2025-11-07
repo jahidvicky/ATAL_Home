@@ -77,7 +77,7 @@ const MegaMenu = ({ label, columns = [], promo }) => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -8 }}
                         transition={{ duration: 0.18, ease: "easeInOut" }}
-                        className="absolute left-1/2 -translate-x-1/2 top-full mt-3 bg-white text-gray-800 border border-gray-200 rounded-xl shadow-2xl z-50 ml-46 w-[890px] overflow-hidden pointer-events-auto"
+                        className="absolute left-1/2 -translate-x-1/2 top-full bg-white text-gray-800 border border-gray-200 rounded-xl shadow-2xl z-50 ml-46 w-[890px] overflow-hidden pointer-events-auto"
                     >
                         <div className="grid grid-cols-4">
                             {/* Link columns */}
