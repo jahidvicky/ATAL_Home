@@ -86,6 +86,7 @@ import Brands from "./page/allEyeServices/Brands";
 import Optometrists from "./page/allEyeServices/Optometrists";
 import InsuranceClaimPage from "./page/allEyeServices/Insurance";
 import BlueLightTechnology from "./page/allEyeServices/BlueLightTechnology";
+import SubscribeSave from "./page/SubscribeSavePage/SubscriveSave";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -255,6 +256,10 @@ function App() {
         {
           path: "/eye-services/blue-light-technology",
           element: <BlueLightTechnology />,
+        },
+        {
+          path: "/subscribe-save",
+          element: <SubscribeSave />,
         },
         {
           path: "/place-order",
