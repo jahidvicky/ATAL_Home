@@ -147,7 +147,7 @@ function ProductCard({
 
       {/* Discount Tag */}
       {data.product_price > data.product_sale_price && (
-        <div className="absolute top-2 left-2 bg-[#f00000] text-[#f00000] text-xs font-semibold px-2 py-1 rounded-full z-10">
+        <div className="absolute top-2 left-2 bg-gray-200 text-[#f00000] text-xs font-semibold px-2 py-1 rounded-full z-10">
           {Math.round(
             ((data.product_price - data.product_sale_price) / data.product_price) * 100
           )}
