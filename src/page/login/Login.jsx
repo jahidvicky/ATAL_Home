@@ -119,7 +119,7 @@ function Login() {
         }
         className="bg-white shadow-lg rounded-xl w-full h-full max-w-[500px] max-h-[600px] sm:w-[90%] sm:h-auto p-8 mt-20 mb-20"
       >
-        <h2 className="text-2xl font-bold text-center text-red-600 mb-6">
+        <h2 className="text-2xl font-bold text-center text-[#f00000] mb-6">
           {mode === "login"
             ? "Sign In"
             : mode === "forgot"
@@ -128,7 +128,7 @@ function Login() {
         </h2>
 
         {error && mode === "login" && (
-          <p className="text-red-500 text-center mb-4">{error}</p>
+          <p className="text-[#f00000] text-center mb-4">{error}</p>
         )}
 
         <div className="mb-4">
@@ -179,7 +179,7 @@ function Login() {
             <div className="text-right mb-4">
               <span
                 onClick={() => setMode("forgot")}
-                className="text-red-600 text-sm hover:underline cursor-pointer"
+                className="text-[#f00000] text-sm hover:underline cursor-pointer"
               >
                 Forgot Password?
               </span>
@@ -189,7 +189,7 @@ function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-red-600 hover:bg-black text-white py-2 rounded-lg font-semibold transition-colors"
+              className="w-full bg-[#f00000] hover:bg-black text-white py-2 rounded-lg font-semibold transition-colors"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
@@ -199,7 +199,7 @@ function Login() {
               Don't have an account?{" "}
               <span
                 onClick={() => navigate("/register")}
-                className="text-red-600 hover:underline cursor-pointer"
+                className="text-[#f00000] hover:underline cursor-pointer"
               >
                 Register
               </span>
@@ -216,7 +216,7 @@ function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-red-600 hover:bg-black text-white py-2 rounded-lg font-semibold transition-colors"
+              className="w-full bg-[#f00000] hover:bg-black text-white py-2 rounded-lg font-semibold transition-colors"
             >
               {loading ? "Sending OTP..." : "Send OTP"}
             </button>
@@ -225,7 +225,7 @@ function Login() {
               Remembered your password?{" "}
               <span
                 onClick={() => setMode("login")}
-                className="text-red-600 hover:underline cursor-pointer"
+                className="text-[#f00000] hover:underline cursor-pointer"
               >
                 Back to Login
               </span>
@@ -268,7 +268,7 @@ function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-red-600 hover:bg-black text-white py-2 rounded-lg font-semibold transition-colors"
+              className="w-full bg-[#f00000] hover:bg-black text-white py-2 rounded-lg font-semibold transition-colors"
             >
               {loading ? "Verifying..." : "Reset Password"}
             </button>
@@ -277,7 +277,7 @@ function Login() {
               Didn’t receive OTP?{" "}
               <span
                 onClick={handleSendOTP}
-                className="text-red-600 hover:underline cursor-pointer"
+                className="text-[#f00000] hover:underline cursor-pointer"
               >
                 Resend OTP
               </span>

@@ -16,12 +16,12 @@ const EyeWearGlasses = () => {
                 <div className="flex items-center justify-content mb-8">
                     <Link to="/">
                         <button
-                            className="px-6 py-2 bg-red-600 text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
+                            className="px-6 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
                         >
                             Back
                         </button>
                     </Link>
-                    <h1 className="text-4xl md:text-5xl font-bold text-red-700 ml-70">
+                    <h1 className="text-4xl md:text-5xl font-bold text-[#f00000] ml-70">
                         Eye Wear Glasses
                     </h1>
                 </div>
@@ -47,8 +47,8 @@ const EyeWearGlasses = () => {
                 </section>
 
                 <div className="leading-relaxed space-y-6 grid grid-cols-1 md:grid-cols-2 gap-x-10">
-                    <section className="mb-12 bg-red-50 p-6 rounded-2xl shadow-sm">
-                        <h2 className="text-2xl font-semibold text-red-700 mb-4">
+                    <section className="mb-12 bg-[#f00000] p-6 rounded-2xl shadow-sm">
+                        <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
                             Perfect Fit for Every Face
                         </h2>
                         <p className="text-gray-800 leading-relaxed">
@@ -88,7 +88,7 @@ const EyeWearGlasses = () => {
                 </section>
 
                 <section className="bg-black text-white p-8 rounded-2xl">
-                    <h2 className="text-2xl font-semibold mb-4 text-red-500">
+                    <h2 className="text-2xl font-semibold mb-4 text-[#f00000]">
                         Invest in Your Vision
                     </h2>
                     <p className="leading-relaxed">

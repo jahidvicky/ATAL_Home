@@ -17,13 +17,13 @@ const ContactLens = () => {
                     <div className="flex items-center justify-between mb-4">
                         <Link to="/">
                             <button
-                                className="px-4 py-2 bg-red-600 text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
+                                className="px-4 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
                             >
                                 Back
                             </button>
                         </Link>
 
-                        <h1 className="text-4xl md:text-5xl font-bold text-red-700 ml-35 text-center">
+                        <h1 className="text-4xl md:text-5xl font-bold text-[#f00000] ml-35 text-center">
                             Contact Lens
                         </h1>
 
@@ -31,7 +31,7 @@ const ContactLens = () => {
                         <div className="w-[200px]"></div>
                     </div>
 
-                    <div className="w-80 h-1 bg-red-600 mx-auto mb-6 rounded-full"></div>
+                    <div className="w-80 h-1 bg-[#f00000] mx-auto mb-6 rounded-full"></div>
 
                     <p className="text-black text-lg mx-auto leading-relaxed max-w-6xl">
                         Experience the freedom of crystal-clear vision with contact lenses that combine technology, comfort, and style. Designed for those who live life without boundaries — contact lenses provide effortless clarity and confidence in every look.
@@ -58,7 +58,7 @@ const ContactLens = () => {
                         initial={{ opacity: 0, x: -40 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="bg-red-600 p-8 rounded-2xl shadow-lg"
+                        className="bg-[#f00000] p-8 rounded-2xl shadow-lg"
                     >
                         <h2 className="text-2xl font-semibold mb-4 text-black">
                             Perfect Vision, Every Moment
@@ -71,7 +71,7 @@ const ContactLens = () => {
 
                 {/* Why Choose Section */}
                 <section className="bg-gray-900 p-8 rounded-2xl mb-12">
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
                         Why Choose Contact Lenses?
                     </h2>
                     <p className="text-gray-300 leading-relaxed">

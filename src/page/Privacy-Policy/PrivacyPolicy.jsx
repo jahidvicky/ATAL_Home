@@ -85,7 +85,7 @@ export default function PrivacyPolicy() {
           </ul>
           <div>
             To exercise your rights, please contact our Privacy Officer at{" "}
-            <a href="mailto:privacy@ataloptical.com" className="text-red-600 underline">
+            <a href="mailto:privacy@ataloptical.com" className="text-[#f00000] underline">
               privacy@ataloptical.com
             </a>{" "}
             or call <span className="font-semibold">1-866-242-3545</span>.
@@ -124,8 +124,8 @@ export default function PrivacyPolicy() {
       content: `We may update this Policy from time to time. Any changes will be posted on this page with an updated effective date. We encourage you to review this Policy periodically.`
     },
     {
-        title:"12. Contact Us",
-        content: (
+      title: "12. Contact Us",
+      content: (
         <ul className="list-disc list-inside">
           <li>34 Shining Willow Crescent, Brampton, Ontario, Canada</li>
           <li>privacy@ataloptical.com</li>
@@ -137,22 +137,22 @@ export default function PrivacyPolicy() {
 
   return (
     <>
-    <header className="mb-8 bg-gradient-to-r from-black via-red-600 to-black py-12">
+      <header className="mb-8 bg-gradient-to-r from-black via-red-600 to-black py-12">
         <h1 className="text-5xl font-bold text-white text-center">
           Privacy Policy
         </h1>
         <hr className="border-white w-100 mt-2 mx-120"></hr>
-    </header>
-    <div className="px-6 ">
-      <div className=" mx-auto p-8 ">
-        {sections.map((section, idx) => (
-          <div key={idx} className="mb-6">
-            <h2 className="text-xl font-semibold mb-2">{section.title}</h2>
-            <div className="text-gray-700 leading-relaxed">{section.content}</div>
-          </div>
-        ))}
+      </header>
+      <div className="px-6 ">
+        <div className=" mx-auto p-8 ">
+          {sections.map((section, idx) => (
+            <div key={idx} className="mb-6">
+              <h2 className="text-xl font-semibold mb-2">{section.title}</h2>
+              <div className="text-gray-700 leading-relaxed">{section.content}</div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
     </>
   );
 }

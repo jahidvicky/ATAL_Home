@@ -140,7 +140,7 @@ const Payment = () => {
   return (
     <div className="flex justify-center items-center min-h-[80vh] bg-gray-200 pt-20 pb-20">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md border border-red-600">
-        <h2 className="text-2xl font-bold mb-6 text-center text-red-600">
+        <h2 className="text-2xl font-bold mb-6 text-center text-[#f00000]">
           Complete Your Payment
         </h2>
 
@@ -166,7 +166,7 @@ const Payment = () => {
                       setCoupon("");
                       Swal.fire("Removed", "Coupon removed", "info");
                     }}
-                    className="text-red-500 rounded hover:text-red-600 text-sm mt-1 hover:cursor-pointer"
+                    className="text-[#f00000] rounded hover:text-red-600 text-sm mt-1 hover:cursor-pointer"
                   >
                     Remove
                   </button>
@@ -183,7 +183,7 @@ const Payment = () => {
               <span>${tax.toFixed(2)}</span>
             </div>
 
-            <div className="border-t pt-2 flex justify-between font-bold text-red-600 text-lg">
+            <div className="border-t pt-2 flex justify-between font-bold text-[#f00000] text-lg">
               <span>Total</span>
               <span>${finalTotal.toFixed(2)}</span>
             </div>
@@ -204,7 +204,7 @@ const Payment = () => {
             disabled={coupon.trim().length < 3}
             className={`px-4 rounded-lg ${coupon.trim().length < 3
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-red-600 text-white hover:bg-black hover:cursor-pointer"
+              : "bg-[#f00000] text-white hover:bg-black hover:cursor-pointer"
               }`}
           >
             Apply

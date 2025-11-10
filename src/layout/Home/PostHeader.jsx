@@ -26,7 +26,7 @@ const PostHeader = () => {
     return (
         <div className="w-full">
             {/* Top Black Moving Banner */}
-            <div className="bg-red-600 text-white overflow-hidden relative py-2 h-10 flex items-center justify-center">
+            <div className="bg-[#f00000] text-white overflow-hidden relative py-2 h-10 flex items-center justify-center">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={index}

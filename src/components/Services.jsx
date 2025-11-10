@@ -11,7 +11,7 @@ const Services = () => {
                 {/* Content */}
                 <div className="p-8 text-gray-800 space-y-8 mx-15">
                     <section>
-                        <h2 className="text-3xl font-semibold text-red-600 text-center">
+                        <h2 className="text-3xl font-semibold text-[#f00000] text-center">
                             Services At Atal Optical
                         </h2>
                         <hr className="border-red-600 w-90 mx-auto my-2" />
@@ -102,7 +102,7 @@ const Services = () => {
                             <li>Trusted by <strong>95% of our customers</strong> for quality and service</li>
                         </ul>
 
-                        <p className="text-red-600 text-2xl mt-8"><strong>ATAL Optical – See Better. Look Better. Live Better.</strong></p>
+                        <p className="text-[#f00000] text-2xl mt-8"><strong>ATAL Optical – See Better. Look Better. Live Better.</strong></p>
                     </section>
                 </div>
             </div>

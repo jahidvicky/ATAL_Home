@@ -36,7 +36,7 @@ const DocumentUploadForm = () => {
         onSubmit={handleSubmit}
         className="bg-white shadow-2xl rounded-2xl p-8 w-full space-y-6 m-8"
       >
-        <h2 className="text-3xl font-bold text-center text-red-600">
+        <h2 className="text-3xl font-bold text-center text-[#f00000]">
           Required Documents Upload
         </h2>
         <div className="grid grid-cols-2 gap-6">
@@ -137,7 +137,7 @@ const DocumentUploadForm = () => {
         {/* Submit */}
         <button
           type="submit"
-          className="bg-red-600 text-white py-3 px-3 rounded-lg hover:bg-red-700 transition font-semibold text-lg hover:cursor-pointer"
+          className="bg-[#f00000] text-white py-3 px-3 rounded-lg hover:bg-red-700 transition font-semibold text-lg hover:cursor-pointer"
         >
           Submit
         </button>

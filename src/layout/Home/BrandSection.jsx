@@ -44,7 +44,7 @@ const BrandSection = () => {
                         key={category}
                         onClick={() => setSelectedCategory(category)}
                         className={`px-4 py-2 rounded-full text-sm font-medium transition 
-              ${selectedCategory === category ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+              ${selectedCategory === category ? 'bg-[#f00000] text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
                     >
                         {category}
                     </button>

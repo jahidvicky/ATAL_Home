@@ -61,7 +61,7 @@ function WishlistPage({ userId }) {
             </h1>
 
             {wishlist.length === 0 ? (
-                <p className="text-red-500 text-lg">Your wishlist is empty.</p>
+                <p className="text-[#f00000] text-lg">Your wishlist is empty.</p>
             ) : (
                 <div className="flex flex-wrap gap-6">
                     {wishlist.map((item) => {
@@ -118,7 +118,7 @@ function WishlistPage({ userId }) {
                                         <span className="text-gray-500 font-bold line-through mr-2">
                                             ${product.product_price}
                                         </span>
-                                        <span className="text-red-600 font-semibold">
+                                        <span className="text-[#f00000] font-semibold">
                                             ${product.product_sale_price}
                                         </span>
 

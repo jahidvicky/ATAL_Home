@@ -10,7 +10,7 @@ const CartPageWrapper = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="text-center text-red-600 mt-8 mb-8">
+      <div className="text-center text-[#f00000] mt-8 mb-8">
         Your cart is empty.
         <Link
           to="/"
@@ -22,7 +22,7 @@ const CartPageWrapper = () => {
     );
   }
 
-const lensItems = cartItems.filter(
+  const lensItems = cartItems.filter(
     (item) => item?.subCat_id === contactLensSubCatId
   );
 
@@ -35,7 +35,7 @@ const lensItems = cartItems.filter(
 
   return (
     <div className="container mx-auto px-4 py-10 space-y-10">
-     <h2 className="text-3xl font-bold mb-8">Your Shopping Cart</h2>
+      <h2 className="text-3xl font-bold mb-8">Your Shopping Cart</h2>
       {normalItems.length > 0 && <ViewCart items={normalItems} hideCheckout={hideCheckout} />}
       {lensItems.length > 0 && <ViewLensCart items={lensItems} hideCheckout={hideCheckout} />}
 

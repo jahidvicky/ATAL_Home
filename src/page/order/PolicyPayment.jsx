@@ -58,7 +58,7 @@ const PaymentPolicy = () => {
   return (
     <div className="flex justify-center items-center min-h-[80vh] bg-gray-200 pt-20 pb-20">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md border border-red-600">
-        <h2 className="text-2xl font-bold mb-6 text-center text-red-600">
+        <h2 className="text-2xl font-bold mb-6 text-center text-[#f00000]">
           Pay for Policy
         </h2>
 

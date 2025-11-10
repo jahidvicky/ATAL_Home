@@ -12,7 +12,7 @@ const Services = () => {
         <hr className="w-42 md:ml-20 text-white mt-2 ml-6"></hr>
         <div className="flex mt-4 mb-6 md:ml-20 items-center md:flex-row flex-col">
           <div className="text-3xl md:mr-90 text-white mx-6 md:mx-0 md:mb-0 mb-6">
-            <strong className="text-red-600 font-bold">Give Best Care For Your</strong> Eyes Our Eye Services
+            <strong className="text-[#f00000] font-bold">Give Best Care For Your</strong> Eyes Our Eye Services
           </div>
         </div>
 

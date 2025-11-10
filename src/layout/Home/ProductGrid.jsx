@@ -40,7 +40,7 @@ const ProductCard = ({ product, onClick, children }) => {
     >
       {/* Discount Tag */}
       {product.discountValue > 0 && (
-        <div className="absolute top-2 left-2 bg-red-100 text-red-700 text-xs font-semibold px-2 py-1 rounded-full z-10">
+        <div className="absolute top-2 left-2 bg-[#f00000] text-[#f00000] text-xs font-semibold px-2 py-1 rounded-full z-10">
           {product.discountValue}% OFF
         </div>
       )}
@@ -181,7 +181,7 @@ const ProductGrid = () => {
           <Link
             to={`/allProduct/${bestSellerData[0]?.subCategoryName}/${bestSellerData[0]?.cat_id}/${bestSellerData[0]?.subCat_id}`}
           >
-            <button className="flex items-center gap-4 text-white font-medium bg-red-600 px-4 py-2 rounded mr-1 hover:bg-black transition-colors duration-300 cursor-pointer">
+            <button className="flex items-center gap-4 text-white font-medium bg-[#f00000] px-4 py-2 rounded mr-1 hover:bg-black transition-colors duration-300 cursor-pointer">
               FIND MORE
               <span className="bg-white text-black p-1 rounded-full">
                 <FiArrowRight

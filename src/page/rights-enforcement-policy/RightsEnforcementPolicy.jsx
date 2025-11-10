@@ -23,7 +23,7 @@ export default function RightsEnforcementPolicy() {
 
                     {/* Monitoring and Disclosure */}
                     <section>
-                        <h2 className="text-3xl font-semibold text-red-600 text-center">Monitoring and Disclosure</h2>
+                        <h2 className="text-3xl font-semibold text-[#f00000] text-center">Monitoring and Disclosure</h2>
                         <hr className="border-red-600 w-94 mx-auto my-2" />
                         <p>We may, at our sole discretion:</p>
                         <ul className="list-disc list-inside space-y-1">
@@ -49,7 +49,7 @@ export default function RightsEnforcementPolicy() {
 
                     {/* Right to Restrict Access */}
                     <section>
-                        <h2 className="text-3xl font-semibold text-red-600 text-center">Right to Restrict Access</h2>
+                        <h2 className="text-3xl font-semibold text-[#f00000] text-center">Right to Restrict Access</h2>
                         <hr className="border-red-600 w-86 mx-auto my-2" />
                         <p>We reserve the right to:</p>
                         <ul className="list-disc list-inside space-y-1">
@@ -71,7 +71,7 @@ export default function RightsEnforcementPolicy() {
 
                     {/* Termination Policy */}
                     <section>
-                        <h2 className="text-3xl font-semibold text-red-600 text-center">Termination Policy</h2>
+                        <h2 className="text-3xl font-semibold text-[#f00000] text-center">Termination Policy</h2>
                         <hr className="border-red-600 w-68 mx-auto my-2" />
                         <p>These Terms remain in effect unless and until terminated by either party.</p>
                         <p>
@@ -93,7 +93,7 @@ export default function RightsEnforcementPolicy() {
 
                     {/* Governing Law & Jurisdiction */}
                     <section>
-                        <h2 className="text-3xl font-semibold text-red-600 text-center">Governing Law & Jurisdiction</h2>
+                        <h2 className="text-3xl font-semibold text-[#f00000] text-center">Governing Law & Jurisdiction</h2>
                         <hr className="border-red-600 w-105 mx-auto my-2" />
                         <h3 className="text-xl font-semibold mt-4">International Use</h3>
                         <p>
@@ -124,7 +124,7 @@ export default function RightsEnforcementPolicy() {
 
                     {/* Contact Us */}
                     <section>
-                        <h2 className="text-3xl font-semibold text-red-600 text-center">Contact Us</h2>
+                        <h2 className="text-3xl font-semibold text-[#f00000] text-center">Contact Us</h2>
                         <hr className="border-red-600 w-45 mx-auto my-2" />
                         <p>Atal Optical Inc.</p>
                         <p>34 Shining Willow Crescent, Brampton, Ontario, Canada</p>

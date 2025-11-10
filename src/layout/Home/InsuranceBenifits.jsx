@@ -15,15 +15,15 @@ const InsuranceBenefits = () => {
                 className="md:w-1/2 text-center md:text-left z-10"
             >
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                    Claim your <span className="text-red-600">insurance benefits</span> with direct billing to save on your order
+                    Claim your <span className="text-[#f00000]">insurance benefits</span> with direct billing to save on your order
                 </h2>
                 <p className="text-gray-600 text-lg mb-6">
                     Discount applied at checkout by selecting{" "}
-                    <span className="font-semibold text-red-500">"Apply vision insurance"</span>.
+                    <span className="font-semibold text-[#f00000]">"Apply vision insurance"</span>.
                 </p>
                 <button
                     onClick={(() => navigate("/eye-services/insurance-claims"))}
-                    className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-transform active:scale-95">
+                    className="bg-[#f00000] hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-transform active:scale-95">
                     Learn more
                 </button>
             </motion.div>
@@ -43,7 +43,7 @@ const InsuranceBenefits = () => {
             </motion.div>
 
             {/* Background Accent (faint red shield) */}
-            <div className="absolute right-0 bottom-0 text-red-100 text-[300px] font-extrabold opacity-10 select-none">
+            <div className="absolute right-0 bottom-0 text-[#f00000] text-[300px] font-extrabold opacity-10 select-none">
                 +
             </div>
         </div>

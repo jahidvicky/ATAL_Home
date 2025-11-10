@@ -15,7 +15,7 @@ const BlueLightTechnology = () => {
             >
                 <Link to="/" className="absolute top-6 left-6 z-20">
                     <button
-                        className="px-4 py-2 bg-red-600 text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
+                        className="px-4 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
                     >
                         Back
                     </button>
@@ -30,7 +30,7 @@ const BlueLightTechnology = () => {
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="relative z-10 text-5xl md:text-6xl font-extrabold text-red-600 text-center"
+                    className="relative z-10 text-5xl md:text-6xl font-extrabold text-[#f00000] text-center"
                 >
                     Blue Light Technology
                 </motion.h1>
@@ -44,11 +44,11 @@ const BlueLightTechnology = () => {
                     transition={{ duration: 0.6 }}
                     className="text-3xl md:text-4xl font-bold mb-4 text-black"
                 >
-                    Advanced <span className="text-red-700">Blue Light Protection</span>
+                    Advanced <span className="text-[#f00000]">Blue Light Protection</span>
                 </motion.h2>
                 <p className="text-lg text-gray-700 leading-relaxed">
                     In today's digital world, our eyes are constantly exposed to harmful
-                    blue light emitted from screens. At <span className="font-semibold text-red-700">Atal Optical</span>,
+                    blue light emitted from screens. At <span className="font-semibold text-[#f00000]">Atal Optical</span>,
                     we use cutting-edge <strong>Blue Light Filter Technology</strong> in lenses to reduce
                     eye strain, improve sleep, and enhance long-term vision health.
                 </p>
@@ -75,7 +75,7 @@ const BlueLightTechnology = () => {
                         transition={{ duration: 0.8 }}
                     >
                         <h3 className="text-3xl font-bold text-black mb-4">
-                            How <span className="text-red-700">Blue Light Filter</span> Works
+                            How <span className="text-[#f00000]">Blue Light Filter</span> Works
                         </h3>
                         <p className="text-gray-700 leading-relaxed mb-4">
                             Blue light filter lenses use advanced coatings and materials that
@@ -101,7 +101,7 @@ const BlueLightTechnology = () => {
                         transition={{ duration: 0.6 }}
                         className="text-3xl font-bold mb-6"
                     >
-                        Why Choose <span className="text-red-400">Atal Optical</span> Blue Light Glasses?
+                        Why Choose <span className="text-[#f00000]">Atal Optical</span> Blue Light Glasses?
                     </motion.h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                         {[
@@ -125,7 +125,7 @@ const BlueLightTechnology = () => {
                                 transition={{ duration: 0.6 }}
                                 className="bg-white/10 p-6 rounded-2xl shadow-md hover:shadow-lg border border-white/20 transition"
                             >
-                                <h4 className="text-xl font-semibold text-red-400 mb-3">
+                                <h4 className="text-xl font-semibold text-[#f00000] mb-3">
                                     {item.title}
                                 </h4>
                                 <p className="text-gray-200 leading-relaxed">{item.desc}</p>
@@ -144,7 +144,7 @@ const BlueLightTechnology = () => {
                         transition={{ duration: 0.8 }}
                     >
                         <h3 className="text-3xl font-bold text-black mb-4">
-                            Tips for <span className="text-red-700">Healthy Digital Vision</span>
+                            Tips for <span className="text-[#f00000]">Healthy Digital Vision</span>
                         </h3>
                         <ul className="list-disc pl-6 space-y-3 text-gray-700">
                             <li>Follow the <strong>20-20-20 rule</strong> - every 20 minutes, look 20 feet away for 20 seconds.</li>
@@ -170,7 +170,7 @@ const BlueLightTechnology = () => {
 
             {/* CTA Section */}
             <section className="bg-black text-white py-16 text-center mb-10">
-                <h3 className="text-3xl font-bold mb-4 text-red-500">
+                <h3 className="text-3xl font-bold mb-4 text-[#f00000]">
                     Protect Your Eyes from Digital Fatigue
                 </h3>
                 <p className="max-w-3xl mx-auto leading-relaxed text-gray-300 mb-6">

@@ -162,7 +162,7 @@ const OfferPopup = () => {
                                         className="border border-gray-300 rounded-md w-full p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-black"
                                     />
                                     {error && (
-                                        <p className="text-red-500 text-sm mb-3">{error}</p>
+                                        <p className="text-[#f00000] text-sm mb-3">{error}</p>
                                     )}
                                     <button
                                         onClick={handleEmailSubmit}

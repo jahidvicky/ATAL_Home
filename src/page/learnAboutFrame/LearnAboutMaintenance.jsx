@@ -24,7 +24,7 @@ export default function LearnAboutMaintenance() {
                     transition={{ duration: 0.6 }}
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
                         Why Eyeglass Care Matters
                     </h2>
                     <p className="leading-relaxed">
@@ -40,7 +40,7 @@ export default function LearnAboutMaintenance() {
                     viewport={{ once: true }}
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
                         Atal Optical's 10 Tips for 2025
                     </h2>
                     <ol className="list-decimal list-inside space-y-3 ml-3">
@@ -65,7 +65,7 @@ export default function LearnAboutMaintenance() {
                     viewport={{ once: true }}
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
                         Eyeglass Care Trends in 2025
                     </h2>
                     <ul className="list-disc list-inside space-y-2 ml-3">
