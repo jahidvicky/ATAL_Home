@@ -6,7 +6,7 @@ const StockAvailability = ({ data }) => {
             {data > 0 ? (
                 <span className="text-green-600 font-semibold">In stock</span>
             ) : (
-                <span className="text-red-600 font-semibold">Out of Stock</span>
+                <span className="text-[#f00000] font-semibold">Out of Stock</span>
             )}
         </div>
     )

@@ -24,7 +24,7 @@ export default function LearnAboutFrame() {
                     transition={{ duration: 0.6 }}
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
                         Why Choosing the Right Frame Matters
                     </h2>
                     <p className="leading-relaxed">
@@ -44,7 +44,7 @@ export default function LearnAboutFrame() {
                         viewport={{ once: true }}
                         className="p-6 rounded-2xl shadow-md border border-red-600"
                     >
-                        <h3 className="text-xl font-bold text-red-600 mb-3">Round Face</h3>
+                        <h3 className="text-xl font-bold text-[#f00000] mb-3">Round Face</h3>
                         <p>
                             Angular frames such as rectangular or geometric designs help balance
                             the natural curves of a round face. Avoid overly round frames, as
@@ -59,7 +59,7 @@ export default function LearnAboutFrame() {
                         viewport={{ once: true }}
                         className="p-6 rounded-2xl shadow-md border border-red-600"
                     >
-                        <h3 className="text-xl font-bold text-red-600 mb-3">Square Face</h3>
+                        <h3 className="text-xl font-bold text-[#f00000] mb-3">Square Face</h3>
                         <p>
                             Round or oval frames soften sharp jawlines and strong features,
                             creating balance. Steer clear of boxy frames that emphasize angularity.
@@ -73,7 +73,7 @@ export default function LearnAboutFrame() {
                         viewport={{ once: true }}
                         className="p-6 rounded-2xl shadow-md border border-red-600"
                     >
-                        <h3 className="text-xl font-bold text-red-600 mb-3">Oval Face</h3>
+                        <h3 className="text-xl font-bold text-[#f00000] mb-3">Oval Face</h3>
                         <p>
                             Almost any frame style works! Oval faces are versatile, but bold,
                             oversized frames are especially flattering, adding character without
@@ -88,7 +88,7 @@ export default function LearnAboutFrame() {
                         viewport={{ once: true }}
                         className="p-6 rounded-2xl shadow-md border border-red-600"
                     >
-                        <h3 className="text-xl font-bold text-red-600 mb-3">Heart Face</h3>
+                        <h3 className="text-xl font-bold text-[#f00000] mb-3">Heart Face</h3>
                         <p>
                             Frames that are wider at the bottom, like aviators or rimless styles,
                             balance a broader forehead with a narrower chin, creating harmony.
@@ -104,7 +104,7 @@ export default function LearnAboutFrame() {
                     viewport={{ once: true }}
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
                         Eyeglass Trends in 2025
                     </h2>
                     <ul className="list-disc list-inside space-y-2 ml-3">

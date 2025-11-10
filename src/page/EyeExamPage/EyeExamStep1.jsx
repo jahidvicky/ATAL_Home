@@ -47,24 +47,24 @@ export default function EyeExamStep1() {
             {/* Store Info */}
             <section className="max-w-6xl mx-auto p-18 grid md:grid-cols-3 gap-6 text-center">
                 <div>
-                    <Eye className="w-10 h-10 mx-auto mb-2 text-red-500" />
+                    <Eye className="w-10 h-10 mx-auto mb-2 text-[#f00000]" />
                     <h2 className="font-bold">Atal Opticals - Queen St</h2>
                     <p>Best eyewear & eye care in Toronto</p>
                 </div>
                 <div>
-                    <Clock className="w-10 h-10 mx-auto mb-2 text-red-500" />
+                    <Clock className="w-10 h-10 mx-auto mb-2 text-[#f00000]" />
                     <h2 className="font-bold">Store Hours</h2>
                     <p>Mon - Sat: 10 AM - 7 PM</p>
                     <p>Sun: Closed</p>
                 </div>
                 <div>
-                    <MapPin className="w-10 h-10 mx-auto mb-2 text-red-500" />
+                    <MapPin className="w-10 h-10 mx-auto mb-2 text-[#f00000]" />
                     <h2 className="font-bold">Directions</h2>
                     <p>Corporate Office : 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada</p>
                 </div>
             </section>
 
-            <div className="grid grid-cols-2 bg-red-600 gap-20 items-center">
+            <div className="grid grid-cols-2 bg-[#f00000] gap-20 items-center">
                 {/* Store Image with zoom-in effect */}
                 <motion.section
                     className="mt-11 flex justify-end pr-10"
@@ -113,19 +113,19 @@ export default function EyeExamStep1() {
                 <h2 className="text-2xl font-bold mb-8">Top Reasons to Get Your Eyes Checked</h2>
                 <div className="grid md:grid-cols-4 gap-6">
                     <div>
-                        <Shield className="w-10 h-10 mx-auto text-red-500 mb-2" />
+                        <Shield className="w-10 h-10 mx-auto text-[#f00000] mb-2" />
                         <p>Vision Protection</p>
                     </div>
                     <div>
-                        <Heart className="w-10 h-10 mx-auto text-red-500 mb-2" />
+                        <Heart className="w-10 h-10 mx-auto text-[#f00000] mb-2" />
                         <p>General Health</p>
                     </div>
                     <div>
-                        <Sparkles className="w-10 h-10 mx-auto text-red-500 mb-2" />
+                        <Sparkles className="w-10 h-10 mx-auto text-[#f00000] mb-2" />
                         <p>Everyday Comfort</p>
                     </div>
                     <div>
-                        <Cpu className="w-10 h-10 mx-auto text-red-500 mb-2" />
+                        <Cpu className="w-10 h-10 mx-auto text-[#f00000] mb-2" />
                         <p>Leading Tech</p>
                     </div>
                 </div>
@@ -133,7 +133,7 @@ export default function EyeExamStep1() {
 
             {/* Exclusive Offer */}
             <section className="bg-black py-10 text-center border-t border-red-600">
-                <h2 className="text-2xl font-bold mb-4 text-red-500">In-store Exclusive</h2>
+                <h2 className="text-2xl font-bold mb-4 text-[#f00000]">In-store Exclusive</h2>
                 <p className="text-lg text-white">$20 OFF on your first pair of glasses at Atal Opticals Queen St</p>
             </section>
 

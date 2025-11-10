@@ -163,7 +163,7 @@ const ViewOrder = () => {
 
   if (!order)
     return (
-      <div className="text-center mt-16 text-red-600 font-semibold text-base">
+      <div className="text-center mt-16 text-[#f00000] font-semibold text-base">
         Order not found.
       </div>
     );
@@ -236,7 +236,7 @@ const ViewOrder = () => {
                 disabled={cancelling || !selectedProduct}
                 className={`text-md font-medium px-4 py-3 rounded-md transition-colors ${cancelling || !selectedProduct
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-red-600 hover:cursor-pointer text-white hover:bg-red-700"
+                  : "bg-[#f00000] hover:cursor-pointer text-white hover:bg-red-700"
                   }`}
               >
                 {cancelling ? "Cancelling..." : "Cancel Selected Product"}
@@ -275,7 +275,7 @@ const ViewOrder = () => {
 
                         {item.name}
                         {item.status === "Cancelled" && (
-                          <span className="inline-block ml-2 text-xs font-semibold text-red-600 bg-red-100 px-2 py-0.5 rounded-full">
+                          <span className="inline-block ml-2 text-xs font-semibold text-[#f00000] bg-[#f00000] px-2 py-0.5 rounded-full">
                             Cancelled
                           </span>
                         )}
@@ -337,7 +337,7 @@ const ViewOrder = () => {
                       <span
                         className={`font-semibold ${new Date(order.cartItems[0].policy.expiryDate) <
                           new Date()
-                          ? "text-red-600"
+                          ? "text-[#f00000]"
                           : "text-green-600"
                           }`}
                       >
@@ -391,7 +391,7 @@ const ViewOrder = () => {
                             <div className="flex justify-between">
                               <span className="font-medium">Status:</span>
                               <span
-                                className={`font-semibold ${isExpired ? "text-red-600" : "text-green-600"
+                                className={`font-semibold ${isExpired ? "text-[#f00000]" : "text-green-600"
                                   }`}
                               >
                                 {isExpired ? "Expired" : "Active"}
@@ -457,7 +457,7 @@ const ViewOrder = () => {
                   <span className="font-medium">Status:</span>
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-medium text-white ${order.orderStatus === "Cancelled"
-                      ? "bg-red-500"
+                      ? "bg-[#f00000]"
                       : order.orderStatus === "Delivered"
                         ? "bg-green-500"
                         : "bg-yellow-500"

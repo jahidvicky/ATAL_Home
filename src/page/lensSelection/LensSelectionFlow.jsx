@@ -252,7 +252,7 @@ const LensSelectionFlow = () => {
 
         {step === 9 && (
           <div>
-            <h2 className="text-2xl font-bold text-red-600 mb-6">Review</h2>
+            <h2 className="text-2xl font-bold text-[#f00000] mb-6">Review</h2>
 
             {/* Lenses Only */}
             <div className="mb-6 space-y-2 text-gray-700">
@@ -309,7 +309,7 @@ const LensSelectionFlow = () => {
               </button>
               <button
                 onClick={handleAddToCart}
-                className="bg-red-600 text-white px-12 py-3 rounded hover:bg-red-800 text-xl border-1 border-black hover:cursor-pointer"
+                className="bg-[#f00000] text-white px-12 py-3 rounded hover:bg-red-800 text-xl border-1 border-black hover:cursor-pointer"
               >
                 Confirm Lens Selection
               </button>

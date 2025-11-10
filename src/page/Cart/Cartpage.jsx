@@ -225,7 +225,7 @@ const Cartpage = () => {
                   className="p-2 rounded-full bg-white shadow border"
                 >
                   {wishlist.includes(product._id) ? (
-                    <AiFillHeart className="text-red-500 text-2xl" />
+                    <AiFillHeart className="text-[#f00000] text-2xl" />
                   ) : (
                     <AiOutlineHeart className="text-gray-500 text-2xl" />
                   )}
@@ -261,7 +261,7 @@ const Cartpage = () => {
                       <label
                         key={c}
                         htmlFor={id}
-                        className={`h-7 w-7 rounded-full border ${checked ? "ring-2 ring-offset-1 ring-black border-black" : "border-gray-300"}`}
+                        className={`h-7 w-7 rounded-full border hover:cursor-pointer ${checked ? "ring-2 ring-offset-1 ring-black border-black" : "border-gray-300"}`}
                         title={c}
                         style={{ backgroundColor: c }}
                       >
@@ -355,7 +355,7 @@ const Cartpage = () => {
                       }));
                       Swal.fire({ toast: true, position: "top-end", icon: "success", title: "Product added to cart!", showConfirmButton: false, timer: 1500 });
                     }}
-                    className="mt-3 bg-red-600 hover:bg-red-700 text-white w-full rounded-md py-3 text-sm"
+                    className="mt-3 bg-[#f00000] hover:bg-red-700 text-white w-full rounded-md py-3 text-sm"
                   >
                     Add To Cart
                   </button>
@@ -377,7 +377,7 @@ const Cartpage = () => {
                       <button className="text-gray-600 text-sm hover:underline">Edit</button>
                     </Link>
                     <button
-                      className="text-red-600 text-sm hover:underline"
+                      className="text-[#f00000] text-sm hover:underline"
                       onClick={() => {
                         localStorage.removeItem("lensSelectionDetails");
                         setLensDetails(null);

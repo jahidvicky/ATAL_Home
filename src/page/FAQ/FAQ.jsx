@@ -59,7 +59,7 @@ function FAQ() {
         <div>
           <div className="max-w-5xl mx-auto p-6 bg-white mt-10 md:mr-10 ">
             <p className="md:text-4xl text-2xl">
-              Frequently Asked <span className="font-bold text-red-600">Questions</span>
+              Frequently Asked <span className="font-bold text-[#f00000]">Questions</span>
             </p>
             <hr className="md:w-102 w-66 mb-10 mt-2 border-black"></hr>
             {faqData.map((faq, index) => (

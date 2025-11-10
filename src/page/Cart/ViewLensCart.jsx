@@ -166,7 +166,7 @@ const ViewLensCart = ({ items, hideCheckout }) => {
                   onClick={() =>
                     dispatch(removeFromCart(item.variantId || item.id))
                   }
-                  className="text-red-500 mt-2 text-sm hover:underline hover:cursor-pointer"
+                  className="text-[#f00000] mt-2 text-sm hover:underline hover:cursor-pointer"
                 >
                   Remove
                 </button>

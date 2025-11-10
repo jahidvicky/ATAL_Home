@@ -58,7 +58,7 @@ const TrackOrder = () => {
             <div className="bg-white p-6 rounded-2xl shadow-lg w-full max-w-3xl">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold text-red-600">
+                    <h2 className="text-2xl font-bold text-[#f00000]">
                         Track Your Order
                     </h2>
                     <button
@@ -84,7 +84,7 @@ const TrackOrder = () => {
                         disabled={loading}
                         className={`px-4 rounded-lg text-white transition hover:cursor-pointer ${loading
                             ? "bg-gray-400 cursor-not-allowed"
-                            : "bg-red-600 hover:bg-black"
+                            : "bg-[#f00000] hover:bg-black"
                             }`}
                     >
                         {loading ? "Checking..." : "Track"}
@@ -100,7 +100,7 @@ const TrackOrder = () => {
                                     <div
                                         className={`w-8 h-8 flex items-center justify-center rounded-full border-2 transition-colors
                                             ${currentStep >= index
-                                                ? "bg-red-600 border-red-600 text-white"
+                                                ? "bg-[#f00000] border-red-600 text-white"
                                                 : "border-gray-300 text-gray-400"
                                             }`}
                                     >
@@ -108,7 +108,7 @@ const TrackOrder = () => {
                                     </div>
                                     <span
                                         className={`text-xs mt-2 ${currentStep >= index
-                                            ? "text-red-600 font-semibold"
+                                            ? "text-[#f00000] font-semibold"
                                             : "text-gray-400"
                                             }`}
                                     >
@@ -119,7 +119,7 @@ const TrackOrder = () => {
                                 {index < steps.length - 1 && (
                                     <div
                                         className={`flex-1 h-[3px] mb-6 transition-colors duration-500
-                                            ${currentStep > index ? "bg-red-600" : "bg-gray-300"}`}
+                                            ${currentStep > index ? "bg-[#f00000]" : "bg-gray-300"}`}
                                     />
                                 )}
                             </React.Fragment>

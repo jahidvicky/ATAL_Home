@@ -58,7 +58,7 @@ export default function HowToOrder() {
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-4xl font-bold text-center text-red-600 mb-12"
+                    className="text-4xl font-bold text-center text-[#f00000] mb-12"
                 >
                     How to Order
                     <hr className="border-red-600 w-80 mt-3 mx-auto" />
@@ -76,12 +76,12 @@ export default function HowToOrder() {
                         >
                             <div className="flex items-start">
                                 {/* Number Circle */}
-                                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-red-600 text-white font-bold mr-4 shadow-md">
+                                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#f00000] text-white font-bold mr-4 shadow-md">
                                     {index + 1}
                                 </div>
                                 {/* Text */}
                                 <div>
-                                    <h2 className="text-lg font-semibold text-red-500">
+                                    <h2 className="text-lg font-semibold text-[#f00000]">
                                         {step.title}
                                     </h2>
                                     <p className="text-sm leading-relaxed text-black">

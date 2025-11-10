@@ -178,7 +178,7 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey }) {
                   <Link
                     to={menu.promo.ctaTo || "#"}
                     state={menu.promo.state}
-                    className="inline-block mt-3 bg-black text-white text-sm px-4 py-2 rounded-lg hover:bg-red-600"
+                    className="inline-block mt-3 bg-black text-white text-sm px-4 py-2 rounded-lg hover:bg-[#f00000]"
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={(e) => onClose?.()}
                   >
@@ -775,7 +775,7 @@ function Header() {
   return (
     <>
       {/* Top Bar */}
-      <div className="bg-red-600 py-1 text-white flex justify-between items-center px-4 lg:px-6">
+      <div className="bg-[#f00000] py-1 text-white flex justify-between items-center px-4 lg:px-6">
         <div className="mt-1 text-md">
           Call Us Today! 1866-242-3545 |
           <a
@@ -897,12 +897,12 @@ function Header() {
           <div className="flex items-center gap-6 text-2xl">
             <FaHeart
               onClick={handleWishlist}
-              className="text-red-600 cursor-pointer hover:text-black"
+              className="text-[#f00000] cursor-pointer hover:text-black"
             />
             <div className="relative">
               <FaCartShopping
                 onClick={() => setCartOpen(true)}
-                className="text-red-600 cursor-pointer hover:text-black text-2xl"
+                className="text-[#f00000] cursor-pointer hover:text-black text-2xl"
               />
               {totalQuantity > 0 && (
                 <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
@@ -919,12 +919,12 @@ function Header() {
                     className="w-12 h-12 rounded-full object-cover border border-red-600"
                   />
                 ) : (
-                  <FaUser className="text-red-600 hover:text-black w-8 h-8" />
+                  <FaUser className="text-[#f00000] hover:text-black w-8 h-8" />
                 )}
               </Link>
             ) : (
               <button onClick={() => navigate("/login")}>
-                <FaUser className="text-red-600 hover:text-black w-8 h-8" />
+                <FaUser className="text-[#f00000] hover:text-black w-8 h-8" />
               </button>
             )}
             {!user ? (
@@ -933,14 +933,14 @@ function Header() {
                   navigate("/login");
                   setSidebarOpen(false);
                 }}
-                className="flex items-center gap-1 text-red-600 cursor-pointer hover:text-black"
+                className="flex items-center gap-1 text-[#f00000] cursor-pointer hover:text-black"
               >
                 <span className="hover:underline">Sign In</span>
               </div>
             ) : (
               <div className="flex items-center gap-3">
                 <Link to="/order-history">
-                  <button className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-black">
+                  <button className="px-4 py-2 rounded-lg bg-[#f00000] text-white text-sm hover:bg-black">
                     My Orders
                   </button>
                 </Link>
@@ -952,7 +952,7 @@ function Header() {
                     localStorage.removeItem("cartItems");
                     navigate("/");
                   }}
-                  className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-black"
+                  className="px-4 py-2 rounded-lg bg-[#f00000] text-white text-sm hover:bg-black"
                 >
                   Logout
                 </button>
@@ -1075,7 +1075,7 @@ function Header() {
               <li className="cursor-pointer hover:text-red-600">How To Order</li>
             </Link>
             <Link to="/eye-schedule-test">
-              <li className="cursor-pointer hover:text-black hover:bg-white bg-red-600 py-1 px-4 rounded-xl">
+              <li className="cursor-pointer hover:text-black hover:bg-white bg-[#f00000] py-1 px-4 rounded-xl">
                 BOOK EYE EXAM
               </li>
             </Link>

@@ -207,7 +207,7 @@ const ContactLensPage = () => {
                   className="p-2 rounded-full bg-white shadow border"
                 >
                   {wishlist.includes(product._id) ? (
-                    <AiFillHeart className="text-red-500 text-2xl" />
+                    <AiFillHeart className="text-[#f00000] text-2xl" />
                   ) : (
                     <AiOutlineHeart className="text-gray-500 text-2xl" />
                   )}
@@ -418,7 +418,7 @@ const ContactLensPage = () => {
               </div>
               <button
                 onClick={handleAddToCart}
-                className="bg-red-600 w-full sm:w-[100%] md:w-[100%] lg:w-[100%] xl:w-[100%] text-white px-6 py-4 mt-6 mb-2 rounded-lg hover:bg-red-800 font-semibold text-lg sm:text-xl border border-black transition-all duration-200 mx-auto block"
+                className="bg-[#f00000] w-full sm:w-[100%] md:w-[100%] lg:w-[100%] xl:w-[100%] text-white px-6 py-4 mt-6 mb-2 rounded-lg hover:bg-red-800 font-semibold text-lg sm:text-xl border border-black transition-all duration-200 mx-auto block"
               >
                 ADD TO CART
               </button>

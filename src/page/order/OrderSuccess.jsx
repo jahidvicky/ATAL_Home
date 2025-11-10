@@ -26,7 +26,7 @@ const OrderSuccess = () => {
   }, [id, dispatch]);
 
   if (error)
-    return <p className="text-red-500 text-center mt-20 text-lg">{error}</p>;
+    return <p className="text-[#f00000] text-center mt-20 text-lg">{error}</p>;
   if (!order)
     return (
       <p className="text-center mt-20 text-gray-500 text-lg">Loading...</p>
@@ -50,7 +50,7 @@ const OrderSuccess = () => {
           />
         </div>
 
-        <h1 className="text-3xl font-bold text-red-600 text-center mb-4">
+        <h1 className="text-3xl font-bold text-[#f00000] text-center mb-4">
           Order Placed Successfully!
         </h1>
 
@@ -170,7 +170,7 @@ const OrderSuccess = () => {
               onClick={() =>
                 window.open(`${PDF_URL}/${order._id}/invoice`, "_blank")
               }
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-black hover:cursor-pointer"
+              className="bg-[#f00000] text-white px-4 py-2 rounded-lg hover:bg-black hover:cursor-pointer"
             >
               Download Invoice
             </button>
@@ -192,7 +192,7 @@ const OrderSuccess = () => {
         {/* Continue Shopping */}
         <Link
           to="/"
-          className="block text-center bg-red-600 text-white py-3 px-6 rounded-xl hover:bg-black transition-colors duration-300 font-semibold hover:cursor-pointer"
+          className="block text-center bg-[#f00000] text-white py-3 px-6 rounded-xl hover:bg-black transition-colors duration-300 font-semibold hover:cursor-pointer"
         >
           Continue Shopping
         </Link>

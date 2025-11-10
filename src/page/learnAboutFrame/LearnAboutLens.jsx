@@ -23,7 +23,7 @@ export default function LearnAboutLens() {
                     transition={{ duration: 0.6 }}
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
                         What are Progressive Lenses?
                     </h2>
                     <p className="leading-relaxed">
@@ -43,7 +43,7 @@ export default function LearnAboutLens() {
                     transition={{ duration: 0.5 }}
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
-                    <h3 className="text-xl font-bold text-red-600 mb-3">Why choose progressive lenses?</h3>
+                    <h3 className="text-xl font-bold text-[#f00000] mb-3">Why choose progressive lenses?</h3>
                     <ul className="list-disc list-inside ml-3 space-y-2">
                         <li>Smooth, natural vision at all distances — no switching glasses.</li>
                         <li>Cleaner appearance — no visible bifocal line.</li>
@@ -61,7 +61,7 @@ export default function LearnAboutLens() {
                         transition={{ duration: 0.5 }}
                         className="p-6 rounded-2xl shadow-md border border-red-600"
                     >
-                        <h4 className="text-lg font-semibold text-red-600 mb-2">How they work</h4>
+                        <h4 className="text-lg font-semibold text-[#f00000] mb-2">How they work</h4>
                         <p>
                             Progressive lenses are digitally surfaced to provide continuous
                             optical power from the top (distance) down to the bottom (near).
@@ -78,7 +78,7 @@ export default function LearnAboutLens() {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="shadow-md p-6 rounded-2xl border border-red-600"
                     >
-                        <h4 className="text-lg font-semibold text-red-600 mb-2">Types of progressive lenses</h4>
+                        <h4 className="text-lg font-semibold text-[#f00000] mb-2">Types of progressive lenses</h4>
                         <ul className="ml-3 list-disc list-inside space-y-2">
                             <li>Standard progressives — balanced design for general use.</li>
                             <li>Computer-focused progressives — extended intermediate zones.</li>
@@ -96,18 +96,18 @@ export default function LearnAboutLens() {
                     transition={{ duration: 0.6 }}
                     className="shadow-md p-8 rounded-2xl border border-red-600"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">How to choose & fit progressive lenses</h2>
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">How to choose & fit progressive lenses</h2>
 
-                    <h5 className="text-md font-semibold text-red-500 mt-3">1. Get an up-to-date prescription</h5>
+                    <h5 className="text-md font-semibold text-[#f00000] mt-3">1. Get an up-to-date prescription</h5>
                     <p>An accurate prescription, including your pupillary distance (PD), is essential for comfortable progressives.</p>
 
-                    <h5 className="text-md font-semibold text-red-500 mt-3">2. Frame selection matters</h5>
+                    <h5 className="text-md font-semibold text-[#f00000] mt-3">2. Frame selection matters</h5>
                     <p>Choose frames that offer enough vertical height (generally 30mm+ lens height) to accommodate the progressive zones. Small lenses can limit intermediate and near areas.</p>
 
-                    <h5 className="text-md font-semibold text-red-500 mt-3">3. Consider lens design based on use</h5>
+                    <h5 className="text-md font-semibold text-[#f00000] mt-3">3. Consider lens design based on use</h5>
                     <p>If you spend long hours on a computer, pick a design with an expanded intermediate zone. For driving, prioritize clear distance vision and a stable corridor.</p>
 
-                    <h5 className="text-md font-semibold text-red-500 mt-3">4. Frame fitting and measurements</h5>
+                    <h5 className="text-md font-semibold text-[#f00000] mt-3">4. Frame fitting and measurements</h5>
                     <p>Accurate vertical fitting, pantoscopic tilt, and proper temple length ensure the progressive zones align with your eyes. Atal Optical recommends an in-person fitting with our specialists for best results.</p>
                 </motion.section>
 
@@ -120,7 +120,7 @@ export default function LearnAboutLens() {
                         transition={{ duration: 0.5 }}
                         className="shadow-md p-6 rounded-2xl border border-red-600"
                     >
-                        <h4 className="text-lg font-semibold text-red-600 mb-2">Adapting period</h4>
+                        <h4 className="text-lg font-semibold text-[#f00000] mb-2">Adapting period</h4>
                         <p>
                             Most people adapt to progressives within a few days to a couple of
                             weeks. Mild symptoms like slight dizziness or swimming can occur as
@@ -136,7 +136,7 @@ export default function LearnAboutLens() {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="shadow-md p-6 rounded-2xl border border-red-600"
                     >
-                        <h4 className="text-lg font-semibold text-red-600 mb-2">Care & maintenance</h4>
+                        <h4 className="text-lg font-semibold text-[#f00000] mb-2">Care & maintenance</h4>
                         <ul className="ml-3 list-disc list-inside space-y-2">
                             <li>Use a microfibre cloth and lens cleaner — avoid tissue or shirt fabric.</li>
                             <li>Store in a hard case to prevent warping and scratches.</li>
@@ -153,7 +153,7 @@ export default function LearnAboutLens() {
                     transition={{ duration: 0.6 }}
                     className="shadow-md p-8 rounded-2xl border border-red-500"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">Progressive Lens Trends 2025</h2>
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">Progressive Lens Trends 2025</h2>
                     <ul className="list-disc list-inside space-y-2 ml-3">
                         <li>Personalized free-form surfaces created with AI-driven prescriptions.</li>
                         <li>Blue-light filtering integrated into progressive designs for digital lifestyles.</li>

@@ -190,8 +190,8 @@ const AppointmentSchedule = () => {
                                 }
                                 className={`px-4 py-2 text-white text-xs font-medium rounded-sm transition hover:cursor-pointer 
                                   ${selectedTime === `${doc.doctor_name} - ${day.label} - ${time}`
-                                    ? "bg-red-600"
-                                    : "bg-gray-800 hover:bg-red-600"
+                                    ? "bg-[#f00000]"
+                                    : "bg-gray-800 hover:bg-[#f00000]"
                                   }`}
                               >
                                 {time}
