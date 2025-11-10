@@ -90,35 +90,66 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey }) {
                   <h4 className="text-sm font-semibold text-gray-700 mb-2">
                     {col.title}
                   </h4>
-                  <ul className="space-y-1">
-                    {col.links.map((l) => (
-                      <li
-                        key={`${col.title}-${l.label}`}>
-                        <Link
-                          to={l.to}
-                          state={l.state}
-                          role="menuitem"
-                          className="flex items-center gap-2 text-sm text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded px-2 py-1"
-                          onMouseDown={(e) => e.preventDefault()}
-                          onClick={(e) => {
-                            e.stopPropagation();
+
+                  {/* Dynamic Brand Grid */}
+                  {col.dynamic ? (
+                    <div className="grid grid-cols-3 gap-4">
+                      {brands.slice(0, 9).map((brand) => (
+                        <div
+                          key={brand._id}
+                          className="flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform"
+                          onClick={() => {
                             onClose?.();
+                            navigate(`/allproduct/${brand._id}`, {
+                              state: { brandId: brand._id, brandName: brand.brand },
+                            });
                           }}
                         >
                           <img
-                            className="w-12 h-12 object-cover rounded-full"
-                            src={getImageSrc(l.state.subCategoryImage)}
-                            alt={l.label}
+                            src={
+                              brand.image?.startsWith("http")
+                                ? brand.image
+                                : `${IMAGE_URL}${brand.image}`
+                            }
+                            alt={brand.brand}
+                            className="w-16 h-10 object-contain mb-2"
+                            loading="lazy"
+                            decoding="async"
                           />
-                          <span>{l.label}</span>
-                        </Link>
-
-                      </li>
-                    ))}
-                  </ul>
+                          <span className="text-sm text-gray-700">{brand.brand}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <ul className="space-y-1">
+                      {col.links.map((l) => (
+                        <li key={`${col.title}-${l.label}`}>
+                          <Link
+                            to={l.to}
+                            state={l.state}
+                            role="menuitem"
+                            className="flex items-center gap-2 text-sm text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded px-2 py-1"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onClose?.();
+                            }}
+                          >
+                            <img
+                              className="w-12 h-12 object-cover rounded-full"
+                              src={getImageSrc(l.state.subCategoryImage)}
+                              alt={l.label}
+                            />
+                            <span>{l.label}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               ))}
             </div>
+
 
             {/* Right: promo */}
             <div className="border-l border-gray-100 bg-white">
@@ -168,12 +199,16 @@ function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const homeTimeoutRef = useRef(null);
+  const megaTimeoutRef = useRef(null);
+
   const [query, setQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [activeIdx, setActiveIdx] = useState(-1);
   const [showResults, setShowResults] = useState(false);
+  const [brands, setBrands] = useState([]);
 
   const desktopSearchRef = useRef(null);
   const mobileSearchRef = useRef(null);
@@ -187,6 +222,7 @@ function Header() {
 
   const { ID, subCategory, subCatId } = useParams();
   const [product, setProduct] = useState()
+  const [homeOpen, setHomeOpen] = useState(false);
 
   const totalQuantity = useSelector(
     (state) => state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
@@ -218,6 +254,51 @@ function Header() {
       console.error("Failed to fetch products:", err);
     }
   };
+
+  // 🆕 Handle Home hover open/close with delay
+  const handleHomeEnter = () => {
+    if (homeTimeoutRef.current) clearTimeout(homeTimeoutRef.current);
+    setHomeOpen(true);
+    setMegaOpen(false); // close mega if open
+  };
+
+  const handleHomeLeave = () => {
+    if (homeTimeoutRef.current) clearTimeout(homeTimeoutRef.current);
+    homeTimeoutRef.current = setTimeout(() => setHomeOpen(false), 300); // short delay
+  };
+
+  // 🆕 Handle Mega menu open/close (hover friendly)
+  const handleMegaEnter = (key) => {
+    if (megaTimeoutRef.current) clearTimeout(megaTimeoutRef.current);
+    setActiveKey(key);
+    setMegaOpen(true);
+    setHomeOpen(false); // ensure Home closes when Mega opens
+  };
+
+  const handleMegaLeave = () => {
+    if (megaTimeoutRef.current) clearTimeout(megaTimeoutRef.current);
+    megaTimeoutRef.current = setTimeout(() => setMegaOpen(false), 300);
+  };
+
+  // Cleanup timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (homeTimeoutRef.current) clearTimeout(homeTimeoutRef.current);
+      if (megaTimeoutRef.current) clearTimeout(megaTimeoutRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const res = await API.get("/getBrand");
+        setBrands(res.data.data || []);
+      } catch (err) {
+        console.error("Error fetching brands:", err);
+      }
+    };
+    fetchBrands();
+  }, []);
 
   // Build data for each mega menu tab
   const megaData = useMemo(
@@ -521,6 +602,24 @@ function Header() {
           badge: "SAVE",
         },
       },
+      brands: {
+        columns: [
+          {
+            title: "Brands",
+            dynamic: true, // 👈 we'll handle dynamic brand rendering separately
+            links: [], // will be populated via API
+          },
+        ],
+        promo: {
+          image: SUB_IMG.Banner1, // use any banner you already have
+          headline: "Discover Top Brands",
+          text: "Explore premium eyewear brands trusted worldwide.",
+          ctaLabel: "View All Brands",
+          ctaTo: "/brands",
+          badge: "TOP",
+        },
+      },
+
     }),
     []
   );
@@ -862,63 +961,119 @@ function Header() {
           </div>
         </div>
 
-        {/* Navbar triggers + single centered mega panel */}
         <nav className="relative">
           <ul className="flex items-center justify-center gap-10 py-3 font-semibold text-white bg-black tracking-wide text-base">
-            <Link to="/"><li className="cursor-pointer hover:text-red-600">Home</li></Link>
-
-            <li>
+            <li
+              className="relative"
+              onMouseEnter={handleHomeEnter}
+              onMouseLeave={handleHomeLeave}
+            >
               <button
                 type="button"
-                className="cursor-pointer hover:text-red-600"
+                className="flex items-center gap-1 cursor-pointer hover:text-red-500 transition-colors duration-200"
                 aria-haspopup="true"
-                aria-expanded={megaOpen && activeKey === "glasses"}
-                onClick={() => openMega("glasses")}
-                onKeyDown={(e) => {
-                  if (e.key === "Escape") closeMega();
-                  if (e.key === "ArrowDown") setMegaOpen(true);
-                }}
+                aria-expanded={homeOpen}
+                onClick={() => navigate("/")}
+              >
+                Home
+                <span
+                  className={`inline-block transition-transform duration-200 ${homeOpen ? "rotate-180" : ""
+                    }`}
+                >
+                  ▾
+                </span>
+              </button>
+
+              <AnimatePresence>
+                {homeOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
+                    onMouseEnter={handleHomeEnter}
+                    onMouseLeave={handleHomeLeave}
+                  >
+                    <ul className="py-2">
+                      {[
+                        { label: "Our Mission", path: "/our-mission" },
+                        { label: "Our Vision", path: "/our-vision" },
+                        { label: "General Information", path: "/general-info" },
+                        { label: "Eye Glasses Contact Policy", path: "/eyeglasses-contact-policy" },
+                        { label: "Right Enforcement Policy", path: "/rights-enforcement-policy" },
+                        { label: "Vision & Responsibility", path: "/responsibility" },
+                      ].map((item) => (
+                        <li key={item.path}>
+                          <Link
+                            to={item.path}
+                            className="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-red-600 transition-all duration-200"
+                            onClick={() => setHomeOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </li>
+
+            {/* 👓 Glasses Mega Menu */}
+            <li
+              onMouseEnter={() => handleMegaEnter("glasses")}
+              onMouseLeave={handleMegaLeave}
+            >
+              <button
+                type="button"
+                className={`cursor-pointer hover:text-red-600 ${megaOpen && activeKey === "glasses" ? "text-red-500" : ""
+                  }`}
               >
                 Glasses
               </button>
             </li>
 
-            <li>
+            {/* 🕶 Sunglasses Mega Menu */}
+            <li
+              onMouseEnter={() => handleMegaEnter("sunglasses")}
+              onMouseLeave={handleMegaLeave}
+            >
               <button
                 type="button"
-                className="cursor-pointer hover:text-red-600"
-                aria-haspopup="true"
-                aria-expanded={megaOpen && activeKey === "sunglasses"}
-                onClick={() => openMega("sunglasses")}
-                onKeyDown={(e) => {
-                  if (e.key === "Escape") closeMega();
-                  if (e.key === "ArrowDown") setMegaOpen(true);
-                }}
+                className={`cursor-pointer hover:text-red-600 ${megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
+                  }`}
               >
                 Sunglasses
               </button>
             </li>
 
-            <li>
+            {/* 👁 Contact Lenses */}
+            <li
+              onMouseEnter={() => handleMegaEnter("contacts")}
+              onMouseLeave={handleMegaLeave}
+            >
               <button
                 type="button"
-                className="cursor-pointer hover:text-red-600"
-                aria-haspopup="true"
-                aria-expanded={megaOpen && activeKey === "contacts"}
-                onClick={() => openMega("contacts")}
-                onKeyDown={(e) => {
-                  if (e.key === "Escape") closeMega();
-                  if (e.key === "ArrowDown") setMegaOpen(true);
-                }}
+                className={`cursor-pointer hover:text-red-600 ${megaOpen && activeKey === "contacts" ? "text-red-500" : ""
+                  }`}
               >
                 Contact Lenses
               </button>
             </li>
 
-            <Link to="/contact-us"><li className="cursor-pointer hover:text-red-600">Contact Us</li></Link>
-            <Link to="/services"><li className="cursor-pointer hover:text-red-600">Services</li></Link>
-            <Link to="/faq"><li className="cursor-pointer hover:text-red-600">FAQ</li></Link>
-            <Link to="/how-to-order"><li className="cursor-pointer hover:text-red-600">How To Order</li></Link>
+            <Link to="/contact-us">
+              <li className="cursor-pointer hover:text-red-600">Contact Us</li>
+            </Link>
+            <Link to="/services">
+              <li className="cursor-pointer hover:text-red-600">Services</li>
+            </Link>
+            <Link to="/faq">
+              <li className="cursor-pointer hover:text-red-600">FAQ</li>
+            </Link>
+            <Link to="/how-to-order">
+              <li className="cursor-pointer hover:text-red-600">How To Order</li>
+            </Link>
             <Link to="/eye-schedule-test">
               <li className="cursor-pointer hover:text-black hover:bg-white bg-[#f00000] py-1 px-4 rounded-xl">
                 BOOK EYE EXAM
@@ -926,12 +1081,21 @@ function Header() {
             </Link>
           </ul>
 
-          <MegaMenuPanel
-            open={megaOpen}
-            onClose={closeMega}
-            activeKey={activeKey}
-            dataByKey={megaData}
-          />
+          {/* Shared Mega Menu Panel (with hover-safe closing) */}
+          <div
+            onMouseEnter={() => {
+              if (megaTimeoutRef.current) clearTimeout(megaTimeoutRef.current);
+            }}
+            onMouseLeave={handleMegaLeave}
+          >
+            <MegaMenuPanel
+              open={megaOpen}
+              onClose={() => setMegaOpen(false)}
+              activeKey={activeKey}
+              dataByKey={megaData}
+              brands={brands} // ✅ pass brands now
+            />
+          </div>
         </nav>
         <PostHeader />
       </header>

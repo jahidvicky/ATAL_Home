@@ -41,11 +41,6 @@ const Subscribe = () => {
                     className="w-80 md:w-[420px] drop-shadow-lg rounded-lg"
                 />
             </motion.div>
-
-            {/* Background Text */}
-            <h1 className="absolute text-[180px] md:text-[300px] font-extrabold text-[#f00000] right-0 bottom-0 select-none">
-                20%
-            </h1>
         </div>
     );
 };
