@@ -6,10 +6,11 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import RecentlyView from "../collections/RecentlyView";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import OurPromise from "../Cart/OurPromise";
+import { useLocation } from "react-router-dom";
 
 
 
-// ✅ Toast setup
+// Toast setup
 const Toast = Swal.mixin({
   toast: true,
   position: "top-end",
@@ -20,15 +21,17 @@ const Toast = Swal.mixin({
 
 
 
-// ✅ Initial filters
+// Initial filters
 const initialFilters = {
   brands: new Set(),
+  genders: new Set(),
   shapes: new Set(),
   colors: new Set(),
   materials: new Set(),
   priceMin: 0,
   priceMax: 9999,
 };
+
 const toggleSet = (s, v) => {
   const n = new Set(s);
   n.has(v) ? n.delete(v) : n.add(v);
@@ -233,6 +236,9 @@ function ProductCard({
 // ✅ Main Component
 function Product() {
   const { catId, subCategory, subCatId } = useParams();
+  const location = useLocation();
+  const brandId = location.state?.brandId || null;
+  const brandName = location.state?.brandName || null;
 
 
 
@@ -272,6 +278,14 @@ function Product() {
       setIsLoading(true);
       setErrorMsg("");
 
+      //  If we came from a Brand click
+      if (brandId) {
+        const res = await API.get(`/brand/${brandId}`);
+        const list = res.data?.products || [];
+        setProducts(list);
+        setPage(1);
+        return;
+      }
 
       if (!category || !subcategory) {
         setErrorMsg("Category or Subcategory missing in navigation state.");
@@ -331,7 +345,7 @@ function Product() {
   useEffect(() => {
     fetchProducts();
     fetchWishlist();
-  }, [catId, subCatId]);
+  }, [catId, subCatId, brandId]);
 
 
 
@@ -339,22 +353,32 @@ function Product() {
   const facetData = useMemo(() => {
     const norm = (s) => String(s || "").toLowerCase().trim();
     const brands = new Set();
+    const genders = new Set();
     const shapes = new Set();
     const colors = new Set();
     const materials = new Set();
     let min = Infinity,
       max = -Infinity;
 
-
-
     products.forEach((p) => {
-      if (p.brand || p.product_brand)
-        brands.add(norm(p.brand || p.product_brand));
-      if (p.frame_shape) shapes.add(norm(p.frame_shape));
-      if (p.color || p.frame_color)
-        colors.add(norm(p.color || p.frame_color));
-      if (p.material || p.frame_material)
-        materials.add(norm(p.material || p.frame_material));
+      // ✅ Brand (from product or populated brand_id)
+      const brandName =
+        p?.brand_id?.brand ||
+        p?.brand ||
+        p?.product_brand ||
+        "";
+      if (brandName) brands.add(brandName.trim());
+
+      // ✅ Gender
+      const gender = p.gender?.trim();
+      if (gender) genders.add(gender);
+
+      // ✅ Shape, color, material
+      if (p.frame_shape) shapes.add(p.frame_shape.trim());
+      if (p.frame_color) colors.add(p.frame_color.trim());
+      if (p.frame_material) materials.add(p.frame_material.trim());
+
+      // ✅ Price range
       const price = Number(p.product_sale_price || p.product_price || 0);
       if (!Number.isNaN(price)) {
         min = Math.min(min, price);
@@ -362,17 +386,14 @@ function Product() {
       }
     });
 
-
-
     if (!Number.isFinite(min)) {
       min = 0;
       max = 9999;
     }
 
-
-
     return {
       brands: Array.from(brands).sort(),
+      genders: Array.from(genders).sort(),
       shapes: Array.from(shapes).sort(),
       colors: Array.from(colors).sort(),
       materials: Array.from(materials).sort(),
@@ -383,23 +404,31 @@ function Product() {
 
 
 
-  // ✅ Filter and Sort
+
+
+  //  Filter and Sort
   const matchesFilters = (p) => {
-    const brand = String(p.brand || p.product_brand || "").toLowerCase().trim();
-    const shape = String(p.frame_shape || "").toLowerCase().trim();
-    const color = String(p.color || p.frame_color || "").toLowerCase().trim();
-    const material = String(p.material || p.frame_material || "").toLowerCase().trim();
+    const brand =
+      p?.brand_id?.brand?.trim() ||
+      p?.brand?.trim() ||
+      p?.product_brand?.trim() ||
+      "";
+    const gender = (p.gender || "").trim().toLowerCase();
+    const shape = String(p.frame_shape || "").trim();
+    const color = String(p.frame_color || "").trim();
+    const material = String(p.frame_material || "").trim();
     const price = Number(p.product_sale_price || p.product_price || 0);
 
 
-
     if (filters.brands.size && !filters.brands.has(brand)) return false;
+    if (filters.genders.size && ![...filters.genders].some(g => g.toLowerCase() === gender)) return false;
     if (filters.shapes.size && !filters.shapes.has(shape)) return false;
     if (filters.colors.size && !filters.colors.has(color)) return false;
     if (filters.materials.size && !filters.materials.has(material)) return false;
     if (price < filters.priceMin || price > filters.priceMax) return false;
     return true;
   };
+
 
 
 
@@ -507,6 +536,7 @@ function Product() {
         {children}
       </div>
     );
+
     const Check = ({ label, setKey, value }) => {
       const on = filters[setKey].has(value);
       return (
@@ -516,15 +546,42 @@ function Product() {
             className="h-4 w-4 rounded border-gray-300"
             checked={on}
             onChange={() =>
-              setFilters((prev) => ({ ...prev, [setKey]: toggleSet(prev[setKey], value) }))
+              setFilters((prev) => ({
+                ...prev,
+                [setKey]: toggleSet(prev[setKey], value),
+              }))
             }
           />
           <span className="text-sm capitalize">{label}</span>
         </label>
       );
     };
+
     return (
       <div>
+        {/* ✅ Brand Filter */}
+        {facetData.brands.length > 0 && (
+          <Section title="Brand">
+            <div className="max-h-40 overflow-auto pr-1">
+              {facetData.brands.map((b) => (
+                <Check key={b} label={b} setKey="brands" value={b} />
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {/* ✅ Gender Filter */}
+        {facetData.genders.length > 0 && (
+          <Section title="Gender">
+            <div className="flex flex-col gap-1">
+              {facetData.genders.map((g) => (
+                <Check key={g} label={g} setKey="genders" value={g} />
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {/* ✅ Existing Filters */}
         <Section title="Shape">
           <div className="max-h-40 overflow-auto pr-1">
             {facetData.shapes.map((s) => (
@@ -532,6 +589,7 @@ function Product() {
             ))}
           </div>
         </Section>
+
         <Section title="Color">
           <div className="max-h-40 overflow-auto pr-1">
             {facetData.colors.map((c) => (
@@ -539,6 +597,7 @@ function Product() {
             ))}
           </div>
         </Section>
+
         <Section title="Material">
           <div className="max-h-40 overflow-auto pr-1">
             {facetData.materials.map((m) => (
@@ -551,6 +610,7 @@ function Product() {
   };
 
 
+
   // ✅ Main JSX Return
   return (
 
@@ -561,7 +621,7 @@ function Product() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
           <div>
             <div className="text-[33px] ml-130 tracking-wide font-semibold uppercase text-white">
-              {subCategory}
+              {brandName ? brandName : subCategory}
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -590,7 +650,9 @@ function Product() {
       {/* Header Info */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         <h1 className="text-2xl font-bold capitalize">
-          {subCategoryName || "Products"}
+          {brandName
+            ? `${brandName} – ${subCategoryName || ""}`
+            : subCategoryName || "Products"}
         </h1>
         <p className="text-sm text-gray-500 mt-1">
           {isLoading ? "Loading…" : `${filteredProducts.length} Results`}
