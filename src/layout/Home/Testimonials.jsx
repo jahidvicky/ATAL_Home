@@ -44,12 +44,12 @@ const TestimonialsSlider = () => {
 
     return (
         <section className="py-16 px-6 bg-gray-100 text-center">
-            <h3 className="text-3xl font-bold">What Our <span className="text-red-600">Customers Say</span></h3>
+            <h3 className="text-3xl font-bold">What Our <span className="text-[#f00000]">Customers Say</span></h3>
             <hr className='mb-12 mt-2 w-106 mx-auto border-black'></hr>
             <Slider {...settings}>
                 {testimonials.map((item, index) => (
                     <div key={index} className="px-6">
-                        <div className="bg-white hover:bg-red-600 hover:text-white rounded-xl shadow-lg p-8 max-w-3xl mx-auto border-1 border-red-600">
+                        <div className="bg-white hover:bg-[#f00000] hover:text-white rounded-xl shadow-lg p-8 max-w-3xl mx-auto border-1 border-red-600">
                             <div className="flex flex-col items-center">
                                 <img
                                     src={IMAGE_URL + item.image}

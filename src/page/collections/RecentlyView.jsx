@@ -42,7 +42,7 @@ function RecentlyView() {
             </Link>
 
             {/* Product Name */}
-            <p className="text-xl font-semibold tracking-wide text-red-600 capitalize mb-2">
+            <p className="text-xl font-semibold tracking-wide text-[#f00000] capitalize mb-2">
               {product.product_name}
             </p>
 

@@ -9,7 +9,7 @@ import OurPromise from "../Cart/OurPromise";
 
 
 
-// ✅ Toast setup
+// Toast setup
 const Toast = Swal.mixin({
   toast: true,
   position: "top-end",
@@ -20,7 +20,7 @@ const Toast = Swal.mixin({
 
 
 
-// ✅ Initial filters
+// Initial filters
 const initialFilters = {
   brands: new Set(),
   shapes: new Set(),
@@ -135,7 +135,7 @@ function ProductCard({
         className="absolute top-2 right-2 p-1 rounded-full bg-white/90 border border-gray-200 shadow hover:bg-white"
       >
         {inWishlist ? (
-          <AiFillHeart className="text-red-500 text-xl" />
+          <AiFillHeart className="text-[#f00000] text-xl" />
         ) : (
           <AiOutlineHeart className="text-gray-500 text-xl" />
         )}
@@ -144,7 +144,7 @@ function ProductCard({
 
       {/* Discount Tag */}
       {data.product_price > data.product_sale_price && (
-        <div className="absolute top-2 left-2 bg-red-100 text-red-700 text-xs font-semibold px-2 py-1 rounded-full z-10">
+        <div className="absolute top-2 left-2 bg-[#f00000] text-[#f00000] text-xs font-semibold px-2 py-1 rounded-full z-10">
           {Math.round(
             ((data.product_price - data.product_sale_price) / data.product_price) * 100
           )}
@@ -230,7 +230,7 @@ function ProductCard({
 
 
 
-// ✅ Main Component
+// Main Component
 function Product() {
   const { catId, subCategory, subCatId } = useParams();
 
@@ -266,7 +266,7 @@ function Product() {
 
 
 
-  // ✅ Fetch Products
+  // Fetch Products
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
@@ -315,7 +315,7 @@ function Product() {
 
 
 
-  // ✅ Fetch Wishlist
+  // Fetch Wishlist
   const fetchWishlist = async () => {
     try {
       const userId2 = localStorage.getItem("user");
@@ -335,7 +335,7 @@ function Product() {
 
 
 
-  // ✅ Facets + Filters
+  // Facets + Filters
   const facetData = useMemo(() => {
     const norm = (s) => String(s || "").toLowerCase().trim();
     const brands = new Set();
@@ -383,7 +383,7 @@ function Product() {
 
 
 
-  // ✅ Filter and Sort
+  // Filter and Sort
   const matchesFilters = (p) => {
     const brand = String(p.brand || p.product_brand || "").toLowerCase().trim();
     const shape = String(p.frame_shape || "").toLowerCase().trim();
@@ -461,7 +461,7 @@ function Product() {
 
 
 
-  // ✅ Wishlist Toggle
+  // Wishlist Toggle
   const toggleWishlist = async (productId) => {
     const userId2 = localStorage.getItem("user");
     if (!userId2) {
@@ -499,7 +499,7 @@ function Product() {
 
 
 
-  // ✅ Filter Sections Component
+  // Filter Sections Component
   const FilterSections = ({ filters, setFilters, facetData }) => {
     const Section = ({ title, children }) => (
       <div className="py-3 border-b last:border-b-0">
@@ -551,13 +551,13 @@ function Product() {
   };
 
 
-  // ✅ Main JSX Return
+  // Main JSX Return
   return (
 
 
     <div className="bg-white">
       {/* Header */}
-      <div className="w-full border-b border-gray-200 bg-red-600">
+      <div className="w-full border-b border-gray-200 bg-[#f00000]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
           <div>
             <div className="text-[33px] ml-130 tracking-wide font-semibold uppercase text-white">
@@ -596,7 +596,7 @@ function Product() {
           {isLoading ? "Loading…" : `${filteredProducts.length} Results`}
         </p>
         {errorMsg && (
-          <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-3 mt-3">
+          <div className="bg-[#f00000] border border-red-200 text-[#f00000] rounded-lg p-3 mt-3">
             {errorMsg}
           </div>
         )}

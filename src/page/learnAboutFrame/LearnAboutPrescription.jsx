@@ -19,7 +19,7 @@ export default function LearnAboutPrescription() {
                     transition={{ duration: 0.6 }}
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">Why your prescription matters</h2>
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">Why your prescription matters</h2>
                     <p className="leading-relaxed">
                         A clear and correctly interpreted eyeglass prescription ensures comfortable vision, sharper focus and healthier eyes. In 2025, prescriptions still follow standard notation — but knowing how to read them helps you choose lenses and frames that match your visual needs.
                     </p>
@@ -32,7 +32,7 @@ export default function LearnAboutPrescription() {
                     transition={{ duration: 0.6 }}
                     className="shadow-md p-8 rounded-2xl border border-red-600"
                 >
-                    <h3 className="text-xl font-bold text-red-600 mb-3">Common prescription terms</h3>
+                    <h3 className="text-xl font-bold text-[#f00000] mb-3">Common prescription terms</h3>
                     <ul className="list-disc list-inside space-y-3 ml-3">
                         <li><strong>OD / OS:</strong> Right eye (OD) and Left eye (OS).</li>
                         <li><strong>Sphere (SPH):</strong> The lens power for nearsightedness (-) or farsightedness (+).</li>
@@ -51,7 +51,7 @@ export default function LearnAboutPrescription() {
                         transition={{ duration: 0.5 }}
                         className="shadow-md p-6 rounded-2xl border border-red-600"
                     >
-                        <h4 className="text-lg font-semibold text-red-600 mb-2">How to read a sample prescription</h4>
+                        <h4 className="text-lg font-semibold text-[#f00000] mb-2">How to read a sample prescription</h4>
                         <p>
                             Example: OD -2.00 SPH / -0.75 CYL x 90  |  OS -1.75 SPH / -0.50 CYL x 85  |  ADD +2.00  |  PD 62mm.
                         </p>
@@ -65,7 +65,7 @@ export default function LearnAboutPrescription() {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="shadow-md p-6 rounded-2xl border border-red-600"
                     >
-                        <h4 className="text-lg font-semibold text-red-600 mb-2">Prescription tips for buying lenses</h4>
+                        <h4 className="text-lg font-semibold text-[#f00000] mb-2">Prescription tips for buying lenses</h4>
                         <ul className="list-disc list-inside space-y-2 ml-3">
                             <li>Always use the latest prescription (usually within 1 year for adults, 6–12 months for children).</li>
                             <li>Provide your PD — many labs require it to position progressive and single-vision lenses accurately.</li>
@@ -82,7 +82,7 @@ export default function LearnAboutPrescription() {
                     transition={{ duration: 0.6 }}
                     className="shadow-md p-8 rounded-2xl border border-red-600"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">Special cases</h2>
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">Special cases</h2>
                     <p className="mb-3"><strong>Children:</strong> Prescriptions for kids can change quickly — schedule regular eye checks and choose durable, impact-resistant lenses.</p>
                     <p className="mb-3"><strong>High prescriptions:</strong> High plus or minus powers benefit from high-index lenses to reduce thickness and weight.</p>
                     <p><strong>Monovision or multifocal needs:</strong> Discuss options like monovision, bifocals, or progressives with your optometrist to match lifestyle needs.</p>

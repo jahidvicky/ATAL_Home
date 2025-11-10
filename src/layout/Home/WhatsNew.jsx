@@ -10,7 +10,7 @@ const WhatsNew = () => {
         <div className="bg-white text-black py-16 px-6 md:px-20">
             {/* Heading */}
             <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold mb-2 text-red-600">What's New?</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-2 text-[#f00000]">What's New?</h2>
                 <p className="text-gray-600 max-w-2xl mx-auto">
                     Get inspired by our latest drops and for your next pair of eyewear.
                     These are the new arrivals that draw on the newest trends while
@@ -36,7 +36,7 @@ const WhatsNew = () => {
                     </div>
 
                     <h3 className="text-2xl font-semibold mb-3">
-                        Meet the new <span className="text-red-600">Atal Optical collections</span>
+                        Meet the new <span className="text-[#f00000]">Atal Optical collections</span>
                     </h3>
                     <p className="text-gray-600 mb-6 max-w-md">
                         Whether you’re on the hunt for your everyday go-to's or
@@ -45,7 +45,7 @@ const WhatsNew = () => {
                     </p>
                     <button
                         onClick={(() => navigate("/glasses/mens-frame"))}
-                        className="bg-red-600 hover:bg-red-700 text-white font-medium px-6 py-3 rounded-md shadow-md transition-transform active:scale-95">
+                        className="bg-[#f00000] hover:bg-red-700 text-white font-medium px-6 py-3 rounded-md shadow-md transition-transform active:scale-95">
                         Shop At Atal Optical
                     </button>
                 </motion.div>
@@ -65,7 +65,7 @@ const WhatsNew = () => {
                         />
                     </div>
                     <h3 className="text-2xl font-semibold mb-3">
-                        Introducing the <span className="text-red-600">Atal Optical</span>
+                        Introducing the <span className="text-[#f00000]">Atal Optical</span>
                     </h3>
                     <p className="text-gray-600 mb-6 max-w-md">
                         With padded contours and fashion-forward edge, the Atal Optical frames
@@ -73,7 +73,7 @@ const WhatsNew = () => {
                     </p>
                     <button
                         onClick={(() => navigate("/glasses/womens-frame"))}
-                        className="bg-red-600 hover:bg-red-700 text-white font-medium px-6 py-3 rounded-md shadow-md transition-transform active:scale-95">
+                        className="bg-[#f00000] hover:bg-red-700 text-white font-medium px-6 py-3 rounded-md shadow-md transition-transform active:scale-95">
                         Shop now
                     </button>
                 </motion.div>

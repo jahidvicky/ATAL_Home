@@ -25,7 +25,7 @@ const Frames = () => {
     <div className="py-16 md:pl-12 mb-14 mx-6 md:mx-0">
       <h1 className="text-3xl font-bold text-center">
         <span>Shop by</span>
-        <span className="text-red-600"> Category</span>{" "}
+        <span className="text-[#f00000]"> Category</span>{" "}
       </h1>
       <hr className="w-72 mx-auto mb-10 mt-2 border-black"></hr>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -47,7 +47,7 @@ const Frames = () => {
                   />
                 </div>
 
-                <div className="flip-card-back bg-red-600 text-white shadow-xl p-6 rounded-xl flex items-center justify-center font-medium">
+                <div className="flip-card-back bg-[#f00000] text-white shadow-xl p-6 rounded-xl flex items-center justify-center font-medium">
                   {frame.description}
                 </div>
               </div>

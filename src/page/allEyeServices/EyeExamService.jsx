@@ -16,12 +16,12 @@ const EyeExamService = () => {
                 <div className="flex items-center justify-content mb-8">
                     <Link to="/">
                         <button
-                            className="px-6 py-2 bg-red-600 text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
+                            className="px-6 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
                         >
                             Back
                         </button>
                     </Link>
-                    <h1 className="text-4xl md:text-5xl font-bold text-red-700 ml-100">
+                    <h1 className="text-4xl md:text-5xl font-bold text-[#f00000] ml-100">
                         Eye Exam
                     </h1>
                 </div>
@@ -52,8 +52,8 @@ const EyeExamService = () => {
 
                 {/* What to Expect Section */}
                 <div className="leading-relaxed space-y-6 grid grid-cols-1 md:grid-cols-2 gap-x-10">
-                    <section className="mb-12 bg-red-50 p-6 rounded-2xl shadow-sm">
-                        <h2 className="text-2xl font-semibold text-red-700 mb-4">
+                    <section className="mb-12 bg-[#f00000] p-6 rounded-2xl shadow-sm">
+                        <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
                             What to Expect During an Eye Exam
                         </h2>
                         <p className="text-gray-800 leading-relaxed">
@@ -92,7 +92,7 @@ const EyeExamService = () => {
 
                 {/* Call to Action */}
                 <section className="bg-black text-white p-8 rounded-2xl">
-                    <h2 className="text-2xl font-semibold mb-4 text-red-500">
+                    <h2 className="text-2xl font-semibold mb-4 text-[#f00000]">
                         Schedule Your Eye Exam Today
                     </h2>
                     <p className="leading-relaxed">
@@ -102,7 +102,7 @@ const EyeExamService = () => {
                         at its best. Because great eyesight starts with great care.
                     </p>
                     <Link to="/eye-schedule-test">
-                        <button className="bg-white text-black mt-4 rounded-xl hover:bg-red-600 hover:text-white text-xl font-semibold py-4 px-6 hover:cursor-pointer transition-colors duration-300 ">
+                        <button className="bg-white text-black mt-4 rounded-xl hover:bg-[#f00000] hover:text-white text-xl font-semibold py-4 px-6 hover:cursor-pointer transition-colors duration-300 ">
                             Book Eye Exam
                         </button>
                     </Link>

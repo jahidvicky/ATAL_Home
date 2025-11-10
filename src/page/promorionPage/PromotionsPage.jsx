@@ -62,8 +62,8 @@ export default function PromotionsPage() {
             whileHover={{ scale: 1.05 }}
             className="rounded-2xl shadow-lg p-6 border border-red-600"
           >
-            <h2 className="text-xl font-semibold text-red-600 flex items-center">
-              <ArrowRight className="w-5 h-5 mr-2 text-red-600" /> {promo.title}
+            <h2 className="text-xl font-semibold text-[#f00000] flex items-center">
+              <ArrowRight className="w-5 h-5 mr-2 text-[#f00000]" /> {promo.title}
             </h2>
             <p className="mt-3">{promo.desc}</p>
           </motion.div>
@@ -72,7 +72,7 @@ export default function PromotionsPage() {
 
       {/* Why Shop Section */}
       <div className="bg-black py-12 text-center mb-15">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-red-600">Why Shop Our Promotions?</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-[#f00000]">Why Shop Our Promotions?</h2>
         <div className="flex flex-wrap justify-center gap-6 text-black font-semibold">
           <span className="bg-white px-4 py-2 rounded-full shadow">Free Shipping</span>
           <span className="bg-white px-4 py-2 rounded-full shadow">Easy Returns</span>

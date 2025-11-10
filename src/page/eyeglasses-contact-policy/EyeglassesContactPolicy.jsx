@@ -15,7 +15,7 @@ export default function EyeglassesContactPolicy() {
 
                     {/* Shipping & Payment Terms */}
                     <section>
-                        <h2 className="text-3xl font-semibold text-red-600 text-center">Shipping & Payment Terms</h2>
+                        <h2 className="text-3xl font-semibold text-[#f00000] text-center">Shipping & Payment Terms</h2>
                         <hr className="border-red-600 w-94 mx-auto my-2" />
 
                         {/* Prescription Glasses */}
@@ -57,7 +57,7 @@ export default function EyeglassesContactPolicy() {
 
                     {/* Subscription Service */}
                     <section>
-                        <h2 className="text-3xl font-semibold text-red-600 text-center">Subscription Service</h2>
+                        <h2 className="text-3xl font-semibold text-[#f00000] text-center">Subscription Service</h2>
                         <hr className="border-red-600 w-74 mx-auto my-2 mb-7" />
                         <p>
                             Atal Optical Subscription is a convenient auto-reorder program for contact lenses, customized to your preferred frequency.
@@ -95,7 +95,7 @@ export default function EyeglassesContactPolicy() {
 
                     {/* Prescription Requirements */}
                     <section>
-                        <h2 className="text-3xl font-semibold text-red-600 text-center">Prescription Requirements</h2>
+                        <h2 className="text-3xl font-semibold text-[#f00000] text-center">Prescription Requirements</h2>
                         <hr className="border-red-600 w-94 mx-auto my-2 mb-5" />
                         <p>
                             When ordering, you confirm that you have a valid optical prescription issued by a licensed Eye Care Professional.
@@ -105,7 +105,7 @@ export default function EyeglassesContactPolicy() {
 
                     {/* Trademarks */}
                     <section>
-                        <h2 className="text-3xl font-semibold text-red-600 text-center">Trademarks and Intellectual Property</h2>
+                        <h2 className="text-3xl font-semibold text-[#f00000] text-center">Trademarks and Intellectual Property</h2>
                         <hr className="border-red-600 w-130 mx-auto my-2 mb-5" />
                         <p>
                             All trademarks, logos, and service names used on this Site are the intellectual property of Atal Optical Inc., unless otherwise noted.

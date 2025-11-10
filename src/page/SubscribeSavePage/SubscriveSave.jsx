@@ -60,7 +60,7 @@ export default function SubscribeSave() {
                     >
                         <p className="inline-block rounded-full bg-black text-white px-3 py-1 text-xs tracking-wider uppercase">Subscribe & Save</p>
                         <h1 className="mt-4 text-4xl font-extrabold leading-tight text-white sm:text-5xl">
-                            Save <span className="text-red-200">20%</span> + Free Shipping
+                            Save <span className="text-[#f00000]">20%</span> + Free Shipping
                         </h1>
                         <p className="mt-4 text-white">
                             Start a contact lenses subscription—never run out again. Customize your delivery schedule and enjoy hassle-free refills.
@@ -106,7 +106,7 @@ export default function SubscribeSave() {
                             viewport={{ once: true, amount: 0.3 }}
                             className="group rounded-3xl border border-red-300 bg-gray-100 shadow-lg hover:shadow-red-400 p-6"
                         >
-                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-500 text-white">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f00000] text-white">
                                 {s.icon}
                             </div>
                             <h3 className="mt-4 text-lg font-semibold text-black">{s.title}</h3>
@@ -132,9 +132,9 @@ export default function SubscribeSave() {
                                 Decide how often your order ships automatically:
                             </p>
                             <ul className="mt-4 space-y-2 text-neutral-200">
-                                <li className="flex items-start gap-2"><FaCheckCircle className="mt-0.5 h-5 w-5 text-red-400" /> Every month</li>
-                                <li className="flex items-start gap-2"><FaCheckCircle className="mt-0.5 h-5 w-5 text-red-400" /> Every three months</li>
-                                <li className="flex items-start gap-2"><FaCheckCircle className="mt-0.5 h-5 w-5 text-red-400" /> Every six months</li>
+                                <li className="flex items-start gap-2"><FaCheckCircle className="mt-0.5 h-5 w-5 text-[#f00000]" /> Every month</li>
+                                <li className="flex items-start gap-2"><FaCheckCircle className="mt-0.5 h-5 w-5 text-[#f00000]" /> Every three months</li>
+                                <li className="flex items-start gap-2"><FaCheckCircle className="mt-0.5 h-5 w-5 text-[#f00000]" /> Every six months</li>
                             </ul>
                         </div>
 
@@ -153,7 +153,7 @@ export default function SubscribeSave() {
                                     className="rounded-3xl border border-white/10 bg-neutral-900 p-5 text-center ring-1 ring-white/5 hover:bg-neutral-800"
                                 >
                                     <div className="text-sm uppercase tracking-wider text-neutral-400">{p.name}</div>
-                                    <div className="mt-2 text-3xl font-extrabold text-red-400">{p.save}</div>
+                                    <div className="mt-2 text-3xl font-extrabold text-[#f00000]">{p.save}</div>
                                     <div className="mt-2 text-xs text-neutral-300">{p.note}</div>
                                 </motion.div>
                             ))}
@@ -174,7 +174,7 @@ export default function SubscribeSave() {
                             viewport={{ once: true, amount: 0.3 }}
                             className="rounded-3xl border border-red-300 shadow-lg hover:shadow-red-400 bg-gray-100 p-6"
                         >
-                            <div className="flex items-center gap-3 text-red-500">{b.icon}<span className="font-semibold">{b.title}</span></div>
+                            <div className="flex items-center gap-3 text-[#f00000]">{b.icon}<span className="font-semibold">{b.title}</span></div>
                             <p className="mt-2 text-sm text-black">{b.text}</p>
                         </motion.div>
                     ))}
@@ -183,7 +183,7 @@ export default function SubscribeSave() {
 
             {/* CTA */}
             <section id="cta" className="px-6 pb-20">
-                <div className="rounded-3xl bg-red-600 p-8 text-center">
+                <div className="rounded-3xl bg-[#f00000] p-8 text-center">
                     <h3 className="text-2xl font-extrabold">Ready to subscribe & save?</h3>
                     <p className="mt-2 text-neutral-200">Pick your lenses, select subscription at checkout, and enjoy automatic refills.</p>
                 </div>

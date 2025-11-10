@@ -11,11 +11,11 @@ const OrderPlaced = () => {
         <div className="flex flex-col items-center justify-center min-h-screen bg-white text-black">
             {/* Animated Circle with Tick */}
             <div className="flex items-center justify-center w-32 h-32 rounded-full border-4 border-red-600 animate-bounce">
-                <CheckCircle className="w-20 h-20 text-red-600" />
+                <CheckCircle className="w-20 h-20 text-[#f00000]" />
             </div>
 
             {/* Success Text */}
-            <h1 className="mt-6 text-4xl font-bold text-red-600 drop-shadow-lg">
+            <h1 className="mt-6 text-4xl font-bold text-[#f00000] drop-shadow-lg">
                 Order Placed!
             </h1>
             <p className="mt-3 text-lg text-black">
@@ -23,7 +23,7 @@ const OrderPlaced = () => {
             </p>
 
             {/* Button to go back */}
-            <button onClick={goToHome} className="mt-6 px-6 py-3 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-semibold shadow-lg transition hover:cursor-pointer">
+            <button onClick={goToHome} className="mt-6 px-6 py-3 rounded-2xl bg-[#f00000] hover:bg-red-700 text-white font-semibold shadow-lg transition hover:cursor-pointer">
                 Continue Shopping
             </button>
         </div>

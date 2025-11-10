@@ -24,7 +24,7 @@ export default function EyeCheckDetails() {
                     transition={{ duration: 0.6 }}
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
                         Why Eye Checks at Atal Optical?
                     </h2>
                     <p className="leading-relaxed">
@@ -66,7 +66,7 @@ export default function EyeCheckDetails() {
                             viewport={{ once: true }}
                             className="p-6 rounded-2xl shadow-md border border-red-600"
                         >
-                            <h3 className="text-xl font-bold text-red-600 mb-3">
+                            <h3 className="text-xl font-bold text-[#f00000] mb-3">
                                 {item.title}
                             </h3>
                             <p>{item.text}</p>
@@ -82,7 +82,7 @@ export default function EyeCheckDetails() {
                     viewport={{ once: true }}
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
                         What to Expect During Your Visit
                     </h2>
                     <ol className="list-decimal list-inside space-y-2 ml-3">
@@ -113,7 +113,7 @@ export default function EyeCheckDetails() {
                     viewport={{ once: true }}
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
-                    <h2 className="text-2xl font-semibold text-red-600 mb-4">
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
                         Innovations in Eye Care - 2025
                     </h2>
                     <ul className="list-disc list-inside space-y-2 ml-3">

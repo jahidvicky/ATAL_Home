@@ -14,16 +14,16 @@ const Subscribe = () => {
                 transition={{ duration: 0.8 }}
                 className="md:w-1/2 text-center md:text-left z-10"
             >
-                <h2 className="text-3xl md:text-4xl font-bold text-red-600 mb-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#f00000] mb-4">
                     SUBSCRIBE & SAVE: <span className="text-white">20% OFF</span> + FREE SHIPPING
                 </h2>
                 <p className="text-gray-300 text-lg mb-6">
                     Get a contact lenses subscription — you'll never run out of contacts.
-                    Plus, you'll save <span className="text-red-500 font-semibold">20%</span> and get free shipping every time!
+                    Plus, you'll save <span className="text-[#f00000] font-semibold">20%</span> and get free shipping every time!
                 </p>
                 <button
                     onClick={(() => navigate("/subscribe-save"))}
-                    className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-transform active:scale-95">
+                    className="bg-[#f00000] hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-transform active:scale-95">
                     Discover more
                 </button>
             </motion.div>
@@ -43,7 +43,7 @@ const Subscribe = () => {
             </motion.div>
 
             {/* Background Text */}
-            <h1 className="absolute text-[180px] md:text-[300px] font-extrabold text-red-900/10 right-0 bottom-0 select-none">
+            <h1 className="absolute text-[180px] md:text-[300px] font-extrabold text-[#f00000] right-0 bottom-0 select-none">
                 20%
             </h1>
         </div>

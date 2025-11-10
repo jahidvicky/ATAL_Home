@@ -57,7 +57,7 @@ export default function EyewearTips() {
             <p className="mb-4 text-base text-gray-400">{tip.description}</p>
 
 
-            <Link to={`/${eyewearLinks[index]}`}><button className="mt-auto border border-red-500 text-red-600 px-4 py-1 rounded-full hover:bg-red-500 hover:text-white transition hover:cursor-pointer">
+            <Link to={`/${eyewearLinks[index]}`}><button className="mt-auto border border-red-500 text-[#f00000] px-4 py-1 rounded-full hover:bg-red-500 hover:text-white transition hover:cursor-pointer">
               Learn More →
             </button></Link>
 

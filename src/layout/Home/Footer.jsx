@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
-      <div className="bg-red-600 text-center py-10 text-white">
+      <div className="bg-[#f00000] text-center py-10 text-white">
         <h3 className="text-xl font-semibold">
           Corporate Office : 34 Shining Willow Crescent, <br />
           Brampton, ON L6P 2A2, Canada
@@ -21,13 +21,13 @@ const Footer = () => {
       <div className="bg-black text-white px-[5%] py-[1%] flex justify-between flex-wrap gap-y-8">
         {/* Box 1 */}
         <div className="max-w-[300px]">
-          <h1 className="text-red-600 text-2xl font-bold mb-2">
+          <h1 className="text-[#f00000] text-2xl font-bold mb-2">
             Atal Opticals
           </h1>
           <p className="mb-4 text-sm">
             Atal Optical stands as a beacon of dedication, vision, and community service in the Canadian optical industry.
           </p>
-          <div className="flex items-center gap-2 text-red-600">
+          <div className="flex items-center gap-2 text-[#f00000]">
             <div>
               <MdEmail className="text-3xl" />
             </div>
@@ -43,7 +43,7 @@ const Footer = () => {
 
         {/* Box 2 - Useful Links */}
         <div>
-          <h3 className="text-red-600 text-2xl font-semibold mb-2">
+          <h3 className="text-[#f00000] text-2xl font-semibold mb-2">
             Useful Links
           </h3>
           <ul className="space-y-1">
@@ -97,7 +97,7 @@ const Footer = () => {
 
         {/* Box 3 - Services */}
         <div>
-          <h3 className="text-red-600 text-2xl font-semibold mb-2">
+          <h3 className="text-[#f00000] text-2xl font-semibold mb-2">
             Our Services
           </h3>
           <ul className="space-y-1">
@@ -151,10 +151,10 @@ const Footer = () => {
 
         {/* Box 4 - Contact */}
         <div>
-          <h3 className="text-red-600 text-2xl font-semibold mb-2">
+          <h3 className="text-[#f00000] text-2xl font-semibold mb-2">
             Contact Us
           </h3>
-          <div className="flex items-center gap-2 text-red-600">
+          <div className="flex items-center gap-2 text-[#f00000]">
             <div>
               <FaMapMarkedAlt className="text-3xl" />
             </div>
@@ -165,14 +165,14 @@ const Footer = () => {
           </p>
           <div className="flex items-center gap-2 mt-4 mb-5">
             <div>
-              <MdLocalPhone className="text-3xl text-red-600" />
+              <MdLocalPhone className="text-3xl text-[#f00000]" />
             </div>
             <div className="text-l">1866-242-3545</div>
           </div>
         </div>
       </div>
 
-      <div className="bg-red-600 w-full md:h-[60px] flex justify-evenly items-center text-white text-xs py-3 px-2">
+      <div className="bg-[#f00000] w-full md:h-[60px] flex justify-evenly items-center text-white text-xs py-3 px-2">
         <div>
           <p>&copy; 2025 Atal Optical. All rights reserved</p>
         </div>

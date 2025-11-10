@@ -177,7 +177,7 @@ function UpdateProfile() {
 
   return (
     <div className="w-5xl mx-auto p-6 sm:p-10 mt-10 mb-10 bg-white shadow-lg rounded-2xl">
-      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 text-red-600">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 text-[#f00000]">
         Update Your Profile
       </h2>
 
@@ -311,7 +311,7 @@ function UpdateProfile() {
                     Password Strength:{" "}
                     <span
                       className={`font-semibold ${strength <= 1
-                        ? "text-red-500"
+                        ? "text-[#f00000]"
                         : strength === 2
                           ? "text-yellow-500"
                           : strength === 3
@@ -329,7 +329,7 @@ function UpdateProfile() {
                     value={strength}
                     readOnly
                     className={`w-full h-2 rounded-lg mt-2 appearance-none cursor-default ${strength <= 1
-                      ? "bg-red-400"
+                      ? "bg-[#f00000]"
                       : strength === 2
                         ? "bg-yellow-400"
                         : strength === 3
@@ -419,7 +419,7 @@ function UpdateProfile() {
         <div className="pt-4">
           <button
             type="submit"
-            className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition hover:cursor-pointer"
+            className="w-full bg-[#f00000] text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition hover:cursor-pointer"
           >
             Update Profile
           </button>

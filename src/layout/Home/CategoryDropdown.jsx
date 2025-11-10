@@ -137,7 +137,7 @@ const MegaMenu = ({ label, columns = [], promo }) => {
                                         <Link
                                             to={promo.ctaTo || "#"}
                                             state={promo.state}
-                                            className="inline-block mt-3 bg-black text-white text-sm px-4 py-2 rounded-lg hover:bg-red-600"
+                                            className="inline-block mt-3 bg-black text-white text-sm px-4 py-2 rounded-lg hover:bg-[#f00000]"
                                             onMouseDown={(e) => e.preventDefault()}
                                             onClick={(e) => {
                                                 e.stopPropagation();

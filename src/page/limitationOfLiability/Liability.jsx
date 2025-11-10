@@ -25,7 +25,7 @@ const LimitationOfLiability = () => {
                     the Site.
                 </p>
 
-                <h2 className="text-3xl text-center font-semibold text-red-600 mt-10">No Liability for Damages</h2>
+                <h2 className="text-3xl text-center font-semibold text-[#f00000] mt-10">No Liability for Damages</h2>
                 <hr className="border-red-600 w-90 ml-117 mb-4 mt-2" />
                 <p>
                     Under no circumstances shall Atal Optical Corp, its affiliates,
@@ -67,7 +67,7 @@ const LimitationOfLiability = () => {
                 </p>
 
                 {/* Indemnification */}
-                <h2 className="text-3xl text-center font-semibold text-red-600 mt-10">Indemnification</h2>
+                <h2 className="text-3xl text-center font-semibold text-[#f00000] mt-10">Indemnification</h2>
                 <hr className="border-red-600 w-60 ml-131 mb-4 mt-1" />
                 <p>
                     You agree to indemnify, defend, and hold harmless Atal Optical Corp,

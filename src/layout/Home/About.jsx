@@ -24,7 +24,7 @@ const About = () => {
             loading="lazy"
             decoding="async"
           />
-          <div className="absolute top-4 left-94 bg-red-600 text-white text-center rounded-full w-36 h-36 flex flex-col items-center justify-center shadow-lg hover:bounce hover:cursor-pointer ">
+          <div className="absolute top-4 left-94 bg-[#f00000] text-white text-center rounded-full w-36 h-36 flex flex-col items-center justify-center shadow-lg hover:bounce hover:cursor-pointer ">
             <span className="text-3xl font-bold">20</span>
             <span className="text-3xl">Years</span>
           </div>
@@ -32,7 +32,7 @@ const About = () => {
 
         {/* Right - Text */}
         <div className="mt-8 lg:mt-0 lg:w-1/2 text-center lg:text-left">
-          <h2 className="text-red-600 text-2xl font-semibold mb-2">
+          <h2 className="text-[#f00000] text-2xl font-semibold mb-2">
             Welcome To ATAL Optical
           </h2>
           <hr className="md:w-50 mb-6 border-red-500 md:ml-0 mx-6"></hr>
@@ -50,7 +50,7 @@ const About = () => {
             Over the years, Atal Optical has grown into a trusted name by combining professional expertise with a curated selection of world-class eyewear brands. Our team of experienced opticians and eye care specialists takes pride in delivering a personalized experience, ensuring each client finds the perfect balance of comfort, vision, and style. From trendsetting luxury frames to advanced prescription solutions, we are dedicated to meeting the diverse needs of our Toronto and GTA community with the highest standards of care.
           </p>
           <div className="flex justify-center lg:justify-start">
-            <Link to="/about-us"><button className="flex items-center bg-red-600 text-white p-3 rounded-lg mt-6 hover:bg-black hover:cursor-pointer">
+            <Link to="/about-us"><button className="flex items-center bg-[#f00000] text-white p-3 rounded-lg mt-6 hover:bg-black hover:cursor-pointer">
               About Us{" "}
               <span className="ml-4 bg-white p-2 rounded-lg">
                 <FaArrowRight className="hover:rotate-[-45deg] hover:cursor-pointer transition duration-250 ease-in-out text-black" />

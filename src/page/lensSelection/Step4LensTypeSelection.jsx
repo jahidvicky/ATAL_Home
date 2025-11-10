@@ -79,11 +79,10 @@ const Step4LensTypeSelection = ({ goBack, onSelectLensType, onContinue }) => {
         {lensTypes.map((lens) => (
           <div
             key={lens.name}
-            className={`hover:cursor-pointer border rounded-lg p-4 transition-all ${
-              selectedType === lens.name
+            className={`hover:cursor-pointer border rounded-lg p-4 transition-all ${selectedType === lens.name
                 ? "border-blue-500 bg-gray-100"
                 : "border-gray-300 hover:bg-gray-50"
-            }`}
+              }`}
           >
             {/* Lens Type Button */}
             <button
@@ -109,7 +108,7 @@ const Step4LensTypeSelection = ({ goBack, onSelectLensType, onContinue }) => {
                     {lens.price}
                   </span>
                   {lens.discount && (
-                    <div className="text-red-500 text-xs">{lens.discount}</div>
+                    <div className="text-[#f00000] text-xs">{lens.discount}</div>
                   )}
                 </div>
               </div>
@@ -122,11 +121,10 @@ const Step4LensTypeSelection = ({ goBack, onSelectLensType, onContinue }) => {
                   <button
                     key={color.name}
                     onClick={() => handleColorSelect(lens, color)}
-                    className={`hover:cursor-pointer w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${
-                      selectedColor === color.name
+                    className={`hover:cursor-pointer w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${selectedColor === color.name
                         ? "border-blue-600 scale-110"
                         : "border-gray-300 hover:scale-105"
-                    }`}
+                      }`}
                     style={{ backgroundColor: color.hex }}
                     title={color.name}
                   >

@@ -80,7 +80,7 @@ function Faq() {
     <>
       <div className="flex md:flex-row flex-col md:mb-20">
         <div className="md:mr-6">
-          <div className="bg-red-600 p-9 rounded-xl mt-10 md:ml-26 mx-5 md:min-w-xl">
+          <div className="bg-[#f00000] p-9 rounded-xl mt-10 md:ml-26 mx-5 md:min-w-xl">
 
             <div className="max-w-3xl w-full">
               {/* Title */}
@@ -134,7 +134,7 @@ function Faq() {
         </div>
         <div>
           <div className="md:max-w-5xl mx-auto p-6 min-h-[500px] bg-white mt-10 md:mr-10">
-            <h1 className="text-3xl font-bold mb-3 text-red-600">FAQ</h1>
+            <h1 className="text-3xl font-bold mb-3 text-[#f00000]">FAQ</h1>
             <p className="text-4xl">
               Frequently Asked <span className="font-bold">Questions</span>
             </p>

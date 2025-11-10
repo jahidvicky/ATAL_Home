@@ -86,7 +86,7 @@ const About = () => {
                             experience, Atal Optical is positioned to become a trusted name across
                             communities in Canada.
                         </p>
-                        <Link to="/"><button className="flex items-center bg-red-600 text-white p-3 rounded-lg hover:bg-black hover:cursor-pointer mt-5">Visit Website</button></Link>
+                        <Link to="/"><button className="flex items-center bg-[#f00000] text-white p-3 rounded-lg hover:bg-black hover:cursor-pointer mt-5">Visit Website</button></Link>
                     </div>
                 </div>
 
@@ -116,7 +116,7 @@ const About = () => {
             </div>
 
             {/* Bottom Red Strip */}
-            <div className="bg-red-600 h-4"></div>
+            <div className="bg-[#f00000] h-4"></div>
         </div>
     );
 };
