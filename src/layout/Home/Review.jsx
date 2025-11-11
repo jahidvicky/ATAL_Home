@@ -54,7 +54,7 @@ const Review = () => {
             </div>
           </div>
           <div className="mr-16 ml-20 pb-20 w-800 md:block hidden">
-            <div className="bg-red-600 rounded-xl ">
+            <div className="bg-[#f00000] rounded-xl ">
               <img
                 src={`${IMAGE_URL + data.image}`}
                 alt="woman"

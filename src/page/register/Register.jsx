@@ -38,10 +38,10 @@ function Register() {
       score <= 1
         ? "Weak"
         : score === 2
-        ? "Medium"
-        : score === 3
-        ? "Strong"
-        : "Very Strong"
+          ? "Medium"
+          : score === 3
+            ? "Strong"
+            : "Very Strong"
     );
   };
 
@@ -173,7 +173,7 @@ function Register() {
 
   return (
     <div className="mx-auto p-8 mt-12 mb-12 max-w-4xl bg-white shadow-xl rounded-2xl border-t-8 border-red-600">
-      <h2 className="text-3xl font-extrabold text-center text-red-700 mb-6">
+      <h2 className="text-3xl font-extrabold text-center text-[#f00000] mb-6">
         Create Your Account
       </h2>
       <p className="text-center text-gray-600 mb-8">
@@ -184,11 +184,11 @@ function Register() {
         onSubmit={handleSubmit}
         encType="multipart/form-data"
         className="space-y-10"
-         autoComplete="off" 
+        autoComplete="off"
       >
         {/* Personal Info */}
         <section>
-          <h3 className="text-lg font-semibold text-red-700 border-b-2 border-red-200 pb-1 mb-4">
+          <h3 className="text-lg font-semibold text-[#f00000] border-b-2 border-red-200 pb-1 mb-4">
             Personal Information
           </h3>
           <div className="grid grid-cols-2 gap-6">
@@ -221,7 +221,7 @@ function Register() {
                 name="smsOptIn"
                 checked={form.smsOptIn}
                 onChange={handleChange}
-                className="text-red-600 focus:ring-red-500"
+                className="text-[#f00000] focus:ring-red-500"
               />
               Opt-in for SMS/WhatsApp updates
             </label>
@@ -230,7 +230,7 @@ function Register() {
 
         {/* Login & Security */}
         <section>
-          <h3 className="text-lg font-semibold text-red-700 border-b-2 border-red-200 pb-1 mb-4">
+          <h3 className="text-lg font-semibold text-[#f00000] border-b-2 border-red-200 pb-1 mb-4">
             Login & Security
           </h3>
           <div className="grid grid-cols-2 gap-6">
@@ -244,7 +244,7 @@ function Register() {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="example@gmail.com"
-                autoComplete="off" 
+                autoComplete="off"
                 className="w-full border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 rounded-lg p-2.5"
                 required
               />
@@ -257,7 +257,7 @@ function Register() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm Password"
-                 autoComplete="new-password" 
+                autoComplete="new-password"
                 className="w-full border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 rounded-lg mt-1 p-2.5"
                 required
               />
@@ -269,12 +269,12 @@ function Register() {
                     <strong
                       className={
                         strength <= 1
-                          ? "text-red-500"
+                          ? "text-[#f00000]"
                           : strength === 2
-                          ? "text-yellow-500"
-                          : strength === 3
-                          ? "text-green-500"
-                          : "text-blue-600"
+                            ? "text-yellow-500"
+                            : strength === 3
+                              ? "text-green-500"
+                              : "text-blue-600"
                       }
                     >
                       {strengthLabel}
@@ -282,15 +282,14 @@ function Register() {
                   </p>
                   <div className="mt-2 h-2 w-full rounded-full bg-gray-200 overflow-hidden">
                     <div
-                      className={`h-full transition-all duration-300 ${
-                        strength <= 1
-                          ? "bg-red-500 w-1/4"
-                          : strength === 2
+                      className={`h-full transition-all duration-300 ${strength <= 1
+                        ? "bg-[#f00000] w-1/4"
+                        : strength === 2
                           ? "bg-yellow-500 w-1/2"
                           : strength === 3
-                          ? "bg-green-500 w-3/4"
-                          : "bg-blue-500 w-full"
-                      }`}
+                            ? "bg-green-500 w-3/4"
+                            : "bg-blue-500 w-full"
+                        }`}
                     />
                   </div>
                 </>
@@ -307,7 +306,7 @@ function Register() {
                 value={form.password}
                 onChange={handleChange}
                 placeholder="Enter Password"
-                 autoComplete="new-password" 
+                autoComplete="new-password"
                 className="w-full border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 rounded-lg p-2.5"
                 required
               />
@@ -323,7 +322,7 @@ function Register() {
                     value="Email"
                     checked={form.twoFactorAuth === "Email"}
                     onChange={handleChange}
-                    className="text-red-600 focus:ring-red-500"
+                    className="text-[#f00000] focus:ring-red-500"
                   />
                   Email
                 </label>
@@ -334,7 +333,7 @@ function Register() {
                     value="SMS"
                     checked={form.twoFactorAuth === "SMS"}
                     onChange={handleChange}
-                    className="text-red-600 focus:ring-red-500"
+                    className="text-[#f00000] focus:ring-red-500"
                   />
                   SMS
                 </label>
@@ -345,7 +344,7 @@ function Register() {
 
         {/* Address */}
         <section>
-          <h3 className="text-lg font-semibold text-red-700 border-b-2 border-red-200 pb-1 mb-4">
+          <h3 className="text-lg font-semibold text-[#f00000] border-b-2 border-red-200 pb-1 mb-4">
             Address & Preferences
           </h3>
           <div className="grid grid-cols-2 gap-6">
@@ -382,7 +381,7 @@ function Register() {
                     name={pref}
                     checked={form[pref]}
                     onChange={handleChange}
-                    className="text-red-600 focus:ring-red-500 mr-2"
+                    className="text-[#f00000] focus:ring-red-500 mr-2"
                   />
                   {pref.replace("pref", "")}
                 </label>
@@ -397,7 +396,7 @@ function Register() {
                   name="marketingOptIn"
                   checked={form.marketingOptIn}
                   onChange={handleChange}
-                  className="text-red-600 focus:ring-red-500"
+                  className="text-[#f00000] focus:ring-red-500"
                 />
                 I agree to receive promotional offers
               </label>
@@ -418,7 +417,7 @@ function Register() {
         <div className="pt-4">
           <button
             type="submit"
-            className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold text-lg shadow-md hover:bg-red-700 transition-all duration-300"
+            className="w-full bg-[#f00000] text-white py-3 rounded-lg font-semibold text-lg shadow-md hover:bg-red-700 transition-all duration-300"
           >
             Sign Up
           </button>

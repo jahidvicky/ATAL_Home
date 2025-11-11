@@ -40,17 +40,20 @@ const CartDrawer = ({ isOpen, onClose }) => {
         {cartItems.length === 0 ? (
           <p>Your cart is empty</p>
         ) : (
-          cartItems.map((item,index) => (
-            <div key={index} className="flex hover:cursor-pointer items-center mb-4">
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-20 h-16 object-cover rounded ml-10"
-              />
-              <div className="ml-4">
-                <p className="font-semibold">{item.name}</p>
-                <p>${item.price} x {item.quantity}</p>
+          cartItems.map((item, index) => (
+            <div>
+              <div key={index} className="flex hover:cursor-pointer items-center mb-4">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-30 h-16 object-cover"
+                />
+                <div className="ml-4">
+                  <p className="font-semibold">{item.name}</p>
+                  <p>${item.price} x {item.quantity}</p>
+                </div>
               </div>
+              <hr className="border-gray-400 w-79" />
             </div>
           ))
         )}

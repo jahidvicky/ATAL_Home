@@ -73,7 +73,7 @@ const EyeExam = () => {
 
   return (
     <div className="p-4 md:p-10 bg-gray-50">
-      <h1 className="text-2xl md:text-4xl text-red-600 text-center font-bold mb-3">
+      <h1 className="text-2xl md:text-4xl text-[#f00000] text-center font-bold mb-3">
         Book Your Eye Consultation
       </h1>
       <p className="text-sm md:text-[16px] text-gray-700 text-center mb-6 md:mb-10">
@@ -85,7 +85,7 @@ const EyeExam = () => {
 
 
           {/* Left Section - Appointment Info */}
-          <div className="bg-red-50 p-8 flex flex-col justify-between">
+          <div className="bg-[#f00000] p-8 flex flex-col justify-between">
             <div>
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Your Appointment
@@ -226,7 +226,7 @@ const EyeExam = () => {
               <button
                 type="submit"
                 disabled={!consent} // disabled if consent is false
-                className={`w-full rounded-md p-3 hover:cursor-pointer text-white font-semibold text-base md:text-lg mt-4 transition ${consent ? "bg-red-600 hover:bg-red-700" : "bg-gray-400 cursor-not-allowed"
+                className={`w-full rounded-md p-3 hover:cursor-pointer text-white font-semibold text-base md:text-lg mt-4 transition ${consent ? "bg-[#f00000] hover:bg-red-700" : "bg-gray-400 cursor-not-allowed"
                   }`}
               >
                 Book Appointment

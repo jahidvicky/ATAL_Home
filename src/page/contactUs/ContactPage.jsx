@@ -116,11 +116,11 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center py-12 px-4 bg-white">
-      <h1 className="text-4xl font-bold text-red-600 mb-12">Contact Us</h1>
+      <h1 className="text-4xl font-bold text-[#f00000] mb-12">Contact Us</h1>
 
       <div className="w-full max-w-4xl bg-white border border-red-500 rounded-lg">
         <div className="mt-5 p-8">
-          <h2 className="text-2xl font-semibold text-red-600 mb-4">
+          <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
             Atal Opticals
           </h2>
 
@@ -132,21 +132,21 @@ const ContactPage = () => {
 
             <ul className="space-y-3">
               <li>
-                <span className="font-semibold text-red-600">
+                <span className="font-semibold text-[#f00000]">
                   Store Address:
                 </span>{" "}
                 Atal Opticals, 45 Fashion Street, Toronto, ON M5V 2B6, Canada
               </li>
               <li>
-                <span className="font-semibold text-red-600">Phone:</span> +1
+                <span className="font-semibold text-[#f00000]">Phone:</span> +1
                 5698765 43210
               </li>
               <li>
-                <span className="font-semibold text-red-600">Email:</span>{" "}
+                <span className="font-semibold text-[#f00000]">Email:</span>{" "}
                 sales.ataloptical@gmail.com
               </li>
               <li>
-                <span className="font-semibold text-red-600">Store Hours:</span>{" "}
+                <span className="font-semibold text-[#f00000]">Store Hours:</span>{" "}
                 Mon - Sat, 10:00 AM - 8:00 PM
               </li>
             </ul>
@@ -157,7 +157,7 @@ const ContactPage = () => {
 
         {/* Vendor Section */}
         <div className="mt-5 p-8">
-          <h2 className="text-2xl font-semibold text-red-600 mb-4">
+          <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
             Become A Vendor
           </h2>
           <p className="text-black mb-4">
@@ -170,7 +170,7 @@ const ContactPage = () => {
               setFormData((prev) => ({ ...prev, userType: "vendor" }));
               setShowVendor(true);
             }}
-            className="bg-red-600 hover:bg-black hover:text-red-500 text-white font-semibold py-2 px-4 rounded-md w-full hover:cursor-pointer"
+            className="bg-[#f00000] hover:bg-black hover:text-[#f00000] text-white font-semibold py-2 px-4 rounded-md w-full hover:cursor-pointer"
           >
             Click Here
           </button>
@@ -180,7 +180,7 @@ const ContactPage = () => {
 
         {/* Company Section */}
         <div className="mt-5 p-8">
-          <h2 className="text-2xl font-semibold text-red-600 mb-4">
+          <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
             Become A Insurance Company
           </h2>
           <p className="text-black mb-4">
@@ -193,7 +193,7 @@ const ContactPage = () => {
               setFormData((prev) => ({ ...prev, userType: "company" }));
               setShowCompany(true);
             }}
-            className="bg-red-600 hover:bg-black hover:text-red-500 text-white font-semibold py-2 px-4 rounded-md w-full hover:cursor-pointer"
+            className="bg-[#f00000] hover:bg-black hover:text-red-500 text-white font-semibold py-2 px-4 rounded-md w-full hover:cursor-pointer"
           >
             Click Here
           </button>
@@ -204,7 +204,7 @@ const ContactPage = () => {
       {showVendor && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
-            <h2 className="text-xl font-semibold text-red-600 mb-4">
+            <h2 className="text-xl font-semibold text-[#f00000] mb-4">
               Vendor Inquiry
             </h2>
 
@@ -277,7 +277,7 @@ const ContactPage = () => {
 
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 hover:cursor-pointer"
+                  className="px-4 py-2 bg-[#f00000] text-white rounded hover:bg-red-700 hover:cursor-pointer"
                 >
                   Submit
                 </button>
@@ -298,7 +298,7 @@ const ContactPage = () => {
       {showCompany && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
-            <h2 className="text-xl font-semibold text-red-600 mb-4">
+            <h2 className="text-xl font-semibold text-[#f00000] mb-4">
               Company Inquiry
             </h2>
 
@@ -355,7 +355,7 @@ const ContactPage = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 hover:cursor-pointer"
+                  className="px-4 py-2 bg-[#f00000] text-white rounded hover:bg-red-700 hover:cursor-pointer"
                 >
                   Submit
                 </button>

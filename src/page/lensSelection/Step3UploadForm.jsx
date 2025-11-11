@@ -82,7 +82,7 @@ const Step3UploadForm = ({ preFilledData, goBack, onContinue }) => {
                 setPreview(null);
                 setUploadInfo(null);
               }}
-              className="text-red-500 underline text-sm"
+              className="text-[#f00000] underline text-sm"
             >
               Remove file
             </button>

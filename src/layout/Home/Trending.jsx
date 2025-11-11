@@ -48,13 +48,9 @@ const Trending = () => {
         </h2>
         {reviews.length > 0 && (
           <Link
-            to="/allproduct"
-            state={{
-              category: reviews[0]?.cat_id,
-              subcategory: reviews[0]?.subCat_id
-            }}
+            to={`/allProduct/${reviews[0]?.subCategoryName}/${reviews[0]?.cat_id}/${reviews[0]?.subCat_id}`}
           >
-            <button className="flex items-center gap-4 text-white font-medium bg-red-600 px-4 py-2 rounded mr-1 hover:bg-black transition-colors duration-300 hover:cursor-pointer">
+            <button className="flex items-center gap-4 text-white font-medium bg-[#f00000] px-4 py-2 rounded mr-1 hover:bg-black transition-colors duration-300 hover:cursor-pointer">
               FIND MORE
               <span className="bg-white text-black p-1 rounded-full">
                 <FiArrowRight size={16} className="hover:rotate-[-40deg]" />
@@ -67,10 +63,13 @@ const Trending = () => {
 
       <Slider {...settings}>
         {reviews.map((item, index) => (
-          <div key={index} className="px-2 mb-4" onClick={() => handleProductClick(item)} >
-            <Link to={`/product/${item.product_name}`} state={{ ID: item._id }}>
-              <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full hover:cursor-pointer shadow-white relative">
+          <div key={index}
+            className="px-2 mb-4"
+            onClick={() => handleProductClick(item)} >
 
+            <Link
+              to={`/product/${item._id}/${item.subCategoryName}/${item.subCat_id}`}>
+              <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full hover:cursor-pointer shadow-white relative">
                 <div className="absolute top-4 left-6 z-20">
                   <StockAvailability data={item.stockAvailability} />
                 </div>
@@ -91,7 +90,7 @@ const Trending = () => {
                 ) : (
                   "No Images"
                 )}
-                <p className="text-lg font-semibold tracking-wide text-red-600 capitalize line-clamp-1"> {item.product_name}</p>
+                <p className="text-lg font-semibold tracking-wide text-[#f00000] capitalize line-clamp-1"> {item.product_name}</p>
               </div>
             </Link>
           </div>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
-const Step3ManualForm = ({ goBack, onContinue, preFilledData}) => {
+const Step3ManualForm = ({ goBack, onContinue, preFilledData }) => {
 
-  
+
 
   const [form, setForm] = useState({
     odSph: "",
@@ -15,7 +15,7 @@ const Step3ManualForm = ({ goBack, onContinue, preFilledData}) => {
     doctor: "",
   });
 
-    useEffect(() => {
+  useEffect(() => {
     if (preFilledData) {
       setForm({
         odSph: preFilledData.odSph || "",
@@ -165,7 +165,7 @@ const Step3ManualForm = ({ goBack, onContinue, preFilledData}) => {
                   ))}
                 </select>
                 {errors.odSph && (
-                  <p className="text-red-500 text-xs">{errors.odSph}</p>
+                  <p className="text-[#f00000] text-xs">{errors.odSph}</p>
                 )}
               </td>
               <td className="p-2 border">
@@ -203,7 +203,7 @@ const Step3ManualForm = ({ goBack, onContinue, preFilledData}) => {
                   ))}
                 </select>
                 {errors.osSph && (
-                  <p className="text-red-500 text-xs">{errors.osSph}</p>
+                  <p className="text-[#f00000] text-xs">{errors.osSph}</p>
                 )}
               </td>
               <td className="p-2 border">
@@ -250,22 +250,22 @@ const Step3ManualForm = ({ goBack, onContinue, preFilledData}) => {
             className="border rounded p-2 w-20 hover:cursor-pointer"
           />
         </div>
-        {errors.pd && <p className="text-red-500 text-xs">{errors.pd}</p>}
+        {errors.pd && <p className="text-[#f00000] text-xs">{errors.pd}</p>}
       </div>
 
       {/* Date + Doctor */}
       <div className="mt-4 flex space-x-4">
         <label className="flex-1">
-    <span className="block text-sm font-medium mb-1">Date of Prescription*</span>
-    <input
-      type="date"
-      id="date"
-      name="date"
-      value={form.date}
-      onChange={handleChange}
-      className="border p-2 rounded w-full hover:cursor-pointer"
-    />
-  </label>
+          <span className="block text-sm font-medium mb-1">Date of Prescription*</span>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value={form.date}
+            onChange={handleChange}
+            className="border p-2 rounded w-full hover:cursor-pointer"
+          />
+        </label>
         <input
           type="text"
           name="doctor"
@@ -276,10 +276,10 @@ const Step3ManualForm = ({ goBack, onContinue, preFilledData}) => {
         />
       </div>
       {errors.date && (
-        <p className="text-red-500 text-xs mt-1">{errors.date}</p>
+        <p className="text-[#f00000] text-xs mt-1">{errors.date}</p>
       )}
       {errors.doctor && (
-        <p className="text-red-500 text-xs mt-1">{errors.doctor}</p>
+        <p className="text-[#f00000] text-xs mt-1">{errors.doctor}</p>
       )}
 
       {/* Buttons */}

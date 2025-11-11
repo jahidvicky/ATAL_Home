@@ -35,11 +35,11 @@ const OrderHistory = () => {
     if (error) {
         return (
             <div className="text-center mt-10">
-                <h2 className="text-3xl font-bold text-red-600">Order History</h2>
+                <h2 className="text-3xl font-bold text-[#f00000]">Order History</h2>
                 <p className="text-black mt-4 text-lg">{error}</p>
                 <Link
                     to="/"
-                    className="mt-6 inline-block bg-red-600 text-white px-6 py-2 mb-10 rounded-lg hover:bg-black"
+                    className="mt-6 inline-block bg-[#f00000] text-white px-6 py-2 mb-10 rounded-lg hover:bg-black"
                 >
                     Go to Home
                 </Link>
@@ -50,7 +50,7 @@ const OrderHistory = () => {
 
     return (
         <div className="p-6">
-            <h2 className="text-3xl font-bold mb-6 text-center text-red-600">
+            <h2 className="text-3xl font-bold mb-6 text-center text-[#f00000]">
                 My Order
             </h2>
 
@@ -59,7 +59,7 @@ const OrderHistory = () => {
                     <p>No orders found.</p>
                     <Link
                         to="/"
-                        className="mt-4 inline-block bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-black"
+                        className="mt-4 inline-block bg-[#f00000] text-white px-6 py-2 rounded-lg hover:bg-black"
                     >
                         Go to Home
                     </Link>
@@ -135,7 +135,7 @@ const OrderHistory = () => {
                                     )}
 
                                     <Link to={`/track/${order.trackingNumber}`}>
-                                        <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-black hover:cursor-pointer">
+                                        <button className="bg-[#f00000] text-white px-4 py-2 rounded-lg hover:bg-black hover:cursor-pointer">
                                             Track Order
                                         </button>
                                     </Link>

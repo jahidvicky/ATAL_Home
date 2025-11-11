@@ -16,27 +16,35 @@ import Review from '../../layout/Home/Review'
 import Faq from '../../layout/Home/Faq'
 import TestimonialsSlider from '../../layout/Home/Testimonials'
 import Eyewearsection from '../../layout/Home/Eyewearsection'
+import Subscribe from '../../layout/Home/Subscribe'
+import InsuranceBenefits from '../../layout/Home/InsuranceBenifits'
+import WhatsNew from '../../layout/Home/WhatsNew'
+import BrandsSection from '../../layout/Home/BrandSection'
 
 function Home() {
   return (
     <>
-      <Banner/>
-      <About/>
-      <Frames/>
-      <Video/>
-      <Trending/>
-      <ProductGrid/>
-      <Services/>
-      <ModelViewer/>
-      <EyewearTips/>
-      <ExploreCollection/>
-      <Frameshape/>
-      <Eyecheck/>
-      <Promotion/>
-      <Review/>
-      <Faq/>
-      <TestimonialsSlider/>
-      <Eyewearsection/>
+      <Banner />
+      <About />
+      <Frames />
+      <Video />
+      <Trending />
+      <ProductGrid />
+      <Services />
+      <ModelViewer />
+      <EyewearTips />
+      <ExploreCollection />
+      <Subscribe />
+      <Frameshape />
+      <Eyecheck />
+      <Promotion />
+      <InsuranceBenefits />
+      <Review />
+      <WhatsNew />
+      <BrandsSection />
+      <Faq />
+      <TestimonialsSlider />
+      <Eyewearsection />
     </>
   )
 }

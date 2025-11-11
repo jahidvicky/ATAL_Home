@@ -48,11 +48,10 @@ const Step7EnhancementsSelection = ({
         {enhancements.map((enh) => (
           <div
             key={enh.id}
-            className={`hover:cursor-pointer border rounded-lg p-4 cursor-pointer transition ${
-              selected?.id === enh.id
-                ? "border-blue-500 bg-blue-50"
-                : "border-gray-300"
-            }`}
+            className={`hover:cursor-pointer border rounded-lg p-4 cursor-pointer transition ${selected?.id === enh.id
+              ? "border-blue-500 bg-blue-50"
+              : "border-gray-300"
+              }`}
             onClick={() => handleSelect(enh)}
           >
             <div className="flex justify-between items-start">
@@ -81,7 +80,7 @@ const Step7EnhancementsSelection = ({
                 ) : (
                   <div>
                     {enh.discount && (
-                      <span className="bg-red-100 text-red-600 text-xs font-semibold px-2 py-1 rounded">
+                      <span className="bg-[#f00000] text-[#f00000] text-xs font-semibold px-2 py-1 rounded">
                         {enh.discount}
                       </span>
                     )}
@@ -115,11 +114,10 @@ const Step7EnhancementsSelection = ({
         <button
           onClick={onContinue}
           disabled={!selected}
-          className={`hover:cursor-pointer px-6 py-2 rounded-lg text-white ${
-            selected
-              ? "bg-blue-600 hover:bg-blue-700"
-              : "bg-gray-400 cursor-not-allowed"
-          }`}
+          className={`hover:cursor-pointer px-6 py-2 rounded-lg text-white ${selected
+            ? "bg-blue-600 hover:bg-blue-700"
+            : "bg-gray-400 cursor-not-allowed"
+            }`}
         >
           Continue
         </button>

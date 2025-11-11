@@ -262,7 +262,7 @@ const Checkout = () => {
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all
                   ${idx <= currentStep
-                      ? "bg-red-600 text-white border-red-600"
+                      ? "bg-[#f00000] text-white border-red-600"
                       : "border-black text-black group-hover:bg-black group-hover:text-white"
                     }`}
                 >
@@ -270,8 +270,8 @@ const Checkout = () => {
                 </div>
                 <span
                   className={`mt-2 text-sm ${idx === currentStep
-                      ? "text-red-600 font-bold"
-                      : "text-gray-700"
+                    ? "text-[#f00000] font-bold"
+                    : "text-gray-700"
                     }`}
                 >
                   {step}
@@ -280,7 +280,7 @@ const Checkout = () => {
               {idx < steps.length - 1 && (
                 <div
                   className={`flex-1 h-2 rounded-sm transition-colors hover:cursor-pointer
-                  ${idx < currentStep ? "bg-red-600" : "bg-gray-300"}`}
+                  ${idx < currentStep ? "bg-[#f00000]" : "bg-gray-300"}`}
                 />
               )}
             </React.Fragment>
@@ -306,7 +306,7 @@ const Checkout = () => {
             />
             {formData.email &&
               !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-[#f00000] text-sm mt-1">
                   Invalid email address
                 </p>
               )}
@@ -319,9 +319,9 @@ const Checkout = () => {
               value={formData.phone || ""}
               onChange={(e) => handleChange("phone", e.target.value)}
               className={`border p-2 rounded w-full ${formData.phone &&
-                  !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone)
-                  ? "border-red-500"
-                  : "border-black"
+                !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone)
+                ? "border-red-500"
+                : "border-black"
                 }`}
               required
             />
@@ -329,7 +329,7 @@ const Checkout = () => {
               !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(
                 formData.phone
               ) && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-[#f00000] text-sm mt-1">
                   Invalid phone number. Use 416 123 4567 format.
                 </p>
               )}
@@ -347,8 +347,8 @@ const Checkout = () => {
           <br />
           <hr
             className={`border-t-2 -mt-2 ${!deliveryRange
-                ? "w-[418px] border-black"
-                : "w-[498px] border-black"
+              ? "w-[418px] border-black"
+              : "w-[498px] border-black"
               }`}
           />
 
@@ -385,11 +385,11 @@ const Checkout = () => {
               handleChange("shippingPostal", val);
             }}
             className={`border p-2 rounded w-full ${formData.shippingPostal &&
-                !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
-                  formData.shippingPostal
-                )
-                ? "border-red-500"
-                : "border-black"
+              !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
+                formData.shippingPostal
+              )
+              ? "border-red-500"
+              : "border-black"
               }`}
             required
           />
@@ -397,7 +397,7 @@ const Checkout = () => {
             !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
               formData.shippingPostal
             ) && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="text-[#f00000] text-sm mt-1">
                 Invalid postal code. Example: A1A 1A1
               </p>
             )}
@@ -480,11 +480,11 @@ const Checkout = () => {
                   handleChange("billingPostal", val);
                 }}
                 className={`border p-2 rounded w-full ${formData.billingPostal &&
-                    !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
-                      formData.billingPostal
-                    )
-                    ? "border-red-500"
-                    : "border-black"
+                  !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
+                    formData.billingPostal
+                  )
+                  ? "border-red-500"
+                  : "border-black"
                   }`}
                 required
               />
@@ -492,7 +492,7 @@ const Checkout = () => {
                 !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                   formData.billingPostal
                 ) && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-[#f00000] text-sm mt-1">
                     Invalid postal code. Example: A1A 1A1
                   </p>
                 )}
@@ -506,7 +506,7 @@ const Checkout = () => {
         <div className="border-2 border-black rounded-xl shadow-lg bg-white p-6 space-y-6">
           {/* Review */}
           <div>
-            <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-black pb-2">
+            <h2 className="font-bold text-xl mb-4 text-[#f00000] border-b border-black pb-2">
               Billing Details
             </h2>
             <p>
@@ -532,7 +532,7 @@ const Checkout = () => {
           </div>
 
           <div className="w-full ml-auto bg-white shadow-lg border border-gray-200 rounded-xl p-6">
-            <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-gray-300 pb-2">
+            <h2 className="font-bold text-xl mb-4 text-[#f00000] border-b border-gray-300 pb-2">
               Your Order
             </h2>
 
@@ -638,7 +638,7 @@ const Checkout = () => {
                 <span>Tax ({(taxRate * 100).toFixed(0)}%)</span>
                 <span>${tax.toFixed(2)}</span>
               </div>
-              <div className="border-t pt-2 flex justify-between font-bold text-red-600 text-lg">
+              <div className="border-t pt-2 flex justify-between font-bold text-[#f00000] text-lg">
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>
               </div>
@@ -647,7 +647,7 @@ const Checkout = () => {
 
           {/* Consents */}
           <div>
-            <h2 className="font-bold text-xl mb-4 text-red-600 border-b border-black pb-2">
+            <h2 className="font-bold text-xl mb-4 text-[#f00000] border-b border-black pb-2">
               Consents
             </h2>
             <label className="flex items-center mb-2">
@@ -694,7 +694,7 @@ const Checkout = () => {
         {currentStep < steps.length - 1 && (
           <button
             onClick={nextStep}
-            className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 hover:cursor-pointer"
+            className="px-4 py-2 rounded bg-[#f00000] text-white hover:bg-red-700 hover:cursor-pointer"
           >
             Next
           </button>

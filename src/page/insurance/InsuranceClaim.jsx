@@ -127,7 +127,7 @@ const InsuranceClaim = () => {
                                     className={`px-3 py-1 rounded text-white font-semibold ${existingClaim.status === "Approved"
                                         ? "bg-green-600"
                                         : existingClaim.status === "Rejected"
-                                            ? "bg-red-600"
+                                            ? "bg-[#f00000]"
                                             : "bg-yellow-500"
                                         }`}
                                 >
@@ -161,7 +161,7 @@ const InsuranceClaim = () => {
                 ) : (
                     <>
                         {/* Claim Form */}
-                        <h2 className="text-3xl font-bold text-center text-red-600 mb-6">
+                        <h2 className="text-3xl font-bold text-center text-[#f00000] mb-6">
                             Submit Insurance Claim
                         </h2>
 
@@ -174,7 +174,7 @@ const InsuranceClaim = () => {
                                 <select
                                     value={selectedProduct?._id || ""}
                                     onChange={(e) => {
-                                        const product = order.cartItems.find(
+                                        const product = order?.cartItems.find(
                                             (item) => item._id === e.target.value
                                         );
                                         setSelectedProduct(product);
@@ -183,7 +183,7 @@ const InsuranceClaim = () => {
                                     className="border border-gray-300 p-2 w-full rounded focus:ring-2 focus:ring-red-500 focus:outline-none"
                                 >
                                     <option value="">-- Select Product --</option>
-                                    {order.cartItems.map((item) => (
+                                    {order?.cartItems.map((item) => (
                                         <option key={item._id} value={item._id}>
                                             {item.name} (${item.price})
                                         </option>
@@ -225,7 +225,7 @@ const InsuranceClaim = () => {
                                 disabled={loading}
                                 className={`w-full py-3 text-white text-lg font-semibold rounded-lg transition-all hover:cursor-pointer ${loading
                                     ? "bg-gray-400 cursor-not-allowed"
-                                    : "bg-red-600 hover:bg-black"
+                                    : "bg-[#f00000] hover:bg-black"
                                     }`}
                             >
                                 {loading ? "Submitting..." : "Submit Claim"}
