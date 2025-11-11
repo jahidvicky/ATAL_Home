@@ -3,8 +3,6 @@ import {
   FaUser,
   FaHeart,
   FaSearch,
-<<<<<<< HEAD
-=======
   FaFacebookF,
   FaYoutube,
   FaBars,
@@ -12,7 +10,6 @@ import {
   FaTimes,
   FaTrash,
   FaArrowRight,
->>>>>>> ebffe0983c6449af8ea33e23d05c5972fee169f7
 } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -1144,9 +1141,6 @@ function Header() {
           </a>
         </div>
         <div className="flex gap-4 text-lg lg:text-xl">
-<<<<<<< HEAD
-          <SocialLinks />
-=======
           <FaFacebookF className="hover:cursor-pointer hover:text-black transition-colors" />
           <FaYoutube className="hover:cursor-pointer hover:text-black transition-colors" />
           <FaSquareInstagram className="hover:cursor-pointer hover:text-black transition-colors" />
@@ -1214,7 +1208,6 @@ function Header() {
               <FaUser className="text-[#f00000] hover:text-black w-6 h-6 transition-colors" />
             </button>
           )}
->>>>>>> ebffe0983c6449af8ea33e23d05c5972fee169f7
         </div>
       </div>
 
