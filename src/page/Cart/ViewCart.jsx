@@ -29,6 +29,9 @@ const ViewCart = ({ items, hideCheckout }) => {
     vendorID: item.vendorID || null,
   }));
 
+  console.log(cartItems);
+
+
   return (
     <div className="container mx-auto px-4 py-10">
       {cartItems.length === 0 ? (
@@ -50,7 +53,7 @@ const ViewCart = ({ items, hideCheckout }) => {
                 key={item.variantId}
                 className="flex flex-col md:flex-row items-center justify-between border p-4 rounded shadow-sm"
               >
-                <Link to={`/product/${item.name}`} state={{ ID: item.id }}>
+                <Link state={{ ID: item.id }}>
                   <img
                     src={item.image}
                     alt={item.name}
@@ -59,7 +62,7 @@ const ViewCart = ({ items, hideCheckout }) => {
                 </Link>
 
                 <div className="flex-1 mt-4 md:mt-0">
-                  <Link to={`/product/${item.name}`} state={{ ID: item.id }}>
+                  <Link state={{ ID: item.id }}>
                     <h4 className="text-lg font-semibold hover:cursor-pointer">
                       {item.name}
                     </h4>
