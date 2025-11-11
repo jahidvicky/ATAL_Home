@@ -20,7 +20,6 @@ import Page from "./page/Page";
 import Layout from "./layout/Layout";
 
 import Cartpage from "./page/Cart/Cartpage";
-import ViewCart from "./page/Cart/ViewCart";
 
 import FAQ from "./page/FAQ/FAQ";
 import PrivacyPolicy from "./page/Privacy-Policy/PrivacyPolicy";
@@ -87,6 +86,7 @@ import Optometrists from "./page/allEyeServices/Optometrists";
 import InsuranceClaimPage from "./page/allEyeServices/Insurance";
 import BlueLightTechnology from "./page/allEyeServices/BlueLightTechnology";
 import SubscribeSave from "./page/SubscribeSavePage/SubscriveSave";
+import SearchResult from "./layout/Home/SearchResult";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -277,6 +277,16 @@ function App() {
             // </ProtectedRoute>
           ),
         },
+        {
+          path: "/search-results",
+          element: (
+            // <ProtectedRoute>
+            <SearchResult />
+            // </ProtectedRoute>
+          ),
+        },
+
+        // <Route path="/search-results" element={<SearchResults />} />
 
         { path: "*", element: <Page /> },
       ],
