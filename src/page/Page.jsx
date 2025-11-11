@@ -18,7 +18,7 @@ function Page() {
                 </button>
 
                 <footer className="mt-6 text-sm text-gray-500">
-                    <strong>&copy; {new Date().getFullYear()}</strong> <span className="text-[#f00000] font-bold">ATAL OPTICALS || Developed by WORLD WEBLOGIC</span>
+                    <strong>&copy; {new Date().getFullYear()}</strong> <span className="text-[#f00000] font-bold">ATAL OPTICAL || Developed by WORLD WEBLOGIC</span>
                 </footer>
             </div>
         </div>

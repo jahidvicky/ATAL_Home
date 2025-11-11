@@ -106,7 +106,7 @@ const OfferPopup = () => {
                             {/* Step 1: Offer Screen */}
                             {!showEmailInput && !discountCode && (
                                 <>
-                                    <h2 className="text-2xl font-semibold mb-2">Atal Opticals</h2>
+                                    <h2 className="text-2xl font-semibold mb-2">Atal Optical</h2>
                                     <p className="text-gray-700 text-sm mb-3">Enjoy</p>
 
                                     <p className="text-3xl font-bold mb-1">
