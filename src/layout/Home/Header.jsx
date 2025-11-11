@@ -1410,7 +1410,7 @@ function Header() {
             <Link to="/how-to-order" className="hover:text-red-600 transition-colors">
               <li className="cursor-pointer">How To Order</li>
             </Link>
-            <Link to="/eye-schedule-test" className="hover:text-black hover:bg-white transition-all">
+            <Link to="/eye-schedule-test" className="hover:text-black transition-all">
               <li className="cursor-pointer bg-[#f00000] py-1 px-4 rounded-xl">
                 BOOK EYE EXAM
               </li>
