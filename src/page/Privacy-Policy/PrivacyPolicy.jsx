@@ -1,135 +1,164 @@
-// import { title } from "process";
-import React from "react";
-
 export default function PrivacyPolicy() {
   const sections = [
     {
-      title: "1. Introduction",
-      content: `At Atal Optical Corp ("we", "us", or "our"), protecting your privacy and personal information is a fundamental priority. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, purchase our products, or use our services. By using our website or services, you agree to the terms described herein.`
-    },
-    {
-      title: "2. Information We Collect",
+      title: "Atal Optical Corp – Privacy Policy",
       content: (
         <>
-          <div className="mb-3 font-semibold">a. Personal Information</div>
-          <div>We collect personal data you provide directly when you:</div>
-          <ul className="list-disc list-inside mb-3">
-            <li>Create an account</li>
-            <li>Place an order for eyeglasses, contact lenses, or related products</li>
-            <li>Book appointments or consultations</li>
-            <li>Subscribe to newsletters or promotional communications</li>
-            <li>Contact customer support</li>
+          <p className="mb-3">
+            <strong>Corporate Office:</strong> 34 Shining Willow Crescent, Brampton, Ontario, Canada
+          </p>
+          <p className="mb-3">
+            <strong>Toll-Free:</strong> 1-866-242-3545
+          </p>
+          <p className="mb-6">
+            <strong>Email:</strong> info@ataloptical@gmail.com
+          </p>
+        </>
+      )
+    },
+    {
+      title: "Introduction",
+      content: (
+        <p>
+          Atal Optical Corp (“we,” “our,” or “us”) is committed to protecting the privacy and confidentiality of
+          personal information collected from our customers, clients, and website visitors (“you” or “users”) in
+          accordance with Canadian privacy laws, including PIPEDA (Personal Information Protection and Electronic
+          Documents Act) and relevant provincial regulations.
+          <br />
+          <br />
+          This Privacy Policy explains how we collect, use, store, disclose, and protect personal information in the
+          context of our optical business, including eyewear products, eye exams, consultations, and online services.
+        </p>
+      )
+    },
+    {
+      title: "Information We Collect",
+      content: (
+        <>
+          <p className="mb-3">We collect personal information necessary to provide our services and conduct business, including:</p>
+          <ul className="list-disc list-inside space-y-1 mb-3">
+            <li>Contact Information: Name, address, phone number, email</li>
+            <li>Optical & Health Information: Eye prescriptions, medical history related to eye care, vision test results</li>
+            <li>Payment Information: Credit card details, billing addresses, and purchase history</li>
+            <li>Online Information: IP addresses, browser type, cookies, and site usage analytics</li>
+            <li>Service Requests: Appointment requests, consultations, warranty or product service records</li>
+            <li>Images/Documentation: Photos for optical records or insurance claims (if applicable)</li>
           </ul>
-          <div>Personal information may include your:</div>
-          <ul className="list-disc list-inside mb-3">
-            <li>Full name</li>
-            <li>Contact details (email, phone number, mailing address)</li>
-            <li>Date of birth</li>
-            <li>Payment information (processed securely via third-party processors)</li>
-            <li>Prescription details provided by you or your eye care professional</li>
-            <li>Health-related data necessary for product fulfillment</li>
+          <p>Important: We only collect personal information that is necessary for the provision of services and legal compliance.</p>
+        </>
+      )
+    },
+    {
+      title: "How We Collect Information",
+      content: (
+        <>
+          <p>We may collect information through:</p>
+          <ul className="list-disc list-inside space-y-1 mt-3 mb-3">
+            <li>Website forms, registrations, and online purchases</li>
+            <li>Telephone, email, or in-person communications</li>
+            <li>Visits to our corporate office or retail locations</li>
+            <li>Third-party service providers (e.g., payment processors, analytics tools)</li>
           </ul>
-          <div className="mb-3 font-semibold">b. Automatically Collected Information</div>
-          <div>When you visit our website, we automatically collect:</div>
-          <ul className="list-disc list-inside">
-            <li>IP address</li>
-            <li>Browser type and version</li>
-            <li>Device information</li>
-            <li>Pages visited and time spent</li>
-            <li>Cookies and tracking technologies (see Section 6)</li>
+          <p>We ensure all third-party providers comply with Canadian privacy standards.</p>
+        </>
+      )
+    },
+    {
+      title: "Use of Personal Information",
+      content: (
+        <>
+          <p>Personal information is used for legitimate business purposes, including:</p>
+          <ul className="list-disc list-inside space-y-1 mt-3">
+            <li>Providing optical services, eye exams, and eyewear products</li>
+            <li>Processing orders, payments, and insurance claims</li>
+            <li>Sending notifications, confirmations, or promotional communications (with consent)</li>
+            <li>Analyzing trends, improving our services, and conducting customer surveys</li>
+            <li>Complying with legal or regulatory requirements</li>
+          </ul>
+          <p className="mt-3">We never sell or rent your personal information to third parties for marketing purposes.</p>
+        </>
+      )
+    },
+    {
+      title: "Storage and Retention of Information",
+      content: (
+        <ul className="list-disc list-inside space-y-1">
+          <li>Personal information is stored securely in electronic and physical formats</li>
+          <li>Access is restricted to authorized personnel only</li>
+          <li>Information is retained only for as long as necessary for business, legal, or regulatory purposes</li>
+          <li>When information is no longer needed, it is securely destroyed or anonymized</li>
+        </ul>
+      )
+    },
+    {
+      title: "Sharing and Disclosure of Information",
+      content: (
+        <>
+          <p>We may disclose personal information to:</p>
+          <ul className="list-disc list-inside space-y-1 mt-3 mb-3">
+            <li>Service Providers: Payment processors, IT providers, and delivery services for legitimate business purposes</li>
+            <li>Legal Authorities: When required by law, legal process, or government regulations</li>
+            <li>Healthcare Professionals: For legitimate optical or medical purposes, with consent</li>
+            <li>Business Transfers: In the event of a merger, sale, or acquisition, with privacy obligations maintained</li>
+          </ul>
+          <p>Note: We do not share information with unrelated third parties for marketing without your consent.</p>
+        </>
+      )
+    },
+    {
+      title: "Cookies and Online Tracking",
+      content: (
+        <ul className="list-disc list-inside space-y-1">
+          <li>Our website may use cookies, web beacons, and analytics to improve user experience</li>
+          <li>Cookies help us understand site usage, preferences, and improve services</li>
+          <li>You can adjust your browser settings to accept or reject cookies, but some features may not function properly</li>
+        </ul>
+      )
+    },
+    {
+      title: "Security of Information",
+      content: (
+        <>
+          <p>We implement administrative, technical, and physical safeguards to protect personal information from unauthorized access, disclosure, alteration, or destruction, including:</p>
+          <ul className="list-disc list-inside space-y-1 mt-3">
+            <li>Encryption of sensitive data</li>
+            <li>Secure servers and access controls</li>
+            <li>Employee training and confidentiality agreements</li>
+            <li>Regular audits and monitoring of data security</li>
           </ul>
         </>
       )
     },
     {
-      title: "3. How We Use Your Information",
-      content: (
-        <ul className="list-disc list-inside">
-          <li>Process and fulfill your orders and appointments</li>
-          <li>Verify prescriptions and communicate with your eye care provider as needed</li>
-          <li>Provide customer service and support</li>
-          <li>Send order confirmations, updates, and receipts</li>
-          <li>Send newsletters, marketing, and promotional offers (with your consent)</li>
-          <li>Improve our website, products, and services</li>
-          <li>Prevent fraud and unauthorized transactions</li>
-          <li>Comply with legal and regulatory obligations</li>
-        </ul>
-      )
-    },
-    {
-      title: "4. Sharing and Disclosure",
-      content: (
-        <div>
-          We do not sell or rent your personal information to third parties. We may share your information with:
-          <ul className="list-disc list-inside mt-2">
-            <li>Affiliated companies within Atal Optical Corp for operational and marketing purposes</li>
-            <li>Third-party service providers who assist with order fulfillment, payment processing, delivery, IT services, marketing, and customer support — all under strict confidentiality agreements</li>
-            <li>Eye care professionals or clinics, strictly for verifying your prescription or related healthcare services</li>
-            <li>Legal authorities or regulatory bodies, if required by law or to protect our rights</li>
-          </ul>
-        </div>
-      )
-    },
-    {
-      title: "5. Your Privacy Rights",
+      title: "Your Privacy Rights",
       content: (
         <>
-          <div>You have the right to:</div>
-          <ul className="list-disc list-inside mb-3">
-            <li>Access and obtain a copy of your personal information we hold</li>
-            <li>Request correction of inaccurate or incomplete data</li>
-            <li>Withdraw consent for marketing communications at any time by using the unsubscribe link or contacting us</li>
-            <li>Request deletion or restriction of your personal information, subject to legal and operational requirements</li>
-            <li>Object to certain processing activities</li>
-            <li>Lodge a complaint with a relevant privacy regulator if you believe your rights have been violated</li>
+          <p>Under Canadian law, you have the right to:</p>
+          <ul className="list-disc list-inside space-y-1 mt-3 mb-3">
+            <li>Access: Request a copy of personal information we hold about you</li>
+            <li>Correction: Request corrections or updates to your personal information</li>
+            <li>Withdrawal of Consent: Withdraw consent to receive promotional communications</li>
+            <li>Deletion: Request deletion of personal information where legally permitted</li>
+            <li>Opt-out: Opt-out of marketing communications at any time</li>
           </ul>
-          <div>
-            To exercise your rights, please contact our Privacy Officer at{" "}
-            <a href="mailto:privacy@ataloptical.com" className="text-[#f00000] underline">
-              privacy@ataloptical.com
+          <p>
+            Requests can be submitted via{" "}
+            <a href="mailto:info@ataloptical@gmail.com" className="text-[#f00000] underline">
+              info@ataloptical@gmail.com
             </a>{" "}
-            or call <span className="font-semibold">1-866-242-3545</span>.
-          </div>
+            or by contacting our corporate office.
+          </p>
         </>
       )
     },
     {
-      title: "6. Cookies and Tracking Technologies",
+      title: "Contact Us",
       content: (
         <ul className="list-disc list-inside">
-          <li>Enhance website functionality and user experience</li>
-          <li>Analyze site traffic and usage patterns</li>
-          <li>Personalize marketing and advertising efforts</li>
-        </ul>
-      )
-    },
-    {
-      title: "7. Data Retention",
-      content: `We retain your personal information only as long as necessary to fulfill the purposes outlined in this Policy, comply with legal, tax, and accounting obligations, resolve disputes, and enforce our agreements. When data is no longer required, we securely delete or anonymize it.`
-    },
-    {
-      title: "8. Data Security",
-      content: `We implement industry-standard security measures, including encryption, access controls, and secure servers, to protect your personal information from unauthorized access, disclosure, alteration, or destruction. However, no data transmission over the internet can be guaranteed 100% secure.`
-    },
-    {
-      title: "9. International Transfers",
-      content: `If you access our services from outside Canada, your information may be transferred to and processed in Canada. By using our services, you consent to this transfer and processing.`
-    },
-    {
-      title: "10. Children’s Privacy",
-      content: `Our services are not intended for individuals under 16 years old. We do not knowingly collect personal information from children under 16. If you are a parent or guardian and believe we have collected such information, please contact us immediately.`
-    },
-    {
-      title: "11. Changes to This Privacy Policy",
-      content: `We may update this Policy from time to time. Any changes will be posted on this page with an updated effective date. We encourage you to review this Policy periodically.`
-    },
-    {
-      title: "12. Contact Us",
-      content: (
-        <ul className="list-disc list-inside">
+          <li>Atal Optical Corp</li>
           <li>34 Shining Willow Crescent, Brampton, Ontario, Canada</li>
-          <li>privacy@ataloptical.com</li>
-          <li>1-866-242-3545</li>
+          <li>Toll-Free: 1-866-242-3545</li>
+          <li>Email: info@ataloptical@gmail.com</li>
         </ul>
       )
     }
@@ -138,13 +167,12 @@ export default function PrivacyPolicy() {
   return (
     <>
       <header className="mb-8 bg-gradient-to-r from-black via-red-600 to-black py-12">
-        <h1 className="text-5xl font-bold text-white text-center">
-          Privacy Policy
-        </h1>
-        <hr className="border-white w-100 mt-2 mx-120"></hr>
+        <h1 className="text-5xl font-bold text-white text-center">Privacy Policy</h1>
+        <hr className="border-white w-100 mt-2 mx-120" />
       </header>
-      <div className="px-6 ">
-        <div className=" mx-auto p-8 ">
+
+      <div className="px-6">
+        <div className="mx-auto p-8">
           {sections.map((section, idx) => (
             <div key={idx} className="mb-6">
               <h2 className="text-xl font-semibold mb-2">{section.title}</h2>

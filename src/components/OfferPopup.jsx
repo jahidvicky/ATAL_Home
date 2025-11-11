@@ -110,11 +110,11 @@ const OfferPopup = () => {
                                     <p className="text-gray-700 text-sm mb-3">Enjoy</p>
 
                                     <p className="text-3xl font-bold mb-1">
-                                        20% off contact lenses
+                                        20% off on contact lenses
                                     </p>
                                     <p className="text-gray-500 mb-3">+ free shipping</p>
                                     <p className="text-lg font-semibold mb-1">&</p>
-                                    <p className="text-3xl font-bold mb-2">20% off glasses</p>
+                                    <p className="text-3xl font-bold mb-2">20% off on glasses</p>
                                     <p className="text-gray-500 mb-6">+ free shipping</p>
 
                                     {/* Unlock Discount Now → open email (no API) */}
