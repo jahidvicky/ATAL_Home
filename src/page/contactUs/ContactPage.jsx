@@ -121,7 +121,7 @@ const ContactPage = () => {
       <div className="w-full max-w-4xl bg-white border border-red-500 rounded-lg">
         <div className="mt-5 p-8">
           <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
-            Atal Opticals
+            Atal Optical
           </h2>
 
           <div className="bg-white border border-red-500 rounded-md p-6 text-black shadow-md">
@@ -135,7 +135,7 @@ const ContactPage = () => {
                 <span className="font-semibold text-[#f00000]">
                   Store Address:
                 </span>{" "}
-                Atal Opticals, 45 Fashion Street, Toronto, ON M5V 2B6, Canada
+                Atal Optical, 45 Fashion Street, Toronto, ON M5V 2B6, Canada
               </li>
               <li>
                 <span className="font-semibold text-[#f00000]">Phone:</span> +1

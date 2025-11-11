@@ -1141,9 +1141,10 @@ function Header() {
           </a>
         </div>
         <div className="flex gap-4 text-lg lg:text-xl">
-          <FaFacebookF className="hover:cursor-pointer hover:text-black transition-colors" />
+          {/* <FaFacebookF className="hover:cursor-pointer hover:text-black transition-colors" />
           <FaYoutube className="hover:cursor-pointer hover:text-black transition-colors" />
-          <FaSquareInstagram className="hover:cursor-pointer hover:text-black transition-colors" />
+          <FaSquareInstagram className="hover:cursor-pointer hover:text-black transition-colors" /> */}
+          <SocialLinks />
         </div>
       </div>
 

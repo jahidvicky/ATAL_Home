@@ -23,7 +23,7 @@ const Footer = () => {
         {/* Box 1 */}
         <div className="max-w-[300px]">
           <h1 className="text-[#f00000] text-2xl font-bold mb-2">
-            Atal Opticals
+            Atal Optical
           </h1>
           <p className="mb-4 text-sm">
             Atal Optical stands as a beacon of dedication, vision, and community service in the Canadian optical industry.

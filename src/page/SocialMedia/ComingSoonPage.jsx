@@ -21,25 +21,43 @@ const ComingSoon = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 text-center px-6">
-            <div className="bg-white shadow-lg rounded-3xl p-10 max-w-lg w-full">
-                <div className="flex justify-center mb-6">{icons[platform]}</div>
-                <h1 className="text-3xl font-bold mb-2 text-gray-800">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 text-center px-4 sm:px-6 lg:px-8 py-8">
+            <div className="bg-white shadow-lg rounded-3xl p-6 sm:p-10 max-w-md sm:max-w-lg w-full transition-all duration-300">
+
+                {/* Icon Section */}
+                <div className="flex justify-center mb-6">
+                    <div className="text-6xl sm:text-7xl md:text-8xl">
+                        {icons[platform]}
+                    </div>
+                </div>
+
+                {/* Title */}
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-gray-800">
                     {titles[platform]} Page
                 </h1>
-                <p className="text-gray-500 mb-6 text-lg">We're working hard to bring this page to life.</p>
-                <h2 className="text-4xl font-extrabold text-gray-800 mb-4 animate-pulse">
+
+                {/* Subtext */}
+                <p className="text-gray-500 mb-6 text-base sm:text-lg md:text-xl">
+                    Exciting updates ahead! Our social platforms are launching soon.
+                </p>
+
+                {/* Coming Soon Heading */}
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-800 mb-4">
                     Coming Soon
                 </h2>
-                <p className="text-gray-600">
-                    Stay tuned! Our {titles[platform]} page will be launching soon with
-                    exciting updates, promotions, and exclusive content.
+
+                {/* Description */}
+                <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed">
+                    Our {titles[platform]} page will feature the latest eyewear collections,
+                    fashion inspiration, and exclusive discounts — all tailored for you.
                 </p>
+
+                {/* Button */}
                 <button
-                    onClick={() => navigate(-1)}
-                    className="mt-8 px-6 py-2 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-all"
+                    onClick={() => navigate("/")}
+                    className="mt-8 px-5 sm:px-6 py-2.5 bg-[#f00000] text-white rounded-full font-medium hover:bg-red-700 transition-all text-sm sm:text-base"
                 >
-                    Back to Social Links
+                    Back to Home
                 </button>
             </div>
         </div>

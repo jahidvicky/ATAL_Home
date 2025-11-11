@@ -12,7 +12,7 @@ export default function EyeExamStep1() {
 
     const handleClick = () => {
         Swal.fire({
-            title: "<h2 class='text-2xl font-bold'>Book an eye exam at <span style='color:#dc2626;'>Atal Opticals</span></h2>",
+            title: "<h2 class='text-2xl font-bold'>Book an eye exam at <span style='color:#dc2626;'>Atal Optical</span></h2>",
             html: `
         <ol style="text-align:left; line-height:1.6; margin-top:10px;">
           <li>1. Click below and we'll take you over to our optometry partner's website.</li>
@@ -40,7 +40,7 @@ export default function EyeExamStep1() {
         <div className=" text-black min-h-screen">
             {/* Header */}
             <header className="bg-gradient-to-r from-black via-red-600 to-black py-20 text-center text-5xl font-bold text-white">
-                Atal Opticals
+                Atal Optical
                 <hr className="border-white w-90 mt-3 mx-auto" />
             </header>
 
@@ -48,7 +48,7 @@ export default function EyeExamStep1() {
             <section className="max-w-6xl mx-auto p-18 grid md:grid-cols-3 gap-6 text-center">
                 <div>
                     <Eye className="w-10 h-10 mx-auto mb-2 text-[#f00000]" />
-                    <h2 className="font-bold">Atal Opticals - Queen St</h2>
+                    <h2 className="font-bold">Atal Optical - Queen St</h2>
                     <p>Best eyewear & eye care in Toronto</p>
                 </div>
                 <div>
@@ -75,7 +75,7 @@ export default function EyeExamStep1() {
                 >
                     <img
                         src={Optical_Store}
-                        alt="Atal Opticals Store"
+                        alt="Atal Optical Store"
                         className="rounded-2xl shadow-lg w-[90%]"
                     />
                 </motion.section>
@@ -134,7 +134,7 @@ export default function EyeExamStep1() {
             {/* Exclusive Offer */}
             <section className="bg-black py-10 text-center border-t border-red-600">
                 <h2 className="text-2xl font-bold mb-4 text-[#f00000]">In-store Exclusive</h2>
-                <p className="text-lg text-white">$20 OFF on your first pair of glasses at Atal Opticals Queen St</p>
+                <p className="text-lg text-white">$20 OFF on your first pair of glasses at Atal Optical Queen St</p>
             </section>
 
             {/* Optometrists */}
@@ -148,7 +148,7 @@ export default function EyeExamStep1() {
                             className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                         />
                         <h3 className="font-bold">Dr. Melissa Yuen</h3>
-                        <p>With Atal Opticals</p>
+                        <p>With Atal Optical</p>
                     </div>
                     <div className="rounded-2xl p-6 shadow-lg hover:shadow-red-400 border border-red-200">
                         <img

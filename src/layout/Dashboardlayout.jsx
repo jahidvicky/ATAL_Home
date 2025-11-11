@@ -12,7 +12,7 @@ export default function Dashboardlayout() {
         <div className="flex min-h-screen bg-gray-100">
             {/* Sidebar */}
             <div className="w-64 bg-white shadow-lg p-5">
-                <h2 className="text-xl font-bold mb-6">ATAL-OPTICALS</h2>
+                <h2 className="text-xl font-bold mb-6">ATAL-OPTICAL</h2>
                 {/* <img src={logo} className="w-36 ml-10" /> */}
                 <nav className="space-y-2 text-center text-lg font-semibold mt-4">
                     {menuItems.map((item) => (
