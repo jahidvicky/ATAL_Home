@@ -80,7 +80,7 @@ const Step7EnhancementsSelection = ({
                 ) : (
                   <div>
                     {enh.discount && (
-                      <span className="bg-[#f00000] text-[#f00000] text-xs font-semibold px-2 py-1 rounded">
+                      <span className="bg-[#f00000] text-white text-xs font-semibold px-2 py-1 rounded">
                         {enh.discount}
                       </span>
                     )}

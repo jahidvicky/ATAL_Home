@@ -60,7 +60,7 @@ export default function SubscribeSave() {
                     >
                         <p className="inline-block rounded-full bg-black text-white px-3 py-1 text-xs tracking-wider uppercase">Subscribe & Save</p>
                         <h1 className="mt-4 text-4xl font-extrabold leading-tight text-white sm:text-5xl">
-                            Save <span className="text-[#f00000]">20%</span> + Free Shipping
+                            Save <span className="text-red-200">20%</span> + Free Shipping
                         </h1>
                         <p className="mt-4 text-white">
                             Start a contact lenses subscription—never run out again. Customize your delivery schedule and enjoy hassle-free refills.

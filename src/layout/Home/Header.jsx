@@ -3,10 +3,7 @@ import {
   FaUser,
   FaHeart,
   FaSearch,
-  FaFacebookF,
-  FaYoutube,
 } from "react-icons/fa";
-import { FaSquareInstagram } from "react-icons/fa6";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import logo from "../../assets/category/logo.png";
@@ -17,6 +14,7 @@ import API, { IMAGE_URL } from "../../API/Api";
 import { motion, AnimatePresence } from "framer-motion";
 import { CAT, SUB, SUB_IMG } from "../../constants/catalogIds";
 import PostHeader from "./PostHeader";
+import SocialLinks from "../../page/SocialMedia/SocialLinks";
 
 /* ------------------------ Shared Mega Menu Panel ------------------------ */
 function MegaMenuPanel({ open, onClose, activeKey, dataByKey }) {
@@ -305,86 +303,7 @@ function Header() {
     () => ({
       glasses: {
         columns: [
-          {
-            title: "Shop by Category",
-            links: [
-              {
-                label: "Men's Frames",
-                to: "/glasses/mens-frame",
-                state: {
-                  category: CAT.SHOP_BY_CATEGORY,
-                  subcategory: SUB.MENS_FRAMES,
-                  subCategoryName: "Men's Frames",
-                  subCategoryImage: SUB_IMG.MENS_FRAME,
-                },
-              },
-              {
-                label: "Women's Frames",
-                to: "/glasses/womens-frame",
-                state: {
-                  category: CAT.SHOP_BY_CATEGORY,
-                  subcategory: SUB.WOMENS_FRAMES,
-                  subCategoryName: "Women's Frames",
-                  subCategoryImage: SUB_IMG.WOMENS_FRAME,
-                },
-              },
-              {
-                label: "Kids Glasses",
-                to: "/glasses/kids-glasses",
-                state: {
-                  category: CAT.SHOP_BY_CATEGORY,
-                  subcategory: SUB.KIDS_GLASSES,
-                  subCategoryName: "Kids Glasses",
-                  subCategoryImage: SUB_IMG.KIDS_GLASSES,
-                },
-              },
-            ],
-          },
-          {
-            title: "Our Collection",
-            links: [
-              {
-                label: "Eyeglasses",
-                to: "/glasses",
-                state: {
-                  category: CAT.OUR_COLLECTION,
-                  subcategory: SUB.EYEGLASSES,
-                  subCategoryName: "Eyeglasses",
-                  subCategoryImage: SUB_IMG.EYEGLASSES,
-                },
-              },
-              {
-                label: "Sunglasses",
-                to: "/sunglasses",
-                state: {
-                  category: CAT.OUR_COLLECTION,
-                  subcategory: SUB.SUNGLASSES,
-                  subCategoryName: "Sunglasses",
-                  subCategoryImage: SUB_IMG.SUNGLASSES,
-                },
-              },
-              {
-                label: "Sports Glasses",
-                to: "/glasses/sports-glasses",
-                state: {
-                  category: CAT.OUR_COLLECTION,
-                  subcategory: SUB.SPORTS_GLASSES,
-                  subCategoryName: "Sports Glasses",
-                  subCategoryImage: SUB_IMG.SPORTS_GLASSES,
-                },
-              },
-              {
-                label: "Blue Glasses",
-                to: "/glasses/blue-glasses",
-                state: {
-                  category: CAT.OUR_COLLECTION,
-                  subcategory: SUB.BLUE_GLASSES,
-                  subCategoryName: "Blue Glasses",
-                  subCategoryImage: SUB_IMG.BLUE_GLASSES,
-                },
-              },
-            ],
-          },
+
           {
             title: "Frame Shape",
             links: [
@@ -396,26 +315,6 @@ function Header() {
                   subcategory: SUB.AVIATOR,
                   subCategoryName: "Aviator Frame",
                   subCategoryImage: SUB_IMG.AVIATOR,
-                },
-              },
-              {
-                label: "Round",
-                to: "/glasses/round-frames",
-                state: {
-                  category: CAT.FRAME_SHAPE,
-                  subcategory: SUB.ROUND,
-                  subCategoryName: "Round Frame",
-                  subCategoryImage: SUB_IMG.ROUND,
-                },
-              },
-              {
-                label: "Rectangle",
-                to: "/glasses/rectangle-frames",
-                state: {
-                  category: CAT.FRAME_SHAPE,
-                  subcategory: SUB.RECTANGLE,
-                  subCategoryName: "Rectangle Frame",
-                  subCategoryImage: SUB_IMG.RECTANGLE,
                 },
               },
               {
@@ -439,6 +338,26 @@ function Header() {
                 },
               },
               {
+                label: "Rectangle",
+                to: "/glasses/rectangle-frames",
+                state: {
+                  category: CAT.FRAME_SHAPE,
+                  subcategory: SUB.RECTANGLE,
+                  subCategoryName: "Rectangle Frame",
+                  subCategoryImage: SUB_IMG.RECTANGLE,
+                },
+              },
+              {
+                label: "Round",
+                to: "/glasses/round-frames",
+                state: {
+                  category: CAT.FRAME_SHAPE,
+                  subcategory: SUB.ROUND,
+                  subCategoryName: "Round Frame",
+                  subCategoryImage: SUB_IMG.ROUND,
+                },
+              },
+              {
                 label: "Square",
                 to: "/glasses/square-frames",
                 state: {
@@ -446,6 +365,86 @@ function Header() {
                   subcategory: SUB.SQUARE,
                   subCategoryName: "Square Frame",
                   subCategoryImage: SUB_IMG.SQUARE,
+                },
+              },
+            ],
+          },
+          {
+            title: "Our Collection",
+            links: [
+              {
+                label: "Blue Glasses",
+                to: "/glasses/blue-glasses",
+                state: {
+                  category: CAT.OUR_COLLECTION,
+                  subcategory: SUB.BLUE_GLASSES,
+                  subCategoryName: "Blue Glasses",
+                  subCategoryImage: SUB_IMG.BLUE_GLASSES,
+                },
+              },
+              {
+                label: "Eyeglasses",
+                to: "/glasses",
+                state: {
+                  category: CAT.OUR_COLLECTION,
+                  subcategory: SUB.EYEGLASSES,
+                  subCategoryName: "Eyeglasses",
+                  subCategoryImage: SUB_IMG.EYEGLASSES,
+                },
+              },
+              {
+                label: "Sports Glasses",
+                to: "/glasses/sports-glasses",
+                state: {
+                  category: CAT.OUR_COLLECTION,
+                  subcategory: SUB.SPORTS_GLASSES,
+                  subCategoryName: "Sports Glasses",
+                  subCategoryImage: SUB_IMG.SPORTS_GLASSES,
+                },
+              },
+              {
+                label: "Sunglasses",
+                to: "/sunglasses",
+                state: {
+                  category: CAT.OUR_COLLECTION,
+                  subcategory: SUB.SUNGLASSES,
+                  subCategoryName: "Sunglasses",
+                  subCategoryImage: SUB_IMG.SUNGLASSES,
+                },
+              },
+            ],
+          },
+          {
+            title: "Shop by Category",
+            links: [
+              {
+                label: "Kids Glasses",
+                to: "/glasses/kids-glasses",
+                state: {
+                  category: CAT.SHOP_BY_CATEGORY,
+                  subcategory: SUB.KIDS_GLASSES,
+                  subCategoryName: "Kids Glasses",
+                  subCategoryImage: SUB_IMG.KIDS_GLASSES,
+                },
+              },
+              {
+                label: "Men's Frames",
+                to: "/glasses/mens-frame",
+                state: {
+                  category: CAT.SHOP_BY_CATEGORY,
+                  subcategory: SUB.MENS_FRAMES,
+                  subCategoryName: "Men's Frames",
+                  subCategoryImage: SUB_IMG.MENS_FRAME,
+                },
+              },
+              {
+                label: "Women's Frames",
+                to: "/glasses/womens-frame",
+                state: {
+                  category: CAT.SHOP_BY_CATEGORY,
+                  subcategory: SUB.WOMENS_FRAMES,
+                  subCategoryName: "Women's Frames",
+                  subCategoryImage: SUB_IMG.WOMENS_FRAME,
                 },
               },
             ],
@@ -473,13 +472,13 @@ function Header() {
             title: "Shop",
             links: [
               {
-                label: "Sunglasses",
-                to: "/sunglasses",
+                label: "Blue Glasses",
+                to: "/glasses/blue-glasses",
                 state: {
                   category: CAT.OUR_COLLECTION,
-                  subcategory: SUB.SUNGLASSES,
-                  subCategoryName: "Sunglasses",
-                  subCategoryImage: SUB_IMG.SUNGLASSES,
+                  subcategory: SUB.BLUE_GLASSES,
+                  subCategoryName: "Blue Glasses",
+                  subCategoryImage: SUB_IMG.BLUE_GLASSES,
                 },
               },
               {
@@ -493,13 +492,13 @@ function Header() {
                 },
               },
               {
-                label: "Blue Glasses",
-                to: "/glasses/blue-glasses",
+                label: "Sunglasses",
+                to: "/sunglasses",
                 state: {
                   category: CAT.OUR_COLLECTION,
-                  subcategory: SUB.BLUE_GLASSES,
-                  subCategoryName: "Blue Glasses",
-                  subCategoryImage: SUB_IMG.BLUE_GLASSES,
+                  subcategory: SUB.SUNGLASSES,
+                  subCategoryName: "Sunglasses",
+                  subCategoryImage: SUB_IMG.SUNGLASSES,
                 },
               },
             ],
@@ -508,16 +507,6 @@ function Header() {
             title: "Trending & Seller",
             links: [
               {
-                label: "Trending",
-                to: "/trending",
-                state: {
-                  category: CAT.CURRENTLY_TRENDING,
-                  subcategory: SUB.TRENDING,
-                  subCategoryName: "Trending",
-                  subCategoryImage: SUB_IMG.Trending,
-                },
-              },
-              {
                 label: "Best Seller",
                 to: "/best-sellers",
                 state: {
@@ -525,6 +514,16 @@ function Header() {
                   subcategory: SUB.BEST_SELLER,
                   subCategoryName: "Best Seller",
                   subCategoryImage: SUB_IMG.Best_Seller,
+                },
+              },
+              {
+                label: "Trending",
+                to: "/trending",
+                state: {
+                  category: CAT.CURRENTLY_TRENDING,
+                  subcategory: SUB.TRENDING,
+                  subCategoryName: "Trending",
+                  subCategoryImage: SUB_IMG.Trending,
                 },
               },
             ],
@@ -548,23 +547,18 @@ function Header() {
       contacts: {
         columns: [
           {
-            title: "Shop",
+            title: "Explore",
             links: [
               {
-                label: "Contact Lenses",
-                to: "/contact-lenses",
+                label: "Best Seller",
+                to: "/best-sellers",
                 state: {
                   category: CAT.SHOP_BY_CATEGORY,
                   subcategory: SUB.CONTACT_LENSES,
-                  subCategoryName: "Contact Lenses",
-                  subCategoryImage: SUB_IMG.Contact_Lens2,
+                  subCategoryName: "Best Seller",
+                  subCategoryImage: SUB_IMG.CONTACT_LENSE,
                 },
               },
-            ],
-          },
-          {
-            title: "Explore",
-            links: [
               {
                 label: "Trending",
                 to: "/trending",
@@ -575,14 +569,19 @@ function Header() {
                   subCategoryImage: SUB_IMG.Contact_Lens,
                 },
               },
+            ],
+          },
+          {
+            title: "Shop",
+            links: [
               {
-                label: "Best Seller",
-                to: "/best-sellers",
+                label: "Contact Lenses",
+                to: "/contact-lenses",
                 state: {
                   category: CAT.SHOP_BY_CATEGORY,
                   subcategory: SUB.CONTACT_LENSES,
-                  subCategoryName: "Best Seller",
-                  subCategoryImage: SUB_IMG.CONTACT_LENSE,
+                  subCategoryName: "Contact Lenses",
+                  subCategoryImage: SUB_IMG.Contact_Lens2,
                 },
               },
             ],
@@ -782,13 +781,11 @@ function Header() {
             href="mailto:info.ataloptical@gmail.com"
             className="text-white hover:underline hover:text-black pl-1"
           >
-            info.ataloptical@gmail.com
+            sales.ataloptical@gmail.com
           </a>
         </div>
         <div className="flex gap-4 text-lg lg:text-xl">
-          <FaFacebookF className="hover:cursor-pointer hover:text-black" />
-          <FaYoutube className="hover:cursor-pointer hover:text-black" />
-          <FaSquareInstagram className="hover:cursor-pointer hover:text-black" />
+          <SocialLinks />
         </div>
       </div>
 
@@ -997,10 +994,10 @@ function Header() {
                   >
                     <ul className="py-2">
                       {[
+                        { label: "Eye Glasses Contact Policy", path: "/eyeglasses-contact-policy" },
+                        { label: "General Information", path: "/general-info" },
                         { label: "Our Mission", path: "/our-mission" },
                         { label: "Our Vision", path: "/our-vision" },
-                        { label: "General Information", path: "/general-info" },
-                        { label: "Eye Glasses Contact Policy", path: "/eyeglasses-contact-policy" },
                         { label: "Right Enforcement Policy", path: "/rights-enforcement-policy" },
                         { label: "Vision & Responsibility", path: "/responsibility" },
                       ].map((item) => (
