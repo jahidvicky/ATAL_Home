@@ -529,7 +529,7 @@ function SearchModal({
                                   <h4 className="text-sm font-bold text-gray-900 uppercase">
                                     Related Products
                                   </h4>
-                                  {filteredProducts.length > 4 && (
+                                  {filteredProducts.length > 3 && (
                                     <button
                                       onClick={handleViewAll}
                                       className="text-xs text-red-600 hover:text-red-700 font-semibold flex items-center gap-1"
@@ -540,7 +540,7 @@ function SearchModal({
                                   )}
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                                  {relatedProducts.slice(0, 4).map((product) => (
+                                  {relatedProducts.slice(0, 3).map((product) => (
                                     <ProductCard
                                       key={product._id}
                                       product={product}
