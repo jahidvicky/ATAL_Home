@@ -1139,10 +1139,17 @@ function Header() {
           </a>
           <span className="hidden sm:inline"> |</span>
           <a
-            href="mailto:info.ataloptical@gmail.com"
+            href="mailto:sales.ataloptical@gmail.com"
             className="text-white hover:underline hover:text-black pl-1"
           >
             sales.ataloptical@gmail.com
+          </a>
+          <span className="hidden sm:inline"> |</span>
+          <a
+            href="mailto:info.ataloptical@gmail.com"
+            className="text-white hover:underline hover:text-black pl-1"
+          >
+            info.ataloptical@gmail.com
           </a>
         </div>
         <div className="flex justify-center sm:justify-end gap-3 text-xl sm:text-lg md:text-xl">

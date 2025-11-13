@@ -41,6 +41,13 @@ const Footer = () => {
             >
               sales.ataloptical@gmail.com
             </a>
+            <br />
+            <a
+              href="mailto:info.ataloptical@gmail.com"
+              className="text-white hover:underline hover:text-red-600"
+            >
+              info.ataloptical@gmail.com
+            </a>
           </div>
         </div>
 
