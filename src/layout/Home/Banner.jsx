@@ -10,7 +10,7 @@ import "./Banner.css";
 const data = [
   {
     img: slider2,
-    buttonText: "Shop now",
+    buttonText: "Shop Now",
     buttonLink: "/allproduct/eyeglasses/68caa6abd72068a7d3a0f090/68caa966d72068a7d3a0f0cb",
     buttonColor: "#ffffff",
     textColor: "#1f1f20"

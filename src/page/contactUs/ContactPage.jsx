@@ -143,7 +143,7 @@ const ContactPage = () => {
               </li>
               <li>
                 <span className="font-semibold text-[#f00000]">Email:</span>{" "}
-                sales.ataloptical@gmail.com
+                sales.ataloptical@gmail.com, info.ataloptical@gmail.com
               </li>
               <li>
                 <span className="font-semibold text-[#f00000]">Store Hours:</span>{" "}
