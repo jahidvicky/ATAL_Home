@@ -7,8 +7,8 @@ export const registerLoader = (fn) => {
 };
 
 const API = axios.create({
-  baseURL: "http://localhost:4000/api",
-  // baseURL: "https://api.ataloptical.org/api",
+  // baseURL: "http://localhost:4000/api",
+  baseURL: "https://api.ataloptical.org/api",
   withCredentials: true,
 });
 
