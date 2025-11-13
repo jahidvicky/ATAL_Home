@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API, { IMAGE_URL } from '../../API/Api';
 import { useNavigate } from 'react-router-dom';
+import Swal from "sweetalert2";
 
 const BrandSection = () => {
     const [selectedCategory, setSelectedCategory] = useState(''); // Auto-selected after fetch
@@ -8,7 +9,7 @@ const BrandSection = () => {
     const [fade, setFade] = useState(false);
     const navigate = useNavigate();
 
-    // ✅ Fetch and group brands
+    // Fetch and group brands
     const fetchBrand = async () => {
         try {
             const res = await API.get("/getBrand");
@@ -41,13 +42,13 @@ const BrandSection = () => {
         fetchBrand();
     }, []);
 
-    // ✅ Keep Sunglasses before Contact Lenses
+    // Keep Sunglasses before Contact Lenses
     const categories = Object.keys(brandsByCategory).sort((a, b) => {
         const order = ['Sunglasses', 'Contact Lenses'];
         return order.indexOf(a) - order.indexOf(b);
     });
 
-    // ✅ Fade transition
+    // Fade transition
     const handleCategoryChange = (category) => {
         if (category === selectedCategory) return;
         setFade(true);
@@ -57,14 +58,20 @@ const BrandSection = () => {
         }, 300);
     };
 
-    // ✅ Handle Brand Click → Navigate to products
+    // Handle Brand Click → Navigate to products
     const handleBrandClick = async (brand) => {
         try {
             const res = await API.get(`/brand/${brand._id}`);
             const products = res.data?.products || [];
-
             if (products.length === 0) {
-                alert(`No products found for ${brand.brand}`);
+                Swal.fire({
+                    icon: "info",
+                    title: "No Products Found",
+                    text: `No products found in ${brand.brand}`,
+                    confirmButtonColor: "#d33",
+                    background: "#fff",
+                    color: "#000",
+                });
                 return;
             }
 

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import image from "../../assets/Eye-Exam-images/Optometrists.webp"
 import image1 from "../../assets/Eye-Exam-images/Optometrists-1.jpg"
-import Optical_Store from "../../assets/Eye-Exam-images/Optical-Store.jpg"
+import Optical_Store from "../../assets/Eye-Exam-images/Optical_Store.jpeg"
 
 export default function EyeExamStep1() {
     const navigate = useNavigate();
@@ -76,7 +76,7 @@ export default function EyeExamStep1() {
                     <img
                         src={Optical_Store}
                         alt="Atal Optical Store"
-                        className="rounded-2xl shadow-lg w-[90%]"
+                        className="rounded-2xl shadow-lg w-[90%] h-90"
                     />
                 </motion.section>
 

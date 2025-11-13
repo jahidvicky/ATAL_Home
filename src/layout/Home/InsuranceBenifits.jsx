@@ -41,11 +41,6 @@ const InsuranceBenefits = () => {
                     className="w-80 md:w-[420px] drop-shadow-lg rounded-lg"
                 />
             </motion.div>
-
-            {/* Background Accent (faint red shield) */}
-            <div className="absolute right-0 bottom-0 text-[#f00000] text-[300px] font-extrabold opacity-10 select-none">
-                +
-            </div>
         </div>
     );
 };

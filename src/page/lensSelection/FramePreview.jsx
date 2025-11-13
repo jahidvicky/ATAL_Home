@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 const FramePreview = ({ onProductLoaded }) => {
   const [product, setProduct] = useState(null);
   const location = useLocation();
-  const { ID } = location.state;
+  const { ID } = location.state || {};
 
   const fetchProducts = async () => {
     try {
@@ -40,8 +40,8 @@ const FramePreview = ({ onProductLoaded }) => {
 
       {/* Product Info */}
       <div className="mt-4 text-sm text-gray-600">{product?.product_name}</div>
-      <div className="text-xs text-gray-400">
-        Frame size: {product?.product_frame_fit || "N/A"}
+      <div className="text-xs text-gray-500">
+        Frame size: {product?.product_size || "N/A"}
       </div>
       <div className="text-sm text-blue-600 font-semibold mt-2">
         Price: ${product?.product_sale_price || "0.00"}

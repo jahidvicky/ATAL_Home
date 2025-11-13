@@ -53,10 +53,10 @@ const EyeExamService = () => {
                 {/* What to Expect Section */}
                 <div className="leading-relaxed space-y-6 grid grid-cols-1 md:grid-cols-2 gap-x-10">
                     <section className="mb-12 bg-[#f00000] p-6 rounded-2xl shadow-sm">
-                        <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
+                        <h2 className="text-2xl font-semibold text-black mb-4">
                             What to Expect During an Eye Exam
                         </h2>
-                        <p className="text-gray-800 leading-relaxed">
+                        <p className="text-white leading-relaxed">
                             Our eye exams include a series of painless and precise tests to
                             evaluate your vision and eye health. These include visual acuity
                             checks, refraction tests, eye pressure measurement, and retina
