@@ -48,10 +48,10 @@ const Promotions = () => {
 
                 <div className="leading-relaxed space-y-6 grid grid-cols-1 md:grid-cols-2 gap-x-10">
                     <section className="mb-12 bg-[#f00000] p-6 rounded-2xl shadow-sm">
-                        <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
+                        <h2 className="text-2xl font-semibold text-black mb-4">
                             What's on Offer
                         </h2>
-                        <p className="text-gray-800 leading-relaxed">
+                        <p className="text-white leading-relaxed">
                             Enjoy exciting deals on prescription glasses, contact lenses,
                             and designer frames. From seasonal discounts to “Buy One, Get One”
                             offers, there's always something new to discover. Stay tuned for

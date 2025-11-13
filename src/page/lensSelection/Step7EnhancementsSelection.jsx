@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 const Step7EnhancementsSelection = ({
   selectedEnhancement,
@@ -34,6 +35,34 @@ const Step7EnhancementsSelection = ({
     onSelect(enh); //  send full enhancement object
   };
 
+  const handleLearnMore = (enh) => {
+    Swal.fire({
+      title: enh.name,
+      html: `
+      <div class="text-left text-gray-700 space-y-2">
+        <p><b>Description:</b> ${enh.description}</p>
+        <p><b>Benefits:</b> ${enh.benefits.join(", ")}</p>
+        <p><b>Price:</b> ${enh.price}</p>
+        ${enh.oldPrice ? `<p><b>Old Price:</b> ${enh.oldPrice}</p>` : ""}
+        ${enh.discount ? `<p><b>Discount:</b> ${enh.discount}</p>` : ""}
+      </div> `,
+      confirmButtonText: "Close",
+      confirmButtonColor: "#2563eb",
+      background: "#ffffff",
+      customClass: {
+        popup: "rounded-2xl shadow-2xl p-6 border border-gray-200",
+        title: "text-xl font-bold text-gray-800 mb-2",
+        htmlContainer: "text-base text-gray-600",
+        confirmButton: "px-6 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700",
+        backdrop: "backdrop-blur-md bg-black/10"
+      },
+      didOpen: () => {
+        const backdrop = document.querySelector('.swal2-container');
+        if (backdrop) backdrop.classList.add('backdrop-blur-md', 'bg-black/30');
+      }
+    });
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-semibold text-gray-700 mb-6">
@@ -65,12 +94,15 @@ const Step7EnhancementsSelection = ({
                   ))}
                 </ul>
 
-                <a
-                  href="#"
+                <button
                   className="text-blue-600 text-sm mt-2 inline-block hover:underline"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleLearnMore(enh);
+                  }}
                 >
                   Learn More
-                </a>
+                </button>
               </div>
 
               {/* Price */}

@@ -95,8 +95,8 @@ const Brands = () => {
                 className="max-w-6xl mx-auto py-16 px-6 md:px-20 grid grid-cols-1 md:grid-cols-3 gap-8"
             >
                 <div className="bg-[#f00000] p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-                    <h4 className="text-xl font-semibold text-[#f00000] mb-3">Innovation</h4>
-                    <p className="text-gray-700 leading-relaxed">
+                    <h4 className="text-xl font-semibold text-black mb-3">Innovation</h4>
+                    <p className="text-white leading-relaxed">
                         Constantly evolving with the latest in optical technology to give
                         you sharper, smarter, and safer vision.
                     </p>
@@ -111,8 +111,8 @@ const Brands = () => {
                 </div>
 
                 <div className="bg-[#f00000] p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-                    <h4 className="text-xl font-semibold text-[#f00000] mb-3">Style</h4>
-                    <p className="text-gray-700 leading-relaxed">
+                    <h4 className="text-xl font-semibold text-black mb-3">Style</h4>
+                    <p className="text-white leading-relaxed">
                         Our designs are inspired by modern aesthetics and timeless trends,
                         crafted to match every personality and face.
                     </p>

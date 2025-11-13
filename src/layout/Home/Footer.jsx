@@ -2,7 +2,7 @@ import React from "react";
 import { MdEmail } from "react-icons/md";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { MdLocalPhone } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -12,11 +12,11 @@ const Footer = () => {
           Corporate Office : 34 Shining Willow Crescent, <br />
           Brampton, ON L6P 2A2, Canada
         </h3>
-        <Link to="/eye-schedule-test">
+        <NavLink to="/eye-schedule-test">
           <button className="bg-white text-black mt-4 rounded-xl hover:bg-black hover:text-white text-xl font-semibold py-4 px-6 hover:cursor-pointer transition-colors duration-300">
             Book an Appointment
           </button>
-        </Link>
+        </NavLink>
       </div>
 
       <div className="bg-black text-white px-[5%] py-[1%] flex justify-between flex-wrap gap-y-8">
@@ -50,51 +50,104 @@ const Footer = () => {
             Useful Links
           </h3>
           <ul className="space-y-1">
-            <Link to="/about-us">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                About
-              </li>
-            </Link>
-            <Link to="/eye-schedule-test">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Book Eye Exam
-              </li>
-            </Link>
-            <Link to="/contact-us">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Contact Us
-              </li>
-            </Link>
-            <Link to="/faq">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                FAQ
-              </li>
-            </Link>
-            <Link to="/">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Home
-              </li>
-            </Link>
-            <Link to="/atal-meaning">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Meaning of Atal
-              </li>
-            </Link>
-            <Link to="/privacy-policy">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Privacy Policy
-              </li>
-            </Link>
-            <Link to="/services">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Services
-              </li>
-            </Link>
-            <Link to="/terms&Conditions">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Terms & Conditions
-              </li>
-            </Link>
+            <NavLink
+              to="/about-us"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#f00000] underline text-md"
+                  : "cursor-pointer hover:text-red-600 hover:underline text-md"
+              }
+            >
+              <li>About</li>
+            </NavLink>
+
+            <NavLink
+              to="/eye-schedule-test"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#f00000] underline text-md"
+                  : "cursor-pointer hover:text-red-600 hover:underline text-md"
+              }
+            >
+              <li>Book Eye Exam</li>
+            </NavLink>
+
+            <NavLink
+              to="/contact-us"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#f00000] underline text-md"
+                  : "cursor-pointer hover:text-red-600 hover:underline text-md"
+              }
+            >
+              <li>Contact Us</li>
+            </NavLink>
+
+            <NavLink
+              to="/faq"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#f00000] underline text-md"
+                  : "cursor-pointer hover:text-red-600 hover:underline text-md"
+              }
+            >
+              <li>FAQ</li>
+            </NavLink>
+
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#f00000] underline text-md"
+                  : "cursor-pointer hover:text-red-600 hover:underline text-md"
+              }
+            >
+              <li>Home</li>
+            </NavLink>
+
+            <NavLink
+              to="/atal-meaning"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#f00000] underline text-md"
+                  : "cursor-pointer hover:text-red-600 hover:underline text-md"
+              }
+            >
+              <li>Meaning of Atal</li>
+            </NavLink>
+
+            <NavLink
+              to="/privacy-policy"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#f00000] underline text-md"
+                  : "cursor-pointer hover:text-red-600 hover:underline text-md"
+              }
+            >
+              <li>Privacy Policy</li>
+            </NavLink>
+
+            <NavLink
+              to="/services"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#f00000] underline text-md"
+                  : "cursor-pointer hover:text-red-600 hover:underline text-md"
+              }
+            >
+              <li>Services</li>
+            </NavLink>
+
+            <NavLink
+              to="/terms&Conditions"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#f00000] underline text-md"
+                  : "cursor-pointer hover:text-red-600 hover:underline text-md"
+              }
+            >
+              <li>Terms & Conditions</li>
+            </NavLink>
           </ul>
         </div>
 
@@ -104,52 +157,29 @@ const Footer = () => {
             Our Services
           </h3>
           <ul className="space-y-1">
-            <Link to="/disclaimer">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Disclaimer
-              </li>
-            </Link>
-            <Link to="/eyeglasses-contact-policy">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Eye Glasses Contact Policy
-              </li>
-            </Link>
-            <Link to="/general-info">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                General Information
-              </li>
-            </Link>
-            <Link to="/intellectual-property">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Intellectual Property
-              </li>
-            </Link>
-            <Link to="/liability">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Limitations of Liability
-              </li>
-            </Link>
-            <Link to="/our-mission">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Our Mission
-              </li>
-            </Link>
-            <Link to="/our-vision">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Our Vision
-              </li>
-            </Link>
-
-            <Link to="/rights-enforcement-policy">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Right Enforcement Policy
-              </li>
-            </Link>
-            <Link to="/responsibility">
-              <li className="cursor-pointer hover:text-red-600 hover:underline text-md">
-                Vision & Responsibility
-              </li>
-            </Link>
+            {[
+              { to: "/disclaimer", label: "Disclaimer" },
+              { to: "/eyeglasses-contact-policy", label: "Eye Glasses Contact Policy" },
+              { to: "/general-info", label: "General Information" },
+              { to: "/intellectual-property", label: "Intellectual Property" },
+              { to: "/liability", label: "Limitations of Liability" },
+              { to: "/our-mission", label: "Our Mission" },
+              { to: "/our-vision", label: "Our Vision" },
+              { to: "/rights-enforcement-policy", label: "Right Enforcement Policy" },
+              { to: "/responsibility", label: "Vision & Responsibility" },
+            ].map((item, index) => (
+              <NavLink
+                key={index}
+                to={item.to}
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-[#f00000] underline text-md"
+                    : "cursor-pointer hover:text-red-600 hover:underline text-md"
+                }
+              >
+                <li>{item.label}</li>
+              </NavLink>
+            ))}
           </ul>
         </div>
 

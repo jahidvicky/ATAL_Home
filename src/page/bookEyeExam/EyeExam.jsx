@@ -87,18 +87,18 @@ const EyeExam = () => {
           {/* Left Section - Appointment Info */}
           <div className="bg-[#f00000] p-8 flex flex-col justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              <h2 className="text-xl font-semibold text-black mb-4">
                 Your Appointment
               </h2>
-              <p className="text-gray-700 text-lg">
+              <p className="text-white text-lg">
                 <span className="font-medium">
                   {day}, {time}
                 </span>
               </p>
-              <p className="mt-2 text-gray-600">{examType}</p>
+              <p className="mt-2 text-white">{examType}</p>
 
               <div className="mt-8">
-                <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                <h3 className="text-lg font-semibold text-black mb-3">
                   Eye Care Professional
                 </h3>
                 <div className="flex items-center">
@@ -109,7 +109,7 @@ const EyeExam = () => {
                     loading="lazy"
                     decoding="async"
                   />
-                  <p className="text-gray-800 font-medium">{doctorName}</p>
+                  <p className="text-white font-medium">{doctorName}</p>
                 </div>
               </div>
             </div>
@@ -226,7 +226,7 @@ const EyeExam = () => {
               <button
                 type="submit"
                 disabled={!consent} // disabled if consent is false
-                className={`w-full rounded-md p-3 hover:cursor-pointer text-white font-semibold text-base md:text-lg mt-4 transition ${consent ? "bg-[#f00000] hover:bg-red-700" : "bg-gray-400 cursor-not-allowed"
+                className={`w-full rounded-md p-3 hover:cursor-pointer text-white font-semibold text-base md:text-lg mt-4 transition ${consent ? "bg-green-600 hover:bg-green-700" : "bg-gray-400 cursor-not-allowed"
                   }`}
               >
                 Book Appointment

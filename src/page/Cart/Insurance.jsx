@@ -28,7 +28,7 @@ export default function Insurance({ onPolicySelect }) {
       )}
 
       <select
-        className="w-full border border-gray-300 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full border border-gray-300 rounded-lg p-2 mb-4 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
         onChange={(e) => {
           const policy = policies.find((p) => p._id === e.target.value);
           handleSelect(policy);
