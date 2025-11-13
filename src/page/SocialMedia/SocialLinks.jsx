@@ -18,7 +18,7 @@ const SocialLinks = () => {
                 {socialPlatforms.map((platform) => (
                     <div
                         key={platform.name}
-                        onClick={() => navigate(`/${platform.path}`)}
+                        onClick={() => navigate(`connect/${platform.path}`)}
                         className="flex flex-col items-center justify-center cursor-pointer transform transition-all duration-300 hover:scale-105 hover:text-black"
                     >
                         {platform.icon}

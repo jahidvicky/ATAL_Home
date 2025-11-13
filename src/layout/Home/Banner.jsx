@@ -1,19 +1,33 @@
 import React from "react";
 import Slider from "react-slick";
 import slider1 from '../../assets/banner/slider1.webp';
-import slider2 from '../../assets/banner/slider2.webp';
-import slider3 from '../../assets/banner/slider3.webp';
+import slider2 from '../../assets/banner/ban1.png';
+import slider3 from '../../assets/banner/ban2.png';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "./Banner.css";
+
 const data = [
   {
     img: slider2,
+    buttonText: "Shop now",
+    buttonLink: "/allproduct/eyeglasses/68caa6abd72068a7d3a0f090/68caa966d72068a7d3a0f0cb",
+    buttonColor: "#ffffff",
+    textColor: "#1f1f20"
   },
   {
     img: slider1,
+    buttonText: "Explore",
+    buttonLink: "/allproduct/sunglasses/68caa6abd72068a7d3a0f090/68caa942d72068a7d3a0f0c5",
+    buttonColor: "#eef11fff",
+    textColor: "#000000ff"
   },
   {
     img: slider3,
+    buttonText: "View Deals",
+    buttonLink: "/allproduct/contact-lenses/68caa68bd72068a7d3a0f089/68caa86cd72068a7d3a0f0bf",
+    buttonColor: "#000000ff",
+    textColor: "#ffffffff"
   },
 ];
 
@@ -23,30 +37,58 @@ function Banner() {
     arrows: false,
     infinite: true,
     autoplay: true,
-    speed: 1000,
+    speed: 2000,
     autoplaySpeed: 3000,
-    pauseOnHover: false
+    pauseOnHover: false,
+  };
+
+  const handleButtonClick = (link) => {
+    window.location.href = link;
   };
 
   return (
     <div className="h-full">
-      <div className="relative">
+      <div className="relative banner-container">
         <Slider {...settings}>
           {data.map((item, index) => (
-            <div key={index} className="relative">
+            <div key={index} className="relative banner-slide">
+              {/* Background Image */}
               <img
                 src={item.img}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-auto object-cover items-center justify-center"
+                className="w-full h-auto object-cover"
                 alt={`slider-${index}`}
               />
+
+              {/* Overlay */}
+              <div className="banner-overlay"></div>
+
+              {/* Text Content */}
+              <div className="banner-content">
+                <div className="banner-text-wrapper">
+                  <h3 className="banner-subtitle">{item.subtitle}</h3>
+                  <h1 className="banner-title">{item.title}</h1>
+                  <p className="banner-description">{item.description}</p>
+
+                  {/* Button with dynamic color */}
+                  <button
+                    className="banner-button"
+                    style={{
+                      backgroundColor: item.buttonColor,
+                      color: item.textColor,
+                    }}
+                    onClick={() => handleButtonClick(item.buttonLink)}
+                  >
+                    {item.buttonText}
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
         </Slider>
       </div>
     </div>
-
   );
 }
 

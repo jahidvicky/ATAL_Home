@@ -18,7 +18,7 @@ const Services = () => {
 
                         <p className="mt-4">
                             At <strong>ATAL Optical</strong>, we go beyond just selling eyewear—we provide a <strong>complete vision care experience</strong> designed to meet your lifestyle
-                            and fashion needs. Since 2005, our team of experienced opticians
+                            and fashion needs. Since 2024, our team of experienced opticians
                             and stylists has been helping clients in Toronto and the GTA see
                             clearly, look stylish, and feel confident.
                         </p>
@@ -96,7 +96,7 @@ const Services = () => {
                             Why Choose ATAL Optical?
                         </h3>
                         <ul className="list-disc list-inside space-y-1 mt-2 ml-4">
-                            <li>Serving Toronto & the GTA since 2005</li>
+                            <li>Serving Toronto & the GTA since 2024</li>
                             <li>Over <strong>170,000 satisfied clients</strong></li>
                             <li>Friendly, knowledgeable, and caring staff</li>
                             <li>Trusted by <strong>95% of our customers</strong> for quality and service</li>

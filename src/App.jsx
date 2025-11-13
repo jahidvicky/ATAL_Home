@@ -263,7 +263,7 @@ function App() {
           element: <SubscribeSave />,
         },
         {
-          path: "/:platform",
+          path: "connect/:platform",
           element: <ComingSoon />,
         },
         {
