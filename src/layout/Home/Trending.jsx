@@ -42,29 +42,28 @@ const Trending = () => {
 
   return (
     <section className="py-12 md:px-24 px-6 bg-white">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-black ml-2">
+      <div className="flex justify-between items-center mb-6 max-[480px]:flex-row max-[480px]:gap-4 max-[480px]:mb-10">
+        <h2 className="text-2xl md:text-3xl font-bold text-black ml-2 max-[480px]:text-xl max-[480px]:ml-0">
           Currently Trending
         </h2>
         {reviews.length > 0 && (
           <Link
             to={`/allProduct/${reviews[0]?.subCategoryName}/${reviews[0]?.cat_id}/${reviews[0]?.subCat_id}`}
           >
-            <button className="flex items-center gap-4 text-white font-medium bg-[#f00000] px-4 py-2 rounded mr-1 hover:bg-black transition-colors duration-300 hover:cursor-pointer">
+            <button className="flex items-center gap-3 text-white font-medium bg-[#f00000] px-3 py-2 rounded hover:bg-black transition-colors duration-300 max-[480px]:text-sm max-[480px]:px-2 max-[480px]:py-1">
               FIND MORE
               <span className="bg-white text-black p-1 rounded-full">
-                <FiArrowRight size={16} className="hover:rotate-[-40deg]" />
+                <FiArrowRight size={14} />
               </span>
             </button>
           </Link>
         )}
-
       </div>
 
       <Slider {...settings}>
         {reviews.map((item, index) => (
           <div key={index}
-            className="px-2 mb-4"
+            className="px-2 mb-8 sm:mb-4"
             onClick={() => handleProductClick(item)} >
 
             <Link

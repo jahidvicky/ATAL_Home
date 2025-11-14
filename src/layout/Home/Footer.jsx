@@ -209,7 +209,12 @@ const Footer = () => {
             <div>
               <MdLocalPhone className="text-3xl text-[#f00000]" />
             </div>
-            <div className="text-l">1866-242-3545</div>
+            <a
+              href="tel:18662423545"
+              className="hover:text-[#f00000]"
+            >
+              1866-242-3545
+            </a>
           </div>
         </div>
       </div>

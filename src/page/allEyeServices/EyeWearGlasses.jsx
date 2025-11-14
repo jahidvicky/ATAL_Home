@@ -13,18 +13,21 @@ const EyeWearGlasses = () => {
                 className="max-w-6xl mx-auto"
             >
 
-                <div className="flex items-center justify-content mb-8">
-                    <Link to="/">
+                <div className="flex items-center justify-center mb-8 relative flex-wrap">
+                    <Link to="/" className="absolute left-0 top-0">
                         <button
-                            className="px-6 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
+                            className="px-6 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform max-[480px]:px-4 max-[480px]:py-1"
                         >
                             Back
                         </button>
                     </Link>
-                    <h1 className="text-4xl md:text-5xl font-bold text-[#f00000] ml-70">
+
+                    <h1 className="text-4xl md:text-5xl font-bold text-[#f00000] whitespace-nowrap text-center max-[480px]:text-2xl">
                         Eye Wear Glasses
                     </h1>
                 </div>
+                <div className="h-1 bg-[#f00000] mx-auto mb-6 rounded-full w-80 sm:w-96 md:w-[28rem] lg:w-[32rem] max-[480px]:w-48"></div>
+
 
                 <p className="text-lg text-gray-700 leading-relaxed mb-10 text-center">
                     Eye wear glasses are not just about vision—they represent style,

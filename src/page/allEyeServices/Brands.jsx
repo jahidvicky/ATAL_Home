@@ -7,10 +7,12 @@ const Brands = () => {
     return (
         <div className="bg-white text-gray-900">
             {/* Hero Section */}
-            <div className="relative w-full h-[60vh] overflow-hidden">
-                <Link to="/" className="absolute top-6 left-6 z-20">
+            <div className="relative w-full h-[60vh] overflow-hidden max-[480px]:h-[40vh]">
+
+                {/* BACK BUTTON */}
+                <Link to="/" className="absolute top-6 left-6 z-20 max-[480px]:top-3 max-[480px]:left-3">
                     <button
-                        className="px-4 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
+                        className="px-4 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform max-[480px]:px-3 max-[480px]:py-1 text-sm"
                     >
                         Back
                     </button>
@@ -18,7 +20,7 @@ const Brands = () => {
                 <img
                     src={image}
                     alt="Brand"
-                    className="w-full h-full object-cover brightness-75"
+                    className="w-full h-full object-cover brightness-75 max-[480px]:object-center max-[480px]:brightness-90"
                     loading="lazy"
                     decoding="async"
                 />
@@ -27,7 +29,7 @@ const Brands = () => {
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="text-5xl md:text-6xl font-extrabold text-[#f00000] drop-shadow-lg text-center"
+                        className="text-5xl md:text-6xl font-extrabold text-[#f00000] drop-shadow-lg text-center max-[480px]:text-3xl"
                     >
                         Our Brand
                     </motion.h1>

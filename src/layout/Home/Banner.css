@@ -77,11 +77,12 @@
 
 
 .banner-button {
-    width: 300px;
-    height: 8vh;
+  width: 300px;
+  height: 8vh;
   position: absolute;
+  left: 50%;
   bottom: 45px;
-  right: 550px;
+  transform: translateX(-50%);
   border: none;
   padding: 6px 20px;
   font-size: 30px;
@@ -90,15 +91,6 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-
-.banner-button:hover {
-  transform: scale(1.05);
-}
-
-.banner-button:active {
-  transform: translateY(0);
 }
 
 /* Responsive Design */
@@ -130,47 +122,67 @@
   }
 
   .banner-button {
-    padding: 12px 32px;
-    font-size: 14px;
+    width: 110px !important;
+    height: 30px;
+    font-size: 16px;
+    bottom: 20px;
+    margin-bottom: 100px;
+    left: 50%;
   }
 }
 
 @media (max-width: 480px) {
   .banner-slide {
-    min-height: 280px;
+    min-height: 230px !important;
+    height: 230px !important;
+    /* Force fixed height */
   }
 
-  .banner-title {
-    font-size: 24px;
-  }
-
-  .banner-description {
-    font-size: 13px;
-    max-width: 100%;
+  .banner-slide img {
+    height: 230px !important;
+    /* Banner image height fixed */
+    object-fit: contain !important;
+    /* Crop properly */
   }
 
   .banner-content {
-    padding: 30px 15px;
+    padding: 50px 10px;
+    /* Reduce padding */
+    align-items: flex-start;
+    /* Move text higher */
+  }
+
+  .banner-title {
+    font-size: 200px !important;
+  }
+
+  .banner-description {
+    font-size: 12px !important;
+  }
+
+  .banner-button {
+    bottom: -67px !important;
+    width: 130px !important;
+    height: 28px !important;
+    font-size: 14px !important;
   }
 }
 
-/* Slick Carousel Customization */
-.slick-dots {
-  bottom: 20px;
-  z-index: 3;
-}
 
-.slick-dots li button:before {
-  color: white;
-  font-size: 12px;
-  opacity: 0.7;
-}
+/* Tablet View Fix (768px to 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .banner-slide {
+    min-height: 450px;
+  }
 
-.slick-dots li.slick-active button:before {
-  color: white;
-  opacity: 1;
-}
+  .banner-button {
+    width: 220px !important;
+    height: 50px;
+    font-size: 22px;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 0 !important;
+  }
 
-.slick-dots li button:before {
-  transition: all 0.3s ease;
 }

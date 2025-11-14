@@ -1130,29 +1130,45 @@ function Header() {
       {/* Top Bar */}
       <div className="bg-[#f00000] text-white flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 px-3 sm:px-6 py-1 text-center sm:text-left">
         <div className="mt-1 text-md sm:text-sm">
-          <span>Call Us Today! </span>
-          <a
-            href="tel:18662423545"
-            className="hover:underline hover:text-black"
-          >
-            1866-242-3545
-          </a>
-          <span className="hidden sm:inline"> |</span>
-          <a
-            href="mailto:sales.ataloptical@gmail.com"
-            className="text-white hover:underline hover:text-black pl-1"
-          >
-            sales.ataloptical@gmail.com
-          </a>
-          <span className="hidden sm:inline"> |</span>
-          <a
-            href="mailto:info.ataloptical@gmail.com"
-            className="text-white hover:underline hover:text-black pl-1"
-          >
-            info.ataloptical@gmail.com
-          </a>
+
+          {/* MOBILE & DESKTOP WRAPPER */}
+          <div className="flex flex-col sm:flex-row items-center sm:space-x-2">
+            <span className="flex items-center sm:inline">
+              <span>Call Us Today!</span>
+              <a
+                href="tel:18662423545"
+                className="hover:underline hover:text-black ml-2 sm:ml-0"
+              >
+                1866-242-3545
+              </a>
+            </span>
+
+            {/* PIPE — SHOW ONLY ON DESKTOP/TABLET */}
+            <span className="hidden sm:inline">|</span>
+
+            <div className="flex flex-row items-center space-x-2 sm:space-x-2">
+
+              <a
+                href="mailto:sales.ataloptical@gmail.com"
+                className="text-white hover:underline hover:text-black"
+              >
+                sales.ataloptical@gmail.com
+              </a>
+
+              {/* PIPE — SHOW ONLY ON DESKTOP/TABLET */}
+              <span className="hidden sm:inline">|</span>
+              <a
+                href="mailto:info.ataloptical@gmail.com"
+                className="text-white hover:underline hover:text-black"
+              >
+                info.ataloptical@gmail.com
+              </a>
+
+            </div>
+          </div>
         </div>
-        <div className="flex justify-center sm:justify-end gap-3 text-xl sm:text-lg md:text-xl">
+
+        <div className="flex justify-center sm:justify-end gap-3 text-xl sm:text-lg md:text-xl sm:mt-0 mt-2">
           <SocialLinks />
         </div>
       </div>

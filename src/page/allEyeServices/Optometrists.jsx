@@ -14,11 +14,11 @@ const Optometrists = () => {
                 initial={{ opacity: 0, y: -40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="relative w-full h-[60vh] flex items-center justify-center bg-black"
+                className="relative w-full h-[60vh] flex items-center justify-center bg-black max-[480px]:h-[40vh]"
             >
-                <Link to="/" className="absolute top-6 left-6 z-20">
+                <Link to="/" className="absolute top-6 left-6 z-20 max-[480px]:top-3 max-[480px]:left-3">
                     <button
-                        className="px-4 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
+                        className="px-4 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform max-[480px]:px-3 max-[480px]:py-1 max-[480px]:text-sm"
                     >
                         Back
                     </button>
@@ -26,14 +26,18 @@ const Optometrists = () => {
                 <img
                     src={image}
                     alt="Optometrists"
-                    className="absolute inset-0 w-full h-full object-cover opacity-40"
+                    className="absolute inset-0 w-full h-full object-cover opacity-60 max-[480px]:object-center max-[480px]:opacity-60"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50" />
+
+                {/* GRADIENT OVERLAY */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50 max-[480px]:from-black/60 max-[480px]:to-black/40" />
+
+                {/* HEADING */}
                 <motion.h1
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="relative z-10 text-5xl md:text-6xl font-extrabold text-[#f00000] drop-shadow-lg text-center"
+                    className="relative z-10 text-5xl md:text-6xl font-extrabold text-[#f00000] drop-shadow-lg text-center     max-[480px]:text-3xl max-[480px]:px-4"
                 >
                     Our Optometrists
                 </motion.h1>

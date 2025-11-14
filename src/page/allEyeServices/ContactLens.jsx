@@ -14,24 +14,23 @@ const ContactLens = () => {
             >
                 {/* Title */}
                 <div className="text-center mb-12 relative">
-                    <div className="flex items-center justify-between mb-4">
-                        <Link to="/">
+                    <div className="relative flex items-center justify-center mb-6 px-4">
+                        <Link to="/" className="absolute left-0 top-0">
                             <button
-                                className="px-4 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
+                                className="px-4 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform max-[480px]:px-3 max-[480px]:py-1"
                             >
                                 Back
                             </button>
                         </Link>
 
-                        <h1 className="text-4xl md:text-5xl font-bold text-[#f00000] ml-35 text-center">
+                        <h1 className="text-4xl md:text-5xl font-bold text-[#f00000] text-center whitespace-nowrap max-[480px]:text-2xl">
                             Contact Lens
                         </h1>
-
-                        {/* Spacer div to balance flex layout */}
-                        <div className="w-[200px]"></div>
                     </div>
 
-                    <div className="w-80 h-1 bg-[#f00000] mx-auto mb-6 rounded-full"></div>
+
+                    <div className="h-1 bg-[#f00000] mx-auto mb-6 rounded-full w-80 sm:w-96 md:w-[28rem] lg:w-[32rem] max-[480px]:w-48"></div>
+
 
                     <p className="text-black text-lg mx-auto leading-relaxed max-w-6xl">
                         Experience the freedom of crystal-clear vision with contact lenses that combine technology, comfort, and style. Designed for those who live life without boundaries — contact lenses provide effortless clarity and confidence in every look.
