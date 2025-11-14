@@ -91,7 +91,8 @@ function Faq() {
                 className="text-4xl font-bold text-center text-black mb-12"
               >
                 How to Book Eye Exam
-                <hr className="border-white w-100 mt-3 mx-auto" />
+                <hr className="border border-white mx-auto mt-3 w-40 sm:w-60 md:w-80 lg:w-[26rem] " />
+
               </motion.h1>
 
               {/* Vertical Steps Timeline */}

@@ -64,9 +64,9 @@ export default function EyeExamStep1() {
                 </div>
             </section>
 
-            <div className="grid grid-cols-2 bg-[#f00000] gap-20 items-center">
-                {/* Store Image with zoom-in effect */}
-                <motion.section
+            {/* <div className="grid grid-cols-2 bg-[#f00000] gap-20 items-center"> */}
+            {/* Store Image with zoom-in effect */}
+            {/* <motion.section
                     className="mt-11 flex justify-end pr-10"
                     initial={{ scale: 0.8, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
@@ -78,10 +78,10 @@ export default function EyeExamStep1() {
                         alt="Atal Optical Store"
                         className="rounded-2xl shadow-lg w-[90%] h-90"
                     />
-                </motion.section>
+                </motion.section> */}
 
-                {/* Services with bounce-up effect */}
-                <motion.section
+            {/* Services with bounce-up effect */}
+            {/* <motion.section
                     className="py-10 pl-10 text-white"
                     initial={{ y: 100, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
@@ -107,7 +107,65 @@ export default function EyeExamStep1() {
                         Book Eye Exam
                     </motion.button>
                 </motion.section>
+            </div> */}
+
+
+            <div className="w-full bg-[#f00000] flex justify-center">
+                <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 items-center px-5 py-10">
+
+                    {/* IMAGE */}
+                    <motion.section
+                        className="order-1 flex justify-center md:justify-end"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 1, ease: "easeOut" }}
+                        viewport={{ once: true, amount: 0.3 }}
+                    >
+                        <img
+                            src={Optical_Store}
+                            alt="Atal Optical Store"
+                            className="rounded-2xl shadow-lg w-full max-w-md md:max-w-sm lg:max-w-lg"
+                        />
+                    </motion.section>
+
+                    {/* TEXT */}
+                    <motion.section
+                        className="order-2 text-white md:pl-0 lg:pl-10"
+                        initial={{ y: 100, opacity: 0 }}
+                        whileInView={{ y: 0, opacity: 1 }}
+                        transition={{ type: 'spring', stiffness: 80, damping: 12, delay: 0.2 }}
+                        viewport={{ once: true, amount: 0.3 }}
+                    >
+                        <h2 className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold mb-4">Store Services</h2>
+                        <ul className="space-y-2 text-sm sm:text-base md:text-base lg:text-lg">
+                            <li>Eye Exams with Licensed Optometrists</li>
+                            <li>Contact Lens Fittings</li>
+                            <li>Prescription Glasses & Sunglasses</li>
+                            <li>Kids Glasses & Safety Eyewear</li>
+                            <li>Fashion-forward Eyewear Collections</li>
+                            <li>Comprehensive Eye Exam for all ages</li>
+                            <li>Glasses PD, and optical measurement</li>
+                        </ul>
+
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={handleClick}
+                            className="rounded-md px-6 py-2 bg-black mt-5 text-white hover:bg-white hover:text-red-600 text-base sm:text-lg md:text-lg lg:text-xl"
+                        >
+                            Book Eye Exam
+                        </motion.button>
+                    </motion.section>
+
+                </div>
             </div>
+
+
+
+
+
+
+
             {/* Reasons */}
             <section className="max-w-6xl mx-auto p-6 text-center">
                 <h2 className="text-2xl font-bold mb-8">Top Reasons to Get Your Eyes Checked</h2>

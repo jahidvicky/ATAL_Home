@@ -12,19 +12,31 @@ const Promotions = () => {
                 transition={{ duration: 0.8 }}
                 className="max-w-6xl mx-auto"
             >
+                <div className="mb-8 relative">
+                    {/* BACK BUTTON — ALWAYS TOP LEFT */}
+                    <div className="absolute left-0 top-0">
+                        <Link to="/">
+                            <button
+                                className="px-6 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform max-[480px]:px-4 max-[480px]:py-1"
+                            >
+                                Back
+                            </button>
+                        </Link>
+                    </div>
 
-                <div className="flex items-center justify-content mb-8">
-                    <Link to="/">
-                        <button
-                            className="px-6 py-2 bg-[#f00000] text-white font-medium rounded-md shadow-md hover:bg-red-700 active:scale-95 transition-transform"
+                    {/* HEADING — DESKTOP SAME LINE, MOBILE ON NEXT LINE */}
+                    <div className="w-full flex justify-center">
+
+                        <h1
+                            className="text-4xl md:text-5xl font-bold text-[#f00000] text-center whitespace-nowra max-[480px]:mt-12 max-[480px]:text-xl"
                         >
-                            Back
-                        </button>
-                    </Link>
-                    <h1 className="text-4xl md:text-5xl font-bold text-[#f00000] ml-50">
-                        Promotions - Atal Optical
-                    </h1>
+                            Promotions - Atal Optical
+                        </h1>
+
+                    </div>
+
                 </div>
+                <div className="h-1 bg-[#f00000] mx-auto mb-6 rounded-full w-80 sm:w-96 md:w-[28rem] lg:w-[32rem] max-[480px]:w-48"></div>
 
                 <p className="text-lg text-gray-700 leading-relaxed mb-10 text-center">
                     At Atal Optical, we love rewarding our valued customers. Explore our
