@@ -74,6 +74,7 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
         "Shop by Frame Shape",
         "Shop by Our Picks",
         "Shop by Lens Category",
+        "Top Brands"
     ];
 
     return (
@@ -232,6 +233,11 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
                                                                 if (col.id === 301) {
                                                                     navigate(
                                                                         `/contact_lenses/category/${l.lens_cat}/${l.catId}`
+                                                                    );
+                                                                }
+                                                                if (col.id === 302) {
+                                                                    navigate(
+                                                                        `/contact_lenses/${l.label}/${l.brandId}`
                                                                     );
                                                                 }
 

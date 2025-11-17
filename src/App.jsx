@@ -152,6 +152,10 @@ function App() {
           path: "/contact_lenses/category/:lens_cat/:catId",
           element: <ContactLensPage />
         },
+        {
+          path: "/contact_lenses/:brand/:contactBrandId",
+          element: <Product />
+        },
 
 
 
