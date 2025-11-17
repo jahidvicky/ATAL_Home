@@ -230,22 +230,22 @@ function Header() {
             id: 201,
             title: "Shop by Our Picks",
             links: [
-              { id: 2011, label: "Best Seller" },
-              { id: 2012, label: "Trending" },
-              { id: 2013, label: "Versace" },
-              { id: 2014, label: "Ray-Ban" },
+              { id: 2011, label: "Best Seller", collection: "best-seller" },
+              { id: 2012, label: "Trending", collection: "trending" },
+              { id: 2013, label: "Versace", collection: "690c6e7ece83c44ad440e028" },
+              { id: 2014, label: "Ray-Ban", collection: "690c6e4bce83c44ad440e022" },
             ],
+
           },
 
           {
             id: 202,
             title: "Shop By Lens Type",
             links: [
-              { id: 2021, label: "Prescription Sunglasses" },
-              { id: 2022, label: "Polarized lenses" },
+              { id: 2021, label: "Prescription Sunglasses", lens_type: "prescription" },
+              { id: 2022, label: "Polarized lenses", lens_type: "polarized" },
             ],
           },
-
           {
             id: 203,
             title: "Shop by Frame Shape",
@@ -282,19 +282,19 @@ function Header() {
             id: 301,
             title: "Shop by Lens Category",
             links: [
-              { id: 3011, label: "Daily", },
-              { id: 3012, label: "Biweekly / Weekly", },
-              { id: 3013, label: "Monthly", },
+              { id: 3011, label: "Daily", lens_cat: "daily", catId: "6915735feeb23fa59c7d532b" },
+              { id: 3012, label: "Biweekly / Weekly", lens_cat: "weekly" || "biweekly", catId: "6915735feeb23fa59c7d532b" },
+              { id: 3013, label: "Monthly", lens_cat: "monthly", catId: "6915735feeb23fa59c7d532b" },
             ],
           },
           {
             id: 302,
             title: "Shop by Prescription",
             links: [
-              { id: 3021, label: "Single Vision", },
-              { id: 3022, label: "Multifocal", },
-              { id: 3023, label: "Toric / Astigmatism", },
-              { id: 3024, label: "Coloured", },
+              { id: 3021, label: "Single Vision", catId: "6915735feeb23fa59c7d532b" },
+              { id: 3022, label: "Multifocal", catId: "6915735feeb23fa59c7d532b" },
+              { id: 3023, label: "Toric / Astigmatism", catId: "6915735feeb23fa59c7d532b" },
+              { id: 3024, label: "Coloured", catId: "6915735feeb23fa59c7d532b" },
             ],
           },
         ],
@@ -479,44 +479,15 @@ function Header() {
   return (
     <>
       {/* Top Bar */}
-      <div className="bg-[#f00000] text-white flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 px-3 sm:px-6 py-1 text-center sm:text-left">
-        <div className="mt-1 text-md sm:text-sm">
-
-          {/* MOBILE & DESKTOP WRAPPER */}
-          <div className="flex flex-col sm:flex-row items-center sm:space-x-2">
-            <span className="flex items-center sm:inline">
-              <span>Call Us Today!</span>
-              <a
-                href="tel:18662423545"
-                className="hover:underline hover:text-black ml-2 sm:ml-0"
-              >
-                1866-242-3545
-              </a>
-            </span>
-
-            {/* PIPE — SHOW ONLY ON DESKTOP/TABLET */}
-            <span className="hidden sm:inline">|</span>
-
-            <div className="flex flex-row items-center space-x-2 sm:space-x-2">
-
-              <a
-                href="mailto:sales.ataloptical@gmail.com"
-                className="text-white hover:underline hover:text-black"
-              >
-                sales.ataloptical@gmail.com
-              </a>
-
-              {/* PIPE — SHOW ONLY ON DESKTOP/TABLET */}
-              <span className="hidden sm:inline">|</span>
-              <a
-                href="mailto:info.ataloptical@gmail.com"
-                className="text-white hover:underline hover:text-black"
-              >
-                info.ataloptical@gmail.com
-              </a>
-
-            </div>
-          </div>
+      <div className="bg-[#f00000] py-1 text-white flex justify-between items-center px-4 lg:px-6">
+        <div className="mt-1 text-xs sm:text-sm">
+          Call Us Today! 1866-242-3545 |
+          <a
+            href="mailto:info.ataloptical@gmail.com"
+            className="text-white hover:underline hover:text-black pl-1"
+          >
+            sales.ataloptical@gmail.com
+          </a>
         </div>
 
         <SearchModal />

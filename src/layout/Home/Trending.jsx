@@ -39,10 +39,14 @@ const Trending = () => {
     ],
   };
 
+  const resolveImgSrc = (img) => {
+    if (!img) return null;
+    return img.startsWith("http") ? img : `${IMAGE_URL}${img}`;
+  };
+
   return (
     <section className="py-12 md:px-24 px-6 bg-white">
       <div className="flex justify-between items-center mb-6">
-
         <h2 className="text-2xl md:text-3xl font-bold text-black ml-2">
           Currently Trending
         </h2>
@@ -76,30 +80,36 @@ const Trending = () => {
             >
               <Link to={`/product/${item._id}/${item.subCategoryName}/${item.subCat_id}`}>
                 <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full hover:cursor-pointer shadow-white relative">
-
                   {/* Stock Badge */}
                   <div className="absolute top-4 left-6 z-20">
                     <StockAvailability data={item.stockAvailability} />
                   </div>
 
-                  {/* Image */}
-                  {/* Image from product_variants */}
-                  {item.product_variants?.length > 0 &&
-                    item.product_variants[0].images?.length > 0 ? (
-                    <img
-                      src={
-                        item.product_variants[0].images[0].startsWith("http")
-                          ? item.product_variants[0].images[0]
-                          : `${IMAGE_URL}${item.product_variants[0].images[0]}`
-                      }
-                      alt={item.product_name}
-                      className="w-full h-36 object-contain mb-4 hover:scale-105"
-                      loading="lazy"
-                    />
-                  ) : (
-                    "No Images"
-                  )}
+                  {/* Image: prefer variant image, then product_image_collection, then fallback */}
+                  {(() => {
+                    const variantImg = item.product_variants?.[0]?.images?.[0] || null;
+                    const collectionImg = item.product_image_collection?.[0] || null;
+                    const imgToShow = variantImg || collectionImg;
 
+                    if (!imgToShow) {
+                      return (
+                        <div className="w-full h-36 flex items-center justify-center text-gray-400">
+                          No Images
+                        </div>
+                      );
+                    }
+
+                    const finalSrc = resolveImgSrc(imgToShow);
+
+                    return (
+                      <img
+                        src={finalSrc}
+                        alt={item.product_name}
+                        className="w-full h-36 object-contain mb-4 hover:scale-105 transition-transform duration-200"
+                        loading="lazy"
+                      />
+                    );
+                  })()}
 
                   {/* Name */}
                   <p className="text-lg font-semibold tracking-wide text-[#f00000] capitalize line-clamp-1">

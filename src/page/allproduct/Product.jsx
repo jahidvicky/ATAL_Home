@@ -282,7 +282,7 @@ const FilterSections = ({ filters, setFilters, facetData }) => {
 
 // Main Product Component
 function Product() {
-  const { catId, subCategory, subCatId, shape, gender, lens_type, frame_shape } = useParams();
+  const { subCategory, subCatId, shape, gender, lens_type, frame_shape, collection, catId, lens_cat } = useParams();
 
   const location = useLocation();
   const brandId = location.state?.brandId || null;
@@ -405,7 +405,78 @@ function Product() {
       }
 
 
+      if (collection) {
+        try {
+          const res = await API.get("/getallproduct");
+          const fullList = res.data?.products || res.data || [];
 
+          let filtered = [];
+
+          if (collection === "best-seller") {
+            filtered = fullList.filter((p) => p.isBestSeller === true);
+          }
+          else if (collection === "trending") {
+            filtered = fullList.filter((p) => p.isTrending === true);
+          }
+          else {
+            filtered = fullList.filter((p) => String(p.brand_id) === collection);
+          }
+
+          setProducts(filtered);
+          setPage(1);
+        } catch (e) {
+          console.log(e);
+          setErrorMsg("Failed to load products");
+        } finally {
+          setIsLoading(false);
+        }
+        return;
+      }
+
+
+
+      if (lens_cat) {
+        try {
+          const res = await API.get("/getallproduct");
+          const fullList = res.data?.products || res.data || [];
+
+          const cleanedLens = lens_cat.trim().toLowerCase();
+
+          const filtered = fullList.filter((p) => {
+            const type = String(p.lens_type || "").trim().toLowerCase();
+            const catIdMatch = String(p.cat_id) === "6915735feeb23fa59c7d532b";
+
+            // DAILY
+            if (cleanedLens === "daily") {
+              return type === "daily" && catIdMatch;
+            }
+
+            // WEEKLY or BIWEEKLY
+            if (cleanedLens === "weekly" || cleanedLens === "biweekly") {
+              return (
+                (type.includes("week") || type.includes("bi")) &&
+                catIdMatch
+              );
+            }
+
+            // MONTHLY
+            if (cleanedLens === "monthly") {
+              return type === "monthly" && catIdMatch;
+            }
+
+            return false;
+          });
+
+          setProducts(filtered);
+          setPage(1);
+        } catch (e) {
+          console.log(e);
+          setErrorMsg("Failed to load products");
+        } finally {
+          setIsLoading(false);
+        }
+        return;
+      }
 
 
 
@@ -466,7 +537,7 @@ function Product() {
   useEffect(() => {
     fetchProducts();
     fetchWishlist();
-  }, [catId, subCatId, brandId, shape, gender, lens_type]);
+  }, [catId, subCatId, brandId, shape, gender, lens_type, frame_shape, collection, lens_cat]);
 
   // Facets + Filters
   const facetData = useMemo(() => {
