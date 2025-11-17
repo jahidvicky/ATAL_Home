@@ -185,7 +185,7 @@ const Cartpage = () => {
     </li>
   );
 
-  if (subCatId === contactLensSubCatId) {
+  if (product.cat_id === "6915735feeb23fa59c7d532b") {
     return <ContactLensPage />;
   }
 
