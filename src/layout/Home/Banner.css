@@ -1,0 +1,176 @@
+.banner-container {
+  width: 100%;
+  position: relative;
+}
+
+.banner-slide {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+}
+
+.banner-slide img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* Dark Overlay for better text readability */
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background: linear-gradient(135deg, rgba(44, 95, 127, 0.5) 0%, rgba(61, 122, 158, 0.3) 100%); */
+  z-index: 1;
+}
+
+/* Text Content Positioning */
+.banner-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 2;
+  padding: 60px 40px;
+}
+
+.banner-text-wrapper {
+  max-width: 500px;
+  color: white;
+}
+
+.banner-subtitle {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 0 15px 0;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.banner-title {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 20px 0;
+  color: #ffffff;
+  word-spacing: 2px;
+}
+
+.banner-description {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 30px 0;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 400px;
+}
+
+
+.banner-button {
+  width: 300px;
+  height: 6vh;
+  position: absolute;
+  bottom: 48px;
+  right: 550px;
+  border: none;
+  padding: 6px 20px;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.banner-button:hover {
+  transform: scale(1.05);
+}
+
+.banner-button:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .banner-slide {
+    min-height: 350px;
+  }
+
+  .banner-content {
+    padding: 40px 20px;
+    justify-content: center;
+  }
+
+  .banner-text-wrapper {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .banner-title {
+    font-size: 32px;
+  }
+
+  .banner-subtitle {
+    font-size: 12px;
+  }
+
+  .banner-description {
+    font-size: 14px;
+  }
+
+  .banner-button {
+    padding: 12px 32px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-slide {
+    min-height: 280px;
+  }
+
+  .banner-title {
+    font-size: 24px;
+  }
+
+  .banner-description {
+    font-size: 13px;
+    max-width: 100%;
+  }
+
+  .banner-content {
+    padding: 30px 15px;
+  }
+}
+
+/* Slick Carousel Customization */
+.slick-dots {
+  bottom: 20px;
+  z-index: 3;
+}
+
+.slick-dots li button:before {
+  color: white;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.slick-dots li.slick-active button:before {
+  color: white;
+  opacity: 1;
+}
+
+.slick-dots li button:before {
+  transition: all 0.3s ease;
+}
