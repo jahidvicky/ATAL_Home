@@ -10,9 +10,6 @@ import "./Banner.css";
 const data = [
   {
     img: slider2,
-    title: "Start gifting early with the best deals",
-    subtitle: "YOUR ULTIMATE GIFT GUIDE",
-    description: "The only gift guide you'll need to enjoy the best deals of the year!",
     buttonText: "Shop now",
     buttonLink: "/allProduct/Trending/68caa6d4d72068a7d3a0f097/68cae51cafa3c181c5dfeab5",
     buttonColor: "#ffffff",
@@ -20,9 +17,6 @@ const data = [
   },
   {
     img: slider1,
-    title: "Discover Premium Eyewear",
-    subtitle: "EXCLUSIVE COLLECTION",
-    description: "Find your perfect pair with our curated selection of premium glasses.",
     buttonText: "Explore",
     buttonLink: "/allproduct/contact-lenses/68caa68bd72068a7d3a0f089/68caa86cd72068a7d3a0f0bf",
     buttonColor: "#e5e911ff",
@@ -30,9 +24,6 @@ const data = [
   },
   {
     img: slider3,
-    title: "Seasonal Sale Now Live",
-    subtitle: "LIMITED TIME OFFER",
-    description: "Get up to 50% off on selected eyewear collections!",
     buttonText: "View Deals",
     buttonLink: "/allProduct/Best%20Seller/68cd4400f0089635c3663a5d/68cd44dbf0089635c3663a67",
     buttonColor: "#ff5252",

@@ -88,6 +88,7 @@ import BlueLightTechnology from "./page/allEyeServices/BlueLightTechnology";
 import SubscribeSave from "./page/SubscribeSavePage/SubscriveSave";
 import SearchResult from "./layout/Home/SearchResult";
 import ComingSoon from "./page/SocialMedia/ComingSoonPage";
+import ContactLensPage from "./page/Cart/ContactLensPage";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -144,6 +145,13 @@ function App() {
         { path: "/glasses/gender/:gender", element: <Product /> },
         { path: "/glasses/lens_type/:lens_type", element: <Product /> },
         { path: "/sunglasses/frame_shape/:frame_shape", element: <Product /> },
+        { path: "/sunglasses/lens_type/:lens_type", element: <Product /> },
+        { path: "/sunglasses/collection/:collection", element: <Product /> },
+        { path: "/contact_lenses/category/:lens_cat/:catId", element: < Product /> },
+        {
+          path: "/contact_lenses/category/:lens_cat/:catId",
+          element: <ContactLensPage />
+        },
 
 
 

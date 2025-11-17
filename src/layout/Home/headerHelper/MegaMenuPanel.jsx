@@ -72,6 +72,8 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
         "Shop by Category",
         "Shop By Lens Type",
         "Shop by Frame Shape",
+        "Shop by Our Picks",
+        "Shop by Lens Category",
     ];
 
     return (
@@ -125,7 +127,7 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
                                                             ? sub.image
                                                             : IMAGE_URL + sub.image
                                                     }
-                                                    className="w-30 h-10 rounded-full object-cover"
+                                                    className="w-12 h-12 rounded-full object-cover"
                                                     alt={sub.name}
                                                 />
                                                 <span className="text-[15px]">
@@ -210,12 +212,29 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
                                                                         `/glasses/lens_type/${l.lens_type}`
                                                                     );
                                                                 }
+                                                                if (col.id === 201) {
+                                                                    navigate(`/sunglasses/collection/${l.collection}`);
+
+                                                                }
+
+                                                                if (col.id === 202) {
+                                                                    navigate(
+                                                                        `/sunglasses/lens_type/${l.lens_type}`
+                                                                    );
+                                                                }
 
                                                                 if (col.id === 203) {
                                                                     navigate(
                                                                         `/sunglasses/frame_shape/${l.frame_shape}`
                                                                     );
                                                                 }
+
+                                                                if (col.id === 301) {
+                                                                    navigate(
+                                                                        `/contact_lenses/category/${l.lens_cat}/${l.catId}`
+                                                                    );
+                                                                }
+
                                                             }}
                                                             className="text-[14px] hover:text-red-500 block py-1 text-left w-full"
                                                         >
