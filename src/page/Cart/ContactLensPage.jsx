@@ -418,7 +418,7 @@ const ContactLensPage = () => {
               </div>
               <button
                 onClick={handleAddToCart}
-                className="bg-[#f00000] w-full sm:w-[100%] md:w-[100%] lg:w-[100%] xl:w-[100%] text-white px-6 py-4 mt-6 mb-2 rounded-lg hover:bg-red-800 font-semibold text-lg sm:text-xl border border-black transition-all duration-200 mx-auto block"
+                className="bg-[#f00000] w-full sm:w-[100%] md:w-[100%] lg:w-[100%] xl:w-[100%] text-white px-6 py-4 mt-6 mb-2 rounded-lg hover:bg-red-700 font-semibold text-lg sm:text-xl border border-black transition-all duration-200 mx-auto block"
               >
                 ADD TO CART
               </button>
@@ -438,7 +438,8 @@ const ContactLensPage = () => {
         <ul className="text-lg space-y-1">
           <li>
             <strong>LENS TYPE: </strong>
-            {product.contact_type}
+            {/* {product.contact_type} */}
+            {product.lens_type}
           </li>
           <li>
             <strong>MATERIAL: </strong>
