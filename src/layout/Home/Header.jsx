@@ -190,9 +190,8 @@ function Header() {
             id: 102,
             title: "Shop by Category",
             links: [
-              { id: 1021, label: "Kids Glasses", gender: "kids" },
-              { id: 1022, label: "Men's Glasses", gender: "men" },
-              { id: 1023, label: "Women's Glasses", gender: "women" },
+              { id: 1021, label: "Men's Glasses", gender: "men" },
+              { id: 1022, label: "Women's Glasses", gender: "women" },
             ],
           },
 
@@ -213,7 +212,7 @@ function Header() {
           headline: "Meet the new collections",
           text: "Fresh arrivals inspired by the latest trends.",
           ctaLabel: "Shop Eyeglasses",
-          ctaTo: "/glasses",
+          ctaTo: "/allproduct/Eyeglasses/69157332eeb23fa59c7d5326",
           state: {
             category: CAT.OUR_COLLECTION,
             subcategory: SUB.EYEGLASSES,
@@ -266,7 +265,7 @@ function Header() {
           headline: "Seasonal offers",
           text: "Save on top silhouettes and lens upgrades.",
           ctaLabel: "Shop Sunglasses",
-          ctaTo: "/sunglasses",
+          ctaTo: "/allproduct/Sunglasses/6915705d9ceac0cdda41c83f",
           state: {
             category: CAT.OUR_COLLECTION,
             subcategory: SUB.SUNGLASSES,
@@ -309,29 +308,8 @@ function Header() {
           headline: "Subscribe & save 20%",
           text: "Auto-delivery with free shipping.",
           ctaLabel: "Shop Contact Lenses",
-          ctaTo: "/contact-lenses",
+          ctaTo: "/allproduct/Contact-Lenses/6915735feeb23fa59c7d532b",
           badge: "SAVE",
-        },
-      },
-
-      brands: {
-        columns: [
-          {
-            id: 401,
-            title: "Brands",
-            dynamic: true,
-            links: [],
-          },
-        ],
-
-        promo: {
-          id: 499,
-          image: SUB_IMG.Banner1,
-          headline: "Discover Top Brands",
-          text: "Explore premium eyewear brands trusted worldwide.",
-          ctaLabel: "View All Brands",
-          ctaTo: "/brands",
-          badge: "TOP",
         },
       },
     }),

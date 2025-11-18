@@ -178,9 +178,7 @@ const ProductGrid = () => {
         </h2>
 
         {bestSellerData.length > 4 && (
-          <Link
-            to={`/allProduct/${bestSellerData[0]?.subCategoryName}/${bestSellerData[0]?.cat_id}/${bestSellerData[0]?.subCat_id}`}
-          >
+          <Link to="/products/collection/best-seller">
             <button className="flex items-center gap-4 text-white font-medium bg-[#f00000] px-4 py-2 rounded mr-1 hover:bg-black transition-colors duration-300 cursor-pointer">
               FIND MORE
               <span className="bg-white text-black p-1 rounded-full">
