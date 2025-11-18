@@ -1,55 +1,109 @@
 import React, { useEffect, useState } from "react";
-
 import { Link } from "react-router-dom";
-import API, { IMAGE_URL } from "../../API/Api";
+import API from "../../API/Api";
+
+// IMAGES
+import blueglasses from "../../assets/newcollection/blueglasses.jpg";
+import eyeglasses from "../../assets/newcollection/eyeglasses.jpg";
+import kids from "../../assets/newcollection/kids.png";
+import sunglass from "../../assets/newcollection/sunglass.jpg";
 
 const ExploreCollection = () => {
-  const [ourCollection, setOurCollection] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [collections, setCollections] = useState([]);
 
-  const getOurCollection = async () => {
+  const getAllProducts = async () => {
     try {
-      const res = await API.get("/getSubCatByCatId/68caa6abd72068a7d3a0f090");
-      setOurCollection(res.data.subcategories);
+      const res = await API.get("/getAllProduct");
+      const products = res.data.products || [];
+
+      // CATEGORY IDs
+      const GLASSES = "69157332eeb23fa59c7d5326";
+      const SUNGLASSES = "6915705d9ceac0cdda41c83f";
+
+      // BUILD COLLECTIONS
+      const collectionData = [
+        {
+          title: "Glasses",
+          slug: "glasses",
+          image: eyeglasses,
+          products: products.filter((p) => p.cat_id === GLASSES),
+        },
+        {
+          title: "Sunglasses",
+          slug: "sunglasses",
+          image: sunglass,
+          products: products.filter((p) => p.cat_id === SUNGLASSES),
+        },
+        {
+          title: "Transitions",
+          slug: "transitions",
+          image: eyeglasses,
+          products: products.filter(
+            (p) => p.subCategoryName?.toLowerCase() === "transitions"
+          ),
+        },
+        {
+          title: "Blue Violet",
+          slug: "blue-violet",
+          image: blueglasses,
+          products: products.filter(
+            (p) => p.subCategoryName?.toLowerCase() === "blue violet"
+          ),
+        },
+        {
+          title: "Progressive",
+          slug: "progressive",
+          image: eyeglasses,
+          products: products.filter(
+            (p) => p.subCategoryName?.toLowerCase() === "progressive"
+          ),
+        },
+        {
+          title: "Kids",
+          slug: "kids",
+          image: kids,
+          products: products.filter(
+            (p) => p.subCategoryName?.toLowerCase() === "kids"
+          ),
+        },
+      ];
+
+      setCollections(collectionData);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getOurCollection();
+    getAllProducts();
   }, []);
-
-
 
   return (
     <section className="py-16 md:px-26 px-6 bg-white text-center">
-      <h2 className="text-3xl font-bold mb-2">Our
-        <span className="text-[#f00000]"> Collections</span>
+      <h2 className="text-3xl font-bold mb-2">
+        Our <span className="text-[#f00000]">Collections</span>
       </h2>
-      <hr className="w-80 mx-auto mb-4 border-black"></hr>
+      <hr className="w-80 mx-auto mb-4 border-black" />
       <p className="text-gray-600 mb-10">
         Hand-picked styles for every vision and personality.
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 hover:cursor-pointer">
-        {ourCollection.map((item, index) => (
+        {collections.map((item, index) => (
           <Link
             key={index}
-            to={`/allProduct/${item.subCategoryName}/${item.cat_id}/${item._id}`}
+            to={`/collectionProducts/${item.slug}`}
+            state={{ products: item.products }}
           >
-            <div
-              key={index}
-              className="group relative overflow-hidden rounded-xl shadow hover:shadow-lg transition-all"
-            >
+            <div className="group relative overflow-hidden rounded-xl shadow hover:shadow-lg transition-all">
               <img
-                src={IMAGE_URL + item.image}
-                alt={item.description}
-                loading="lazy"
-                decoding="async"
+                src={item.image}
+                alt={item.title}
                 className="w-full h-78 object-cover transform group-hover:scale-105 transition duration-300"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-[#f00000] bg-opacity-50 text-white py-3 text-lg font-semibold">
-                {item.description}
+                {item.title}
               </div>
             </div>
           </Link>

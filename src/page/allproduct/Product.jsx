@@ -282,7 +282,7 @@ const FilterSections = ({ filters, setFilters, facetData }) => {
 
 // Main Product Component
 function Product() {
-  const { subCategory, subCatId, shape, gender, lens_type, frame_shape, collection, catId, lens_cat, contactBrandId } = useParams();
+  const { subCategory, subCatId, shape, gender, lens_type, frame_shape, collection, catId, lens_cat, contactBrandId, slug, collectionName, frameShape, categoryName, categoryId } = useParams();
 
   const location = useLocation();
   const brandId = location.state?.brandId || null;
@@ -314,7 +314,33 @@ function Product() {
       setIsLoading(true);
       setErrorMsg("");
       setProducts([]); // Clear previous products IMMEDIATELY
-      const CAT_ID = "6915705d9ceac0cdda41c83f";
+
+
+      // ========== NEW: Handle View All Category Request ==========  
+      if (categoryId && categoryName) {
+        try {
+          setIsLoading(true);
+
+          const res = await API.get(`/getProductByCatId/${categoryId}`);
+          const list = res.data?.data || [];
+
+          setProducts(list);
+          setPage(1);
+        } catch (e) {
+          console.log(e);
+          setErrorMsg("Failed to load category products");
+        } finally {
+          setIsLoading(false);
+        }
+
+        return; // VERY IMPORTANT
+      }
+
+
+
+
+
+
       if (shape) {
         try {
           const res = await API.get("/getallproduct");
@@ -391,6 +417,27 @@ function Product() {
           const filtered = fullList.filter((p) =>
             String(p.frame_shape)?.toLowerCase() === frame_shape.toLowerCase() &&
             String(p.cat_id) === "6915705d9ceac0cdda41c83f"
+          );
+
+          setProducts(filtered);
+          setPage(1);
+        } catch (e) {
+          console.log(e);
+          setErrorMsg("Failed to load products");
+        } finally {
+          setIsLoading(false);
+        }
+        return;
+      }
+
+
+      if (frameShape) {
+        try {
+          const res = await API.get("/getallproduct");
+          const fullList = res.data?.products || res.data || [];
+
+          const filtered = fullList.filter((p) =>
+            String(p.frame_shape)?.toLowerCase() === frameShape.toLowerCase()
           );
 
           setProducts(filtered);
@@ -502,6 +549,138 @@ function Product() {
 
 
 
+      // ========== New CategoryProducts Filter ============
+      if (slug) {
+        try {
+          const res = await API.get("/getAllProduct");
+          const fullList = res.data?.products || [];
+
+          let filtered = [];
+
+          // MEN
+          if (slug === "men") {
+            filtered = fullList.filter(
+              (p) =>
+                p.gender?.toLowerCase() === "men" ||
+                p.gender?.toLowerCase() === "unisex"
+            );
+          }
+
+          // WOMEN
+          if (slug === "women") {
+            filtered = fullList.filter(
+              (p) =>
+                p.gender?.toLowerCase() === "women" ||
+                p.gender?.toLowerCase() === "unisex"
+            );
+          }
+
+          // CONTACT LENS BY catId
+          if (slug === "contact-lens") {
+            filtered = fullList.filter(
+              (p) => p.cat_id === "6915735feeb23fa59c7d532b"   // your contact lens catId
+            );
+          }
+
+          setProducts(filtered);
+          setPage(1);
+        } catch (e) {
+          console.log(e);
+          setErrorMsg("Failed to load products");
+        } finally {
+          setIsLoading(false);
+        }
+
+        return; // VERY IMPORTANT
+      }
+
+
+
+      if (collectionName) {
+        try {
+          const res = await API.get("/getAllProduct");
+          const fullList = res.data?.products || [];
+
+          let filtered = [];
+
+          // CATEGORY IDs
+          const GLASSES = "69157332eeb23fa59c7d5326";
+          const SUNGLASSES = "6915705d9ceac0cdda41c83f";
+
+          switch (collectionName) {
+            case "glasses":
+              filtered = fullList.filter((p) => p.cat_id === GLASSES);
+              break;
+
+            case "sunglasses":
+              filtered = fullList.filter((p) => p.cat_id === SUNGLASSES);
+              break;
+
+            case "transitions":
+              filtered = fullList.filter(
+                (p) => p.subCategoryName?.toLowerCase() === "transitions"
+              );
+              break;
+
+            case "blue-violet":
+              filtered = fullList.filter(
+                (p) => p.subCategoryName?.toLowerCase() === "blue violet"
+              );
+              break;
+
+            case "progressive":
+              filtered = fullList.filter(
+                (p) => p.subCategoryName?.toLowerCase() === "progressive"
+              );
+              break;
+
+            case "kids":
+              filtered = fullList.filter(
+                (p) => p.subCategoryName?.toLowerCase() === "kids"
+              );
+              break;
+
+            // OLD LOGIC
+            case "men":
+              filtered = fullList.filter(
+                (p) =>
+                  p.gender?.toLowerCase() === "men" ||
+                  p.gender?.toLowerCase() === "unisex"
+              );
+              break;
+
+            case "women":
+              filtered = fullList.filter(
+                (p) =>
+                  p.gender?.toLowerCase() === "women" ||
+                  p.gender?.toLowerCase() === "unisex"
+              );
+              break;
+
+            case "contact-lens":
+              filtered = fullList.filter(
+                (p) => p.cat_id === "6915735feeb23fa59c7d532b"
+              );
+              break;
+          }
+
+
+          setProducts(filtered);
+          setPage(1);
+        } catch (e) {
+          console.log(e);
+          setErrorMsg("Failed to load products");
+        } finally {
+          setIsLoading(false);
+        }
+
+        return;
+      }
+
+
+
+
+
       if (brandId) {
         const res = await API.get(`/brand/${brandId}`);
         const list = res.data?.products || [];
@@ -559,7 +738,7 @@ function Product() {
   useEffect(() => {
     fetchProducts();
     fetchWishlist();
-  }, [catId, subCatId, brandId, shape, gender, lens_type, frame_shape, collection, lens_cat, contactBrandId]);
+  }, [catId, subCatId, brandId, shape, gender, lens_type, frame_shape, collection, lens_cat, contactBrandId, slug, collectionName, frameShape, categoryId, categoryName]);
 
   // Facets + Filters
   const facetData = useMemo(() => {

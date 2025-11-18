@@ -1,20 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import {
-  GlassesResolver,
-  SunglassesResolver,
-  ContactsResolver,
-  // shapes
-  AviatorResolver, RoundResolver, RectangleResolver, CatEyeResolver, OvalResolver, SquareResolver,
-  // shop-by-category
-  MensFramesResolver, WomensFramesResolver, KidsGlassesResolver,
-  // collections
-  EyeglassesResolver, SportsGlassesResolver, BlueGlassesResolver,
-  // trending/seller
-  TrendingResolver, BestSellerResolver,
-} from "./constants/plpResolvers";
-
 import Home from "./page/Home/Home";
 import Page from "./page/Page";
 import Layout from "./layout/Layout";
@@ -154,6 +140,26 @@ function App() {
         },
         {
           path: "/contact_lenses/:brand/:contactBrandId",
+          element: <Product />
+        },
+        {
+          path: "/categoryProducts/:slug",
+          element: <Product />
+        },
+        {
+          path: "/collectionProducts/:collectionName",
+          element: <Product />
+        },
+        {
+          path: "/products/frame-shape/:frameShape",
+          element: <Product />
+        },
+        {
+          path: "/products/collection/:collection",
+          element: <Product />
+        },
+        {
+          path: "/allproduct/:categoryName/:categoryId",
           element: <Product />
         },
 
