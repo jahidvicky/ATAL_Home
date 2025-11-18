@@ -39,17 +39,17 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
     const activeSubcategories = useMemo(() => {
         if (!activeKey || !grouped.length) return [];
 
-        const categoryNameMap = {
-            glasses: "glasses",
-            sunglasses: "sunglasses",
-            contact_lenses: "contact_lenses",
+        const categoryIdMap = {
+            glasses: "69157332eeb23fa59c7d5326",
+            sunglasses: "6915705d9ceac0cdda41c83f",
+            contact_lenses: "6915735feeb23fa59c7d532b",
         };
 
-        const targetName = categoryNameMap[activeKey];
-        if (!targetName) return [];
+        const targetId = categoryIdMap[activeKey];
+        if (!targetId) return [];
 
         const matchedCategory = grouped.find(
-            (cat) => cat.categoryName.toLowerCase() === targetName.toLowerCase()
+            (cat) => cat._id === targetId
         );
 
         if (!matchedCategory) return [];
@@ -98,18 +98,16 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
                             {activeSubcategories.length > 0 ? (
                                 <ul className="space-y-4">
                                     {activeSubcategories.map((sub) => {
-                                        const categoryNameMap = {
-                                            glasses: "glasses",
-                                            sunglasses: "sunglasses",
-                                            contact_lenses: "contact_lenses",
+                                        const categoryIdMap = {
+                                            glasses: "69157332eeb23fa59c7d5326",
+                                            sunglasses: "6915705d9ceac0cdda41c83f",
+                                            contact_lenses: "6915735feeb23fa59c7d532b",
                                         };
 
-                                        const targetName = categoryNameMap[activeKey];
+                                        const targetId = categoryIdMap[activeKey];
                                         const matchedCategory = grouped.find(
                                             (cat) =>
-                                                cat.categoryName.toLowerCase() ===
-                                                targetName.toLowerCase()
-                                        );
+                                                cat._id === targetId);
 
                                         return (
                                             <li
@@ -145,7 +143,22 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
                             )}
 
                             <div className="mt-8">
-                                <button className="bg-black py-3 px-8 rounded-lg text-white hover:bg-gray-900">
+                                <button
+                                    className="bg-black py-3 px-8 rounded-lg text-white hover:bg-gray-900"
+                                    onClick={() => {
+                                        onClose?.();
+
+                                        const categoryIdMap = {
+                                            glasses: "69157332eeb23fa59c7d5326",
+                                            sunglasses: "6915705d9ceac0cdda41c83f",
+                                            contact_lenses: "6915735feeb23fa59c7d532b",
+                                        };
+
+                                        const catId = categoryIdMap[activeKey];
+
+                                        navigate(`/allproduct/${activeKey}/${catId}`);
+                                    }}
+                                >
                                     View All
                                 </button>
                             </div>
@@ -238,6 +251,11 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
                                                                 if (col.id === 302) {
                                                                     navigate(
                                                                         `/contact_lenses/${l.label}/${l.brandId}`
+                                                                    );
+                                                                }
+                                                                if (col.id === 401) {
+                                                                    navigate(
+                                                                        `/brands/${l.label}/${l.brandId}`
                                                                     );
                                                                 }
 

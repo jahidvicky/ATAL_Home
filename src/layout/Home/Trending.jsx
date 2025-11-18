@@ -13,6 +13,8 @@ const Trending = () => {
   const fetchTrendingProducts = async () => {
     try {
       const res = await API.get("/getTrendingProduct");
+      console.log(res);
+
       setReviews(res.data.products || []);
     } catch (err) {
       console.error("Failed to fetch trending products:", err);
@@ -52,9 +54,7 @@ const Trending = () => {
         </h2>
 
         {reviews.length > 0 && (
-          <Link
-            to={`/allProduct/${reviews[0]?.subCategoryName}/${reviews[0]?.cat_id}/${reviews[0]?.subCat_id}`}
-          >
+          <Link to="/products/collection/trending">
             <button className="flex items-center gap-4 text-white font-medium bg-[#f00000] px-4 py-2 rounded mr-1 hover:bg-black transition-colors duration-300 hover:cursor-pointer">
               FIND MORE
               <span className="bg-white text-black p-1 rounded-full">
