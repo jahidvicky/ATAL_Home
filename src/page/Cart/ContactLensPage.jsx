@@ -438,7 +438,6 @@ const ContactLensPage = () => {
         <ul className="text-lg space-y-1">
           <li>
             <strong>LENS TYPE: </strong>
-            {/* {product.contact_type} */}
             {product.lens_type}
           </li>
           <li>
