@@ -557,12 +557,19 @@ function Product() {
 
           let filtered = [];
 
+          // Allowed categories for Men/Women
+          const allowedCatIds = [
+            "6915705d9ceac0cdda41c83f",
+            "69157332eeb23fa59c7d5326",
+          ];
+
           // MEN
           if (slug === "men") {
             filtered = fullList.filter(
               (p) =>
-                p.gender?.toLowerCase() === "men" ||
-                p.gender?.toLowerCase() === "unisex"
+                allowedCatIds.includes(p.cat_id) &&
+                (p.gender?.toLowerCase() === "men" ||
+                  p.gender?.toLowerCase() === "unisex")
             );
           }
 
@@ -570,20 +577,22 @@ function Product() {
           if (slug === "women") {
             filtered = fullList.filter(
               (p) =>
-                p.gender?.toLowerCase() === "women" ||
-                p.gender?.toLowerCase() === "unisex"
+                allowedCatIds.includes(p.cat_id) &&
+                (p.gender?.toLowerCase() === "women" ||
+                  p.gender?.toLowerCase() === "unisex")
             );
           }
 
           // CONTACT LENS BY catId
           if (slug === "contact-lens") {
             filtered = fullList.filter(
-              (p) => p.cat_id === "6915735feeb23fa59c7d532b"   // your contact lens catId
+              (p) => p.cat_id === "6915735feeb23fa59c7d532b"
             );
           }
 
           setProducts(filtered);
           setPage(1);
+
         } catch (e) {
           console.log(e);
           setErrorMsg("Failed to load products");
@@ -591,8 +600,9 @@ function Product() {
           setIsLoading(false);
         }
 
-        return; // VERY IMPORTANT
+        return; // IMPORTANT
       }
+
 
 
 
