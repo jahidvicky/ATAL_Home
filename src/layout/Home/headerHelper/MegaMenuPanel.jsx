@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { IMAGE_URL } from "../../../API/Api";
 
-function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
+function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands }) {
     const panelRef = useRef(null);
     const navigate = useNavigate();
 
@@ -43,6 +43,7 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
             glasses: "69157332eeb23fa59c7d5326",
             sunglasses: "6915705d9ceac0cdda41c83f",
             contact_lenses: "6915735feeb23fa59c7d532b",
+            // brands: "6915505s6eg23qe59c7d53l4"
         };
 
         const targetId = categoryIdMap[activeKey];
@@ -74,7 +75,9 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
         "Shop by Frame Shape",
         "Shop by Our Picks",
         "Shop by Lens Category",
-        "Top Brands"
+        "Top Brands",
+        "All Brands",
+        "Shop by Brands"
     ];
 
     return (
@@ -95,7 +98,36 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
                                     : "Shop"}
                             </h3>
 
-                            {activeSubcategories.length > 0 ? (
+                            {/* LEFT COLUMN CONTENT */}
+                            {activeKey === "brands" ? (
+                                /* ================= BRANDS LIST IN LEFT COLUMN ================= */
+                                <ul className="grid grid-cols-3 gap-4">
+                                    {brands.map((brand) => (
+                                        <li
+                                            key={brand._id}
+                                            className="flex items-center gap-3 p-2 rounded-lg hover:bg-red-600 hover:text-white cursor-pointer transition"
+                                            onClick={() => {
+                                                onClose?.();
+                                                navigate(`/brands/${brand._id}`);
+                                            }}
+                                        >
+                                            <img
+                                                src={
+                                                    brand.image?.startsWith("http")
+                                                        ? brand.image
+                                                        : IMAGE_URL + brand.image
+                                                }
+                                                className="w-20 h-6 object-cover"
+                                                alt={brand.brand}
+                                            />
+                                        </li>
+                                    ))}
+                                </ul>
+
+
+                            ) : activeSubcategories.length > 0 ? (
+
+                                /* ================= ORIGINAL SUBCATEGORY LIST ================= */
                                 <ul className="space-y-4">
                                     {activeSubcategories.map((sub) => {
                                         const categoryIdMap = {
@@ -106,8 +138,8 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
 
                                         const targetId = categoryIdMap[activeKey];
                                         const matchedCategory = grouped.find(
-                                            (cat) =>
-                                                cat._id === targetId);
+                                            (cat) => cat._id === targetId
+                                        );
 
                                         return (
                                             <li
@@ -136,11 +168,13 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
                                         );
                                     })}
                                 </ul>
+
                             ) : (
                                 <p className="text-gray-500 text-sm">
                                     No subcategories available
                                 </p>
                             )}
+
 
                             <div className="mt-8">
                                 <button
@@ -152,6 +186,7 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
                                             glasses: "69157332eeb23fa59c7d5326",
                                             sunglasses: "6915705d9ceac0cdda41c83f",
                                             contact_lenses: "6915735feeb23fa59c7d532b",
+                                            // brands: "6915505s6eg23qe59c7d53l4"
                                         };
 
                                         const catId = categoryIdMap[activeKey];
@@ -254,9 +289,10 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped }) {
                                                                     );
                                                                 }
                                                                 if (col.id === 401) {
-                                                                    navigate(
-                                                                        `/brands/${l.label}/${l.brandId}`
-                                                                    );
+                                                                    navigate(`/brands/${l.brandId}`);
+                                                                }
+                                                                if (col.id === 402) {
+                                                                    navigate(`/brands/${l.brandId}`);
                                                                 }
 
                                                             }}
