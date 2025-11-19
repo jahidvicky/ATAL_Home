@@ -23,6 +23,12 @@ const ExploreCollection = () => {
       const GLASSES = "69157332eeb23fa59c7d5326";
       const SUNGLASSES = "6915705d9ceac0cdda41c83f";
 
+      const Transition = "69157665eeb23fa59c7d5349";
+      const Blue_Violet = "69157694eeb23fa59c7d5350";
+      const Progressive = "691576ddeeb23fa59c7d5357";
+      const Kids = "69157748eeb23fa59c7d5378";
+      const Kids2 = "6915763ceeb23fa59c7d5342";
+
       // BUILD COLLECTIONS
       const collectionData = [
         {
@@ -42,31 +48,28 @@ const ExploreCollection = () => {
           slug: "transitions",
           image: transition,
           products: products.filter(
-            (p) => p.subCategoryName?.toLowerCase() === "transitions"
-          ),
+            (p) => p.subCat_id === Transition),
         },
         {
           title: "Blue Violet",
           slug: "blue-violet",
           image: blue_violet,
           products: products.filter(
-            (p) => p.subCategoryName?.toLowerCase() === "blue violet"
-          ),
+            (p) => p.subCat_id === Blue_Violet),
         },
         {
           title: "Progressive",
           slug: "progressive",
           image: progressive,
           products: products.filter(
-            (p) => p.subCategoryName?.toLowerCase() === "progressive"
-          ),
+            (p) => p.subCat_id === Progressive),
         },
         {
           title: "Kids",
           slug: "kids",
           image: kids,
           products: products.filter(
-            (p) => p.subCategoryName?.toLowerCase() === "kids"
+            (p) => p.subCat_id === Kids || Kids2
           ),
         },
       ];
