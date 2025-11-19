@@ -78,7 +78,7 @@
 
 .banner-button {
   width: 300px;
-  height: 6vh;
+  height: 7vh;
   position: absolute;
   bottom: 48px;
   right: 550px;
@@ -152,25 +152,4 @@
   .banner-content {
     padding: 30px 15px;
   }
-}
-
-/* Slick Carousel Customization */
-.slick-dots {
-  bottom: 20px;
-  z-index: 3;
-}
-
-.slick-dots li button:before {
-  color: white;
-  font-size: 12px;
-  opacity: 0.7;
-}
-
-.slick-dots li.slick-active button:before {
-  color: white;
-  opacity: 1;
-}
-
-.slick-dots li button:before {
-  transition: all 0.3s ease;
 }

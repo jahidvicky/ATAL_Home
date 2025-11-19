@@ -27,6 +27,14 @@ const TestimonialsSlider = () => {
                 },
             },
         ],
+        // Always return a valid element
+        customPaging: () => <button></button>,
+        // Limit visible dots to 4
+        appendDots: dots => (
+            <ul>
+                {dots.slice(0, 4)}
+            </ul>
+        ),
     };
 
     const fetchTestimonial = async () => {
