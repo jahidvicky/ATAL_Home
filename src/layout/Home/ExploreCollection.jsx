@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import API from "../../API/Api";
 
 // IMAGES
-import blueglasses from "../../assets/newcollection/blueglasses.jpg";
-import eyeglasses from "../../assets/newcollection/eyeglasses.jpg";
-import kids from "../../assets/newcollection/kids.png";
-import sunglass from "../../assets/newcollection/sunglass.jpg";
+import blue_violet from "../../assets/newcollection/blue-violet.avif";
+import glasses from "../../assets/newcollection/glasses.avif";
+import kids from "../../assets/newcollection/kids-glasses.avif";
+import sunglasses from "../../assets/newcollection/sunglasses.avif";
+import transition from "../../assets/newcollection/transition.avif";
+import progressive from "../../assets/newcollection/progressive.avif";
 
 const ExploreCollection = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -26,19 +28,19 @@ const ExploreCollection = () => {
         {
           title: "Glasses",
           slug: "glasses",
-          image: eyeglasses,
+          image: glasses,
           products: products.filter((p) => p.cat_id === GLASSES),
         },
         {
           title: "Sunglasses",
           slug: "sunglasses",
-          image: sunglass,
+          image: sunglasses,
           products: products.filter((p) => p.cat_id === SUNGLASSES),
         },
         {
           title: "Transitions",
           slug: "transitions",
-          image: eyeglasses,
+          image: transition,
           products: products.filter(
             (p) => p.subCategoryName?.toLowerCase() === "transitions"
           ),
@@ -46,7 +48,7 @@ const ExploreCollection = () => {
         {
           title: "Blue Violet",
           slug: "blue-violet",
-          image: blueglasses,
+          image: blue_violet,
           products: products.filter(
             (p) => p.subCategoryName?.toLowerCase() === "blue violet"
           ),
@@ -54,7 +56,7 @@ const ExploreCollection = () => {
         {
           title: "Progressive",
           slug: "progressive",
-          image: eyeglasses,
+          image: progressive,
           products: products.filter(
             (p) => p.subCategoryName?.toLowerCase() === "progressive"
           ),

@@ -1,7 +1,4 @@
 import React from "react";
-import img2 from "../../assets/category/eyecheck2.png"
-import img3 from "../../assets/newcollection/sunglass.jpg"
-import img4 from "../../assets/newcollection/blueglasses.jpg"
 
 const LimitationOfLiability = () => {
     return (
@@ -86,31 +83,6 @@ const LimitationOfLiability = () => {
                         another party.
                     </li>
                 </ul>
-
-                {/* Images */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
-                    <img
-                        src={img2}
-                        alt="Eye Care"
-                        className="w-full h-48 object-cover rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg"
-                        loading="lazy"
-                        decoding="async"
-                    />
-                    <img
-                        src={img3}
-                        alt="Optical Store"
-                        className="w-full h-48 object-cover rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg"
-                        loading="lazy"
-                        decoding="async"
-                    />
-                    <img
-                        src={img4}
-                        alt="Eyewear"
-                        className="w-full h-48 object-cover rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg"
-                        loading="lazy"
-                        decoding="async"
-                    />
-                </div>
             </div>
         </div>
     );
