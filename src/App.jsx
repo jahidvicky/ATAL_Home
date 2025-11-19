@@ -162,7 +162,10 @@ function App() {
           path: "/allproduct/:categoryName/:categoryId",
           element: <Product />
         },
-
+        {
+          path: "/brands/:BrandId",
+          element: <Product />,
+        },
 
 
 

@@ -23,10 +23,6 @@ import SocialLinks from "../../page/SocialMedia/SocialLinks";
 import MegaMenuPanel from "./headerHelper/MegaMenuPanel";
 import SearchModal from "./headerHelper/SearchModal";
 
-/* ======================== MegaMenuPanel Component ======================== */
-
-<MegaMenuPanel />
-
 /* ======================== Main Header Component ======================== */
 function Header() {
   const navigate = useNavigate();
@@ -309,6 +305,51 @@ function Header() {
           text: "Auto-delivery with free shipping.",
           ctaLabel: "Shop Contact Lenses",
           ctaTo: "/allproduct/Contact-Lenses/6915735feeb23fa59c7d532b",
+          badge: "SAVE",
+        },
+      },
+
+
+      brands: {
+        columns: [
+          {
+            id: 401,
+            title: "Top Brands",
+            links: [
+              { id: 4011, label: "Ray-Ban", brandId: "690c6e4bce83c44ad440e022" },
+              { id: 4012, label: "Oakley", brandId: "690c6dface83c44ad440e019" },
+              { id: 4013, label: "Vogue-Eyewear", brandId: "690c6ea9ce83c44ad440e02b" },
+              { id: 4014, label: "Michael Kors", brandId: "690c6de1ce83c44ad440e016" },
+              { id: 4015, label: "Armani Exchange", brandId: "690c6d6dce83c44ad440e002" },
+              { id: 4016, label: "Versace", brandId: "690c6e7ece83c44ad440e028" },
+            ],
+          },
+          {
+            id: 402,
+            title: "Shop by Brands",
+            links: [
+              { id: 4021, label: "Armani Exchange", brandId: "690c6d6dce83c44ad440e002" },
+              { id: 4022, label: "Arnette", brandId: "690c6d9bce83c44ad440e010" },
+              { id: 4023, label: "Coach NewYork", brandId: "690c6dc6ce83c44ad440e013" },
+              { id: 4024, label: "Michael Kors", brandId: "690c6de1ce83c44ad440e016" },
+              { id: 4025, label: "Oakley", brandId: "690c6dface83c44ad440e019" },
+              { id: 4026, label: "Persol", brandId: "690c6e0ece83c44ad440e01c" },
+              { id: 4027, label: "Polo Ralph Lauren", brandId: "690c6e35ce83c44ad440e01f" },
+              { id: 4028, label: "Ray-Ban", brandId: "690c6e4bce83c44ad440e022" },
+              { id: 4029, label: "Tory Burch", brandId: "690c6e67ce83c44ad440e025" },
+              { id: 4030, label: "Versace", brandId: "690c6e7ece83c44ad440e028" },
+              { id: 4031, label: "Vogue-Eyewear", brandId: "690c6ea9ce83c44ad440e02b" },
+            ],
+          },
+        ],
+
+        promo: {
+          id: 499,
+          image: SUB_IMG.Banner3,
+          headline: "Subscribe & save 20%",
+          text: "Auto-delivery with free shipping.",
+          ctaLabel: "Shop by Top Brands",
+          ctaTo: ``,
           badge: "SAVE",
         },
       },
@@ -730,6 +771,16 @@ function Header() {
               </button>
             </li>
 
+            <li onMouseEnter={() => handleMegaEnter("brands")} onMouseLeave={handleMegaLeave}>
+              <button
+                type="button"
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "brands" ? "text-red-500" : ""
+                  }`}
+              >
+                Brands
+              </button>
+            </li>
+
             <Link to="/contact-us" className="hover:text-red-600 transition-colors">
               <li className="cursor-pointer">Contact Us</li>
             </Link>
@@ -759,8 +810,9 @@ function Header() {
               open={megaOpen}
               onClose={() => setMegaOpen(false)}
               activeKey={activeKey}
-              dataByKey={{ ...megaData, brands }}
+              dataByKey={megaData}
               grouped={grouped}
+              brands={brands}
             />
           </div>
         </nav>
