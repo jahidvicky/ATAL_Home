@@ -15,6 +15,7 @@ import Rectangle from "../assets/megaMenu/Rectangle Frame.webp"
 import Cat_Eye from "../assets/megaMenu/Cat-Eye Frame.avif"
 import Oval from "../assets/megaMenu/Oval Frame.webp"
 import Square from "../assets/megaMenu/Square Frame.jpg"
+import Banner4 from "../assets/megaMenu/top_brands.jpeg"
 
 export const CAT = {
     sunglasses: "6915705d9ceac0cdda41c83f",
@@ -73,4 +74,5 @@ export const SUB_IMG = {
     Banner1: Banner1,
     Banner2: Banner2,
     Banner3: Banner3,
+    Banner4: Banner4,
 }

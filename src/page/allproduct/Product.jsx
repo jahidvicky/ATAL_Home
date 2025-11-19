@@ -282,7 +282,7 @@ const FilterSections = ({ filters, setFilters, facetData }) => {
 
 // Main Product Component
 function Product() {
-  const { subCategory, subCatId, shape, gender, lens_type, frame_shape, collection, catId, lens_cat, contactBrandId, slug, collectionName, frameShape, categoryName, categoryId, BrandId } = useParams();
+  const { subCategory, subCatId, shape, gender, lens_type, frame_shape, collection, catId, lens_cat, contactBrandId, slug, collectionName, frameShape, categoryName, categoryId, BrandId, allBrands } = useParams();
 
   const location = useLocation();
   const brandId = location.state?.brandId || null;
@@ -375,6 +375,27 @@ function Product() {
         }
         return;
       }
+
+
+      if (allBrands === "allProduct") {
+        try {
+          const res = await API.get("/getallproduct");
+          const fullList = res.data?.products || res.data || [];
+
+          const filtered = fullList.filter((p) => p.
+            brand_id
+          );
+          setProducts(filtered);
+          setPage(1);
+        } catch (e) {
+          console.log(e);
+          setErrorMsg("Failed to load products");
+        } finally {
+          setIsLoading(false);
+        }
+        return;
+      }
+
 
       if (gender) {
         try {
@@ -761,7 +782,7 @@ function Product() {
   useEffect(() => {
     fetchProducts();
     fetchWishlist();
-  }, [catId, subCatId, brandId, shape, gender, lens_type, frame_shape, collection, lens_cat, contactBrandId, slug, collectionName, frameShape, categoryId, categoryName, BrandId]);
+  }, [catId, subCatId, brandId, shape, gender, lens_type, frame_shape, collection, lens_cat, contactBrandId, slug, collectionName, frameShape, categoryId, categoryName, BrandId, allBrands]);
 
   // Facets + Filters
   const facetData = useMemo(() => {
