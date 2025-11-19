@@ -34,6 +34,15 @@ const Trending = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
+    // Always return a valid element
+    customPaging: () => <button></button>,
+
+    // Limit visible dots to 4
+    appendDots: dots => (
+      <ul>
+        {dots.slice(0, 5)}
+      </ul>
+    ),
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 3 } },
       { breakpoint: 768, settings: { slidesToShow: 2 } },
