@@ -28,6 +28,13 @@ function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [mobileDropdown, setMobileDropdown] = useState({
+    glasses: false,
+    sunglasses: false,
+    contact_lenses: false,
+    brands: false,
+  });
+
   const homeTimeoutRef = useRef(null);
   const megaTimeoutRef = useRef(null);
 
@@ -137,6 +144,13 @@ function Header() {
   const handleMegaLeave = () => {
     if (megaTimeoutRef.current) clearTimeout(megaTimeoutRef.current);
     megaTimeoutRef.current = setTimeout(() => setMegaOpen(false), 300);
+  };
+
+  const toggleMobileDropdown = (key) => {
+    setMobileDropdown((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
   };
 
   useEffect(() => {
@@ -345,13 +359,13 @@ function Header() {
 
         promo: {
           id: 499,
-          image: SUB_IMG.Banner3,
-          headline: "Subscribe & save 20%",
-          text: "Auto-delivery with free shipping.",
-          ctaLabel: "Shop by Top Brands",
-          ctaTo: ``,
-          badge: "SAVE",
-        },
+          image: SUB_IMG.Banner4,
+          headline: "Shop the Best Brands",
+          text: "Explore our top eyewear brands with exclusive styles and premium quality.",
+          ctaLabel: "View All Brands",
+          ctaTo: "/allBrands/allProduct",
+        }
+
       },
     }),
     []
@@ -821,137 +835,250 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-screen w-64 bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 overflow-y-auto overscroll-contain shadow-2xl ${sidebarOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
+        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${sidebarOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
           }`}
       >
-        <div className="flex justify-between pr-2 items-center border-b border-gray-200 bg-white sticky top-0 z-50">
+
+        {/* FIXED HEADER */}
+        <div className="flex justify-between items-center bg-white h-[70px] border-b border-gray-200 px-3 sticky top-0 z-50">
           <Link to="/" onClick={() => setSidebarOpen(false)}>
             <img
               src={logo}
               className="object-cover h-[70px] w-[150px]"
               alt="Logo"
-              loading="lazy"
-              decoding="async"
             />
           </Link>
+
           <button
             onClick={() => setSidebarOpen(false)}
-            className="text-gray-900 hover:text-[#f00000] transition-colors"
-            aria-label="Close menu"
+            className="text-gray-900 hover:text-[#f00000]"
           >
             <IoIosCloseCircle size={28} />
           </button>
         </div>
 
-        <nav className="flex flex-col p-4 text-base font-semibold overscroll-contain">
-          <Link to="/" onClick={() => setSidebarOpen(false)} className="px-4 py-3 rounded hover:text-red-600 hover:bg-gray-100 transition-colors">
-            Home
-          </Link>
-          <Link
-            to="/glasses"
-            onClick={() => setSidebarOpen(false)}
-            className="px-4 py-3 rounded hover:text-red-600 hover:bg-gray-100 transition-colors"
-            state={{ category: CAT.OUR_COLLECTION, subcategory: SUB.EYEGLASSES, subCategoryName: "Eyeglasses" }}
-          >
-            Glasses
-          </Link>
-          <Link
-            to="/sunglasses"
-            onClick={() => setSidebarOpen(false)}
-            className="px-4 py-3 rounded hover:text-red-600 hover:bg-gray-100 transition-colors"
-            state={{ category: CAT.OUR_COLLECTION, subcategory: SUB.SUNGLASSES, subCategoryName: "Sunglasses" }}
-          >
-            Sunglasses
-          </Link>
-          <Link
-            to="/contact-lenses"
-            onClick={() => setSidebarOpen(false)}
-            className="px-4 py-3 rounded hover:text-red-600 hover:bg-gray-100 transition-colors"
-            state={{ category: CAT.SHOP_BY_CATEGORY, subcategory: SUB.CONTACT_LENSES, subCategoryName: "Contact Lenses" }}
-          >
-            Contact Lenses
-          </Link>
+        {/* FULL SCROLLABLE AREA */}
+        <div className="overflow-y-auto h-[calc(100vh-70px)] px-1 pb-24">
 
-          <hr className="border-gray-300 my-2" />
+          {/* NAVIGATION LIST */}
+          <nav className="flex flex-col p-4 text-base font-semibold overscroll-contain">
 
-          <Link to="/contact-us" onClick={() => setSidebarOpen(false)} className="px-4 py-3 rounded hover:text-red-600 hover:bg-gray-100 transition-colors">
-            Contact Us
-          </Link>
-          <Link to="/services" onClick={() => setSidebarOpen(false)} className="px-4 py-3 rounded hover:text-red-600 hover:bg-gray-100 transition-colors">
-            Services
-          </Link>
-          <Link to="/faq" onClick={() => setSidebarOpen(false)} className="px-4 py-3 rounded hover:text-red-600 hover:bg-gray-100 transition-colors">
-            FAQ
-          </Link>
-          <Link to="/how-to-order" onClick={() => setSidebarOpen(false)} className="px-4 py-3 rounded hover:text-red-600 hover:bg-gray-100 transition-colors">
-            How To Order
-          </Link>
+            {/* HOME */}
+            <Link
+              to="/"
+              onClick={() => setSidebarOpen(false)}
+              className="px-4 py-3 rounded hover:text-red-600 hover:bg-gray-100 transition-colors"
+            >
+              Home
+            </Link>
 
-          <Link
-            to="/eye-schedule-test"
-            onClick={() => setSidebarOpen(false)}
-            className="px-4 py-3 rounded bg-[#f00000] hover:bg-red-700 text-white my-2 text-center transition-colors font-semibold"
-          >
-            BOOK EYE EXAM
-          </Link>
+            {/* GLASSES */}
+            <div className="px-4 py-3">
+              <button
+                onClick={() => toggleMobileDropdown("glasses")}
+                className="w-full flex justify-between items-center py-2 hover:text-red-600"
+              >
+                Glasses
+                <span>{mobileDropdown.glasses ? "▲" : "▼"}</span>
+              </button>
 
-          <hr className="border-gray-300 my-2" />
+              {mobileDropdown.glasses && (
+                <div className="ml-4 mt-2 flex flex-col gap-2 text-sm">
+                  {megaData.glasses.columns.map((col) =>
+                    col.links.map((link) => (
+                      <button
+                        key={link.id}
+                        onClick={() => {
+                          navigate("/glasses", { state: link });
+                          setSidebarOpen(false);
+                        }}
+                        className="py-1 px-2 rounded hover:bg-gray-100 text-left"
+                      >
+                        {link.label}
+                      </button>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
 
-          <button
-            onClick={() => {
-              navigate("/wishlist-page");
-              setSidebarOpen(false);
-            }}
-            className="px-4 py-3 text-left rounded hover:text-red-600 hover:bg-gray-100 transition-colors"
-          >
-            Wishlist
-          </button>
+            {/* SUNGLASSES */}
+            <div className="px-4 py-3">
+              <button
+                onClick={() => toggleMobileDropdown("sunglasses")}
+                className="w-full flex justify-between items-center py-2 hover:text-red-600"
+              >
+                Sunglasses
+                <span>{mobileDropdown.sunglasses ? "▲" : "▼"}</span>
+              </button>
 
-          <hr className="border-gray-300 my-2" />
+              {mobileDropdown.sunglasses && (
+                <div className="ml-4 mt-2 flex flex-col gap-2 text-sm">
+                  {megaData.sunglasses.columns.map((col) =>
+                    col.links.map((link) => (
+                      <button
+                        key={link.id}
+                        onClick={() => {
+                          navigate("/sunglasses", { state: link });
+                          setSidebarOpen(false);
+                        }}
+                        className="py-1 px-2 rounded hover:bg-gray-100 text-left"
+                      >
+                        {link.label}
+                      </button>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
 
-          {!user ? (
+            {/* CONTACT LENSES */}
+            <div className="px-4 py-3">
+              <button
+                onClick={() => toggleMobileDropdown("contact_lenses")}
+                className="w-full flex justify-between items-center py-2 hover:text-red-600"
+              >
+                Contact Lenses
+                <span>{mobileDropdown.contact_lenses ? "▲" : "▼"}</span>
+              </button>
+
+              {mobileDropdown.contact_lenses && (
+                <div className="ml-4 mt-2 flex flex-col gap-2 text-sm">
+                  {megaData.contact_lenses.columns.map((col) =>
+                    col.links.map((link) => (
+                      <button
+                        key={link.id}
+                        onClick={() => {
+                          navigate("/contact-lenses", { state: link });
+                          setSidebarOpen(false);
+                        }}
+                        className="py-1 px-2 rounded hover:bg-gray-100 text-left"
+                      >
+                        {link.label}
+                      </button>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* BRANDS */}
+            <div className="px-4 py-3">
+              <button
+                onClick={() => toggleMobileDropdown("brands")}
+                className="w-full flex justify-between items-center py-2 hover:text-red-600"
+              >
+                Brands
+                <span>{mobileDropdown.brands ? "▲" : "▼"}</span>
+              </button>
+
+              {mobileDropdown.brands && (
+                <div className="ml-4 mt-2 flex flex-col gap-2 text-sm">
+                  {megaData.brands.columns.map((col) =>
+                    col.links.map((link) => (
+                      <button
+                        key={link.id}
+                        onClick={() => {
+                          navigate(`/brands/${link.brandId}`);
+                          setSidebarOpen(false);
+                        }}
+                        className="py-1 px-2 rounded hover:bg-gray-100 text-left"
+                      >
+                        {link.label}
+                      </button>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* EXTRA LINKS */}
+            <hr className="my-2" />
+
+            <Link to="/contact-us" onClick={() => setSidebarOpen(false)} className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded">
+              Contact Us
+            </Link>
+            <Link to="/services" onClick={() => setSidebarOpen(false)} className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded">
+              Services
+            </Link>
+            <Link to="/faq" onClick={() => setSidebarOpen(false)} className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded">
+              FAQ
+            </Link>
+            <Link to="/how-to-order" onClick={() => setSidebarOpen(false)} className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded">
+              How To Order
+            </Link>
+
+            {/* BOOK TEST */}
+            <Link
+              to="/eye-schedule-test"
+              onClick={() => setSidebarOpen(false)}
+              className="px-4 py-3 my-2 text-center bg-[#f00000] text-white rounded hover:bg-red-700"
+            >
+              BOOK EYE EXAM
+            </Link>
+
+            <hr className="my-2" />
+
+            {/* WISHLIST */}
             <button
               onClick={() => {
-                navigate("/login");
+                navigate("/wishlist-page");
                 setSidebarOpen(false);
               }}
-              className="px-4 py-3 text-left rounded bg-[#f00000] hover:bg-red-700 text-white transition-colors font-semibold"
+              className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 text-left"
             >
-              Sign In
+              Wishlist
             </button>
-          ) : (
-            <>
-              <Link
-                to="/update-profile"
-                onClick={() => setSidebarOpen(false)}
-                className="px-4 py-3 rounded hover:text-red-600 hover:bg-gray-100 transition-colors"
-              >
-                My Profile
-              </Link>
-              <Link
-                to="/order-history"
-                onClick={() => setSidebarOpen(false)}
-                className="px-4 py-3 rounded hover:text-red-600 hover:bg-gray-100 transition-colors"
-              >
-                My Orders
-              </Link>
+
+            <hr className="my-2" />
+
+            {/* LOGIN / LOGOUT */}
+            {!user ? (
               <button
                 onClick={() => {
-                  dispatch({ type: "LOGOUT" });
-                  localStorage.removeItem("token");
-                  localStorage.removeItem("user");
-                  localStorage.removeItem("cartItems");
-                  navigate("/");
+                  navigate("/login");
                   setSidebarOpen(false);
                 }}
-                className="px-4 py-3 text-left rounded bg-red-600 hover:bg-red-700 text-white mt-2 transition-colors font-semibold"
+                className="px-4 py-3 bg-[#f00000] text-white rounded hover:bg-red-700"
               >
-                Logout
+                Sign In
               </button>
-            </>
-          )}
-        </nav>
+            ) : (
+              <>
+                <Link
+                  to="/update-profile"
+                  onClick={() => setSidebarOpen(false)}
+                  className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded"
+                >
+                  My Profile
+                </Link>
+
+                <Link
+                  to="/order-history"
+                  onClick={() => setSidebarOpen(false)}
+                  className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded"
+                >
+                  My Orders
+                </Link>
+
+                <button
+                  onClick={() => {
+                    dispatch({ type: "LOGOUT" });
+                    localStorage.clear();
+                    navigate("/");
+                    setSidebarOpen(false);
+                  }}
+                  className="px-4 py-3 bg-red-600 text-white rounded hover:bg-red-700 mt-2 text-left"
+                >
+                  Logout
+                </button>
+              </>
+            )}
+
+          </nav>
+        </div>
       </div>
+
 
       {/* Sidebar Overlay */}
       {sidebarOpen && (

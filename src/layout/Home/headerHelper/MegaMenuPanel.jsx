@@ -43,16 +43,12 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
             glasses: "69157332eeb23fa59c7d5326",
             sunglasses: "6915705d9ceac0cdda41c83f",
             contact_lenses: "6915735feeb23fa59c7d532b",
-            // brands: "6915505s6eg23qe59c7d53l4"
         };
 
         const targetId = categoryIdMap[activeKey];
         if (!targetId) return [];
 
-        const matchedCategory = grouped.find(
-            (cat) => cat._id === targetId
-        );
-
+        const matchedCategory = grouped.find((cat) => cat._id === targetId);
         if (!matchedCategory) return [];
 
         return [...matchedCategory.subCategories].sort((a, b) =>
@@ -67,7 +63,6 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
         transition: { duration: 0.2 },
     };
 
-    /* SPECIAL TITLES */
     const specialCases = [
         "Shop By Face Shape",
         "Shop by Category",
@@ -98,119 +93,129 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
                                     : "Shop"}
                             </h3>
 
-                            {/* LEFT COLUMN CONTENT */}
+                            {/* ==================== BRANDS SECTION ==================== */}
                             {activeKey === "brands" ? (
-                                /* ================= BRANDS LIST IN LEFT COLUMN ================= */
-                                <ul className="grid grid-cols-3 gap-4">
-                                    {brands.map((brand) => (
-                                        <li
-                                            key={brand._id}
-                                            className="flex items-center gap-3 p-2 rounded-lg hover:bg-red-600 hover:text-white cursor-pointer transition"
-                                            onClick={() => {
-                                                onClose?.();
-                                                navigate(`/brands/${brand._id}`);
-                                            }}
-                                        >
-                                            <img
-                                                src={
-                                                    brand.image?.startsWith("http")
-                                                        ? brand.image
-                                                        : IMAGE_URL + brand.image
-                                                }
-                                                className="w-20 h-6 object-cover"
-                                                alt={brand.brand}
-                                            />
-                                        </li>
-                                    ))}
-                                </ul>
-
-
-                            ) : activeSubcategories.length > 0 ? (
-
-                                /* ================= ORIGINAL SUBCATEGORY LIST ================= */
-                                <ul className="space-y-4">
-                                    {activeSubcategories.map((sub) => {
-                                        const categoryIdMap = {
-                                            glasses: "69157332eeb23fa59c7d5326",
-                                            sunglasses: "6915705d9ceac0cdda41c83f",
-                                            contact_lenses: "6915735feeb23fa59c7d532b",
-                                        };
-
-                                        const targetId = categoryIdMap[activeKey];
-                                        const matchedCategory = grouped.find(
-                                            (cat) => cat._id === targetId
-                                        );
-
-                                        return (
+                                <>
+                                    <ul className="grid grid-cols-2 gap-1">
+                                        {brands.map((brand) => (
                                             <li
-                                                key={sub.id}
-                                                className="flex items-center gap-4 p-2 rounded-lg hover:bg-red-600 hover:text-white cursor-pointer transition"
+                                                key={brand._id}
+                                                className="flex items-center gap-3 p-1 rounded-sm hover:bg-red-600 cursor-pointer transition"
                                                 onClick={() => {
                                                     onClose?.();
-                                                    navigate(
-                                                        `/allproduct/${sub.name}/${matchedCategory.categoryId}/${sub.id}`
-                                                    );
+                                                    navigate(`/brands/${brand._id}`);
                                                 }}
                                             >
                                                 <img
                                                     src={
-                                                        sub.image.startsWith("http")
-                                                            ? sub.image
-                                                            : IMAGE_URL + sub.image
+                                                        brand.image?.startsWith("http")
+                                                            ? brand.image
+                                                            : IMAGE_URL + brand.image
                                                     }
-                                                    className="w-12 h-12 rounded-full object-cover"
-                                                    alt={sub.name}
+                                                    className="w-auto h-auto object-contain"
+                                                    alt={brand.brand}
                                                 />
-                                                <span className="text-[15px]">
-                                                    {sub.name}
-                                                </span>
                                             </li>
-                                        );
-                                    })}
-                                </ul>
+                                        ))}
+                                    </ul>
 
+                                    {/* VIEW ALL BRANDS */}
+                                    <div className="mt-6">
+                                        <button
+                                            className="bg-black py-3 px-8 rounded-lg text-white hover:bg-gray-900"
+                                            onClick={() => {
+                                                onClose?.();
+                                                navigate("/allBrands/allProduct");
+                                            }}
+                                        >
+                                            View All
+                                        </button>
+                                    </div>
+                                </>
                             ) : (
-                                <p className="text-gray-500 text-sm">
-                                    No subcategories available
-                                </p>
+                                <>
+                                    {/* ==================== SUBCATEGORY LIST ==================== */}
+                                    {activeSubcategories.length > 0 ? (
+                                        <ul className="space-y-4">
+                                            {activeSubcategories.map((sub) => {
+                                                const categoryIdMap = {
+                                                    glasses: "69157332eeb23fa59c7d5326",
+                                                    sunglasses: "6915705d9ceac0cdda41c83f",
+                                                    contact_lenses: "6915735feeb23fa59c7d532b",
+                                                };
+
+                                                const targetId = categoryIdMap[activeKey];
+                                                const matchedCategory = grouped.find(
+                                                    (cat) => cat._id === targetId
+                                                );
+
+                                                return (
+                                                    <li
+                                                        key={sub.id}
+                                                        className="flex items-center gap-4 p-2 rounded-lg hover:bg-red-600 hover:text-white cursor-pointer transition"
+                                                        onClick={() => {
+                                                            onClose?.();
+                                                            navigate(
+                                                                `/allproduct/${sub.name}/${matchedCategory.categoryId}/${sub.id}`
+                                                            );
+                                                        }}
+                                                    >
+                                                        <img
+                                                            src={
+                                                                sub.image.startsWith("http")
+                                                                    ? sub.image
+                                                                    : IMAGE_URL + sub.image
+                                                            }
+                                                            className="w-12 h-12 rounded-full object-cover"
+                                                            alt={sub.name}
+                                                        />
+                                                        <span className="text-[15px]">
+                                                            {sub.name}
+                                                        </span>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    ) : (
+                                        <p className="text-gray-500 text-sm">
+                                            No subcategories available
+                                        </p>
+                                    )}
+
+                                    {/* VIEW ALL FOR CATEGORIES */}
+                                    <div className="mt-8">
+                                        <button
+                                            className="bg-black py-3 px-8 rounded-lg text-white hover:bg-gray-900"
+                                            onClick={() => {
+                                                onClose?.();
+
+                                                const categoryIdMap = {
+                                                    glasses: "69157332eeb23fa59c7d5326",
+                                                    sunglasses: "6915705d9ceac0cdda41c83f",
+                                                    contact_lenses: "6915735feeb23fa59c7d532b",
+                                                };
+
+                                                const catId = categoryIdMap[activeKey];
+
+                                                navigate(`/allproduct/${activeKey}/${catId}`);
+                                            }}
+                                        >
+                                            View All
+                                        </button>
+                                    </div>
+                                </>
                             )}
-
-
-                            <div className="mt-8">
-                                <button
-                                    className="bg-black py-3 px-8 rounded-lg text-white hover:bg-gray-900"
-                                    onClick={() => {
-                                        onClose?.();
-
-                                        const categoryIdMap = {
-                                            glasses: "69157332eeb23fa59c7d5326",
-                                            sunglasses: "6915705d9ceac0cdda41c83f",
-                                            contact_lenses: "6915735feeb23fa59c7d532b",
-                                            // brands: "6915505s6eg23qe59c7d53l4"
-                                        };
-
-                                        const catId = categoryIdMap[activeKey];
-
-                                        navigate(`/allproduct/${activeKey}/${catId}`);
-                                    }}
-                                >
-                                    View All
-                                </button>
-                            </div>
                         </div>
 
                         {/* ================== MIDDLE COLUMN ================== */}
                         <div className="p-6 bg-gray-100 overflow-y-auto max-h-[500px]">
                             {menu?.columns?.map((col) => (
                                 <div key={col.title} className="mb-6">
-
                                     <h4 className="font-bold uppercase text-[14px] mb-2">
                                         {col.title}
                                     </h4>
 
                                     <ul className="space-y-1">
-
-                                        {/* CASE 1: Dynamic Column (Brands) */}
                                         {col.dynamic ? (
                                             col.links?.length > 0 ? (
                                                 col.links.map((item) => (
@@ -235,8 +240,6 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
                                                 </li>
                                             )
                                         ) : (
-                                            /* CASE 2: Static Column with special logic */
-
                                             col.links.map((l) => (
                                                 <li key={l.label}>
                                                     {specialCases.includes(col.title) ? (
@@ -244,57 +247,15 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
                                                             onClick={() => {
                                                                 onClose?.();
 
-                                                                if (col.id === 101) {
-                                                                    navigate(
-                                                                        `/glasses/${l.faceShape}`
-                                                                    );
-                                                                }
-
-                                                                if (col.id === 102) {
-                                                                    navigate(
-                                                                        `/glasses/gender/${l.gender}`
-                                                                    );
-                                                                }
-
-                                                                if (col.id === 103) {
-                                                                    navigate(
-                                                                        `/glasses/lens_type/${l.lens_type}`
-                                                                    );
-                                                                }
-                                                                if (col.id === 201) {
-                                                                    navigate(`/sunglasses/collection/${l.collection}`);
-
-                                                                }
-
-                                                                if (col.id === 202) {
-                                                                    navigate(
-                                                                        `/sunglasses/lens_type/${l.lens_type}`
-                                                                    );
-                                                                }
-
-                                                                if (col.id === 203) {
-                                                                    navigate(
-                                                                        `/sunglasses/frame_shape/${l.frame_shape}`
-                                                                    );
-                                                                }
-
-                                                                if (col.id === 301) {
-                                                                    navigate(
-                                                                        `/contact_lenses/category/${l.lens_cat}/${l.catId}`
-                                                                    );
-                                                                }
-                                                                if (col.id === 302) {
-                                                                    navigate(
-                                                                        `/contact_lenses/${l.label}/${l.brandId}`
-                                                                    );
-                                                                }
-                                                                if (col.id === 401) {
-                                                                    navigate(`/brands/${l.brandId}`);
-                                                                }
-                                                                if (col.id === 402) {
-                                                                    navigate(`/brands/${l.brandId}`);
-                                                                }
-
+                                                                if (col.id === 101) navigate(`/glasses/${l.faceShape}`);
+                                                                if (col.id === 102) navigate(`/glasses/gender/${l.gender}`);
+                                                                if (col.id === 103) navigate(`/glasses/lens_type/${l.lens_type}`);
+                                                                if (col.id === 201) navigate(`/sunglasses/collection/${l.collection}`);
+                                                                if (col.id === 202) navigate(`/sunglasses/lens_type/${l.lens_type}`);
+                                                                if (col.id === 203) navigate(`/sunglasses/frame_shape/${l.frame_shape}`);
+                                                                if (col.id === 301) navigate(`/contact_lenses/category/${l.lens_cat}/${l.catId}`);
+                                                                if (col.id === 302) navigate(`/contact_lenses/${l.label}/${l.brandId}`);
+                                                                if (col.id === 401 || col.id === 402) navigate(`/brands/${l.brandId}`);
                                                             }}
                                                             className="text-[14px] hover:text-red-500 block py-1 text-left w-full"
                                                         >
@@ -313,7 +274,6 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
                                                 </li>
                                             ))
                                         )}
-
                                     </ul>
                                 </div>
                             ))}
