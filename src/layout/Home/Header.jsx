@@ -520,10 +520,17 @@ function Header() {
         <div className="mt-1 text-xs sm:text-sm">
           Call Us Today! 1866-242-3545 |
           <a
-            href="mailto:info.ataloptical@gmail.com"
+            href="mailto: sales.ataloptical@gmail.com"
             className="text-white hover:underline hover:text-black pl-1"
           >
             sales.ataloptical@gmail.com
+          </a>
+          <span> |</span>
+          <a
+            href="mailto:info.ataloptical@gmail.com"
+            className="text-white hover:underline hover:text-black pl-1"
+          >
+            info.ataloptical@gmail.com
           </a>
         </div>
 
