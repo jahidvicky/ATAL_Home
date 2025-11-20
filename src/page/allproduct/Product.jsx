@@ -109,6 +109,8 @@ function ProductCard({
   };
 
   const variants = Array.isArray(data.product_variants) ? data.product_variants : [];
+  const isContactLens = data.cat_id === "6915735feeb23fa59c7d532b";
+
 
   return (
     <div
@@ -177,7 +179,8 @@ function ProductCard({
         </span>
       </div>
 
-      {variants.length > 0 && (
+
+      {variants.length > 0 && !isContactLens && (
         <div className="flex justify-center gap-2 mt-2">
           {variants.map((variant, i) => (
             <span
@@ -188,7 +191,7 @@ function ProductCard({
               onMouseLeave={onCardLeave}
               onBlur={onCardLeave}
               className={`w-5 h-5 rounded-full border transition-all duration-200 
-                          ${activeVar?.colorName === variant.colorName
+          ${activeVar?.colorName === variant.colorName
                   ? "border-black ring-2 ring-black/10 scale-110"
                   : "border-gray-300 hover:scale-105"}`}
               style={{
