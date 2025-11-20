@@ -29,8 +29,6 @@ const ViewCart = ({ items, hideCheckout }) => {
     vendorID: item.vendorID || null,
   }));
 
-  console.log(cartItems);
-
 
   return (
     <div className="container mx-auto px-4 py-10">

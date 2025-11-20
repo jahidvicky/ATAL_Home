@@ -61,6 +61,7 @@ function ProductCard({
     return resolveImg(v0 || c0 || fallback || "");
   }, [data, img]);
 
+
   const baseImgs = React.useMemo(() => {
     const allImgs = [
       ...(data?.product_image_collection || []),
@@ -69,10 +70,12 @@ function ProductCard({
     return allImgs.length ? allImgs.map(resolveImg) : [primary];
   }, [data, primary]);
 
+
   const images = React.useMemo(() => {
     const srcs = activeVar?.images?.length ? activeVar.images : baseImgs;
     return srcs.map(resolveImg);
   }, [activeVar, baseImgs]);
+
 
   const currentImg = images[slideIdx] || images[0] || primary;
 
@@ -401,9 +404,6 @@ function Product() {
         try {
           const res = await API.get("/getallproduct");
           const fullList = res.data?.products || res.data || [];
-          console.log(fullList);
-
-
           const filtered = fullList.filter((p) => {
             return (
               String(p.gender)?.toLowerCase() === gender.toLowerCase()
