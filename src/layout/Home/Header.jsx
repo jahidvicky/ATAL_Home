@@ -85,7 +85,10 @@ function Header() {
     }
   };
 
-  useEffect(() => {
+
+
+
+   useEffect(() => {
     async function fetchSubcategories() {
       try {
         const res = await API.get("/getallsubcategory");
@@ -95,6 +98,9 @@ function Header() {
 
         subs.forEach((sub) => {
           const cat = sub.category;
+
+          // ?? Skip if category object or _id is missing (fix for live error)
+          if (!cat || !cat._id) return;
 
           if (!categoryMap[cat._id]) {
             categoryMap[cat._id] = {
@@ -122,6 +128,10 @@ function Header() {
 
     fetchSubcategories();
   }, []);
+
+
+
+
 
   const handleHomeEnter = () => {
     if (homeTimeoutRef.current) clearTimeout(homeTimeoutRef.current);
