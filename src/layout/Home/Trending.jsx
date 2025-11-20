@@ -13,8 +13,6 @@ const Trending = () => {
   const fetchTrendingProducts = async () => {
     try {
       const res = await API.get("/getTrendingProduct");
-      console.log(res);
-
       setReviews(res.data.products || []);
     } catch (err) {
       console.error("Failed to fetch trending products:", err);
