@@ -113,15 +113,39 @@ const ContactLensPage = () => {
       const prod = res.data.product || {};
       setProduct(prod);
 
-      if (prod.product_image_collection?.length > 0) {
-        const imgs = prod.product_image_collection.map((img) => normalizeUrl(img));
-        setGalleryImages(imgs);
-        setMainImage(imgs[0] || null);
+      //  UNIVERSAL image loader
+      let images = [];
+
+      // 1. Variant images
+      if (prod.product_variants?.[0]?.images?.length) {
+        images = prod.product_variants[0].images.map((img) => normalizeUrl(img));
       }
+
+      // 2. product_image_collection
+      if (images.length === 0 && prod.product_image_collection?.length) {
+        images = prod.product_image_collection.map((img) => normalizeUrl(img));
+      }
+
+      // 3. single product_image
+      if (images.length === 0 && prod.product_image) {
+        images = [normalizeUrl(prod.product_image)];
+      }
+
+      // 4. final set
+      setGalleryImages(images);
+      setMainImage(images[0] || null);
+
+      // 5. last fallback
+      if (!images.length) {
+        setGalleryImages(["/no-image.png"]);
+        setMainImage("/no-image.png");
+      }
+
     } catch (err) {
       console.error("Failed to fetch products:", err);
     }
-  }; // Seed gallery with server images for CL PDP. [web:59]
+  };
+
 
   // Toggle wishlist (add/remove)
   const toggleWishlist = async (productId) => {
