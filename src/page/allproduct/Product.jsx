@@ -109,7 +109,9 @@ function ProductCard({
   };
 
   const variants = Array.isArray(data.product_variants) ? data.product_variants : [];
-  const isContactLens = data.cat_id === "6915735feeb23fa59c7d532b";
+  const isContactLens =
+    data?.cat_id?._id === "6915735feeb23fa59c7d532b" ||
+    data?.cat_id === "6915735feeb23fa59c7d532b";
 
 
   return (
