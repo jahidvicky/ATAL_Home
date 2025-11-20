@@ -85,7 +85,10 @@ function Header() {
     }
   };
 
-  useEffect(() => {
+
+
+
+   useEffect(() => {
     async function fetchSubcategories() {
       try {
         const res = await API.get("/getallsubcategory");
@@ -95,6 +98,9 @@ function Header() {
 
         subs.forEach((sub) => {
           const cat = sub.category;
+
+          // ?? Skip if category object or _id is missing (fix for live error)
+          if (!cat || !cat._id) return;
 
           if (!categoryMap[cat._id]) {
             categoryMap[cat._id] = {
@@ -122,6 +128,10 @@ function Header() {
 
     fetchSubcategories();
   }, []);
+
+
+
+
 
   const handleHomeEnter = () => {
     if (homeTimeoutRef.current) clearTimeout(homeTimeoutRef.current);
@@ -520,10 +530,17 @@ function Header() {
         <div className="mt-1 text-xs sm:text-sm">
           Call Us Today! 1866-242-3545 |
           <a
-            href="mailto:info.ataloptical@gmail.com"
+            href="mailto: sales.ataloptical@gmail.com"
             className="text-white hover:underline hover:text-black pl-1"
           >
             sales.ataloptical@gmail.com
+          </a>
+          <span> |</span>
+          <a
+            href="mailto:info.ataloptical@gmail.com"
+            className="text-white hover:underline hover:text-black pl-1"
+          >
+            info.ataloptical@gmail.com
           </a>
         </div>
 

@@ -61,6 +61,7 @@ function ProductCard({
     return resolveImg(v0 || c0 || fallback || "");
   }, [data, img]);
 
+
   const baseImgs = React.useMemo(() => {
     const allImgs = [
       ...(data?.product_image_collection || []),
@@ -69,10 +70,12 @@ function ProductCard({
     return allImgs.length ? allImgs.map(resolveImg) : [primary];
   }, [data, primary]);
 
+
   const images = React.useMemo(() => {
     const srcs = activeVar?.images?.length ? activeVar.images : baseImgs;
     return srcs.map(resolveImg);
   }, [activeVar, baseImgs]);
+
 
   const currentImg = images[slideIdx] || images[0] || primary;
 
@@ -106,6 +109,8 @@ function ProductCard({
   };
 
   const variants = Array.isArray(data.product_variants) ? data.product_variants : [];
+  const isContactLens = data.cat_id === "6915735feeb23fa59c7d532b";
+
 
   return (
     <div
@@ -174,7 +179,8 @@ function ProductCard({
         </span>
       </div>
 
-      {variants.length > 0 && (
+
+      {variants.length > 0 && !isContactLens && (
         <div className="flex justify-center gap-2 mt-2">
           {variants.map((variant, i) => (
             <span
@@ -185,7 +191,7 @@ function ProductCard({
               onMouseLeave={onCardLeave}
               onBlur={onCardLeave}
               className={`w-5 h-5 rounded-full border transition-all duration-200 
-                          ${activeVar?.colorName === variant.colorName
+          ${activeVar?.colorName === variant.colorName
                   ? "border-black ring-2 ring-black/10 scale-110"
                   : "border-gray-300 hover:scale-105"}`}
               style={{
@@ -401,9 +407,6 @@ function Product() {
         try {
           const res = await API.get("/getallproduct");
           const fullList = res.data?.products || res.data || [];
-          console.log(fullList);
-
-
           const filtered = fullList.filter((p) => {
             return (
               String(p.gender)?.toLowerCase() === gender.toLowerCase()
