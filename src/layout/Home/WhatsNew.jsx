@@ -48,7 +48,7 @@ const WhatsNew = () => {
                         styles, the newest Atal Optical collections have just what you need.
                     </p>
                     <button
-                        onClick={() => navigate("/glasses/mens-frame")}
+                        onClick={() => navigate("/allproduct/sunglasses/6915705d9ceac0cdda41c83f")}
                         className="bg-[#f00000] hover:bg-red-700 text-white font-medium px-5 py-3 rounded-md shadow-md active:scale-95 transition"
                     >
                         Shop At Atal Optical
@@ -79,7 +79,7 @@ const WhatsNew = () => {
                         frames bring a hip-hop twist to timeless classic eyewear.
                     </p>
                     <button
-                        onClick={() => navigate("/glasses/womens-frame")}
+                        onClick={() => navigate("/allproduct/glasses/69157332eeb23fa59c7d5326")}
                         className="bg-[#f00000] hover:bg-red-700 text-white font-medium px-5 py-3 rounded-md shadow-md active:scale-95 transition"
                     >
                         Shop now
