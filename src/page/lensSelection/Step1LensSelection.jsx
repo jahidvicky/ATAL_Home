@@ -1,11 +1,31 @@
 import React from "react";
+import single_vision from "../../assets/lens-selection-image/single_vision.png";
+import progressive_multifocal from "../../assets/lens-selection-image/progressive_multifocal.png";
+import reading_lens from "../../assets/lens-selection-image/reading_lens.png";
+import non_prescription from "../../assets/lens-selection-image/non_prescription.png";
 
 const Step1LensSelection = ({ selectedLens, onSelect }) => {
   const lensOptions = [
-    { name: "Single vision lenses", description: "Corrects one field of vision (near, intermediate or distance)." },
-    { name: "Progressive lenses", description: "Corrects multiple fields of vision with one lens (near, intermediate and distance)." },
-    { name: "Reading lenses", description: "Corrects one field of vision, to see things near, improving your focus while reading." },
-    { name: "Non-prescription lenses", description: "Protective and stylish lenses, without vision correction." },
+    {
+      name: "Single vision lenses",
+      description: "Corrects one field of vision (near, intermediate or distance).",
+      image: single_vision,
+    },
+    {
+      name: "Progressive lenses",
+      description: "Corrects multiple fields of vision with one lens (near, intermediate and distance).",
+      image: progressive_multifocal,
+    },
+    {
+      name: "Reading lenses",
+      description: "Corrects one field of vision, to see things near, improving your focus while reading.",
+      image: reading_lens,
+    },
+    {
+      name: "Non-prescription lenses",
+      description: "Protective and stylish lenses, without vision correction.",
+      image: non_prescription,
+    },
   ];
 
   return (
@@ -19,13 +39,20 @@ const Step1LensSelection = ({ selectedLens, onSelect }) => {
         {lensOptions.map((lens) => (
           <button
             key={lens.name}
-            className={` hover:cursor-pointer w-full text-left border rounded-lg p-4 hover:bg-gray-100 transition-all ${
-              selectedLens === lens.name ? "border-blue-500 bg-gray-100" : "border-gray-300"
-            }`}
+            className={`hover:cursor-pointer w-full text-left border rounded-lg p-4 hover:bg-gray-100 transition-all 
+              ${selectedLens === lens.name ? "border-blue-500 bg-gray-100" : "border-gray-300"
+              }`}
             onClick={() => onSelect(lens.name)}
           >
             <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+              <div className="w-25 h-25 flex items-center justify-center bg-gray-200 rounded-full overflow-hidden">
+                <img
+                  src={lens.image}
+                  alt={lens.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
               <div>
                 <h3 className="text-lg font-medium text-gray-700">{lens.name}</h3>
                 <p className="text-sm text-gray-500 mt-1">{lens.description}</p>
