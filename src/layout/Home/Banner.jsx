@@ -33,7 +33,7 @@ const data = [
     subtitle: "Comfort • Clarity • Confidence",
     description: "Choose from our best-selling glasses designed for everyday comfort.",
     buttonText: "Find Your Style",
-    buttonLink: "/sunglasses/collection/best-seller",
+    buttonLink: "/allproduct/contact_lenses/6915735feeb23fa59c7d532b",
     buttonColor: "#ff5252",
     textColor: "#ffffff",
     buttonPosition: "left1"
