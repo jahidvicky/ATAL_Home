@@ -131,8 +131,6 @@ function Header() {
 
 
 
-
-
   const handleHomeEnter = () => {
     if (homeTimeoutRef.current) clearTimeout(homeTimeoutRef.current);
     setHomeOpen(true);
@@ -219,9 +217,9 @@ function Header() {
             id: 103,
             title: "Shop By Lens Type",
             links: [
-              { id: 1032, label: "Blue-violet light glasses", lens_type: "blue violet" },
-              { id: 1033, label: "Progressive", lens_type: "progressive" },
-              { id: 1031, label: "Transitions® Glasses", lens_type: "transitions" },
+              { id: 1031, label: "Blue-violet light glasses", lens_type: "blue violet" },
+              { id: 1032, label: "Progressive", lens_type: "progressive" },
+              { id: 1033, label: "Transitions® Glasses", lens_type: "transitions" },
             ],
           },
         ],
@@ -250,9 +248,9 @@ function Header() {
             title: "Shop by Our Picks",
             links: [
               { id: 2011, label: "Best Seller", collection: "best-seller" },
-              { id: 2014, label: "Ray-Ban", collection: "690c6e4bce83c44ad440e022" },
-              { id: 2012, label: "Trending", collection: "trending" },
-              { id: 2013, label: "Versace", collection: "690c6e7ece83c44ad440e028" },
+              { id: 2012, label: "Ray-Ban", collection: "690c6e4bce83c44ad440e022" },
+              { id: 2013, label: "Trending", collection: "trending" },
+              { id: 2014, label: "Versace", collection: "690c6e7ece83c44ad440e028" },
             ],
 
           },
@@ -269,12 +267,12 @@ function Header() {
             id: 203,
             title: "Shop by Frame Shape",
             links: [
-              { id: 2036, label: "Aviator", frame_shape: "aviator" },
-              { id: 2034, label: "Cat-Eye", frame_shape: "cat-eye" },
-              { id: 2035, label: "Oval", frame_shape: "oval" },
-              { id: 2031, label: "Rectangle", frame_shape: "rectangle" },
-              { id: 2032, label: "Round", frame_shape: "round" },
-              { id: 2033, label: "Square", frame_shape: "square" },
+              { id: 2031, label: "Aviator", frame_shape: "aviator" },
+              { id: 2032, label: "Cat-Eye", frame_shape: "cat-eye" },
+              { id: 2033, label: "Oval", frame_shape: "oval" },
+              { id: 2034, label: "Rectangle", frame_shape: "rectangle" },
+              { id: 2035, label: "Round", frame_shape: "round" },
+              { id: 2036, label: "Square", frame_shape: "square" },
             ],
           },
         ],
@@ -301,8 +299,8 @@ function Header() {
             id: 301,
             title: "Shop by Lens Category",
             links: [
-              { id: 3011, label: "Daily", lens_cat: "daily", catId: "6915735feeb23fa59c7d532b" },
-              { id: 3012, label: "Biweekly / Weekly", lens_cat: "weekly" || "biweekly", catId: "6915735feeb23fa59c7d532b" },
+              { id: 3011, label: "Biweekly / Weekly", lens_cat: "weekly" || "biweekly", catId: "6915735feeb23fa59c7d532b" },
+              { id: 3012, label: "Daily", lens_cat: "daily", catId: "6915735feeb23fa59c7d532b" },
               { id: 3013, label: "Monthly", lens_cat: "monthly", catId: "6915735feeb23fa59c7d532b" },
             ],
           },
@@ -311,13 +309,13 @@ function Header() {
             title: "Top Brands",
             links: [
               { id: 3021, label: "Acuvue", brandId: "690c6ecece83c44ad440e02e" },
-              { id: 3024, label: "Air Optix", brandId: "690c6ee3ce83c44ad440e031" },
-              { id: 3022, label: "Biofinity", brandId: "690c6efbce83c44ad440e034" },
-              { id: 3023, label: "Dailies", brandId: "690c706cce83c44ad440e03d" },
+              { id: 3022, label: "Air Optix", brandId: "690c6ee3ce83c44ad440e031" },
+              { id: 3023, label: "Biofinity", brandId: "690c6efbce83c44ad440e034" },
+              { id: 3024, label: "Dailies", brandId: "690c706cce83c44ad440e03d" },
               { id: 3025, label: "Everclear", brandId: "690c708ace83c44ad440e040" },
-              { id: 3027, label: "MayDay", brandId: "690c70a0ce83c44ad440e043" },
-              { id: 3026, label: "Splash", brandId: "690c70fbce83c44ad440e04c" },
-              { id: 3027, label: "Total30", brandId: "690c7110ce83c44ad440e04f" },
+              { id: 3026, label: "MayDay", brandId: "690c70a0ce83c44ad440e043" },
+              { id: 3027, label: "Splash", brandId: "690c70fbce83c44ad440e04c" },
+              { id: 3028, label: "Total30", brandId: "690c7110ce83c44ad440e04f" },
             ],
           },
         ],
@@ -340,12 +338,12 @@ function Header() {
             id: 401,
             title: "Top Brands",
             links: [
-              { id: 4011, label: "Ray-Ban", brandId: "690c6e4bce83c44ad440e022" },
-              { id: 4012, label: "Oakley", brandId: "690c6dface83c44ad440e019" },
-              { id: 4013, label: "Vogue-Eyewear", brandId: "690c6ea9ce83c44ad440e02b" },
-              { id: 4014, label: "Michael Kors", brandId: "690c6de1ce83c44ad440e016" },
-              { id: 4015, label: "Armani Exchange", brandId: "690c6d6dce83c44ad440e002" },
-              { id: 4016, label: "Versace", brandId: "690c6e7ece83c44ad440e028" },
+              { id: 4011, label: "Armani Exchange", brandId: "690c6d6dce83c44ad440e002" },
+              { id: 4012, label: "Michael Kors", brandId: "690c6de1ce83c44ad440e016" },
+              { id: 4013, label: "Oakley", brandId: "690c6dface83c44ad440e019" },
+              { id: 4014, label: "Ray-Ban", brandId: "690c6e4bce83c44ad440e022" },
+              { id: 4015, label: "Versace", brandId: "690c6e7ece83c44ad440e028" },
+              { id: 4016, label: "Vogue-Eyewear", brandId: "690c6ea9ce83c44ad440e02b" },
             ],
           },
           {
@@ -743,7 +741,7 @@ function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
+                    className="absolute left-1/2 -translate-x-1/2 mt-3 mx-8 w-54 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
                     onMouseEnter={handleHomeEnter}
                     onMouseLeave={handleHomeLeave}
                   >
