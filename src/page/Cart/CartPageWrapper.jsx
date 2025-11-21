@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const CartPageWrapper = () => {
   const cartItems = useSelector((state) => state.cart.items || []);
 
-  const contactLensSubCatId = "68caa86cd72068a7d3a0f0bf";
+  const contactLensCategoryId = "6915735feeb23fa59c7d532b";
 
   if (cartItems.length === 0) {
     return (
@@ -22,13 +22,15 @@ const CartPageWrapper = () => {
     );
   }
 
+  console.log(cartItems);
+
 
   const lensItems = cartItems.filter(
-    (item) => item?.subCat_id === contactLensSubCatId
+    (item) => item?.cat_id === contactLensCategoryId
   );
 
   const normalItems = cartItems.filter(
-    (item) => item?.subCat_id !== contactLensSubCatId
+    (item) => item?.cat_id !== contactLensCategoryId
   );
 
   const hideCheckout = lensItems.length > 0 && normalItems.length > 0;
