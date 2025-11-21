@@ -1,8 +1,11 @@
 import React from "react";
 import Slider from "react-slick";
-import slider1 from '../../assets/banner/slider1.webp';
-import slider2 from '../../assets/banner/ban1.png';
-import slider3 from '../../assets/banner/ban2.png';
+
+import slider1 from '../../assets/banner/ban11.jpeg';
+import slider2 from '../../assets/banner/ban22.jpeg';
+import slider3 from '../../assets/banner/ban33.jpeg';
+import slider4 from '../../assets/banner/ban44.jpeg';
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Banner.css";
@@ -10,24 +13,38 @@ import "./Banner.css";
 const data = [
   {
     img: slider2,
-    buttonText: "Shop now",
+    buttonText: "Shop Eyeglasses",
     buttonLink: "/allproduct/glasses/69157332eeb23fa59c7d5326",
     buttonColor: "#ffffff",
-    textColor: "#1f1f20"
+    textColor: "#1f1f20",
+    buttonPosition: "left"
   },
   {
     img: slider1,
-    buttonText: "Explore",
+    buttonText: "Upgrade Your Look",
     buttonLink: "/allproduct/sunglasses/6915705d9ceac0cdda41c83f",
-    buttonColor: "#e5e911ff",
-    textColor: "#ffffff"
+    buttonColor: "#beaf9aff",
+    textColor: "#000000",
+    buttonPosition: "center"
   },
   {
     img: slider3,
-    buttonText: "View Deals",
+    title: "Find Your Style",
+    subtitle: "Comfort • Clarity • Confidence",
+    description: "Choose from our best-selling glasses designed for everyday comfort.",
+    buttonText: "Find Your Style",
     buttonLink: "/allproduct/contact_lenses/6915735feeb23fa59c7d532b",
     buttonColor: "#ff5252",
-    textColor: "#000000"
+    textColor: "#ffffff",
+    buttonPosition: "left1"
+  },
+  {
+    img: slider4,
+    buttonText: "Explore Lenses",
+    buttonLink: "/allproduct/contact_lenses/6915735feeb23fa59c7d532b",
+    buttonColor: "#0d5648",
+    textColor: "#ffffff",
+    buttonPosition: "center1"
   },
 ];
 
@@ -37,7 +54,7 @@ function Banner() {
     arrows: false,
     infinite: true,
     autoplay: true,
-    speed: 2000,
+    speed: 3000,
     autoplaySpeed: 3000,
     pauseOnHover: true,
   };
@@ -52,7 +69,7 @@ function Banner() {
         <Slider {...settings}>
           {data.map((item, index) => (
             <div key={index} className="relative banner-slide">
-              {/* Background Image */}
+
               <img
                 src={item.img}
                 loading="lazy"
@@ -61,19 +78,17 @@ function Banner() {
                 alt={`slider-${index}`}
               />
 
-              {/* Overlay */}
               <div className="banner-overlay"></div>
 
-              {/* Text Content */}
               <div className="banner-content">
                 <div className="banner-text-wrapper">
+
                   <h3 className="banner-subtitle">{item.subtitle}</h3>
                   <h1 className="banner-title">{item.title}</h1>
                   <p className="banner-description">{item.description}</p>
 
-                  {/* Button with dynamic color */}
                   <button
-                    className="banner-button"
+                    className={`banner-button position-${item.buttonPosition}`}
                     style={{
                       backgroundColor: item.buttonColor,
                       color: item.textColor,
@@ -82,8 +97,10 @@ function Banner() {
                   >
                     {item.buttonText}
                   </button>
+
                 </div>
               </div>
+
             </div>
           ))}
         </Slider>

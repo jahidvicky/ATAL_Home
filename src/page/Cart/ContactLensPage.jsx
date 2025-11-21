@@ -77,9 +77,6 @@ const ContactLensPage = () => {
           : Number(product.product_price ?? 0),
 
       pack: selectedPack !== null ? lensPacks[selectedPack] : null,
-
-
-      pack: selectedPack !== null ? lensPacks[selectedPack] : null,
       image: mainImage,
       cat_id: product.cat_id,
       subCat_id: product.subCat_id,
@@ -329,7 +326,7 @@ const ContactLensPage = () => {
                               {pack.oldPrice}
                             </p>
                           )}
-                          <p className="text-xl font-bold">₹{pack.salePrice}</p>
+                          <p className="text-xl font-bold">${pack.salePrice}</p>
                         </div>
                       </div>
                     </div>
@@ -500,31 +497,26 @@ const ContactLensPage = () => {
                     {selectedPack !== null ? (
                       lensPacks[selectedPack].oldPrice > lensPacks[selectedPack].salePrice && (
                         <p className="text-lg font-bold mr-8 line-through text-gray-500">
-                          ₹{lensPacks[selectedPack].oldPrice}
+                          ${lensPacks[selectedPack].oldPrice}
                         </p>
                       )
                     ) : (
                       product.product_price > product.product_sale_price && (
                         <p className="text-lg font-bold mr-8 line-through text-gray-500">
-                          ₹{Number(product.product_price).toFixed(2)}
+                          ${Number(product.product_price).toFixed(2)}
                         </p>
                       )
                     )}
 
                     {/* FINAL PRICE */}
                     <p className="text-lg font-bold mr-8 text-black">
-                      ₹
+                      $
                       {selectedPack !== null
                         ? lensPacks[selectedPack].salePrice
                         : Number(product.product_sale_price ?? product.product_price ?? 0).toFixed(2)}
                     </p>
 
                   </div>
-
-
-                  <p className="text-lg font-bold mr-8 text-black">
-                    ${Number(product.product_sale_price ?? product.product_price ?? 0).toFixed(2)}
-                  </p>
                 </div>
               </div>
               <button
