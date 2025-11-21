@@ -326,7 +326,7 @@ const ContactLensPage = () => {
                               {pack.oldPrice}
                             </p>
                           )}
-                          <p className="text-xl font-bold">₹{pack.salePrice}</p>
+                          <p className="text-xl font-bold">${pack.salePrice}</p>
                         </div>
                       </div>
                     </div>
