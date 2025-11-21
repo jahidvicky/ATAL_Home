@@ -15,7 +15,7 @@ function WishlistPage({ userId }) {
                 const userId2 = localStorage.getItem("user");
                 const res = await API.get(`/getWishlist/${userId2}`);
                 const products = res.data?.products || [];
-                setWishlist(products);
+                setWishlist(products.filter(p => p?.productId));
             } catch (err) {
                 console.error("Failed to fetch wishlist:", err);
                 Swal.fire({
@@ -32,10 +32,11 @@ function WishlistPage({ userId }) {
 
     // Helper: Get primary image
     const getProductImage = (product) => {
-        if (product.product_image_collection?.length > 0) {
-            return `${IMAGE_URL}${product.product_image_collection[0]}`;
-        }
-        return null;
+        const img =
+            product.product_image_collection?.[0] ||
+            product.product_variants?.[0]?.images?.[0];
+
+        return img ? `${IMAGE_URL}${img}` : null;
     };
 
     // Helper: Show discount badge
@@ -77,7 +78,7 @@ function WishlistPage({ userId }) {
                 // add
                 await API.post("/addWishlist", { userId: userId2, productId });
                 const res = await API.get(`/getWishlist/${userId2}`);
-                setWishlist(res.data?.products || []);
+                setWishlist((res.data?.products || []).filter(p => p?.productId));
                 Swal.fire({
                     toast: true,
                     position: "top-end",

@@ -81,9 +81,17 @@ function SearchModal({
                 {product.product_image_collection?.[0] ? (
                     <img
                         src={
-                            product.product_image_collection[0].startsWith("http")
-                                ? product.product_image_collection[0]
-                                : `${IMAGE_URL}/${product.product_image_collection[0]}`
+                            (
+                                product?.product_image_collection?.[0] ||
+                                product?.product_variants?.[0]?.images?.[0]
+                            )
+                                .startsWith("http")
+                                ? (
+                                    product?.product_image_collection?.[0] ||
+                                    product?.product_variants?.[0]?.images?.[0]
+                                )
+                                : `${IMAGE_URL}/${product?.product_image_collection?.[0] ||
+                                product?.product_variants?.[0]?.images?.[0]}`
                         }
                         alt={product.product_name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform"
@@ -243,9 +251,13 @@ function SearchModal({
                                                                     <div className="mb-6">
                                                                         <img
                                                                             src={
-                                                                                selectedProduct.product_image_collection?.[0]?.startsWith("http")
-                                                                                    ? selectedProduct.product_image_collection[0]
-                                                                                    : `${IMAGE_URL}/${selectedProduct.product_image_collection?.[0]}`
+                                                                                (selectedProduct.product_image_collection?.[0] ||
+                                                                                    selectedProduct?.product_variants?.[0]?.images?.[0]?.startsWith("http"))
+                                                                                    ? (selectedProduct?.product_image_collection?.[0] ||
+                                                                                        selectedProduct?.product_variants?.[0]?.images?.[0]
+                                                                                    )
+                                                                                    : `${IMAGE_URL}/${selectedProduct.product_image_collection?.[0] ||
+                                                                                    selectedProduct?.product_variants?.[0]?.images?.[0]}`
                                                                             }
                                                                             alt={selectedProduct.product_name}
                                                                             className="w-full h-80 object-contain rounded"

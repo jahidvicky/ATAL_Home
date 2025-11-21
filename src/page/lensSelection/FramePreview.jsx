@@ -28,9 +28,12 @@ const FramePreview = ({ onProductLoaded }) => {
   return (
     <div className="w-1/2 flex flex-col justify-center items-center bg-white p-8 shadow-md">
       {/* First Image only */}
-      {product?.product_image_collection?.[0] ? (
+      {product?.product_image_collection?.[0] ||
+        product?.product_variants?.[0]?.images?.[0] ? (
         <img
-          src={`${IMAGE_URL}${product.product_image_collection[0]}`}
+          src={`${IMAGE_URL}${product?.product_image_collection?.[0] ||
+            product?.product_variants?.[0]?.images?.[0]
+            }`}
           alt={product?.product_name || "Frame"}
           className="w-72 h-auto"
         />
