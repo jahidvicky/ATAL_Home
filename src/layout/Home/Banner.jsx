@@ -56,7 +56,7 @@ function Banner() {
     autoplay: true,
     speed: 3000,
     autoplaySpeed: 3000,
-    pauseOnHover: true,
+    pauseOnHover: false,
   };
 
   const handleButtonClick = (link) => {
