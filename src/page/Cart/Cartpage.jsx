@@ -81,6 +81,7 @@ const Cartpage = () => {
     try {
       const res = await API.get(`/getproductbyid/${ID}`);
       const prod = res.data.product || {};
+
       setProduct(prod);
       // Initialize gallery from product_image_collection until a color is picked
       const initial = Array.isArray(prod?.product_image_collection)
@@ -155,12 +156,10 @@ const Cartpage = () => {
     image: mainImage,
     lens: lensDetails || null,
     policy: selectedPolicy || null,
+    cat_id: product.cat_id,
     subCat_id: subCatId,
     vendorID: product.vendorID || product.vendorId || null,
   }; // Captures PDP selections for checkout and order lines. [web:59]
-
-  // Constants
-  const contactLensSubCatId = "68caa86cd72068a7d3a0f0bf"; // Route switch for lenses PDP. [web:59]
 
   // Color swatches list from product_variants
   const variantColors = useMemo(() => {
@@ -350,6 +349,7 @@ const Cartpage = () => {
                         image: mainImage,
                         lens: lensDetails || null,
                         policy: selectedPolicy || null,
+                        cat_id: product.cat_id,
                         subCat_id: subCatId,
                         vendorID: product.vendorID || product.vendorId || null,
                       }));

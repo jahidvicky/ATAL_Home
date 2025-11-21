@@ -10,6 +10,7 @@ const ViewCart = ({ items, hideCheckout }) => {
   const cartItems = items || [];
   const dispatch = useDispatch();
 
+
   const subtotal = cartItems.reduce((total, item) => {
     const framePrice = Number(item.price) || 0;
     const lensPrice = Number(item.lens?.totalPrice) || 0;

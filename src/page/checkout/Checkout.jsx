@@ -13,8 +13,8 @@ const Checkout = () => {
   const userId = localStorage.getItem("user");
 
   const subtotal = cartItems.reduce((total, item) => {
-    const subName = item.subCategoryName?.toLowerCase() || "";
-    const isContactLens = subName.includes("contact lenses");
+    const catId = item.cat_id || "";
+    const isContactLens = catId.includes("6915735feeb23fa59c7d532b");
 
     const frameTotal = item.price * item.quantity;
     const lensTotal = (item.lens?.totalPrice || 0) * item.quantity;
@@ -151,6 +151,8 @@ const Checkout = () => {
         name: item.name,
         image: item.image,
         price: item.price,
+        categoryId: item.cat_id,
+        catName: item.cat_sec,
         subCategoryName: item.subCategoryName,
         quantity: item.quantity,
         product_size: item.selectedSize || [],
@@ -587,14 +589,17 @@ const Checkout = () => {
                       </p>
                     )}
 
-                    {item.lens && item.lens.totalPrice != null && (
-                      <p className="text-gray-600 text-sm">
-                        Lens: ${(item.lens.totalPrice || 0).toFixed(2)}
-                      </p>
-                    )}
+                    {item.lens &&
+                      item.lens.totalPrice != null &&
+                      item.cat_id !== "6915735feeb23fa59c7d532b" && (
+                        <p className="text-gray-600 text-sm">
+                          Lens: ${(item.lens.totalPrice || 0).toFixed(2)}
+                        </p>
+                      )}
+
 
                     <p className="text-gray-800 font-bold mt-1">
-                      {item.subCategoryName === "Contact Lenses"
+                      {item.cat_id === "6915735feeb23fa59c7d532b"
                         ? "Contact Lens"
                         : "Frame"}{" "}
                       ${(item.price || 0).toFixed(2)}
@@ -603,7 +608,7 @@ const Checkout = () => {
                 </div>
 
                 <div className="text-right mt-8">
-                  {item.subCategoryName === "Contact Lenses" ? (
+                  {item.cat_id === "6915735feeb23fa59c7d532b" ? (
                     <p className="text-gray-800 font-bold">
                       $
                       {((item.price || 0) + (item.policy?.price || 0)) *
