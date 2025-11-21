@@ -11,21 +11,21 @@ const data = [
   {
     img: slider2,
     buttonText: "Shop now",
-    buttonLink: "/allProduct/Trending/68caa6d4d72068a7d3a0f097/68cae51cafa3c181c5dfeab5",
+    buttonLink: "/allproduct/glasses/69157332eeb23fa59c7d5326",
     buttonColor: "#ffffff",
     textColor: "#1f1f20"
   },
   {
     img: slider1,
     buttonText: "Explore",
-    buttonLink: "/allproduct/contact-lenses/68caa68bd72068a7d3a0f089/68caa86cd72068a7d3a0f0bf",
+    buttonLink: "/allproduct/sunglasses/6915705d9ceac0cdda41c83f",
     buttonColor: "#e5e911ff",
     textColor: "#ffffff"
   },
   {
     img: slider3,
     buttonText: "View Deals",
-    buttonLink: "/allProduct/Best%20Seller/68cd4400f0089635c3663a5d/68cd44dbf0089635c3663a67",
+    buttonLink: "/allproduct/contact_lenses/6915735feeb23fa59c7d532b",
     buttonColor: "#ff5252",
     textColor: "#000000"
   },
