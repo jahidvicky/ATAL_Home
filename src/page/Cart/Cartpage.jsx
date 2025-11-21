@@ -119,6 +119,22 @@ const Cartpage = () => {
     if (storedLens) setLensDetails(JSON.parse(storedLens));
   }, []); // Restores persisted lens flow details. [web:59]
 
+
+  useEffect(() => {
+    if (!product) return;
+
+    // Auto-select size if only 1
+    if (product.product_size?.length === 1) {
+      setSelectedSize(product.product_size[0]);
+    }
+
+    // Auto-select color if only 1 variant
+    if (product.product_variants?.length === 1) {
+      setSelectedColor(product.product_variants[0].colorName);
+    }
+  }, [product]);
+
+
   const lensSelectionDetails = JSON.parse(localStorage.getItem("lensSelectionDetails") || "null"); // Safe parse for optional lens details. [web:59]
   const lensTotalPrice = lensSelectionDetails?.totalPrice || 0; // Displays lens price summary when selected. [web:59]
 
@@ -335,26 +351,88 @@ const Cartpage = () => {
                   <button
                     onClick={() => {
                       if (!product) return;
-                      if (!selectedSize || !selectedColor) {
-                        Swal.fire({ icon: "warning", title: "Please select size and color!", toast: true, position: "top-end", showConfirmButton: false, timer: 1800, timerProgressBar: true });
+
+                      const hasSize = product.product_size?.length > 0;
+                      const hasColor = product.product_variants?.length > 0;
+
+                      const multiSize = product.product_size?.length > 1;
+                      const multiColor = product.product_variants?.length > 1;
+
+                      // CASE 1: Product has multiple sizes AND multiple colors → must select both
+                      if (multiSize && multiColor) {
+                        if (!selectedSize || !selectedColor) {
+                          Swal.fire({
+                            icon: "warning",
+                            title: "Please select size and color!",
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 1800,
+                            timerProgressBar: true,
+                          });
+                          return;
+                        }
+                      }
+
+                      // CASE 2: Only multiple sizes exist → must select size
+                      if (multiSize && !selectedSize) {
+                        Swal.fire({
+                          icon: "warning",
+                          title: "Please select size!",
+                          toast: true,
+                          position: "top-end",
+                          showConfirmButton: false,
+                          timer: 1800,
+                          timerProgressBar: true,
+                        });
                         return;
                       }
-                      dispatch(addToCart({
-                        id: ID,
-                        name: product.product_name,
-                        selectedSize,
-                        selectedColor,
-                        price: product.discountedPrice ?? product.product_sale_price,
-                        originalPrice,
-                        image: mainImage,
-                        lens: lensDetails || null,
-                        policy: selectedPolicy || null,
-                        cat_id: product.cat_id,
-                        subCat_id: subCatId,
-                        vendorID: product.vendorID || product.vendorId || null,
-                      }));
-                      Swal.fire({ toast: true, position: "top-end", icon: "success", title: "Product added to cart!", showConfirmButton: false, timer: 1500 });
-                    }}
+
+                      // CASE 3: Only multiple colors exist → must select color
+                      if (multiColor && !selectedColor) {
+                        Swal.fire({
+                          icon: "warning",
+                          title: "Please select color!",
+                          toast: true,
+                          position: "top-end",
+                          showConfirmButton: false,
+                          timer: 1800,
+                          timerProgressBar: true,
+                        });
+                        return;
+                      }
+
+                      // CASE 4: If product has only 1 size or only 1 color → auto-selected in useEffect
+                      // No error needed
+
+                      // CASE 5: Product has NO size and NO color → add directly
+                      dispatch(
+                        addToCart({
+                          id: ID,
+                          name: product.product_name,
+                          selectedSize: selectedSize || null,
+                          selectedColor: selectedColor || null,
+                          price: product.discountedPrice ?? product.product_sale_price,
+                          originalPrice,
+                          image: mainImage,
+                          lens: lensDetails || null,
+                          policy: selectedPolicy || null,
+                          cat_id: product.cat_id,
+                          subCat_id: subCatId,
+                          vendorID: product.vendorID || product.vendorId || null,
+                        })
+                      );
+
+                      Swal.fire({
+                        toast: true,
+                        position: "top-end",
+                        icon: "success",
+                        title: "Product added to cart!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+                    }
+                    }
                     className="mt-3 bg-[#f00000] hover:bg-red-700 text-white w-full rounded-md py-3 text-sm"
                   >
                     Add To Cart
@@ -457,7 +535,7 @@ const Cartpage = () => {
             </div>
           </div>
         )}
-      </div>
+      </div >
 
       <div className="bg-stone-900"></div>
       <OurPromise />
