@@ -6,10 +6,25 @@ import {
 } from "../../redux/cartSlice";
 import { Link } from "react-router-dom";
 import { IMAGE_URL } from "../../API/Api";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+// Icons
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 const ViewLensCart = ({ items, hideCheckout }) => {
   const dispatch = useDispatch();
   const lensItems = items || [];
+
+  // Track expanded details
+  const [openDetails, setOpenDetails] = useState({});
+
+  const toggleDetails = (id) => {
+    setOpenDetails((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const subtotal = lensItems.reduce(
     (total, item) =>
@@ -29,228 +44,171 @@ const ViewLensCart = ({ items, hideCheckout }) => {
 
   return (
     <div className="container mx-auto px-4 py-10">
-
       <div className="grid md:grid-cols-3 gap-8">
-        {/* Lens Items */}
+        {/* Cart Items */}
         <div className="md:col-span-2 space-y-6">
-          {lensItems.map((item) => (
-            <div
-              key={item.variantId || item.id}
-              className="flex flex-col md:flex-row items-center justify-between border p-4 rounded shadow-sm"
-            >
-              {/* Product Image */}
-              <img
-                src={item.image || `${IMAGE_URL + item.product_image}`}
-                alt={item.name}
-                className="w-50 h-24 object-cover rounded mr-4 hover:cursor-pointer"
-              />
+          {lensItems.map((item) => {
+            const id = item.variantId || item.id;
 
-              {/* Product & Prescription Info */}
-              < div className="flex-1 mt-4 md:mt-0" >
-                <h4 className="text-lg font-semibold hover:cursor-pointer">
-                  {item.name}
-                </h4>
-
-                {/* Selected Color */}
-                {
-                  item.selectedColor && (
-                    <p className="mt-1 text-sm text-gray-700">
-                      <strong>Color:</strong>{" "}
-                      <span
-                        className="inline-block w-5 h-5 rounded-full border"
-                        style={{ backgroundColor: item.selectedColor }}
-                      ></span>
-                    </p>
-                  )
-                }
-
-                {/* Lens / Prescription Details */}
-                {
-                  item.lens && item.lens.prescription && (
-                    <div className="mt-2 text-sm text-gray-700 ml-2">
-                      <p>
-                        <strong>OD Selected:</strong>{" "}
-                        {item.lens.prescription.od_selected ? "Yes" : "No"}
-                      </p>
-                      <p>
-                        <strong>OD Sphere:</strong>{" "}
-                        {item.lens.prescription.od_sphere}
-                      </p>
-                      <p>
-                        <strong>OD Addition:</strong>{" "}
-                        {item.lens.prescription.od_addition}
-                      </p>
-                      <p>
-                        <strong>OS Selected:</strong>{" "}
-                        {item.lens.prescription.os_selected ? "Yes" : "No"}
-                      </p>
-                      <p>
-                        <strong>OS Sphere:</strong>{" "}
-                        {item.lens.prescription.os_sphere}
-                      </p>
-                      <p>
-                        <strong>OS Addition:</strong>{" "}
-                        {item.lens.prescription.os_addition}
-                      </p>
-                      <p>
-                        <strong>Prescription Date:</strong>{" "}
-                        {item.lens.prescription.prescriptionDate}
-                      </p>
-                      <p>
-                        <strong>Doctor Name:</strong>{" "}
-                        {item.lens.prescription.doctorName}
-                      </p>
-                      <p>
-                        <strong>Purchase Type:</strong>{" "}
-                        {item.lens.prescription.purchase_type}
-                      </p>
-                      <p>
-                        <strong>Total Lens Price:</strong> $
-                        {Number(item.lens.totalPrice).toFixed(2)}
-                      </p>
-                    </div>
-                  )
-                }
-
-                {/* Policy */}
-                {
-                  item.policy && (
-                    <div className="mt-2 text-sm text-gray-700">
-                      <p>
-                        <strong>Policy Name:</strong> {item.policy.name}
-                      </p>
-                      <p>
-                        <strong>Company:</strong> {item.policy.companyName}
-                      </p>
-                      <p>
-                        <strong>Coverage:</strong> {item.policy.coverage}
-                      </p>
-                      <p>
-                        <strong>Price:</strong> $
-                        {Number(item.policy.price).toFixed(2)}
-                      </p>
-                    </div>
-                  )
-                }
-
-                {/* Quantity Controls */}
-                < div className="flex items-center mt-2 gap-2" >
-                  <button
-                    onClick={() =>
-                      dispatch(decrementQuantity(item.variantId || item.id))
-                    }
-                    className="px-2 py-1 border rounded hover:bg-gray-100 hover:cursor-pointer"
-                  >
-                    -
-                  </button>
-                  <span className="px-2">{item.quantity}</span>
-                  <button
-                    onClick={() =>
-                      dispatch(incrementQuantity(item.variantId || item.id))
-                    }
-                    className="px-2 py-1 border rounded hover:bg-gray-100 hover:cursor-pointer"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Price & Remove */}
-              <div className="text-right mt-4 md:mt-0">
-                <p className="font-bold">
-                  $
-                  {(
-                    (item.price + (item.policy?.price || 0)) *
-                    item.quantity
-                  ).toFixed(2)}
-                </p>
-                <button
-                  onClick={() =>
-                    dispatch(removeFromCart(item.variantId || item.id))
-                  }
-                  className="text-[#f00000] mt-2 text-sm hover:underline hover:cursor-pointer"
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))
-          }
-        </div >
-
-        {/* Order Summary */}
-        < div className="bg-gray-100 p-6 rounded shadow-sm h-fit" >
-
-          {
-            lensItems.map((item) => (
+            return (
               <div
-                key={item.variantId || item.id}
-                className="flex flex-col md:flex-row items-center justify-between border-b pb-2 mb-2"
+                key={id}
+                className="flex flex-col md:flex-row items-center justify-between border p-4 rounded shadow-sm"
               >
                 {/* Product Image */}
                 <img
                   src={item.image || `${IMAGE_URL + item.product_image}`}
                   alt={item.name}
-                  className="w-30 h-15 object-cover rounded mr-4"
+                  className="w-40 h-40 object-cover rounded mr-4"
                 />
 
-                {/* Product & Pricing Info */}
-                <div className="flex-1 text-sm md:text-base">
-                  <h4 className="font-semibold">{item.name}</h4>
-                  <p>Quantity: {item.quantity}</p>
-                  <span><strong>${item.price}</strong></span>
+                {/* Product Information */}
+                <div className="flex-1 mt-4 md:mt-0">
+                  <h4 className="text-lg font-semibold">{item.name}</h4>
 
-                  {item.policy && (
-                    <p>
-                      Policy: ${(item.policy.price || 0).toFixed(2)} (
-                      {item.policy.name})
-                    </p>
-                  )}
+                  {/* Expand / Collapse Button */}
+                  <button
+                    onClick={() => toggleDetails(id)}
+                    className="text-blue-600 text-sm mt-1 flex items-center gap-1 underline"
+                  >
+                    {openDetails[id] ? (
+                      <>
+                        Hide Details <FiChevronUp size={16} />
+                      </>
+                    ) : (
+                      <>
+                        View Details <FiChevronDown size={16} />
+                      </>
+                    )}
+                  </button>
 
+                  {/* Slide-down Animated Details */}
+                  <AnimatePresence>
+                    {openDetails[id] && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="mt-3 p-3 bg-gray-50 border rounded text-sm text-gray-700 space-y-2">
+
+                          {/* Prescription */}
+                          {item.lens?.prescription && (
+                            <div>
+                              <p><strong>OD Selected:</strong> {item.lens.prescription.od_selected ? "Yes" : "No"}</p>
+                              <p><strong>OD Sphere:</strong> {item.lens.prescription.od_sphere}</p>
+                              <p><strong>OD Addition:</strong> {item.lens.prescription.od_addition}</p>
+
+                              <p><strong>OS Selected:</strong> {item.lens.prescription.os_selected ? "Yes" : "No"}</p>
+                              <p><strong>OS Sphere:</strong> {item.lens.prescription.os_sphere}</p>
+                              <p><strong>OS Addition:</strong> {item.lens.prescription.os_addition}</p>
+
+                              <p><strong>Prescription Date:</strong> {item.lens.prescription.prescriptionDate}</p>
+                              <p><strong>Doctor Name:</strong> {item.lens.prescription.doctorName}</p>
+
+                              <p><strong>Purchase Type:</strong> {item.lens.prescription.purchase_type}</p>
+                              <p><strong>Total Lens Price:</strong> ${Number(item.lens.totalPrice).toFixed(2)}</p>
+                            </div>
+                          )}
+
+                          {/* Pack */}
+                          <p><strong>Pack Size:</strong> {item?.pack?.packSize || "Not selected"}</p>
+
+                          {/* Policy */}
+                          {item.policy && (
+                            <div>
+                              <p><strong>Policy Name:</strong> {item.policy.name}</p>
+                              <p><strong>Company:</strong> {item.policy.companyName}</p>
+                              <p><strong>Coverage:</strong> {item.policy.coverage}</p>
+                              <p><strong>Price:</strong> ${Number(item.policy.price).toFixed(2)}</p>
+                            </div>
+                          )}
+
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Quantity Controls */}
+                  <div className="flex items-center mt-2 gap-2">
+                    <button
+                      onClick={() => dispatch(decrementQuantity(id))}
+                      className="px-2 py-1 border rounded hover:bg-gray-100"
+                    >
+                      -
+                    </button>
+                    <span className="px-2">{item.quantity}</span>
+                    <button
+                      onClick={() => dispatch(incrementQuantity(id))}
+                      className="px-2 py-1 border rounded hover:bg-gray-100"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                {/* Price & Remove */}
+                <div className="text-right mt-4 md:mt-0">
                   <p className="font-bold">
-                    Total: $
-                    {(
-                      (Number(item.price || 0) +
-                        Number(item.policy?.price || 0)) *
-                      Number(item.quantity || 1)
-                    ).toFixed(2)}
+                    ${((item.price + (item.policy?.price || 0)) * item.quantity).toFixed(2)}
                   </p>
+
+                  <button
+                    onClick={() => dispatch(removeFromCart(id))}
+                    className="text-red-600 mt-2 text-sm hover:underline"
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
-            ))
-          }
+            );
+          })}
+        </div>
+
+        {/* Summary Section */}
+        <div className="bg-gray-100 p-6 rounded shadow-sm h-fit">
+          {lensItems.map((item) => (
+            <div
+              key={item.variantId || item.id}
+              className="flex items-center justify-between border-b pb-2 mb-2"
+            >
+              <img
+                src={item.image || `${IMAGE_URL + item.product_image}`}
+                alt={item.name}
+                className="w-24 h-24 object-cover rounded"
+              />
+
+              <div className="flex-1 text-sm md:text-base ml-3">
+                <h4 className="font-semibold">{item.name}</h4>
+                <p>Qty: {item.quantity}</p>
+                <p className="font-bold">
+                  ${(
+                    (Number(item.price || 0) + Number(item.policy?.price || 0)) *
+                    Number(item.quantity || 1)
+                  ).toFixed(2)}
+                </p>
+              </div>
+            </div>
+          ))}
 
           {/* Subtotal */}
           <div className="flex justify-between text-lg font-bold border-t pt-2">
             <span>Subtotal:</span>
-            <span>
-              $
-              {lensItems
-                .reduce(
-                  (total, item) =>
-                    total +
-                    (Number(item.price || 0) +
-                      Number(item.policy?.price || 0)) *
-                    Number(item.quantity || 1),
-                  0
-                )
-                .toFixed(2)}
-            </span>
+            <span>${subtotal.toFixed(2)}</span>
           </div>
 
-          {/* Checkout Button */}
-          {
-            !hideCheckout && (
-              <Link to="/checkout">
-                <button className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition hover:cursor-pointer">
-                  Proceed to Checkout
-                </button>
-              </Link>
-            )
-          }
-        </div >
-      </div >
-    </div >
+          {!hideCheckout && (
+            <Link to="/checkout">
+              <button className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900">
+                Proceed to Checkout
+              </button>
+            </Link>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 

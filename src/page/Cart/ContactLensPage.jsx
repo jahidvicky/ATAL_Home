@@ -15,6 +15,7 @@ const ContactLensPage = () => {
   const [wishlist, setWishlist] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedPolicy, setSelectedPolicy] = useState(null);
+  const [selectedPack, setSelectedPack] = useState(null);
 
   const [formData, setFormData] = useState({
     od_selected: true,
@@ -65,8 +66,22 @@ const ContactLensPage = () => {
     const cartItem = {
       id: product._id,
       name: product.product_name,
-      price: product.product_sale_price,
+      price:
+        selectedPack !== null
+          ? Number(lensPacks[selectedPack].salePrice)
+          : Number(product.product_sale_price ?? product.product_price ?? 0),
+
+      oldPrice:
+        selectedPack !== null
+          ? Number(lensPacks[selectedPack].oldPrice)
+          : Number(product.product_price ?? 0),
+
+      pack: selectedPack !== null ? lensPacks[selectedPack] : null,
+
+
+      pack: selectedPack !== null ? lensPacks[selectedPack] : null,
       image: mainImage,
+      cat_id: product.cat_id,
       subCat_id: product.subCat_id,
       selectedColor: selectedColor,
       quantity: 1,
@@ -176,6 +191,12 @@ const ContactLensPage = () => {
     }
   }; // Hydrate liked state for PDP icon. [web:59]
 
+  const lensPacks = useMemo(() => {
+    return Array.isArray(product.contactLens_packs)
+      ? product.contactLens_packs
+      : [];
+  }, [product]);
+
   useEffect(() => {
     fetchProducts();
     fetchWishlist();
@@ -275,6 +296,48 @@ const ContactLensPage = () => {
                 </div>
               </div>
             )}
+
+            {/* Contact Lens Pack Section */}
+            {lensPacks.length > 0 && (
+              <div className="p-6 bg-white rounded-2xl shadow-md mt-6">
+                <h2 className="text-base font-semibold mb-4">Choose Pack Size</h2>
+
+                <div className="space-y-3">
+                  {lensPacks.map((pack, index) => (
+                    <div
+                      key={index}
+                      onClick={() => setSelectedPack(index)}
+                      className={`border rounded-xl p-4 cursor-pointer transition-all ${selectedPack === index
+                        ? "border-red-600 bg-red-50"
+                        : "border-gray-300 bg-white"
+                        }`}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="font-semibold text-lg">{pack.packSize} Pack</p>
+
+                          {pack.isBestValue && (
+                            <span className="text-xs px-2 py-1 bg-yellow-400 text-black rounded ml-2">
+                              BEST VALUE
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="text-right">
+                          {pack.oldPrice > pack.salePrice && (
+                            <p className="line-through text-gray-500 text-sm">
+                              {pack.oldPrice}
+                            </p>
+                          )}
+                          <p className="text-xl font-bold">₹{pack.salePrice}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
 
             {/* Prescription form (same logic, re-styled) */}
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -430,11 +493,35 @@ const ContactLensPage = () => {
               <div className="flex items-center justify-between">
                 <p className="text-lg font-bold m-2">Lens</p>
                 <div className="flex items-center">
-                  {product.product_price > product.product_sale_price && (
-                    <p className="text-lg font-bold mr-8 line-through text-gray-500">
-                      ${Number(product.product_price).toFixed(2)}
+
+                  <div className="flex items-center">
+
+                    {/* OLD PRICE (strike-through) */}
+                    {selectedPack !== null ? (
+                      lensPacks[selectedPack].oldPrice > lensPacks[selectedPack].salePrice && (
+                        <p className="text-lg font-bold mr-8 line-through text-gray-500">
+                          ₹{lensPacks[selectedPack].oldPrice}
+                        </p>
+                      )
+                    ) : (
+                      product.product_price > product.product_sale_price && (
+                        <p className="text-lg font-bold mr-8 line-through text-gray-500">
+                          ₹{Number(product.product_price).toFixed(2)}
+                        </p>
+                      )
+                    )}
+
+                    {/* FINAL PRICE */}
+                    <p className="text-lg font-bold mr-8 text-black">
+                      ₹
+                      {selectedPack !== null
+                        ? lensPacks[selectedPack].salePrice
+                        : Number(product.product_sale_price ?? product.product_price ?? 0).toFixed(2)}
                     </p>
-                  )}
+
+                  </div>
+
+
                   <p className="text-lg font-bold mr-8 text-black">
                     ${Number(product.product_sale_price ?? product.product_price ?? 0).toFixed(2)}
                   </p>
