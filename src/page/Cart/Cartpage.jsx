@@ -65,7 +65,7 @@ const Cartpage = () => {
       ? product.product_image_collection.map(normalizeUrl).filter(Boolean)
       : [];
     return imgs;
-  }, [product]); // Provides thumbnails when variants aren’t selected. [web:59]
+  }, [product]);
 
   // When product or color changes, set gallery + main image
   useEffect(() => {
