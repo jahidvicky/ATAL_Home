@@ -61,7 +61,7 @@ const ProductCard = ({ product, onClick, children }) => {
         <p className="text-sm text-gray-400">{product.gender}</p>
       )}
 
-      <p className="text-base font-semibold text-gray-900 capitalize mb-1">
+      <p className="text-base font-semibold text-gray-900 capitalize mb-1 line-clamp-1">
         {product.product_name}
       </p>
 
