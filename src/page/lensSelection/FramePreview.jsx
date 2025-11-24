@@ -44,7 +44,11 @@ const FramePreview = ({ onProductLoaded }) => {
       {/* Product Info */}
       <div className="mt-4 text-sm text-gray-600">{product?.product_name}</div>
       <div className="text-xs text-gray-500">
-        Frame size: {product?.product_size || "N/A"}
+        Frame size: {
+          product?.product_size
+            ? String(product.product_size).trim() || "N/A"
+            : "N/A"
+        }
       </div>
       <div className="text-sm text-blue-600 font-semibold mt-2">
         Price: ${product?.product_sale_price || "0.00"}

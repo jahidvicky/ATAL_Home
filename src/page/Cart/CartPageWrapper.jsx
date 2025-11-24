@@ -22,9 +22,6 @@ const CartPageWrapper = () => {
     );
   }
 
-  console.log(cartItems);
-
-
   const lensItems = cartItems.filter(
     (item) => item?.cat_id === contactLensCategoryId
   );
