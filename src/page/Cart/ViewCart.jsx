@@ -269,14 +269,12 @@ const ViewCart = ({ items, hideCheckout }) => {
                   </p>
                   {item.lens && (
                     <p>
-                      Lens: ${(item.lens.totalPrice || 0).toFixed(2)} (
-                      {item.lens.selectedLens})
+                      Lens: ${(item.lens.totalPrice || 0).toFixed(2)}
                     </p>
                   )}
                   {item.policy && (
                     <p>
-                      Policy: ${(item.policy.price || 0).toFixed(2)} (
-                      {item.policy.name})
+                      Policy: ${(item.policy.price || 0).toFixed(2)}
                     </p>
                   )}
                   <p className="font-bold">
