@@ -179,7 +179,6 @@ const LensSelectionFlow = () => {
               setStep(3);
             }}
             onSaved={() => {
-              setPrescriptionMethod("Uploaded");
               setStep(4);
             }}
             goBack={() => setStep(1)}
@@ -199,10 +198,10 @@ const LensSelectionFlow = () => {
 
         {step === 4 && (
           <Step3UploadForm
-            preFilledData={prescription}
+            preFilledData={prescriptionMethod}
             goBack={() => setStep(2)}
             onContinue={(data) => {
-              setPrescription(data);
+              setPrescriptionMethod(data.fileURL);
               setStep(5);
             }}
           />

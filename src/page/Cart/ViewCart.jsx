@@ -5,6 +5,7 @@ import {
   removeFromCart,
 } from "../../redux/cartSlice";
 import { Link } from "react-router-dom";
+import { IMAGE_URL } from "../../API/Api";
 
 const ViewCart = ({ items, hideCheckout }) => {
   const cartItems = items || [];
@@ -111,27 +112,72 @@ const ViewCart = ({ items, hideCheckout }) => {
                         </p>
                       )}
 
-                      <p>
-                        <strong>Prescription Method:</strong>{" "}
-                        {item.lens.lens?.prescriptionMethod}
-                      </p>
+                      {/* Prescription Section */}
+                      {item.lens?.lens && (
+                        <>
+                          {/* Show VIEW button only if prescriptionMethod is a real URL */}
+                          {item.lens.lens.prescriptionMethod &&
+                            (item.lens.lens.prescriptionMethod.startsWith("http") ||
+                              item.lens.lens.prescriptionMethod.includes(".png") ||
+                              item.lens.lens.prescriptionMethod.includes(".jpg") ||
+                              item.lens.lens.prescriptionMethod.includes(".jpeg") ||
+                              item.lens.lens.prescriptionMethod.includes(".pdf")) ? (
+                            <div className="mt-3">
+                              <p>
+                                <strong>Prescription:</strong>{" "}
+                                <button
+                                  onClick={() =>
+                                    window.open(
+                                      item.lens.lens.prescriptionMethod.startsWith("http")
+                                        ? item.lens.lens.prescriptionMethod
+                                        : IMAGE_URL + item.lens.lens.prescriptionMethod,
+                                      "_blank"
+                                    )
+                                  }
+                                  className="text-red-600 mt-2 text-sm hover:underline"
+                                >
+                                  View Prescription
+                                </button>
+                              </p>
+                            </div>
+                          ) : (
+                            /* Otherwise show manual fields */
+                            item.lens.lens.prescription && (
+                              <div className="mt-3 space-y-1 text-sm text-gray-700 border-gray-300">
+                                <p className="font-medium">
+                                  OD:{" "}
+                                  <span className="font-normal">
+                                    {item.lens.lens.prescription.odSph}/
+                                    {item.lens.lens.prescription.odCyl}
+                                  </span>
+                                </p>
 
-                      {item.lens.lens?.prescription && (
-                        <div className="ml-2">
-                          <p>
-                            OD: {item.lens.lens?.prescription.odSph}/
-                            {item.lens.lens.prescription.odCyl}
-                          </p>
-                          <p>
-                            OS: {item.lens.lens?.prescription.osSph}/
-                            {item.lens.lens.prescription.osCyl}
-                          </p>
-                          <p>
-                            PD: {item.lens.lens?.prescription.pdLeft}/
-                            {item.lens.lens?.prescription.pdRight}
-                          </p>
-                          <p>Doctor: {item.lens.lens?.prescription.doctor}</p>
-                        </div>
+                                <p className="font-medium">
+                                  OS:{" "}
+                                  <span className="font-normal">
+                                    {item.lens.lens.prescription.osSph}/
+                                    {item.lens.lens.prescription.osCyl}
+                                  </span>
+                                </p>
+
+                                <p className="font-medium">
+                                  PD:{" "}
+                                  <span className="font-normal">
+                                    {item.lens.lens.prescription.pdLeft}/
+                                    {item.lens.lens.prescription.pdRight}
+                                  </span>
+                                </p>
+
+                                <p className="font-medium">
+                                  Doctor:{" "}
+                                  <span className="font-normal">
+                                    {item.lens.lens.prescription.doctor}
+                                  </span>
+                                </p>
+                              </div>
+                            )
+                          )}
+                        </>
                       )}
 
                       {item.lens.lens?.lensType && (

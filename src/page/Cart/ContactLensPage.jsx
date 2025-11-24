@@ -199,6 +199,15 @@ const ContactLensPage = () => {
     fetchWishlist();
   }, []);
 
+
+  // UI blocks (accordion for details)
+  const DetailRow = ({ label, value }) => (
+    <li className="flex gap-2">
+      <strong className="min-w-53">{label}</strong>
+      <span>{value || "-"}</span>
+    </li>
+  );
+
   // Colors from product.product_color (comma separated or array)
   const availableColors = useMemo(() => {
     const raw = Array.isArray(product.product_color)
@@ -539,33 +548,17 @@ const ContactLensPage = () => {
       <div className="mt-10 ml-10">
         <h3 className="text-2xl font-semibold mb-6">ABOUT THIS PRODUCT</h3>
         <ul className="text-lg space-y-1">
-          <li>
-            <strong>LENS TYPE: </strong>
-            {product.lens_type}
-          </li>
-          <li>
-            <strong>MATERIAL: </strong>
-            {product.material}
-          </li>
-          <li>
-            <strong>MANUFACTURER: </strong>
-            {product.manufacturer}
-          </li>
-          <li>
-            <strong>WATER % OF CONTENT: </strong>
-            {product.water_content}
-          </li>
-          <li>
-            <strong>Gender: </strong>
-            {product.gender}
-          </li>
+          <DetailRow label="LENS TYPE:" value={product.lens_type} />
+          <DetailRow label="MATERIAL:" value={product.material} />
+          <DetailRow label="MANUFACTURER:" value={product.manufacturer} />
+          <DetailRow label="WATER % OF CONTENT:" value={product.water_content} />
+          <DetailRow label="Gender:" value={product.gender} />
         </ul>
         {product.product_description && (
           <p className="mt-4 mb-10 text-lg">{product.product_description}</p>
         )}
       </div>
 
-      <div className="bg-stone-900"></div>
     </>
   );
 };
