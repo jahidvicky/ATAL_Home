@@ -31,7 +31,7 @@ API.interceptors.response.use(
 );
 
 export default API;
-// export const IMAGE_URL = "https://api.ataloptical.org/uploads/"
-// export const PDF_URL = "https://api.ataloptical.org/api"
-export const IMAGE_URL = "http://localhost:4000/uploads/"
-export const PDF_URL = "http://localhost:4000/api"
+export const IMAGE_URL = "https://api.ataloptical.org/uploads/"
+export const PDF_URL = "https://api.ataloptical.org/api"
+// export const IMAGE_URL = "http://localhost:4000/uploads/"
+// export const PDF_URL = "http://localhost:4000/api"
