@@ -97,27 +97,30 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
                             {activeKey === "brands" ? (
                                 <>
                                     <ul className="grid grid-cols-2 gap-1">
-                                        {brands.map((brand) => (
-                                            <li
-                                                key={brand._id}
-                                                className="flex items-center gap-3 p-1 rounded-sm hover:bg-red-600 cursor-pointer transition"
-                                                onClick={() => {
-                                                    onClose?.();
-                                                    navigate(`/brands/${brand._id}`);
-                                                }}
-                                            >
-                                                <img
-                                                    src={
-                                                        brand.image?.startsWith("http")
-                                                            ? brand.image
-                                                            : IMAGE_URL + brand.image
-                                                    }
-                                                    className="w-auto h-auto object-contain"
-                                                    alt={brand.brand}
-                                                />
-                                            </li>
-                                        ))}
+                                        {[...brands]
+                                            .sort((a, b) => a.brand.localeCompare(b.brand))
+                                            .map((brand) => (
+                                                <li
+                                                    key={brand._id}
+                                                    className="flex items-center gap-3 p-1 rounded-sm hover:bg-red-600 cursor-pointer transition"
+                                                    onClick={() => {
+                                                        onClose?.();
+                                                        navigate(`/brands/${brand._id}`);
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={
+                                                            brand.image?.startsWith("http")
+                                                                ? brand.image
+                                                                : `${IMAGE_URL}/${brand.image}`
+                                                        }
+                                                        className="w-auto h-auto object-contain"
+                                                        alt={brand.brand}
+                                                    />
+                                                </li>
+                                            ))}
                                     </ul>
+
 
                                     {/* VIEW ALL BRANDS */}
                                     <div className="mt-6">
