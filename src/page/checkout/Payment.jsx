@@ -40,6 +40,7 @@ const Payment = () => {
       const fixedCartItems = order.cartItems.map((item) => ({
         ...item,
         vendorID: item.vendorID || item.vendorId || null,
+         categoryId: item.categoryId || null,
       }));
 
       const { data } = await API.post("/order", {

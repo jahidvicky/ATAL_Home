@@ -11,6 +11,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.items);
   const userId = localStorage.getItem("user");
+  
 
   const subtotal = cartItems.reduce((total, item) => {
     const catId = item.cat_id || "";
@@ -19,6 +20,7 @@ const Checkout = () => {
     const frameTotal = item.price * item.quantity;
     const lensTotal = (item.lens?.totalPrice || 0) * item.quantity;
     const policyTotal = (item.policy?.price || 0) * item.quantity;
+
 
     if (isContactLens) {
       return total + frameTotal + policyTotal;
@@ -174,23 +176,23 @@ const Checkout = () => {
 
       billingAddress: billingDifferent
         ? {
-          fullName: formData.shippingName,
-          address: formData.billingStreet,
-          city: formData.billingCity,
-          province: formData.billingProvince,
-          postalCode: formData.billingPostal,
-          country: "Canada",
-          phone: formData.phone,
-        }
+            fullName: formData.shippingName,
+            address: formData.billingStreet,
+            city: formData.billingCity,
+            province: formData.billingProvince,
+            postalCode: formData.billingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          }
         : {
-          fullName: formData.shippingName,
-          address: formData.shippingStreet,
-          city: formData.shippingCity,
-          province: formData.shippingProvince,
-          postalCode: formData.shippingPostal,
-          country: "Canada",
-          phone: formData.phone,
-        },
+            fullName: formData.shippingName,
+            address: formData.shippingStreet,
+            city: formData.shippingCity,
+            province: formData.shippingProvince,
+            postalCode: formData.shippingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          },
 
       subtotal,
       tax,
@@ -263,18 +265,20 @@ const Checkout = () => {
               >
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all
-                  ${idx <= currentStep
+                  ${
+                    idx <= currentStep
                       ? "bg-[#f00000] text-white border-red-600"
                       : "border-black text-black group-hover:bg-black group-hover:text-white"
-                    }`}
+                  }`}
                 >
                   {idx + 1}
                 </div>
                 <span
-                  className={`mt-2 text-sm ${idx === currentStep
-                    ? "text-[#f00000] font-bold"
-                    : "text-gray-700"
-                    }`}
+                  className={`mt-2 text-sm ${
+                    idx === currentStep
+                      ? "text-[#f00000] font-bold"
+                      : "text-gray-700"
+                  }`}
                 >
                   {step}
                 </span>
@@ -300,10 +304,11 @@ const Checkout = () => {
               value={formData.email || ""}
               onChange={(e) => handleChange("email", e.target.value)}
               className={`border p-2 rounded w-full 
-          ${formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
-                  ? "border-red-500"
-                  : "border-black"
-                }`}
+          ${
+            formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+              ? "border-red-500"
+              : "border-black"
+          }`}
               required
             />
             {formData.email &&
@@ -320,11 +325,12 @@ const Checkout = () => {
               placeholder="416 123 4567"
               value={formData.phone || ""}
               onChange={(e) => handleChange("phone", e.target.value)}
-              className={`border p-2 rounded w-full ${formData.phone &&
+              className={`border p-2 rounded w-full ${
+                formData.phone &&
                 !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone)
-                ? "border-red-500"
-                : "border-black"
-                }`}
+                  ? "border-red-500"
+                  : "border-black"
+              }`}
               required
             />
             {formData.phone &&
@@ -348,10 +354,11 @@ const Checkout = () => {
           </h1>
           <br />
           <hr
-            className={`border-t-2 -mt-2 ${!deliveryRange
-              ? "w-[418px] border-black"
-              : "w-[498px] border-black"
-              }`}
+            className={`border-t-2 -mt-2 ${
+              !deliveryRange
+                ? "w-[418px] border-black"
+                : "w-[498px] border-black"
+            }`}
           />
 
           <input
@@ -386,13 +393,14 @@ const Checkout = () => {
               const val = e.target.value.toUpperCase();
               handleChange("shippingPostal", val);
             }}
-            className={`border p-2 rounded w-full ${formData.shippingPostal &&
+            className={`border p-2 rounded w-full ${
+              formData.shippingPostal &&
               !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                 formData.shippingPostal
               )
-              ? "border-red-500"
-              : "border-black"
-              }`}
+                ? "border-red-500"
+                : "border-black"
+            }`}
             required
           />
           {formData.shippingPostal &&
@@ -481,13 +489,14 @@ const Checkout = () => {
                   const val = e.target.value.toUpperCase(); // convert to uppercase
                   handleChange("billingPostal", val);
                 }}
-                className={`border p-2 rounded w-full ${formData.billingPostal &&
+                className={`border p-2 rounded w-full ${
+                  formData.billingPostal &&
                   !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                     formData.billingPostal
                   )
-                  ? "border-red-500"
-                  : "border-black"
-                  }`}
+                    ? "border-red-500"
+                    : "border-black"
+                }`}
                 required
               />
               {formData.billingPostal &&
@@ -533,102 +542,108 @@ const Checkout = () => {
             )}
           </div>
 
-          <div className="w-full ml-auto bg-white shadow-lg border border-gray-200 rounded-xl p-6">
+          {/* <div className="w-full ml-auto bg-white shadow-lg border border-gray-200 rounded-xl p-6"> */}
+          <div className="w-full ml-auto bg-white shadow-lg border border-gray-200 rounded-xl p-6 overflow-hidden">
             <h2 className="font-bold text-xl mb-4 text-[#f00000] border-b border-gray-300 pb-2">
               Your Order
             </h2>
 
             {cartItems.map((item, index) => (
-              <div
-                key={index}
-                className="flex justify-between items-start pb-3 border-b border-dashed border-gray-300"
-              >
-                <div className="flex items-start mb-3">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-50 h-24 object-cover rounded mr-4"
-                  />
-                  <div className="flex-1">
-                    <h4 className="text-gray-800 font-semibold flex items-center">
-                      {item.name}
-                      <span className="text-sm text-gray-500 ml-2">
-                        x {item.quantity}
-                      </span>
-                    </h4>
+             <div
+  key={index}
+  className="flex flex-col sm:flex-row sm:justify-between sm:items-start pb-3 border-b border-dashed border-gray-300 gap-3 sm:gap-0"
+>
+  {/* Left Side: Image + Details */}
+  <div className="flex items-start w-full sm:w-auto">
+    <img
+      src={item.image}
+      alt={item.name}
+      className="w-24 h-24 sm:w-50 sm:h-24 object-cover rounded mr-4 flex-shrink-0"
+    />
 
-                    {/* NEW: Selected Size */}
-                    {item.selectedSize?.length > 0 && (
-                      <p className="text-gray-600 text-sm">
-                        Size: {item.selectedSize}
-                      </p>
-                    )}
+    <div className="flex-1">
+      <h4 className="text-gray-800 font-semibold flex items-center">
+        {item.name}
+        <span className="text-sm text-gray-500 ml-2">
+          x {item.quantity}
+        </span>
+      </h4>
 
-                    {/* NEW: Selected Color */}
-                    {item.selectedColor?.length > 0 && (
-                      <p className="text-gray-600 text-sm flex items-center">
-                        Color:{" "}
-                        <span
-                          style={{
-                            backgroundColor: item.selectedColor,
-                            width: "15px",
-                            height: "15px",
-                            display: "inline-block",
-                            borderRadius: "50%",
-                            marginRight: "5px",
-                          }}
-                        ></span>
-                        {item.selectedColor}
-                      </p>
-                    )}
+      {item.selectedSize?.length > 0 && (
+        <p className="text-gray-600 text-sm">
+          Size: {item.selectedSize}
+        </p>
+      )}
 
-                    {item.policy && item.policy.active && (
-                      <p className="text-gray-600 text-sm mt-1">
-                        Policy: {item.policy.name} ($
-                        {(item.policy.price || 0).toFixed(2)})
-                      </p>
-                    )}
+      {item.selectedColor?.length > 0 && (
+        <p className="text-gray-600 text-sm flex items-center">
+          Color:
+          <span
+            style={{
+              backgroundColor: item.selectedColor,
+              width: "15px",
+              height: "15px",
+              display: "inline-block",
+              borderRadius: "50%",
+              marginRight: "5px",
+              marginLeft: "5px",
+            }}
+          ></span>
+          {item.selectedColor}
+        </p>
+      )}
 
-                    {item.lens &&
-                      item.lens.totalPrice != null &&
-                      item.cat_id !== "6915735feeb23fa59c7d532b" && (
-                        <p className="text-gray-600 text-sm">
-                          Lens: ${(item.lens.totalPrice || 0).toFixed(2)}
-                        </p>
-                      )}
+      {item.policy && item.policy.active && (
+        <p className="text-gray-600 text-sm mt-1">
+          Policy: {item.policy.name} (${(item.policy.price || 0).toFixed(2)})
+        </p>
+      )}
 
+      {item.lens &&
+        item.lens.totalPrice != null &&
+        item.cat_id !== "6915735feeb23fa59c7d532b" && (
+          <p className="text-gray-600 text-sm">
+            Lens: ${(item.lens.totalPrice || 0).toFixed(2)}
+          </p>
+        )}
 
-                    <p className="text-gray-800 font-bold mt-1">
-                      {item.cat_id === "6915735feeb23fa59c7d532b"
-                        ? "Contact Lens"
-                        : "Frame"}{" "}
-                      ${(item.price || 0).toFixed(2)}
-                    </p>
-                  </div>
-                </div>
+      <p className="text-gray-800 font-bold mt-1">
+        {item.cat_id === "6915735feeb23fa59c7d532b"
+          ? "Contact Lens"
+          : "Frame"}{" "}
+        ${(item.price || 0).toFixed(2)}
+      </p>
+    </div>
+  </div>
 
-                <div className="text-right mt-8">
-                  {item.cat_id === "6915735feeb23fa59c7d532b" ? (
-                    <p className="text-gray-800 font-bold">
-                      $
-                      {((item.price || 0) + (item.policy?.price || 0)) *
-                        (item.quantity || 1).toFixed(2)}
-                    </p>
-                  ) : (
-                    <p className="text-gray-800 font-bold">
-                      $
-                      {((item.price || 0) +
-                        (item.lens?.totalPrice || 0) +
-                        (item.policy?.price || 0)) *
-                        (item.quantity || 1).toFixed(2)}
-                    </p>
-                  )}
-                </div>
-              </div>
+  {/* Right Side: Price */}
+  <div className="w-full sm:w-auto text-right mt-2 sm:mt-8">
+    {item.cat_id === "6915735feeb23fa59c7d532b" ? (
+      <p className="text-gray-800 font-bold">
+        $
+        {(
+          ((item.price || 0) + (item.policy?.price || 0)) *
+          (item.quantity || 1)
+        ).toFixed(2)}
+      </p>
+    ) : (
+      <p className="text-gray-800 font-bold">
+        $
+        {(
+          ((item.price || 0) +
+            (item.lens?.totalPrice || 0) +
+            (item.policy?.price || 0)) *
+          (item.quantity || 1)
+        ).toFixed(2)}
+      </p>
+    )}
+  </div>
+</div>
+
             ))}
 
             {/* Order Summary */}
-            <div className="mt-4 space-y-2 text-gray-700">
+            {/* <div className="mt-4 space-y-2 text-gray-700">
               <div className="flex justify-between">
                 <span>Subtotal</span>
                 <span>${subtotal.toFixed(2)}</span>
@@ -646,6 +661,26 @@ const Checkout = () => {
               <div className="border-t pt-2 flex justify-between font-bold text-[#f00000] text-lg">
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>
+              </div>
+            </div> */}
+            <div className="mt-4 space-y-2 text-gray-700">
+              <div className="flex flex-col sm:flex-row sm:justify-between">
+                <span>Subtotal</span>
+                <span className="mt-1 sm:mt-0">${subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between">
+                <span>Shipping</span>
+                <span className="mt-1 sm:mt-0">
+                  {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
+                </span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between">
+                <span>Tax ({(taxRate * 100).toFixed(0)}%)</span>
+                <span className="mt-1 sm:mt-0">${tax.toFixed(2)}</span>
+              </div>
+              <div className="border-t pt-2 flex flex-col sm:flex-row sm:justify-between font-bold text-[#f00000] text-lg">
+                <span>Total</span>
+                <span className="mt-1 sm:mt-0">${total.toFixed(2)}</span>
               </div>
             </div>
           </div>
