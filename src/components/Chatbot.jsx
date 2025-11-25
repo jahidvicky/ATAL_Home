@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { io } from "socket.io-client";
 import Swal from "sweetalert2";
-import { CHAT_API_URL, SOCKET_URL } from "../API/Api";
-
-const socket = io(SOCKET_URL);
+import { CHAT_API_URL } from "../API/Api";
+import socket from "../API/socket"; // ✅ Updated socket import
 
 export default function SupportChat({ onClose }) {
     const [step, setStep] = useState("welcome");
@@ -82,8 +80,8 @@ export default function SupportChat({ onClose }) {
 
         Swal.fire({
             icon: "success",
-            title: "Thank you for your feedback!",
-            text: "We really appreciate it.",
+            title: "Thank you!",
+            text: "Feedback submitted.",
             timer: 2000,
             showConfirmButton: false,
         });
@@ -115,18 +113,13 @@ export default function SupportChat({ onClose }) {
                 {step === "chat" && (
                     <>
                         {messages.map((msg, i) => (
-                            <div
-                                key={i}
-                                className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
-                            >
-                                <div
-                                    className={`px-3 py-2 rounded-2xl max-w-[70%] shadow ${msg.sender === "user"
+                            <div key={i} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
+                                <div className={`px-3 py-2 rounded-2xl max-w-[70%] shadow ${msg.sender === "user"
                                         ? "bg-red-600 text-white"
                                         : msg.sender === "admin"
                                             ? "bg-blue-100 text-gray-900"
                                             : "bg-gray-200 text-gray-900"
-                                        }`}
-                                >
+                                    }`}>
                                     {msg.text}
                                 </div>
                             </div>
@@ -141,7 +134,7 @@ export default function SupportChat({ onClose }) {
                 {step === "closed" && (
                     <div className="text-center text-gray-700 mt-10">
                         <p className="font-semibold mb-3">Chat closed! Thank you</p>
-                        <p className="mb-2">Rate your support experience</p>
+                        <p className="mb-2">Rate your experience</p>
 
                         <div className="flex justify-center gap-1 mb-4">
                             {[1, 2, 3, 4, 5].map((star) => (
