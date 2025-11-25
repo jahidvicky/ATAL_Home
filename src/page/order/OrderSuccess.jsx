@@ -31,7 +31,7 @@ const OrderSuccess = () => {
     return (
       <p className="text-center mt-20 text-gray-500 text-lg">Loading...</p>
     );
-
+    
   const formatPrice = (price) =>
     new Intl.NumberFormat("en-CA", {
       style: "currency",
@@ -107,7 +107,7 @@ const OrderSuccess = () => {
             const lensPrice = item.lens?.totalPrice || 0;
             const policyPrice = item.policy?.price || 0;
 
-            const isContactLens = item.subCategoryName === "Contact Lenses";
+            const isContactLens = item.categoryId === "6915735feeb23fa59c7d532b";
 
             const itemTotal =
               item.price * item.quantity +

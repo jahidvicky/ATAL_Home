@@ -155,166 +155,172 @@ const LensSelectionFlow = () => {
   }, [previousLens]);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Left: Frame Preview */}
-      <FramePreview onProductLoaded={handleFrameLoaded} />
+    <div className="min-h-screen bg-gray-100 flex flex-col sm:flex-row">
+      {/* LEFT — Frame Preview (Hidden on Mobile, Centered on Big Screens) */}
+      <div className="hidden sm:flex sm:w-1/2 items-center justify-center ">
+        <FramePreview onProductLoaded={handleFrameLoaded} />
+      </div>
 
-      {/* Right: Lens Selection Steps */}
-      <div className="w-1/2 bg-gray-50 p-8">
-        {step === 1 && (
-          <Step1LensSelection
-            selectedLens={selectedLens}
-            onSelect={(lens) => {
-              setSelectedLens(lens);
-              setStep(lens === "Non-prescription lenses" ? 5 : 2);
-            }}
-          />
-        )}
+      {/* RIGHT — Steps (Centered on All Screens) */}
+      <div className="w-full sm:w-1/2 bg-gray-50 p-6 sm:p-8 flex justify-center">
+        <div className="w-full max-w-lg">
+          {/* ---- ALL YOUR STEP CODE STAYS HERE ---- */}
 
-        {step === 2 && (
-          <Step2PrescriptionMethod
-            preSelectedMethod={previousLens?.lens?.prescriptionMethod}
-            onManual={() => {
-              setPrescriptionMethod("Manually added");
-              setStep(3);
-            }}
-            onSaved={() => {
-              setStep(4);
-            }}
-            goBack={() => setStep(1)}
-          />
-        )}
+          {step === 1 && (
+            <Step1LensSelection
+              selectedLens={selectedLens}
+              onSelect={(lens) => {
+                setSelectedLens(lens);
+                setStep(lens === "Non-prescription lenses" ? 5 : 2);
+              }}
+            />
+          )}
 
-        {step === 3 && (
-          <Step3ManualForm
-            preFilledData={prescription}
-            goBack={() => setStep(2)}
-            onContinue={(data) => {
-              setPrescription(data);
-              setStep(5);
-            }}
-          />
-        )}
+          {step === 2 && (
+            <Step2PrescriptionMethod
+              preSelectedMethod={previousLens?.lens?.prescriptionMethod}
+              onManual={() => {
+                setPrescriptionMethod("Manually added");
+                setStep(3);
+              }}
+              onSaved={() => {
+                setStep(4);
+              }}
+              goBack={() => setStep(1)}
+            />
+          )}
 
-        {step === 4 && (
-          <Step3UploadForm
-            preFilledData={prescriptionMethod}
-            goBack={() => setStep(2)}
-            onContinue={(data) => {
-              setPrescriptionMethod(data.fileURL);
-              setStep(5);
-            }}
-          />
-        )}
+          {step === 3 && (
+            <Step3ManualForm
+              preFilledData={prescription}
+              goBack={() => setStep(2)}
+              onContinue={(data) => {
+                setPrescription(data);
+                setStep(5);
+              }}
+            />
+          )}
 
-        {step === 5 && (
-          <Step4LensTypeSelection
-            preSelectedType={lensType}
-            goBack={() =>
-              setStep(selectedLens === "Non-prescription lenses" ? 1 : 2)
-            }
-            onSelectLensType={(type) => {
-              setLensType(type);
-              setStep(type.name === "Sun lenses" ? 6 : 7);
-            }}
-          />
-        )}
+          {step === 4 && (
+            <Step3UploadForm
+              preFilledData={prescriptionMethod}
+              goBack={() => setStep(2)}
+              onContinue={(data) => {
+                setPrescriptionMethod(data.fileURL);
+                setStep(5);
+              }}
+            />
+          )}
 
-        {step === 6 && lensType?.name === "Sun lenses" && (
-          <Step5TintSelection
-            selectedTint={tint}
-            onSelect={(t) => setTint(t)}
-            onApply={() => setStep(7)}
-            goBack={() => setStep(5)}
-          />
-        )}
+          {step === 5 && (
+            <Step4LensTypeSelection
+              preSelectedType={lensType}
+              goBack={() =>
+                setStep(selectedLens === "Non-prescription lenses" ? 1 : 2)
+              }
+              onSelectLensType={(type) => {
+                setLensType(type);
+                setStep(type.name === "Sun lenses" ? 6 : 7);
+              }}
+            />
+          )}
 
-        {step === 7 && (
-          <Step6LensThicknessSelection
-            preSelectedThickness={thickness}
-            goBack={() => setStep(lensType?.name === "Sun lenses" ? 6 : 5)}
-            onSelectThickness={(t) => {
-              setThickness(t);
-              setStep(8);
-            }}
-          />
-        )}
+          {step === 6 && lensType?.name === "Sun lenses" && (
+            <Step5TintSelection
+              selectedTint={tint}
+              onSelect={(t) => setTint(t)}
+              onApply={() => setStep(7)}
+              goBack={() => setStep(5)}
+            />
+          )}
 
-        {step === 8 && (
-          <Step7EnhancementsSelection
-            selectedEnhancement={enhancement}
-            onSelect={(e) => setEnhancement(e)}
-            goBack={() => setStep(7)}
-            onContinue={() => setStep(9)}
-          />
-        )}
+          {step === 7 && (
+            <Step6LensThicknessSelection
+              preSelectedThickness={thickness}
+              goBack={() => setStep(lensType?.name === "Sun lenses" ? 6 : 5)}
+              onSelectThickness={(t) => {
+                setThickness(t);
+                setStep(8);
+              }}
+            />
+          )}
 
-        {step === 9 && (
-          <div>
-            <h2 className="text-2xl font-bold text-[#f00000] mb-6">Review</h2>
+          {step === 8 && (
+            <Step7EnhancementsSelection
+              selectedEnhancement={enhancement}
+              onSelect={(e) => setEnhancement(e)}
+              goBack={() => setStep(7)}
+              onContinue={() => setStep(9)}
+            />
+          )}
 
-            {/* Lenses Only */}
-            <div className="mb-6 space-y-2 text-gray-700">
-              <p>
-                <strong>Vision Need:</strong> {selectedLens}
-              </p>
-              <p>
-                <strong>Prescription:</strong>{" "}
-                {selectedLens === "Non-prescription lenses"
-                  ? "Not required"
-                  : prescriptionMethod || "Not provided"}
-              </p>
-              <p>
-                <strong>Lens Type:</strong> {lensType?.name || "Clear lenses"}{" "}
-                {lensType?.price && (
-                  <span className="text-blue-600">{lensType.price}</span>
+          {step === 9 && (
+            <div>
+              <h2 className="text-2xl font-bold text-[#f00000] mb-6">Review</h2>
+
+              {/* Lenses Only */}
+              <div className="mb-6 space-y-2 text-gray-700">
+                <p>
+                  <strong>Vision Need:</strong> {selectedLens}
+                </p>
+                <p>
+                  <strong>Prescription:</strong>{" "}
+                  {selectedLens === "Non-prescription lenses"
+                    ? "Not required"
+                    : prescriptionMethod || "Not provided"}
+                </p>
+                <p>
+                  <strong>Lens Type:</strong> {lensType?.name || "Clear lenses"}{" "}
+                  {lensType?.price && (
+                    <span className="text-blue-600">{lensType.price}</span>
+                  )}
+                </p>
+                {lensType?.name === "Sun lenses" && tint && (
+                  <p>
+                    <strong>Tint:</strong> {tint.name}{" "}
+                    <span className="text-blue-600">{tint.price}</span>
+                  </p>
                 )}
-              </p>
-              {lensType?.name === "Sun lenses" && tint && (
-                <p>
-                  <strong>Tint:</strong> {tint.name}{" "}
-                  <span className="text-blue-600">{tint.price}</span>
-                </p>
-              )}
-              {thickness && (
-                <p>
-                  <strong>Thickness:</strong> {thickness.name}{" "}
-                  <span className="text-blue-600">{thickness.price}</span>
-                </p>
-              )}
-              {enhancement && (
-                <p>
-                  <strong>Finishings:</strong> {enhancement.name}{" "}
-                  <span className="text-blue-600">{enhancement.price}</span>
-                </p>
-              )}
-            </div>
+                {thickness && (
+                  <p>
+                    <strong>Thickness:</strong> {thickness.name}{" "}
+                    <span className="text-blue-600">{thickness.price}</span>
+                  </p>
+                )}
+                {enhancement && (
+                  <p>
+                    <strong>Finishings:</strong> {enhancement.name}{" "}
+                    <span className="text-blue-600">{enhancement.price}</span>
+                  </p>
+                )}
+              </div>
 
-            {/* TOTAL */}
-            <div className="border-t pt-4 mt-4 flex justify-between items-center text-xl font-semibold">
-              <span>Lenses Total:</span>
-              <span className="text-green-600 font-bold">
-                ${lensPrice.toFixed(2)}
-              </span>
-            </div>
+              {/* TOTAL */}
+              <div className="border-t pt-4 mt-4 flex justify-between items-center text-xl font-semibold">
+                <span>Lenses Total:</span>
+                <span className="text-green-600 font-bold">
+                  ${lensPrice.toFixed(2)}
+                </span>
+              </div>
 
-            {/* Actions */}
-            <div className="mt-8 flex justify-between">
-              <button
-                onClick={() => setStep(8)}
-                className="hover:cursor-pointer px-6 py-2 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100"
-              >
-                Back
-              </button>
-              <button
-                onClick={handleAddToCart}
-                className="bg-[#f00000] text-white px-12 py-3 rounded hover:bg-red-800 text-xl border-1 border-black hover:cursor-pointer"
-              >
-                Confirm Lens Selection
-              </button>
+              {/* Actions */}
+              <div className="mt-8 flex justify-between">
+                <button
+                  onClick={() => setStep(8)}
+                  className="hover:cursor-pointer px-6 py-2 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100"
+                >
+                  Back
+                </button>
+                <button
+                  onClick={handleAddToCart}
+                  className="bg-[#f00000] text-white px-12 py-3 rounded hover:bg-red-800 text-xl border-1 border-black hover:cursor-pointer"
+                >
+                  Confirm Lens Selection
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
