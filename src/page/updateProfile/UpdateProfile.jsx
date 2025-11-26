@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import API, { IMAGE_URL } from "../../API/Api";
 import Swal from "sweetalert2";
 
@@ -35,10 +35,10 @@ function UpdateProfile() {
       score <= 1
         ? "Weak"
         : score === 2
-          ? "Medium"
-          : score === 3
-            ? "Strong"
-            : "Very Strong"
+        ? "Medium"
+        : score === 3
+        ? "Strong"
+        : "Very Strong"
     );
   };
 
@@ -176,22 +176,22 @@ function UpdateProfile() {
   };
 
   return (
-    <div className="w-5xl mx-auto p-6 sm:p-10 mt-10 mb-10 bg-white shadow-lg rounded-2xl">
-      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 text-[#f00000]">
+    <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 mt-6 mb-10 bg-white shadow-lg rounded-2xl">
+      <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center mb-6 sm:mb-8 text-[#f00000]">
         Update Your Profile
       </h2>
 
       <form
         onSubmit={handleSubmit}
         encType="multipart/form-data"
-        className="space-y-8"
+        className="space-y-6 sm:space-y-8"
       >
         {/* Personal Info */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 border-b pb-2 text-gray-700">
+          <h3 className="text-md sm:text-lg font-semibold mb-3 sm:mb-4 border-b pb-2 text-gray-700">
             Personal Info
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label className="block text-sm font-medium mb-1 text-gray-600">
                 First Name
@@ -201,7 +201,7 @@ function UpdateProfile() {
                 name="firstName"
                 value={form.firstName}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-red-400 outline-none"
                 required
               />
             </div>
@@ -214,7 +214,7 @@ function UpdateProfile() {
                 name="lastName"
                 value={form.lastName}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-red-400 outline-none"
                 required
               />
             </div>
@@ -227,7 +227,7 @@ function UpdateProfile() {
                 name="dateOfBirth"
                 value={form.dateOfBirth}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-red-400 outline-none"
                 required
               />
             </div>
@@ -238,7 +238,7 @@ function UpdateProfile() {
               <input
                 type="file"
                 onChange={handleProfileImage}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-red-400 outline-none"
                 accept="image/*"
               />
               {profileImage && (
@@ -246,7 +246,7 @@ function UpdateProfile() {
                   <img
                     src={profilePreview || `${IMAGE_URL}${profileImage}`}
                     alt="Profile Preview"
-                    className="w-24 h-24 object-cover rounded-full border shadow"
+                    className="w-16 h-16 sm:w-24 sm:h-24 object-cover rounded-full border shadow"
                   />
                 </div>
               )}
@@ -256,10 +256,10 @@ function UpdateProfile() {
 
         {/* Login & Security */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 border-b pb-2 text-gray-700">
+          <h3 className="text-md sm:text-lg font-semibold mb-3 sm:mb-4 border-b pb-2 text-gray-700">
             Login & Security
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label className="block text-sm font-medium mb-1 text-gray-600">
                 Email
@@ -269,11 +269,11 @@ function UpdateProfile() {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-red-400 outline-none"
                 required
               />
 
-              <label className="block text-sm font-medium mb-1 text-gray-600 mt-3">
+              <label className="block text-sm font-medium mb-1 mt-3 text-gray-600">
                 Mobile Phone
               </label>
               <input
@@ -281,7 +281,7 @@ function UpdateProfile() {
                 name="mobilePhone"
                 value={form.mobilePhone}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-red-400 outline-none"
                 required
               />
             </div>
@@ -294,7 +294,7 @@ function UpdateProfile() {
                 name="password"
                 value={form.password}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-red-400 outline-none"
               />
               <label className="block text-sm font-medium mt-3 mb-1 text-gray-600">
                 Confirm Password
@@ -303,7 +303,7 @@ function UpdateProfile() {
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-red-400 outline-none"
               />
               {form.password && (
                 <div className="mt-3">
@@ -313,11 +313,11 @@ function UpdateProfile() {
                       className={`font-semibold ${strength <= 1
                         ? "text-[#f00000]"
                         : strength === 2
-                          ? "text-yellow-500"
-                          : strength === 3
-                            ? "text-green-500"
-                            : "text-blue-600"
-                        }`}
+                        ? "text-yellow-500"
+                        : strength === 3
+                        ? "text-green-500"
+                        : "text-blue-600"
+                      }`}
                     >
                       {strengthLabel}
                     </span>
@@ -331,11 +331,11 @@ function UpdateProfile() {
                     className={`w-full h-2 rounded-lg mt-2 appearance-none cursor-default ${strength <= 1
                       ? "bg-[#f00000]"
                       : strength === 2
-                        ? "bg-yellow-400"
-                        : strength === 3
-                          ? "bg-green-400"
-                          : "bg-blue-400"
-                      }`}
+                      ? "bg-yellow-400"
+                      : strength === 3
+                      ? "bg-green-400"
+                      : "bg-blue-400"
+                    }`}
                   />
                 </div>
               )}
@@ -345,10 +345,10 @@ function UpdateProfile() {
 
         {/* Address */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 border-b pb-2 text-gray-700">
+          <h3 className="text-md sm:text-lg font-semibold mb-3 sm:mb-4 border-b pb-2 text-gray-700">
             Address
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label className="block text-sm font-medium mb-1 text-gray-600">
                 Street Address
@@ -358,7 +358,7 @@ function UpdateProfile() {
                 name="street"
                 value={form.street}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-red-400 outline-none"
                 required
               />
               <label className="block text-sm font-medium mb-1 mt-4 text-gray-600">
@@ -369,7 +369,7 @@ function UpdateProfile() {
                 name="city"
                 value={form.city}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-red-400 outline-none"
                 required
               />
             </div>
@@ -381,7 +381,7 @@ function UpdateProfile() {
                 <input
                   type="file"
                   onChange={handleFileChange}
-                  className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 outline-none"
+                  className="w-full border border-gray-300 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-red-400 outline-none"
                   accept=".pdf,image/*"
                 />
                 {prescriptionFile && (
@@ -409,14 +409,14 @@ function UpdateProfile() {
                 name="postalCode"
                 value={form.postalCode}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-red-400 outline-none"
                 required
               />
             </div>
           </div>
         </div>
 
-        <div className="pt-4">
+        <div className="pt-2">
           <button
             type="submit"
             className="w-full bg-[#f00000] text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition hover:cursor-pointer"
