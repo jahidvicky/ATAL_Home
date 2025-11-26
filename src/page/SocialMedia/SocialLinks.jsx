@@ -11,9 +11,21 @@ const SocialLinks = () => {
             icon: <FaFacebookF size={20} />,
             url: "https://www.facebook.com/profile.php?id=61584202492519"
         },
-        { name: "Instagram", icon: <FaInstagram size={20} />, path: "instagram" },
-        { name: "YouTube", icon: <FaYoutube size={20} />, path: "youtube" },
-        { name: "LinkedIn", icon: <FaLinkedinIn size={20} />, path: "linkedin" },
+        {
+            name: "Instagram",
+            icon: <FaInstagram size={20} />,
+            url: "https://www.instagram.com/ataloptical"
+        },
+        {
+            name: "Youtube",
+            icon: <FaYoutube size={20} />,
+            url: "https://www.youtube.com/@ataloptical"
+        },
+        {
+            name: "LinkedIn",
+            icon: <FaLinkedinIn size={20} />,
+            path: "linkedin"
+        },
     ];
 
     return (
