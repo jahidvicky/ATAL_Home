@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaLongArrowAltRight, FaLongArrowAltLeft } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import API, { IMAGE_URL } from "../../API/Api";
 
 const AppointmentSchedule = () => {
   const location = useLocation();
-  const examType = location.state?.examType;   // exam type comes from homepage
+  const examType = location.state?.examType; // exam type comes from homepage
   const today = new Date();
 
   // Generate 7 days from today
@@ -51,8 +51,7 @@ const AppointmentSchedule = () => {
   const filteredDoctors = doctor.filter((doc) => {
     // filter by exam type (only doctors who belong to this exam)
     const matchExam =
-      !examType ||
-      doc.exam_section?.toLowerCase() === examType?.toLowerCase();
+      !examType || doc.exam_section?.toLowerCase() === examType?.toLowerCase();
 
     const matchDoctor =
       selectedDoctor === "All" || doc.doctor_name === selectedDoctor;
@@ -67,23 +66,23 @@ const AppointmentSchedule = () => {
   return (
     <div>
       {/* Header */}
-      <div className="bg-gradient-to-r from-black via-red-600 to-black py-20 text-center">
-        <h1 className="text-5xl font-bold text-white mb-2">
+      <div className="bg-gradient-to-r from-black via-red-600 to-black py-12 md:py-20 text-center px-4 sm:px-6">
+        <h1 className="text-3xl md:text-5xl font-bold text-white mb-2">
           {examType || "Appointment Schedule"}
         </h1>
-        <p className="text-center text-xl text-white mb-2">
+        <p className="text-center text-base md:text-xl text-white mb-2">
           Select your eye care professional and appointment time.
         </p>
       </div>
 
       {/* Body */}
-      <div className="max-w-6xl mx-auto px-6 py-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         {/* Filter Section */}
-        <div className="flex justify-end items-center mb-12">
-          <div className="flex space-x-3">
+        <div className="flex flex-col sm:flex-row justify-end items-start sm:items-center mb-12 space-y-3 sm:space-y-0">
+          <div className="flex flex-col sm:flex-row sm:space-x-3 w-full sm:w-auto px-0 sm:px-0">
             {/* Select filter type */}
             <select
-              className="border px-3 py-2 rounded-lg text-sm"
+              className="border px-3 py-2 rounded-lg text-sm w-full sm:w-auto"
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
             >
@@ -94,7 +93,7 @@ const AppointmentSchedule = () => {
             {/* Doctor filter */}
             {filterType === "Professional" && (
               <select
-                className="border px-3 py-2 rounded-lg text-sm"
+                className="border px-3 py-2 rounded-lg text-sm w-full sm:w-auto mt-2 sm:mt-0"
                 value={selectedDoctor}
                 onChange={(e) => setSelectedDoctor(e.target.value)}
               >
@@ -108,7 +107,7 @@ const AppointmentSchedule = () => {
             {/* Date filter */}
             {filterType === "Date" && (
               <select
-                className="border px-3 py-2 rounded text-sm"
+                className="border px-3 py-2 rounded-lg text-sm w-full sm:w-auto mt-2 sm:mt-0"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
               >
@@ -132,26 +131,29 @@ const AppointmentSchedule = () => {
           )}
 
           {filteredDoctors.map((doc, index) => (
-            <div key={index} className="flex items-start space-x-6">
+            <div
+              key={index}
+              className="flex flex-col sm:flex-row sm:items-start w-full sm:space-x-6 space-y-6 sm:space-y-0"
+            >
               {/* Doctor */}
-              <div className="flex flex-col items-center w-32">
+              <div className="flex flex-row sm:flex-col items-center sm:items-center w-full sm:w-32 px-4 sm:px-0">
                 <img
                   src={IMAGE_URL + doc.image}
                   alt={doc.doctor_name}
-                  className="w-12 h-12 rounded-full object-cover mb-4 shadow border border-red-600"
+                  className="w-16 h-16 sm:w-12 sm:h-12 rounded-full object-cover mb-0 sm:mb-4 shadow border border-red-600"
                   loading="lazy"
                   decoding="async"
                 />
-                <h4 className="font-bold text-sm text-center uppercase">
-                  {doc.doctor_name}
-                </h4>
-                <p className="text-xs text-gray-500 text-center">
-                  {doc.specialization}
-                </p>
+                <div className="ml-4 sm:ml-0 text-left sm:text-center">
+                  <h4 className="font-bold text-sm uppercase">
+                    {doc.doctor_name}
+                  </h4>
+                  <p className="text-xs text-gray-500">{doc.specialization}</p>
+                </div>
               </div>
 
               {/* Schedule Grid */}
-              <div className="flex-1 grid grid-cols-4 gap-7">
+              <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-7 px-4 sm:px-0">
                 {visibleDays.map((day) => {
                   const scheduleForDay = doc.schedule.find(
                     (sch) => sch.day === day.weekday
@@ -181,6 +183,7 @@ const AppointmentSchedule = () => {
                                 examType,
                               }}
                               key={tIdx}
+                              className="w-full sm:w-auto"
                             >
                               <button
                                 onClick={() =>
@@ -188,8 +191,9 @@ const AppointmentSchedule = () => {
                                     `${doc.doctor_name} - ${day.label} - ${time}`
                                   )
                                 }
-                                className={`px-4 py-2 text-white text-xs font-medium rounded-sm transition hover:cursor-pointer 
-                                  ${selectedTime === `${doc.doctor_name} - ${day.label} - ${time}`
+                                className={`block w-full sm:inline-block px-3 py-2 text-white text-xs font-medium rounded-sm transition 
+                                  ${selectedTime ===
+                                  `${doc.doctor_name} - ${day.label} - ${time}`
                                     ? "bg-[#f00000]"
                                     : "bg-gray-800 hover:bg-[#f00000]"
                                   }`}
@@ -209,18 +213,18 @@ const AppointmentSchedule = () => {
         </div>
 
         {/* Navigation Arrows */}
-        <div className="flex justify-center items-center space-x-6 mt-12">
+        <div className="flex justify-center items-center space-x-6 mt-8 mb-8 px-4">
           <button
             disabled={startIndex === 0}
             onClick={() => setStartIndex(startIndex - 1)}
-            className="px-3 py-2 bg-gray-200 rounded-full hover:bg-gray-300 disabled:opacity-40"
+            className="px-4 py-3 bg-gray-200 rounded-full hover:bg-gray-300 disabled:opacity-40"
           >
             <FaLongArrowAltLeft />
           </button>
           <button
             disabled={startIndex + 4 >= days.length}
             onClick={() => setStartIndex(startIndex + 1)}
-            className="px-3 py-2 bg-gray-200 rounded-full hover:bg-gray-300 disabled:opacity-40"
+            className="px-4 py-3 bg-gray-200 rounded-full hover:bg-gray-300 disabled:opacity-40"
           >
             <FaLongArrowAltRight />
           </button>
