@@ -6,24 +6,26 @@ export const registerLoader = (fn) => {
   setLoadingFn = fn;
 };
 
-// 🔹 Base URL for backend API
-export const BASE_URL = "https://api.ataloptical.org";
-// export const BASE_URL = "http://localhost:4000";
 
-// 🔹 Chat API base URL
-export const CHAT_API_URL = `${BASE_URL}/api`;
+//local
+// export const CHAT_API_URL = "http://localhost:4000/api";
+// export const SOCKET_URL = "http://localhost:4000";
+// export const IMAGE_URL = "http://localhost:4000/uploads/";
+// export const PDF_URL = "http://localhost:4000/api";
 
-// 🔹 WebSocket URL (proxied via Nginx)
-export const SOCKET_URL = "wss://ataloptical.org/socket.io";
+//LIVE
+export const CHAT_API_URL = "https://api.ataloptical.org/api";
+export const SOCKET_URL = "https://api.ataloptical.org";
+export const IMAGE_URL = "https://api.ataloptical.org/uploads/";
+export const PDF_URL = "https://api.ataloptical.org/api";
 
-// 🔹 File URLs
-export const IMAGE_URL = `${BASE_URL}/uploads/`;
-export const PDF_URL = `${BASE_URL}/api`;
+//  File URLs (LOCAL)
+
 
 const API = axios.create({
-  baseURL: `${BASE_URL}/api`,
+  baseURL: CHAT_API_URL,
   withCredentials: true,
-});
+})
 
 API.interceptors.request.use((config) => {
   if (setLoadingFn) setLoadingFn(true);
