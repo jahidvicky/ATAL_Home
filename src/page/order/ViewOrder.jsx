@@ -234,7 +234,7 @@ const ViewOrder = () => {
               <button
                 onClick={handleProductCancel}
                 disabled={cancelling || !selectedProduct}
-                className={`text-md font-medium px-4 py-3 rounded-md transition-colors ${cancelling || !selectedProduct
+                className={`text-md font-medium px-4 py-3 rounded-md mt-7 transition-colors ${cancelling || !selectedProduct
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : "bg-[#f00000] hover:cursor-pointer text-white hover:bg-red-700"
                   }`}
