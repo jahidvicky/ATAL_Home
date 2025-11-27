@@ -750,6 +750,7 @@ function Header() {
                         { label: "Eye Glasses Contact Policy", path: "/eyeglasses-contact-policy" },
                         { label: "General Information", path: "/general-info" },
                         { label: "Our Mission", path: "/our-mission" },
+                        { label: "Optical Policy", path: "/optical-policy" },
                         { label: "Our Vision", path: "/our-vision" },
                         { label: "Right Enforcement Policy", path: "/rights-enforcement-policy" },
                         { label: "Vision & Responsibility", path: "/responsibility" },
@@ -810,18 +811,19 @@ function Header() {
               </button>
             </li>
 
-            <Link to="/contact-us" className="hover:text-red-600 transition-colors">
-              <li className="cursor-pointer">Contact Us</li>
-            </Link>
             <Link to="/services" className="hover:text-red-600 transition-colors">
               <li className="cursor-pointer">Services</li>
-            </Link>
-            <Link to="/faq" className="hover:text-red-600 transition-colors">
-              <li className="cursor-pointer">FAQ</li>
             </Link>
             <Link to="/how-to-order" className="hover:text-red-600 transition-colors">
               <li className="cursor-pointer">How To Order</li>
             </Link>
+            <Link to="/about-us" className="hover:text-red-600 transition-colors">
+              <li className="cursor-pointer">About Us</li>
+            </Link>
+            <Link to="/contact-us" className="hover:text-red-600 transition-colors">
+              <li className="cursor-pointer">Contact Us</li>
+            </Link>
+
             <Link to="/eye-schedule-test" className="hover:text-black transition-colors">
               <li className="cursor-pointer bg-[#f00000] py-1 px-4 rounded-xl">
                 BOOK EYE EXAM
