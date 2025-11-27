@@ -10,7 +10,7 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import ContactLensPage from "./ContactLensPage";
 import lensWidth from "../../assets/product-measurement/Lenswidt.jpeg"
 import lensHeight from "../../assets/product-measurement/Lensheigh.jpeg"
-import bridgeWidth from "../../assets/product-measurement/BridgeWidt.jpeg"
+import bridgeWidth from "../../assets/product-measurement/Bridgewidt.jpeg"
 import templeLength from "../../assets/product-measurement/Templelengt.jpeg"
 
 const Cartpage = () => {
