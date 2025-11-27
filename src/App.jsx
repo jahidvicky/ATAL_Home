@@ -9,6 +9,7 @@ import Cartpage from "./page/Cart/Cartpage";
 
 import FAQ from "./page/FAQ/FAQ";
 import PrivacyPolicy from "./page/Privacy-Policy/PrivacyPolicy";
+import OpticalPolicy from "./page/opticalPolicy/OpticalPolicy";
 import DisclaimerPage from "./page/DisclaimerPage/DisclaimerPage";
 import TermsAndConditions from "./page/terms&condition/TermsAndConditions";
 import LimitationOfLiability from "./page/limitationOfLiability/Liability";
@@ -17,10 +18,8 @@ import EyeglassesContactPolicy from "./page/eyeglasses-contact-policy/Eyeglasses
 import RightsEnforcementPolicy from "./page/rights-enforcement-policy/RightsEnforcementPolicy";
 
 import Dashboardlayout from "./layout/Dashboardlayout";
-import Faq from "./components/Faq";
 import About from "./components/About";
 import Category from "./layout/Home/Category";
-import CustHome from "./components/CustHome";
 
 import Product from "./page/allproduct/Product";
 
@@ -103,6 +102,7 @@ function App() {
         { path: "/login", element: <Login /> },
         { path: "/faq", element: <FAQ /> },
         { path: "/privacy-policy", element: <PrivacyPolicy /> },
+        { path: "/optical-policy", element: <OpticalPolicy /> },
 
         { path: "/allproduct/:subCategory/:catId/:subCatId", element: <Product /> },
         { path: "/product/:ID/:subCategory/:subCatId", element: <Cartpage /> },
@@ -320,8 +320,6 @@ function App() {
         </ProtectedRoute>
       ),
       children: [
-        { path: "", element: <CustHome /> },
-        { path: "faq", element: <Faq /> },
         { path: "*", element: <Page /> },
       ],
     },

@@ -17,7 +17,7 @@ export default function OurPromise() {
       <hr className="mb-14 mt-2 border-black mx-130"></hr>
       <div className="grid grid-cols-2 md:grid-cols-4 mx-auto text-center">
         {promises.map((item, idx) => (
-          <div key={idx} className="flex flex-col items-center space-y-3 bg-black py-6 mx-6 text-white hover:bg-[#f00000] hover:cursor-pointer hover:scale-110">
+          <div key={idx} className="flex flex-col items-center space-y-3 bg-black mb-6 py-6 mx-6 text-white hover:bg-[#f00000] hover:cursor-pointer hover:scale-110">
             <div className="">{item.icon}</div>
             <p className="font-medium ">{item.text}</p>
           </div>

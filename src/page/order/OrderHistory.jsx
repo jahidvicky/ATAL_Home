@@ -133,38 +133,37 @@ const OrderHistory = () => {
                             </button>
                           </Link>
                         );
+
+                        // show claim button only if any cart item has a policy
                         if (
                           order?.cartItems?.some(
                             (item) => item?.policy?.status === "Active"
                           )
                         ) {
+                          const isCancelled = order.orderStatus === "Cancelled";
+                          const isDelivered = order.orderStatus === "Delivered";
+                          const canClaim = isDelivered && !isCancelled;
+
                           btns.push(
                             <Link
-                              to={
-                                order.orderStatus === "Cancelled"
-                                  ? "#"
-                                  : `/insurance-claim`
-                              }
-                              state={
-                                order.orderStatus === "Cancelled"
-                                  ? {}
-                                  : { order }
-                              }
+                              to={canClaim ? `/insurance-claim` : "#"}
+                              state={canClaim ? { order } : {}}
                               key="claim"
                             >
                               <button
                                 className={`px-3 py-1.5 text-sm rounded-lg ${
-                                  order.orderStatus === "Cancelled"
-                                    ? "bg-gray-400 text-white cursor-not-allowed"
-                                    : "bg-blue-600 text-white hover:bg-black"
+                                  canClaim
+                                    ? "bg-blue-600 text-white hover:bg-black"
+                                    : "bg-gray-400 text-white cursor-not-allowed"
                                 }`}
-                                disabled={order.orderStatus === "Cancelled"}
+                                disabled={!canClaim}
                               >
                                 Claim
                               </button>
                             </Link>
                           );
                         }
+
                         btns.push(
                           <Link
                             to={`/track/${order.trackingNumber}`}
@@ -240,25 +239,29 @@ const OrderHistory = () => {
                   {order?.cartItems?.some(
                     (item) => item?.policy?.status === "Active"
                   ) && (
-                    <Link
-                      to={
-                        order.orderStatus === "Cancelled"
-                          ? "#"
-                          : `/insurance-claim`
-                      }
-                      state={order.orderStatus === "Cancelled" ? {} : { order }}
-                    >
-                      <button
-                        className={`w-full sm:w-auto px-4 py-2 rounded-lg ${
-                          order.orderStatus === "Cancelled"
-                            ? "bg-gray-400 text-white cursor-not-allowed"
-                            : "bg-blue-600 text-white hover:bg-black"
-                        }`}
-                        disabled={order.orderStatus === "Cancelled"}
-                      >
-                        Claim
-                      </button>
-                    </Link>
+                    (() => {
+                      const isCancelled = order.orderStatus === "Cancelled";
+                      const isDelivered = order.orderStatus === "Delivered";
+                      const canClaim = isDelivered && !isCancelled;
+
+                      return (
+                        <Link
+                          to={canClaim ? `/insurance-claim` : "#"}
+                          state={canClaim ? { order } : {}}
+                        >
+                          <button
+                            className={`w-full sm:w-auto px-4 py-2 rounded-lg ${
+                              canClaim
+                                ? "bg-blue-600 text-white hover:bg-black"
+                                : "bg-gray-400 text-white cursor-not-allowed"
+                            }`}
+                            disabled={!canClaim}
+                          >
+                            Claim
+                          </button>
+                        </Link>
+                      );
+                    })()
                   )}
 
                   <Link to={`/track/${order.trackingNumber}`}>
@@ -277,3 +280,4 @@ const OrderHistory = () => {
 };
 
 export default OrderHistory;
+
