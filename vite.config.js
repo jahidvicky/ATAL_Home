@@ -13,16 +13,23 @@ export default defineConfig(({ mode }) => ({
   },
 
   server: {
-  host: true,   // 0.0.0.0 bhi chalega
-  port: 5176,
-  strictPort: true,
-  allowedHosts: ["ataloptical.org", "www.ataloptical.org"],
-  hmr: {
-    protocol: "wss",
-    host: "ataloptical.org",
-    clientPort: 443   // important: browser WSS over HTTPS
-  }
-}
+    host: "0.0.0.0",
+    port: 5176,
+    allowedHosts: ["ataloptical.org", "www.ataloptical.org"],
+    strictPort: true,
 
-}));
+    hmr:
+      mode === "development"
+        ? {
+          protocol: "ws",
+          host: "localhost",
+          port: 5176,
+        }
+        : {
+          protocol: "wss",
+          host: "ataloptical.org",
+          port: 5176,
+        },
+  },
+}))
 
