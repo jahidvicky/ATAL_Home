@@ -74,6 +74,9 @@ import SubscribeSave from "./page/SubscribeSavePage/SubscriveSave";
 import SearchResult from "./layout/Home/SearchResult";
 import ComingSoon from "./page/SocialMedia/ComingSoonPage";
 import ContactLensPage from "./page/Cart/ContactLensPage";
+import PricingPage from "./page/postHeader/PricingPage";
+import CustomerCarePage from "./page/postHeader/CustomerCarePage";
+import FastShippingPage from "./page/postHeader/FastShippingPage";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -289,6 +292,29 @@ function App() {
             // </ProtectedRoute>
           ),
         },
+
+        //post header pages
+
+        {
+          path: "/offer-page",
+          element: (
+            <PricingPage />
+          ),
+        },
+        {
+          path: "/customer-care",
+          element: (
+            <CustomerCarePage />
+          ),
+        },
+        {
+          path: "/fast-shipping",
+          element: (
+            <FastShippingPage />
+          ),
+        },
+
+
         {
           path: "/wishlist-page",
           element: (

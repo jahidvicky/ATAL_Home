@@ -1,5 +1,5 @@
 import React from "react";
-import image from "../assets/about/AboutUs Image.avif"
+import image from "../assets/about/about us.png"
 import { Link } from "react-router-dom";
 
 
@@ -54,12 +54,15 @@ const About = () => {
 
                 <div className="leading-relaxed space-y-6 grid grid-cols-2 gap-x-10">
                     <div>
-                        <img src={image}
+                        <img
+                            src={image}
                             alt="AboutUS Image"
-                            className="w-full h-full rounded-xl mt-3"
+                            className="w-full h-full rounded-xl mt-3 object-cover"
                             loading="lazy"
-                            decoding="async" />
+                            decoding="async"
+                        />
                     </div>
+
                     <div>
                         <h2 className="text-2xl font-semibold">Atal Optical: More Than Just an Optical Store</h2>
                         <p className="mt-6">

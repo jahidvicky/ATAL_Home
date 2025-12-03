@@ -135,7 +135,7 @@ const ContactPage = () => {
                 <span className="font-semibold text-[#f00000]">
                   Store Address:
                 </span>{" "}
-                Atal Optical, 45 Fashion Street, Toronto, ON M5V 2B6, Canada
+                Corporate Office : 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
               </li>
               <li>
                 <span className="font-semibold text-[#f00000]">Phone:</span> +1
