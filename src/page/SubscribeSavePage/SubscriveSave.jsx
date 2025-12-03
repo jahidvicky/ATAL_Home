@@ -58,7 +58,7 @@ export default function SubscribeSave() {
                         initial={fade.hidden}
                         animate={fade.show(0)}
                     >
-                        <p className="inline-block rounded-full bg-black text-white px-3 py-1 text-xs tracking-wider uppercase">Subscribe & Save</p>
+                        <p className="inline-block rounded-full bg-black text-white px-4 py-3 text-sm tracking-wider uppercase">Subscribe & Save</p>
                         <h1 className="mt-4 text-4xl font-extrabold leading-tight text-white sm:text-5xl">
                             Save <span className="text-red-200">20%</span> + Free Shipping
                         </h1>
@@ -184,8 +184,8 @@ export default function SubscribeSave() {
             {/* CTA */}
             <section id="cta" className="px-6 pb-20">
                 <div className="rounded-3xl bg-[#f00000] p-8 text-center">
-                    <h3 className="text-2xl font-extrabold">Ready to subscribe & save?</h3>
-                    <p className="mt-2 text-neutral-200">Pick your lenses, select subscription at checkout, and enjoy automatic refills.</p>
+                    <h3 className="text-2xl text-white font-extrabold">Ready to subscribe & save?</h3>
+                    <p className="mt-2 text-white">Pick your lenses, select subscription at checkout, and enjoy automatic refills.</p>
                 </div>
             </section>
             <OurPromise />

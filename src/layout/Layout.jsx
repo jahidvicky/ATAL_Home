@@ -4,7 +4,7 @@ import Header from './Home/Header'
 import Footer from './Home/Footer'
 import ScrollToTop from '../page/ScrollToTop'
 import OfferPopup from '../components/OfferPopup'
-import Chatbot from "../components/Chatbot" // <-- import here
+import Chatbot from "../components/Chatbot"
 
 function Layout() {
   const location = useLocation();

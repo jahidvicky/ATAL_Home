@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGlasses, FaHeadset, FaShippingFast } from "react-icons/fa";
 import { MdSavings } from "react-icons/md";
+import { Link } from "react-router-dom";  // ✅ ADD THIS
 
 const PostHeader = () => {
 
@@ -17,11 +18,9 @@ const PostHeader = () => {
     useEffect(() => {
         const timer = setInterval(() => {
             setIndex((prev) => (prev + 1) % messages.length);
-        }, 4000); // 20 seconds
+        }, 4000);
         return () => clearInterval(timer);
     }, [messages.length]);
-
-
 
     return (
         <div className="w-full">
@@ -43,22 +42,43 @@ const PostHeader = () => {
 
             {/* Bottom Features Row */}
             <div className="bg-gray-100 py-2 flex flex-wrap justify-center gap-8 text-sm font-medium text-gray-800">
-                <div className="flex items-center gap-2">
+
+                {/* Subscribe & Save */}
+                <Link
+                    to="/subscribe-save"
+                    className="flex items-center gap-2 hover:text-red-600 transition"
+                >
                     <MdSavings className="text-lg" />
                     <span>Subscribe & save: 20% off</span>
-                </div>
-                <div className="flex items-center gap-2">
+                </Link>
+
+                {/* Pricing */}
+                <Link
+                    to="/offer-page"
+                    className="flex items-center gap-2 hover:text-red-600 transition"
+                >
                     <FaGlasses className="text-lg" />
                     <span>Glasses from $499 and contacts from $299</span>
-                </div>
-                <div className="flex items-center gap-2">
+                </Link>
+
+                {/* Customer Care */}
+                <Link
+                    to="/customer-care"
+                    className="flex items-center gap-2 hover:text-red-600 transition"
+                >
                     <FaHeadset className="text-lg" />
                     <span>24/7 customer care</span>
-                </div>
-                <div className="flex items-center gap-2">
+                </Link>
+
+                {/* Fast Shipping */}
+                <Link
+                    to="/fast-shipping"
+                    className="flex items-center gap-2 hover:text-red-600 transition"
+                >
                     <FaShippingFast className="text-lg" />
                     <span>Fast shipping and delivery</span>
-                </div>
+                </Link>
+
             </div>
         </div>
     );

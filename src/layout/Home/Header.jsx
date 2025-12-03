@@ -54,6 +54,10 @@ function Header() {
   const [megaOpen, setMegaOpen] = useState(false);
   const [activeKey, setActiveKey] = useState(null);
 
+  const [policySubOpen, setPolicySubOpen] = useState(false);
+  const policySubTimeoutRef = useRef(null);
+
+
   const [grouped, setGrouped] = useState([]);
 
   const { ID } = useParams();
@@ -142,6 +146,20 @@ function Header() {
     homeTimeoutRef.current = setTimeout(() => setHomeOpen(false), 300);
   };
 
+  const handlePolicySubEnter = () => {
+    if (policySubTimeoutRef.current) clearTimeout(policySubTimeoutRef.current);
+    setPolicySubOpen(true);
+  };
+
+  const handlePolicySubLeave = () => {
+    if (policySubTimeoutRef.current) clearTimeout(policySubTimeoutRef.current);
+    policySubTimeoutRef.current = setTimeout(() => {
+      setPolicySubOpen(false);
+    }, 300);
+  };
+
+
+
   const handleMegaEnter = (key) => {
     if (megaTimeoutRef.current) clearTimeout(megaTimeoutRef.current);
     setActiveKey(key);
@@ -165,6 +183,7 @@ function Header() {
     return () => {
       if (homeTimeoutRef.current) clearTimeout(homeTimeoutRef.current);
       if (megaTimeoutRef.current) clearTimeout(megaTimeoutRef.current);
+      if (policySubTimeoutRef.current) clearTimeout(policySubTimeoutRef.current);
     };
   }, []);
 
@@ -723,16 +742,20 @@ function Header() {
             >
               <button
                 type="button"
+                onClick={() => navigate("/")}
                 className="flex items-center gap-1 cursor-pointer hover:text-red-500 transition-colors duration-200"
                 aria-haspopup="true"
                 aria-expanded={homeOpen}
-                onClick={() => navigate("/")}
               >
                 Home
-                <span className={`inline-block transition-transform duration-200 ${homeOpen ? "rotate-180" : ""}`}>
+                <span
+                  className={`inline-block transition-transform duration-200 ${homeOpen ? "rotate-180" : ""
+                    }`}
+                >
                   ▾
                 </span>
               </button>
+
 
               <AnimatePresence>
                 {homeOpen && (
@@ -741,35 +764,104 @@ function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-1/2 -translate-x-1/2 mt-3 mx-8 w-54 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
-                    onMouseEnter={handleHomeEnter}
-                    onMouseLeave={handleHomeLeave}
+                    className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
                   >
                     <ul className="py-2">
-                      {[
-                        { label: "Eye Glasses Contact Policy", path: "/eyeglasses-contact-policy" },
-                        { label: "General Information", path: "/general-info" },
-                        { label: "Our Mission", path: "/our-mission" },
-                        { label: "Optical Policy", path: "/optical-policy" },
-                        { label: "Our Vision", path: "/our-vision" },
-                        { label: "Right Enforcement Policy", path: "/rights-enforcement-policy" },
-                        { label: "Vision & Responsibility", path: "/responsibility" },
-                      ].map((item) => (
-                        <li key={item.path}>
-                          <Link
-                            to={item.path}
-                            className="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-red-600 transition-all duration-200"
-                            onClick={() => setHomeOpen(false)}
+
+                      {/* Regular Home submenu items */}
+                      <li>
+                        <Link to="/general-info" className="block px-4 py-2 text-sm hover:bg-gray-100">
+                          General Information
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/our-mission" className="block px-4 py-2 text-sm hover:bg-gray-100">
+                          Our Mission
+                        </Link>
+                      </li>
+
+                      {/* ===========================
+               CORPORATE POLICY SUBMENU
+          ============================ */}
+                      <li
+                        className="relative"
+                        onMouseEnter={handlePolicySubEnter}
+                        onMouseLeave={handlePolicySubLeave}
+                      >
+                        <button
+                          type="button"
+                          className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex justify-between items-center"
+                        >
+                          Corporate Policy
+                          <span
+                            className={`inline-block text-lg transition-transform duration-200 ${policySubOpen ? "rotate-150" : ""
+                              }`}
                           >
-                            {item.label}
-                          </Link>
-                        </li>
-                      ))}
+                            ▾
+                          </span>
+                        </button>
+
+                        {/* RIGHT SUBMENU WITH 2 SECOND DELAY */}
+                        {policySubOpen && (
+                          <div
+                            className="absolute top-0 left-full ml-1 w-56 bg-white border rounded-lg shadow-2xl transition-all z-50"
+                            onMouseEnter={handlePolicySubEnter}
+                            onMouseLeave={handlePolicySubLeave}
+                          >
+                            <ul className="py-2">
+                              <li>
+                                <Link
+                                  to="/eyeglasses-contact-policy"
+                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                                >
+                                  Eyeglasses Contact Policy
+                                </Link>
+                              </li>
+
+                              <li>
+                                <Link
+                                  to="/optical-policy"
+                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                                >
+                                  Optical Policy
+                                </Link>
+                              </li>
+
+                              <li>
+                                <Link
+                                  to="/rights-enforcement-policy"
+                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                                >
+                                  Right Enforcement Policy
+                                </Link>
+                              </li>
+                            </ul>
+                          </div>
+                        )}
+                      </li>
+
+
+                      {/* More Home items */}
+                      <li>
+                        <Link to="/our-vision" className="block px-4 py-2 text-sm hover:bg-gray-100">
+                          Our Vision
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/responsibility" className="block px-4 py-2 text-sm hover:bg-gray-100">
+                          Vision & Responsibility
+                        </Link>
+                      </li>
+
                     </ul>
                   </motion.div>
                 )}
               </AnimatePresence>
             </li>
+
+            <Link to="/about-us" className="hover:text-red-600 transition-colors">
+              <li className="cursor-pointer">About Us</li>
+            </Link>
 
             <li onMouseEnter={() => handleMegaEnter("glasses")} onMouseLeave={handleMegaLeave}>
               <button
@@ -816,9 +908,6 @@ function Header() {
             </Link>
             <Link to="/how-to-order" className="hover:text-red-600 transition-colors">
               <li className="cursor-pointer">How To Order</li>
-            </Link>
-            <Link to="/about-us" className="hover:text-red-600 transition-colors">
-              <li className="cursor-pointer">About Us</li>
             </Link>
             <Link to="/contact-us" className="hover:text-red-600 transition-colors">
               <li className="cursor-pointer">Contact Us</li>
