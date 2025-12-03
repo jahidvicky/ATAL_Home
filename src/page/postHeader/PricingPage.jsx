@@ -19,17 +19,8 @@ const PricingPage = () => {
                         transition={{ duration: 0.6 }}
                         className="text-4xl font-bold"
                     >
-                        Glasses from $499 & Contacts from $299
+                        High-quality eyewear at affordable prices
                     </motion.h1>
-
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2, duration: 0.6 }}
-                        className="text-lg mt-2"
-                    >
-                        High-quality eyewear at affordable Canadian prices.
-                    </motion.p>
                 </div>
             </section>
 
