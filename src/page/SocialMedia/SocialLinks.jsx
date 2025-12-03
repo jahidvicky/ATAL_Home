@@ -41,7 +41,7 @@ const SocialLinks = () => {
                                 navigate(`connect/${platform.path}`);
                             }
                         }}
-                        className="flex flex-col items-center justify-center cursor-pointer transform transition-all duration-300 hover:scale-105 hover:text-black"
+                        className="flex flex-col items-center justify-center cursor-pointer transform transition-all duration-300 hover:scale-105 hover:text-gray-600"
                     >
                         {platform.icon}
                     </div>

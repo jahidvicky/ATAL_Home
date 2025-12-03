@@ -90,6 +90,38 @@ const FastShippingPage = () => {
                 </div>
             </section>
 
+
+            {/* Delivery Partners Section */}
+            <section className="py-5">
+                <div className="max-w-6xl mx-auto px-4 mb-15 text-center">
+                    <h2 className="text-3xl font-bold mb-8">Top Delivery Partners</h2>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                        {[
+                            "Purolator",
+                            "Canada Post",
+                            "UPS Canada",
+                            "FedEx Canada",
+                            "DHL Express",
+                        ].map((name, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4 + index * 0.1 }}
+                                className="p-5 bg-white rounded-xl shadow border text-lg font-semibold"
+                                style={{ borderColor: red }}
+                            >
+                                {name}
+                            </motion.div>
+                        ))}
+
+                    </div>
+                </div>
+            </section>
+
+
             {/* Shipping Methods */}
             <section className="bg-gray-100 py-16">
                 <div className="max-w-6xl mx-auto px-4 text-center">
