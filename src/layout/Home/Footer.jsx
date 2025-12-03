@@ -5,12 +5,10 @@ import Paypal from "../../assets/footer/paypal.png";
 import Visa from "../../assets/footer/visa.png";
 import {
   FaMapMarkerAlt,
-  FaFacebookF,
-  FaInstagram,
-  FaYoutube,
-  FaLinkedinIn,
 } from "react-icons/fa";
 import SocialLinks from "../../page/SocialMedia/SocialLinks";
+import { useState } from "react";
+import Chatbot from "../../components/Chatbot"
 
 const PaymentCard = ({ img, alt }) => (
   <div className="flex items-center gap-2 bg-white border rounded-xs px-2 scale-90">
@@ -19,6 +17,8 @@ const PaymentCard = ({ img, alt }) => (
 );
 
 const Footer = () => {
+  const [openChat, setOpenChat] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   return (
     <>
       {/* Top promo row */}
@@ -53,11 +53,40 @@ const Footer = () => {
           <div className="w-full">
             <h4 className="text-white font-semibold mb-3">Help</h4>
             <ul className="text-xs space-y-2 text-gray-300">
-              <li>Book an eye exam</li>
-              <li>Shipping and returns policy</li>
-              <li>Frequently asked questions</li>
-              <li>Accepted payment methods</li>
-              <li>Klarna</li>
+              <li>
+                <NavLink
+                  to="/eye-schedule-test"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-[#f00000]"
+                      : "cursor-pointer hover:text-red-600"
+                  }
+                >
+                  Book an eye exam
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/optical-policy"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-[#f00000]"
+                      : "cursor-pointer hover:text-red-600"
+                  }
+                >
+                  Optical Policy
+                </NavLink>
+              </li>
+              <li> <NavLink
+                to="/faq"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-[#f00000]"
+                    : "cursor-pointer hover:text-red-600"
+                }
+              >
+                FAQ
+              </NavLink></li>
             </ul>
 
             <div className="mt-5">
@@ -94,8 +123,16 @@ const Footer = () => {
 
               <div className="flex items-start gap-2 text-gray-300">
                 <FaMapMarkerAlt className="text-xl mt-1 text-white" />
-                <span className="text-sm">Chat with an agent</span>
+                <button
+                  onClick={() => setOpenChat(!openChat)}
+                  className="text-sm">Chat with an agent</button>
               </div>
+              {/* Chatbox - toggles open/close */}
+              {openChat && (
+                <div className="fixed bottom-20 right-6 z-50">
+                  <Chatbot onClose={() => setOpenChat(false)} />
+                </div>
+              )}
             </div>
           </div>
 
@@ -539,19 +576,6 @@ const Footer = () => {
 
               <li>
                 <NavLink
-                  to="/faq"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-[#f00000]"
-                      : "cursor-pointer hover:text-red-600"
-                  }
-                >
-                  FAQ
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink
                   to="/atal-meaning"
                   className={({ isActive }) =>
                     isActive
@@ -605,64 +629,13 @@ const Footer = () => {
               <PaymentCard img={Paypal} alt="PayPal" />
             </div>
           </div>
-
-          {/* <div className="flex items-center gap-2 text-gray-300 text-sm cursor-pointer">
-            <svg width="20" height="14" viewBox="0 0 20 14">
-              <rect width="20" height="14" fill="#fff" />
-              <rect width="5" height="14" fill="#D52B1E" />
-              <rect x="15" width="5" height="14" fill="#D52B1E" />
-              <path
-                fill="#D52B1E"
-                d="M10 3L10.6 5H12L10.9 6.2L11.3 8L10 6.9L8.7 8L9.1 6.2L8 5H9.4L10 3Z"
-              />
-            </svg>
-
-            <span>Canada (English)</span>
-          </div> */}
         </div>
       </div>
 
       {/* BOTTOM BAR */}
-      <div className="bg-black text-gray-400 border-t border-gray-800 text-xs py-3 pb-5">
+      <div className="bg-black text-white border-t border-gray-800 text-xs py-3 pb-5">
         <div className="max-w-[1280px] mx-auto px-[2%] flex justify-between items-center">
-          {/* <div className="flex items-center gap-3">
-              <a
-                href="https://www.instagram.com/ataloptical/#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-gray-900 hover:bg-gray-800 text-white"
-              >
-                <FaInstagram />
-              </a>
-
-              <a
-                href="https://www.facebook.com/people/Atal-Optical/61584202492519/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-gray-900 hover:bg-gray-800 text-white"
-              >
-                <FaFacebookF />
-              </a>
-
-              <a
-                href="https://www.youtube.com/@ataloptical"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-gray-900 hover:bg-gray-800 text-white"
-              >
-                <FaYoutube />
-              </a>
-
-              <a
-                href="connect/linkdin"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-gray-900 hover:bg-gray-800 text-white"
-              >
-                <FaLinkedinIn />
-              </a>
-          </div> */}
-           <SocialLinks />
+          <SocialLinks />
 
           <div className="flex items-center gap-3 text-gray-300 pr-2">
             <span>© 2025 Atal Optical</span>
