@@ -3,12 +3,10 @@ import { NavLink } from "react-router-dom";
 import Mastercard from "../../assets/footer/mastercard.png";
 import Paypal from "../../assets/footer/paypal.png";
 import Visa from "../../assets/footer/visa.png";
-import {
-  FaMapMarkerAlt,
-} from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
 import SocialLinks from "../../page/SocialMedia/SocialLinks";
 import { useState } from "react";
-import Chatbot from "../../components/Chatbot"
+import Chatbot from "../../components/Chatbot";
 
 const PaymentCard = ({ img, alt }) => (
   <div className="flex items-center gap-2 bg-white border rounded-xs px-2 scale-90">
@@ -47,7 +45,7 @@ const Footer = () => {
 
       {/* MAIN FOOTER GRID */}
       <div className="bg-black text-white px-[5%] py-10">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12">
+        <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12">
           {/* HELP */}
           <div className="w-full">
             <h4 className="text-[#f00000] font-semibold mb-3">Help</h4>
@@ -76,28 +74,31 @@ const Footer = () => {
                   Optical Policy
                 </NavLink>
               </li>
-              <li> <NavLink
-                to="/faq"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-[#f00000]"
-                    : "cursor-pointer hover:text-red-600"
-                }
-              >
-                FAQ
-              </NavLink></li>
+              <li>
+                {" "}
+                <NavLink
+                  to="/faq"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-[#f00000]"
+                      : "cursor-pointer hover:text-red-600"
+                  }
+                >
+                  FAQ
+                </NavLink>
+              </li>
             </ul>
 
-            <div className="mt-5">
+            <div className="mt-5 w-xl pr-15">
               <h5 className="text-[#f00000] font-semibold mb-2">Contact Us</h5>
 
-              <div className="flex items-start gap-2 mb-2 text-gray-300">
-                <MdLocalPhone className="text-xl mt-1 text-white" />
+              <div className="flex items-start gap-1 mb-2 text-gray-300">
+                <MdLocalPhone className="text-lg mt-1 text-white" />
                 <span className="text-sm">Call 1866-242-3545</span>
               </div>
 
-              <div className="flex items-start gap-2 mb-2 text-gray-300">
-                <MdEmail className="text-xl mt-1 text-white" />
+              <div className="flex items-start gap-1  mb-2 text-gray-300">
+                <MdEmail className="text-lg mt-1  text-white" />
                 <span className="text-sm">
                   <a
                     href="mailto:sales.ataloptical@gmail.com"
@@ -108,8 +109,8 @@ const Footer = () => {
                 </span>
               </div>
 
-              <div className="flex items-start gap-2 mb-2 text-gray-300">
-                <MdEmail className="text-xl mt-1 text-white" />
+              <div className="flex items-start gap-1 mb-2 text-gray-300">
+                <MdEmail className="text-lg mt-1 text-white" />
                 <span className="text-sm">
                   <a
                     href="mailto:info.ataloptical@gmail.com"
@@ -120,11 +121,14 @@ const Footer = () => {
                 </span>
               </div>
 
-              <div className="flex items-start gap-2 text-gray-300">
+              <div className="flex items-start gap-1 text-gray-300">
                 <FaMapMarkerAlt className="text-xl mt-1 text-white" />
                 <button
                   onClick={() => setOpenChat(!openChat)}
-                  className="text-sm">Chat with an agent</button>
+                  className="text-sm"
+                >
+                  Chat with an agent
+                </button>
               </div>
               {/* Chatbox - toggles open/close */}
               {openChat && (
@@ -286,7 +290,9 @@ const Footer = () => {
 
           {/* CONTACT LENSES */}
           <div className="pr-14 w-full">
-            <h4 className="text-[#f00000] font-semibold mb-3">Contact Lenses</h4>
+            <h4 className="text-[#f00000] font-semibold mb-3">
+              Contact Lenses
+            </h4>
             <ul className="text-xs space-y-2 text-gray-300">
               <li>
                 <NavLink
@@ -538,6 +544,40 @@ const Footer = () => {
                   }
                 >
                   Vision & Responsibility
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+
+          {/* guids */}
+          <div className="pr-14 w-full">
+            <h4 className="text-[#f00000] font-semibold mb-3">
+              Rewards & Eyewear
+            </h4>
+            <ul className="text-xs space-y-2 text-gray-300">
+              <li>
+                <NavLink
+                  to="/refer-coupon"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-[#f00000]"
+                      : "cursor-pointer hover:text-red-600"
+                  }
+                >
+                  Refer a friend
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/face-shape"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-[#f00000]"
+                      : "cursor-pointer hover:text-red-600"
+                  }
+                >
+                  Glasses for your face shape
                 </NavLink>
               </li>
             </ul>

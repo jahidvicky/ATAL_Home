@@ -77,6 +77,8 @@ import ContactLensPage from "./page/Cart/ContactLensPage";
 import PricingPage from "./page/postHeader/PricingPage";
 import CustomerCarePage from "./page/postHeader/CustomerCarePage";
 import FastShippingPage from "./page/postHeader/FastShippingPage";
+import ReferCoupon from "./components/ReferCoupon";
+import FaceShape from "./page/Tips and Guides/FaceShape";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -328,6 +330,22 @@ function App() {
           element: (
             // <ProtectedRoute>
             <SearchResult />
+            // </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/refer-coupon",
+          element: (
+            // <ProtectedRoute>
+            <ReferCoupon/>
+            // </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/face-shape",
+          element: (
+            // <ProtectedRoute>
+            <FaceShape/>
             // </ProtectedRoute>
           ),
         },
