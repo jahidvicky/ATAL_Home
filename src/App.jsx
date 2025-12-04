@@ -78,7 +78,7 @@ import PricingPage from "./page/postHeader/PricingPage";
 import CustomerCarePage from "./page/postHeader/CustomerCarePage";
 import FastShippingPage from "./page/postHeader/FastShippingPage";
 import ReferCoupon from "./components/ReferCoupon";
-import FaceShape from "./page/Tips and Guides/FaceShape";
+import FaceShape from "./page/tipsAndGuides/FaceShape";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -337,7 +337,7 @@ function App() {
           path: "/refer-coupon",
           element: (
             // <ProtectedRoute>
-            <ReferCoupon/>
+            <ReferCoupon />
             // </ProtectedRoute>
           ),
         },
@@ -345,7 +345,7 @@ function App() {
           path: "/face-shape",
           element: (
             // <ProtectedRoute>
-            <FaceShape/>
+            <FaceShape />
             // </ProtectedRoute>
           ),
         },
