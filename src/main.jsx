@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import { AuthProvider } from './page/context/AuthContext';
 import { RecentlyViewedProvider } from './page/collections/RecentlyViewedContext';
-import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+// import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 import { LoaderProvider, useLoader } from './loader/LoaderContext.jsx';
 import Loader from './loader/Loader.jsx';
@@ -26,12 +26,12 @@ try {
   console.error("Invalid user data in localStorage", err);
 }
 
-const paypalClientId = "AR8OuXZAEXMfWN7TbOkPki6I-FWWKp3NBNR3nyy75Qyzpa6msHKMg--clBZ6lnsVJD0ZhyCyAx8j-bbq";
-const initialOptions = {
-  "client-id": paypalClientId,
-  currency: "USD",
-  intent: "capture",
-};
+// const paypalClientId = "AR8OuXZAEXMfWN7TbOkPki6I-FWWKp3NBNR3nyy75Qyzpa6msHKMg--clBZ6lnsVJD0ZhyCyAx8j-bbq";
+// const initialOptions = {
+//   "client-id": paypalClientId,
+//   currency: "USD",
+//   intent: "capture",
+// };
 
 // Loader wrapper component
 function LoaderWrapper({ children }) {
@@ -55,13 +55,13 @@ function RootApp() {
       <LoaderWrapper>
         <AuthProvider>
           <React.StrictMode>
-            <PayPalScriptProvider options={initialOptions}>
-              <RecentlyViewedProvider user={user}>
-                <Provider store={store}>
-                  <App />
-                </Provider>
-              </RecentlyViewedProvider>
-            </PayPalScriptProvider>
+            {/* <PayPalScriptProvider options={initialOptions}> */}
+            <RecentlyViewedProvider user={user}>
+              <Provider store={store}>
+                <App />
+              </Provider>
+            </RecentlyViewedProvider>
+            {/* </PayPalScriptProvider> */}
           </React.StrictMode>
         </AuthProvider>
       </LoaderWrapper>
