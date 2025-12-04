@@ -1,35 +1,146 @@
 import React, { useEffect, useState } from "react";
-import { PayPalButtons } from "@paypal/react-paypal-js";
 import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router-dom";
 import API from "../../API/Api";
 
 const PaymentPolicy = () => {
-  // const [data, setData] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const data = location.state;
+
+  const [card, setCard] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [initError, setInitError] = useState(null);
+  const [containerReady, setContainerReady] = useState(false);
+  const [isPaying, setIsPaying] = useState(false);
 
   if (!data) {
     navigate("/order-history");
     return null;
   }
 
-  const { policy, orderId } = data;
+  const { policy, orderId, type } = data;
 
-  const handlePayPalSuccess = async (details) => {
+  const applicationId = import.meta.env.VITE_SQUARE_APPLICATION_ID;
+  const locationId = import.meta.env.VITE_SQUARE_LOCATION_ID;
+
+  // ---- STEP 1: Detect container (Fixes first render bug) ----
+  useEffect(() => {
+    const waitForContainer = setInterval(() => {
+      if (document.getElementById("card-container")) {
+        setContainerReady(true);
+        clearInterval(waitForContainer);
+      }
+    }, 40);
+
+    return () => clearInterval(waitForContainer);
+  }, []);
+
+  // ---- STEP 2: Load Square SDK + Init card ----
+  useEffect(() => {
+    if (!containerReady) return;
+
+    if (!applicationId || !locationId) {
+      setInitError("Missing Square environment keys!");
+      setLoading(false);
+      return;
+    }
+
+    const scriptId = "square-web-sdk-policy";
+
+    const initSquare = async () => {
+      try {
+        if (!window.Square) {
+          setInitError("Square.js not loaded");
+          setLoading(false);
+          return;
+        }
+
+        // Prevent duplicate card initialisation
+        if (window.__square_policy_card) {
+          setCard(window.__square_policy_card);
+          setLoading(false);
+          return;
+        }
+
+        const payments = window.Square.payments(applicationId, locationId);
+        const cardInstance = await payments.card();
+        await cardInstance.attach("#card-container");
+
+        window.__square_policy_card = cardInstance;
+        setCard(cardInstance);
+      } catch (err) {
+        console.error("Square init error:", err);
+        setInitError("Failed to initialize Square card");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Script exists already?
+    const existingScript = document.getElementById(scriptId);
+    if (existingScript) {
+      if (window.Square) initSquare();
+      else existingScript.addEventListener("load", initSquare);
+      return;
+    }
+
+    // Inject Square SDK
+    const script = document.createElement("script");
+    script.id = scriptId;
+    script.src = "https://web.squarecdn.com/v1/square.js";
+    script.async = true;
+    script.onload = initSquare;
+    script.onerror = () => {
+      setInitError("Failed to load Square SDK");
+      setLoading(false);
+    };
+
+    document.body.appendChild(script);
+  }, [containerReady]);
+
+  // ---- SQUARE PAYMENT ----
+  const handleSquarePayment = async () => {
+    if (!card) return;
+
+    setIsPaying(true);
+
     try {
-      const { policy, orderId, type } = data;
-      const isRenew = type === "renew";
+      const tokenResult = await card.tokenize();
 
+      if (tokenResult.status !== "OK") {
+        Swal.fire("Error", "Card tokenization failed.", "error");
+        setIsPaying(false);
+        return;
+      }
+
+      const res = await fetch("http://localhost:4000/api/pay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nonce: tokenResult.token,
+          amount: policy.price,
+        }),
+      });
+
+      const dataRes = await res.json();
+
+      if (!dataRes.success) {
+        Swal.fire("Payment Failed", dataRes.message || "Try again.", "error");
+        setIsPaying(false);
+        return;
+      }
+
+      // SUCCESS → update policy
+      const isRenew = type === "renew";
       const endpoint = isRenew
         ? `/renewPolicy/${orderId}`
         : `/payPolicy/${orderId}`;
 
       await API.put(endpoint, {
         policyId: policy._id || policy.policyId,
-        transactionId: details.id,
-        paymentMethod: "PayPal",
+        transactionId: dataRes.payment.id,
+        paymentMethod: "Square",
       });
 
       await Swal.fire({
@@ -43,16 +154,10 @@ const PaymentPolicy = () => {
 
       navigate(`/view-order`, { state: { id: orderId } });
     } catch (err) {
-      Swal.fire(
-        "Error",
-        err.response?.data?.message || "Payment failed",
-        "error"
-      );
+      Swal.fire("Error", "Payment failed. Try again.", "error");
     }
-  };
 
-  const handlePayPalFail = () => {
-    Swal.fire("Payment Failed", "Policy payment was not completed.", "error");
+    setIsPaying(false);
   };
 
   return (
@@ -73,34 +178,26 @@ const PaymentPolicy = () => {
           </div>
         </div>
 
-        <PayPalButtons
-          style={{
-            layout: "vertical",
-            color: "gold",
-            shape: "rect",
-            label: "paypal",
-          }}
-          createOrder={(data, actions) =>
-            actions.order.create({
-              purchase_units: [
-                {
-                  amount: {
-                    value: policy.price.toFixed(2),
-                    currency_code: "USD",
-                  },
-                },
-              ],
-            })
-          }
-          onApprove={(data, actions) =>
-            actions.order.capture().then((details) => {
-              if (details.status === "COMPLETED") handlePayPalSuccess(details);
-              else handlePayPalFail();
-            })
-          }
-          onError={handlePayPalFail}
-          onCancel={handlePayPalFail}
+        {/* Square UI */}
+        {loading && <p>Loading payment form…</p>}
+        {initError && <p className="text-red-600">{initError}</p>}
+
+        <div
+          id="card-container"
+          className="border rounded-lg p-4 bg-white"
+          style={{ minHeight: "60px", marginBottom: "20px" }}
         />
+
+        <button
+          onClick={handleSquarePayment}
+          disabled={!card || isPaying}
+          className={`w-full px-4 py-2 rounded-lg text-white font-semibold ${!card || isPaying
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-[#f00000] hover:bg-black"
+            }`}
+        >
+          {isPaying ? "Processing..." : "Pay Now"}
+        </button>
       </div>
     </div>
   );
