@@ -216,10 +216,10 @@ function Header() {
             title: "Shop By Face Shape",
             links: [
               { id: 1011, label: "Heart Face", faceShape: "heart" },
-              { id: 1012, label: "Oval Face", frameShape: "oval" },
+              { id: 1012, label: "Oval Face", faceShape: "oval" },
               { id: 1013, label: "Round Face", faceShape: "round" },
-              { id: 1014, label: "Square Face", frameShape: "square" },
-              { id: 1015, label: "Triangle Face", frameShape: "triangle" },
+              { id: 1014, label: "Square Face", faceShape: "square" },
+              { id: 1015, label: "Triangle Face", faceShape: "triangle" },
             ],
           },
 
