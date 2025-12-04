@@ -18,7 +18,6 @@ const PaymentCard = ({ img, alt }) => (
 
 const Footer = () => {
   const [openChat, setOpenChat] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   return (
     <>
       {/* Top promo row */}
@@ -51,7 +50,7 @@ const Footer = () => {
         <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12">
           {/* HELP */}
           <div className="w-full">
-            <h4 className="text-white font-semibold mb-3">Help</h4>
+            <h4 className="text-[#f00000] font-semibold mb-3">Help</h4>
             <ul className="text-xs space-y-2 text-gray-300">
               <li>
                 <NavLink
@@ -138,7 +137,7 @@ const Footer = () => {
 
           {/* GLASSES */}
           <div className="pr-14 w-full">
-            <h4 className="text-white font-semibold mb-3">Glasses</h4>
+            <h4 className="text-[#f00000] font-semibold mb-3">Glasses</h4>
             <ul className="text-xs space-y-2 text-gray-300">
               <li>
                 <NavLink
@@ -287,7 +286,7 @@ const Footer = () => {
 
           {/* CONTACT LENSES */}
           <div className="pr-14 w-full">
-            <h4 className="text-white font-semibold mb-3">Contact Lenses</h4>
+            <h4 className="text-[#f00000] font-semibold mb-3">Contact Lenses</h4>
             <ul className="text-xs space-y-2 text-gray-300">
               <li>
                 <NavLink
@@ -436,7 +435,7 @@ const Footer = () => {
 
           {/* Our services */}
           <div className="pr-2 w-full">
-            <h4 className="text-white font-semibold mb-3">Our Services</h4>
+            <h4 className="text-[#f00000] font-semibold mb-3">Our Services</h4>
             <ul className="text-xs space-y-2 text-gray-300">
               <li>
                 <NavLink
@@ -546,7 +545,7 @@ const Footer = () => {
 
           {/* ABOUT US */}
           <div className="pr-14 w-full">
-            <h4 className="text-white font-semibold mb-3">About Us</h4>
+            <h4 className="text-[#f00000] font-semibold mb-3">About Us</h4>
             <ul className="text-xs space-y-2 text-gray-300">
               <li>
                 <NavLink
