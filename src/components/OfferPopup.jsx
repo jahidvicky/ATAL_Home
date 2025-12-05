@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import img from "../assets/test/human1.jpg";
+import img from "../assets/about/popupImg.avif";
 import API from "../API/Api";
 
 const OfferPopup = () => {
@@ -16,7 +16,7 @@ const OfferPopup = () => {
     useEffect(() => {
         const hasShown = sessionStorage.getItem("offerPopupShown");
         if (!hasShown) {
-            const timer = setTimeout(() => setShowPopup(true), 1000);
+            const timer = setTimeout(() => setShowPopup(true), 2000);
             sessionStorage.setItem("offerPopupShown", "true");
             return () => clearTimeout(timer);
         }

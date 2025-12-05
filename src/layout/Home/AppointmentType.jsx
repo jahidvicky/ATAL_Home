@@ -36,7 +36,20 @@ const AppointmentType = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
+      <motion.div
+        className="mt-2 space-y-4 "
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h1 className="text-4xl md:text-5xl font-extrabold text-[#f00000] text-center mb-15 underline decoration-[#f00000] underline-offset-4">
+          Select Exam Type
+        </h1>
+
+      </motion.div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+
         {eyeExam.map((item, index) => (
           <motion.div
             key={index}

@@ -126,8 +126,8 @@ export default function RightsEnforcementPolicy() {
                     <section>
                         <h2 className="text-3xl font-semibold text-[#f00000] text-center">Contact Us</h2>
                         <hr className="border-red-600 w-45 mx-auto my-2" />
-                        <p>Atal Optical Inc.</p>
-                        <p>34 Shining Willow Crescent, Brampton, Ontario, Canada</p>
+                        <p>Atal Optical</p>
+                        <p>Corporate Office : 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada</p>
                         <p>Toll-Free: 1-866-242-3545</p>
                         <p>Email: support@ataloptical.com</p>
                     </section>

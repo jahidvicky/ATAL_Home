@@ -139,7 +139,7 @@ const ContactPage = () => {
               </li>
               <li>
                 <span className="font-semibold text-[#f00000]">Phone:</span> +1
-                5698765 43210
+                1866-242-3545
               </li>
               <li>
                 <span className="font-semibold text-[#f00000]">Email:</span>{" "}

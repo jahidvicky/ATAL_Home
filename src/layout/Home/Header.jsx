@@ -829,6 +829,15 @@ function Header() {
 
                               <li>
                                 <Link
+                                  to="/privacy-policy"
+                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                                >
+                                  Privacy Policy
+                                </Link>
+                              </li>
+
+                              <li>
+                                <Link
                                   to="/rights-enforcement-policy"
                                   className="block px-4 py-2 text-sm hover:bg-gray-100"
                                 >
