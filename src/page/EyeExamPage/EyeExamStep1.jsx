@@ -154,7 +154,7 @@ export default function EyeExamStep1() {
                             onClick={handleClick}
                             className="rounded-md px-6 py-2 bg-black mt-5 text-white hover:bg-white hover:text-red-600 text-base sm:text-lg md:text-lg lg:text-xl"
                         >
-                            Book Eye Exam
+                            Select Eye Exam
                         </motion.button>
                     </motion.section>
 
