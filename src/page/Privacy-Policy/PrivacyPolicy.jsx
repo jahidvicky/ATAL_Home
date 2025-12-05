@@ -113,8 +113,8 @@ export default function PrivacyPolicy() {
       title: "Contact Us",
       content: (
         <>
-          <p className="mb-1">Atal Optical Corp</p>
-          <p className="mb-1">34 Shining Willow Crescent, Brampton, Ontario, Canada</p>
+          <p className="mb-1">Atal Optical</p>
+          <p className="mb-1">Corporate Office : 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada</p>
           <p className="mb-1">Toll-Free: 1-866-242-3545</p>
           <p>Email: info@ataloptical@gmail.com</p>
         </>

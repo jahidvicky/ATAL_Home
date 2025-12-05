@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import image from "../../assets/Eye-Exam-images/Optometrists.webp"
 import image1 from "../../assets/Eye-Exam-images/Optometrists-1.jpg"
-import Optical_Store from "../../assets/Eye-Exam-images/Optical_Store.jpeg"
+import Optical_Store from "../../assets/about/atal-man.jpg"
+// import Optical_Store from "../../assets/Eye-Exam-images/Optical_Store.jpeg"
 
 export default function EyeExamStep1() {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function EyeExamStep1() {
         <p><strong>Need to cancel or reschedule?</strong></p>
         <p>Click the link in the original confirmation email you received to edit your booking.</p>
       `,
-            confirmButtonText: "Book eye exam",
+            confirmButtonText: "Click here to select exam",
             confirmButtonColor: "#da1515ff",
             background: "#fff",
             width: "600px",
@@ -54,7 +55,7 @@ export default function EyeExamStep1() {
                 <div>
                     <Clock className="w-10 h-10 mx-auto mb-2 text-[#f00000]" />
                     <h2 className="font-bold">Store Hours</h2>
-                    <p>Mon - Sat: 10 AM - 7 PM</p>
+                    <p>Mon - Sat:  10:00 AM - 8:00 PM</p>
                     <p>Sun: Closed</p>
                 </div>
                 <div>
@@ -124,7 +125,7 @@ export default function EyeExamStep1() {
                         <img
                             src={Optical_Store}
                             alt="Atal Optical Store"
-                            className="rounded-2xl shadow-lg w-full max-w-md md:max-w-sm lg:max-w-lg"
+                            className="rounded-lg shadow-lg w-full max-w-md md:max-w-sm lg:max-w-lg"
                         />
                     </motion.section>
 

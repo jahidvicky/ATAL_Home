@@ -26,7 +26,7 @@ const Footer = () => {
           </p>
 
           <button className="bg-[#f00000] text-white px-5 py-2 rounded-xl text-sm font-semibold hover:bg-red-700 transition">
-            <NavLink to="/eye-schedule-test">Book My Exam</NavLink>
+            <NavLink to="/eye-schedule-test">Select Eye Exam</NavLink>
           </button>
         </div>
 

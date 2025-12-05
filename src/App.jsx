@@ -79,6 +79,7 @@ import CustomerCarePage from "./page/postHeader/CustomerCarePage";
 import FastShippingPage from "./page/postHeader/FastShippingPage";
 import ReferCoupon from "./components/ReferCoupon";
 import FaceShape from "./page/tipsAndGuides/FaceShape";
+import ReturnExchangePolicy from "./page/return&exchange/Return&Exchange";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
@@ -118,6 +119,7 @@ function App() {
         { path: "/general-info", element: <GeneralInformation /> },
         { path: "/eyeglasses-contact-policy", element: <EyeglassesContactPolicy /> },
         { path: "/rights-enforcement-policy", element: <RightsEnforcementPolicy /> },
+        { path: "/return-exchange", element: <ReturnExchangePolicy /> },
 
 
         { path: "/cart", element: <CartPageWrapper /> },
