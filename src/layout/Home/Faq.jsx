@@ -2,41 +2,41 @@ import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-
+import { FiArrowRight } from "react-icons/fi";
 
 function Faq() {
   const [openIndex, setOpenIndex] = useState(null);
 
   const faqs = [
     {
-      question: "Do you offer prescription sunglasses?",
+      question: "Do I need a prescription to buy glasses or contact lenses?",
       answer:
-        "Yes, we carry a wide range of prescription sunglasses with UV protection, including polarized, transition, and custom-tinted lenses.",
+        "Yes. All prescription glasses, prescription sunglasses, and contact lenses require a valid prescription from a licensed optometrist or ophthalmologist in Canada. Orders cannot be processed without a valid prescription.",
     },
     {
-      question: "Why is UV protection important for eye health?",
+      question: "Can I exchange or return prescription glasses or frames?",
       answer:
-        "Prolonged UV exposure can lead to cataracts, macular degeneration, and corneal damage. Our sunglasses offer 100% UV-A and UV-B protection.",
+        "Prescription glasses and frames are custom-made medical devices and are final sale under Ontario and Canadian law. They cannot be exchanged or refunded. Only non-prescription sunglasses are eligible for exchange within 1–2 days of purchase.",
     },
     {
-      question: "How can I choose the right frame for my face?",
+      question: "What payment methods are accepted?",
       answer:
-        "Our experienced team will guide you based on face shape, lifestyle, and personal style preferences. Virtual try-on options are also available.",
+        "We accept major credit cards including Visa, MasterCard, and American Express, as well as debit cards. Select financing options may also be available where applicable. Please note that full payment is required before any order can be processed.",
     },
     {
-      question: "What brands do you carry",
+      question: "How long does it take to process and ship my order?",
       answer:
-        "We offer a curated selection of designer, luxury, and value brands, including Ray-Ban, Oakley, Gucci, Versace, and more.",
+        "Non-prescription items typically require 1–3 business days for processing, while prescription or custom eyewear may take 3–7 business days. Shipping time varies based on the carrier and delivery destination, and tracking information will be provided once your order has been shipped.",
     },
     {
-      question: "Do you provide glasses for specific professions or safety requirements?",
+      question: "Which shipping carriers do you use?",
       answer:
-        "Yes, we offer occupational safety glasses and custom eyewear for professionals, including healthcare workers, tradespeople, and office workers.",
+        "Atal Optical ships orders using trusted carriers including UPS, DHL, FedEx, and Canada Post. Shipping fees are calculated at checkout based on the selected service and are non-refundable.",
     },
     {
-      question: "Can I get fitted for contact lenses at Atal Optical?",
+      question: "What if my order is lost or damaged during shipping?",
       answer:
-        "Yes. Our optometrists provide professional contact lens fittings, training for first-time wearers, and follow-up care.",
+        "If your package arrives damaged, take photos of the package and the item immediately. Report the damage to Atal Optical within 24 hours of delivery, and keep all original packaging for inspection. Please note that late claims may not be accepted.",
     },
     {
       question: "Do you offer eye exams in-store?",
@@ -44,13 +44,11 @@ function Faq() {
         "Yes, we have qualified optometrists available for comprehensive eye exams, including vision tests, prescription updates, and eye health checks.",
     },
     {
-      question: "What is your return and exchange policy?",
+      question: "How do I provide measurements for glasses?",
       answer:
-        "We accept returns and exchanges within 14 days of purchase, provided the product is in its original condition with proof of purchase.",
+        "Prescription eyewear requires your pupillary distance (PD). You can provide this measurement from your optometrist, or we can take the measurement for you in-store.",
     },
   ];
-
-
 
   const steps = [
     {
@@ -81,7 +79,6 @@ function Faq() {
       <div className="flex md:flex-row flex-col md:mb-20">
         <div className="md:mr-6">
           <div className="bg-[#f00000] p-9 rounded-xl mt-10 md:ml-26 mx-5 md:min-w-xl">
-
             <div className="max-w-3xl w-full">
               {/* Title */}
               <motion.h1
@@ -92,7 +89,6 @@ function Faq() {
               >
                 How to Book Eye Exam
                 <hr className="border border-white mx-auto mt-3 w-40 sm:w-60 md:w-80 lg:w-[26rem] " />
-
               </motion.h1>
 
               {/* Vertical Steps Timeline */}
@@ -122,7 +118,6 @@ function Faq() {
               </div>
             </div>
 
-
             <Link to="/eye-schedule-test">
               <button className="bg-white p-3 mt-6 rounded-xl text-xl font-semibold flex items-center hover:cursor-pointer hover:bg-black hover:text-white transition-colors duration-300">
                 Book Eye Exam
@@ -144,7 +139,8 @@ function Faq() {
               <div key={index} className="mb-4 border-b border-black pb-4">
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full text-left flex justify-between items-center focus:outline-none hover:cursor-pointer">
+                  className="w-full text-left flex justify-between items-center focus:outline-none hover:cursor-pointer"
+                >
                   <div className="flex flex-col">
                     <span className="text-lg font-medium">{faq.question}</span>
                   </div>
@@ -154,15 +150,29 @@ function Faq() {
                 </button>
 
                 <div
-                  className={`transition-all duration-300 overflow-hidden ${openIndex === index
-                    ? "max-h-40 opacity-100 mt-2"
-                    : "max-h-0 opacity-0"
-                    }`}
+                  className={`transition-all duration-300 overflow-hidden ${
+                    openIndex === index
+                      ? "max-h-40 opacity-100 mt-2"
+                      : "max-h-0 opacity-0"
+                  }`}
                 >
                   <p className="text-gray-700">{faq.answer}</p>
                 </div>
               </div>
             ))}
+          </div>
+          <div className="flex justify-end mr-14">
+            <Link to="/faq">
+              <button className="flex items-center gap-4 text-white font-medium bg-[#f00000] px-4 py-2 rounded mr-1 hover:bg-black transition-colors duration-300 cursor-pointer">
+                FIND MORE
+                <span className="bg-white text-black p-1 rounded-full">
+                  <FiArrowRight
+                    size={16}
+                    className="hover:rotate-[-40deg] transition-transform"
+                  />
+                </span>
+              </button>
+            </Link>
           </div>
         </div>
       </div>

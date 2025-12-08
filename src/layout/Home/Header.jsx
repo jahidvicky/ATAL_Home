@@ -57,14 +57,13 @@ function Header() {
   const [policySubOpen, setPolicySubOpen] = useState(false);
   const policySubTimeoutRef = useRef(null);
 
-
   const [grouped, setGrouped] = useState([]);
 
   const { ID } = useParams();
   const [product, setProduct] = useState();
 
-  const totalQuantity = useSelector(
-    (state) => state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
+  const totalQuantity = useSelector((state) =>
+    state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
   );
 
   const user = localStorage.getItem("user");
@@ -88,9 +87,6 @@ function Header() {
       console.error("Failed to fetch products:", err);
     }
   };
-
-
-
 
   useEffect(() => {
     async function fetchSubcategories() {
@@ -133,8 +129,6 @@ function Header() {
     fetchSubcategories();
   }, []);
 
-
-
   const handleHomeEnter = () => {
     if (homeTimeoutRef.current) clearTimeout(homeTimeoutRef.current);
     setHomeOpen(true);
@@ -157,8 +151,6 @@ function Header() {
       setPolicySubOpen(false);
     }, 300);
   };
-
-
 
   const handleMegaEnter = (key) => {
     if (megaTimeoutRef.current) clearTimeout(megaTimeoutRef.current);
@@ -183,7 +175,8 @@ function Header() {
     return () => {
       if (homeTimeoutRef.current) clearTimeout(homeTimeoutRef.current);
       if (megaTimeoutRef.current) clearTimeout(megaTimeoutRef.current);
-      if (policySubTimeoutRef.current) clearTimeout(policySubTimeoutRef.current);
+      if (policySubTimeoutRef.current)
+        clearTimeout(policySubTimeoutRef.current);
     };
   }, []);
 
@@ -236,9 +229,17 @@ function Header() {
             id: 103,
             title: "Shop By Lens Type",
             links: [
-              { id: 1031, label: "Blue-violet light glasses", lens_type: "blue violet" },
+              {
+                id: 1031,
+                label: "Blue-violet light glasses",
+                lens_type: "blue violet",
+              },
               { id: 1032, label: "Progressive", lens_type: "progressive" },
-              { id: 1033, label: "Transitions® Glasses", lens_type: "transitions" },
+              {
+                id: 1033,
+                label: "Transitions® Glasses",
+                lens_type: "transitions",
+              },
             ],
           },
         ],
@@ -267,18 +268,29 @@ function Header() {
             title: "Shop by Our Picks",
             links: [
               { id: 2011, label: "Best Seller", collection: "best-seller" },
-              { id: 2012, label: "Ray-Ban", collection: "690c6e4bce83c44ad440e022" },
+              {
+                id: 2012,
+                label: "Ray-Ban",
+                collection: "690c6e4bce83c44ad440e022",
+              },
               { id: 2013, label: "Trending", collection: "trending" },
-              { id: 2014, label: "Versace", collection: "690c6e7ece83c44ad440e028" },
+              {
+                id: 2014,
+                label: "Versace",
+                collection: "690c6e7ece83c44ad440e028",
+              },
             ],
-
           },
 
           {
             id: 202,
             title: "Shop By Lens Type",
             links: [
-              { id: 2021, label: "Prescription Sunglasses", lens_type: "prescription" },
+              {
+                id: 2021,
+                label: "Prescription Sunglasses",
+                lens_type: "prescription",
+              },
               { id: 2022, label: "Polarized lenses", lens_type: "polarized" },
             ],
           },
@@ -318,23 +330,70 @@ function Header() {
             id: 301,
             title: "Shop by Lens Category",
             links: [
-              { id: 3011, label: "Biweekly / Weekly", lens_cat: "weekly" || "biweekly", catId: "6915735feeb23fa59c7d532b" },
-              { id: 3012, label: "Daily", lens_cat: "daily", catId: "6915735feeb23fa59c7d532b" },
-              { id: 3013, label: "Monthly", lens_cat: "monthly", catId: "6915735feeb23fa59c7d532b" },
+              {
+                id: 3011,
+                label: "Biweekly / Weekly",
+                lens_cat: "weekly" || "biweekly",
+                catId: "6915735feeb23fa59c7d532b",
+              },
+              {
+                id: 3012,
+                label: "Daily",
+                lens_cat: "daily",
+                catId: "6915735feeb23fa59c7d532b",
+              },
+              {
+                id: 3013,
+                label: "Monthly",
+                lens_cat: "monthly",
+                catId: "6915735feeb23fa59c7d532b",
+              },
             ],
           },
           {
             id: 302,
             title: "Top Brands",
             links: [
-              { id: 3021, label: "Acuvue", brandId: "690c6ecece83c44ad440e02e" },
-              { id: 3022, label: "Air Optix", brandId: "690c6ee3ce83c44ad440e031" },
-              { id: 3023, label: "Biofinity", brandId: "690c6efbce83c44ad440e034" },
-              { id: 3024, label: "Dailies", brandId: "690c706cce83c44ad440e03d" },
-              { id: 3025, label: "Everclear", brandId: "690c708ace83c44ad440e040" },
-              { id: 3026, label: "MayDay", brandId: "690c70a0ce83c44ad440e043" },
-              { id: 3027, label: "Splash", brandId: "690c70fbce83c44ad440e04c" },
-              { id: 3028, label: "Total30", brandId: "690c7110ce83c44ad440e04f" },
+              {
+                id: 3021,
+                label: "Acuvue",
+                brandId: "690c6ecece83c44ad440e02e",
+              },
+              {
+                id: 3022,
+                label: "Air Optix",
+                brandId: "690c6ee3ce83c44ad440e031",
+              },
+              {
+                id: 3023,
+                label: "Biofinity",
+                brandId: "690c6efbce83c44ad440e034",
+              },
+              {
+                id: 3024,
+                label: "Dailies",
+                brandId: "690c706cce83c44ad440e03d",
+              },
+              {
+                id: 3025,
+                label: "Everclear",
+                brandId: "690c708ace83c44ad440e040",
+              },
+              {
+                id: 3026,
+                label: "MayDay",
+                brandId: "690c70a0ce83c44ad440e043",
+              },
+              {
+                id: 3027,
+                label: "Splash",
+                brandId: "690c70fbce83c44ad440e04c",
+              },
+              {
+                id: 3028,
+                label: "Total30",
+                brandId: "690c7110ce83c44ad440e04f",
+              },
             ],
           },
         ],
@@ -350,36 +409,103 @@ function Header() {
         },
       },
 
-
       brands: {
         columns: [
           {
             id: 401,
             title: "Top Brands",
             links: [
-              { id: 4011, label: "Armani Exchange", brandId: "690c6d6dce83c44ad440e002" },
-              { id: 4012, label: "Michael Kors", brandId: "690c6de1ce83c44ad440e016" },
-              { id: 4013, label: "Oakley", brandId: "690c6dface83c44ad440e019" },
-              { id: 4014, label: "Ray-Ban", brandId: "690c6e4bce83c44ad440e022" },
-              { id: 4015, label: "Versace", brandId: "690c6e7ece83c44ad440e028" },
-              { id: 4016, label: "Vogue-Eyewear", brandId: "690c6ea9ce83c44ad440e02b" },
+              {
+                id: 4011,
+                label: "Armani Exchange",
+                brandId: "690c6d6dce83c44ad440e002",
+              },
+              {
+                id: 4012,
+                label: "Michael Kors",
+                brandId: "690c6de1ce83c44ad440e016",
+              },
+              {
+                id: 4013,
+                label: "Oakley",
+                brandId: "690c6dface83c44ad440e019",
+              },
+              {
+                id: 4014,
+                label: "Ray-Ban",
+                brandId: "690c6e4bce83c44ad440e022",
+              },
+              {
+                id: 4015,
+                label: "Versace",
+                brandId: "690c6e7ece83c44ad440e028",
+              },
+              {
+                id: 4016,
+                label: "Vogue-Eyewear",
+                brandId: "690c6ea9ce83c44ad440e02b",
+              },
             ],
           },
           {
             id: 402,
             title: "Shop by Brands",
             links: [
-              { id: 4021, label: "Armani Exchange", brandId: "690c6d6dce83c44ad440e002" },
-              { id: 4022, label: "Arnette", brandId: "690c6d9bce83c44ad440e010" },
-              { id: 4023, label: "Coach NewYork", brandId: "690c6dc6ce83c44ad440e013" },
-              { id: 4024, label: "Michael Kors", brandId: "690c6de1ce83c44ad440e016" },
-              { id: 4025, label: "Oakley", brandId: "690c6dface83c44ad440e019" },
-              { id: 4026, label: "Persol", brandId: "690c6e0ece83c44ad440e01c" },
-              { id: 4027, label: "Polo Ralph Lauren", brandId: "690c6e35ce83c44ad440e01f" },
-              { id: 4028, label: "Ray-Ban", brandId: "690c6e4bce83c44ad440e022" },
-              { id: 4029, label: "Tory Burch", brandId: "690c6e67ce83c44ad440e025" },
-              { id: 4030, label: "Versace", brandId: "690c6e7ece83c44ad440e028" },
-              { id: 4031, label: "Vogue-Eyewear", brandId: "690c6ea9ce83c44ad440e02b" },
+              {
+                id: 4021,
+                label: "Armani Exchange",
+                brandId: "690c6d6dce83c44ad440e002",
+              },
+              {
+                id: 4022,
+                label: "Arnette",
+                brandId: "690c6d9bce83c44ad440e010",
+              },
+              {
+                id: 4023,
+                label: "Coach NewYork",
+                brandId: "690c6dc6ce83c44ad440e013",
+              },
+              {
+                id: 4024,
+                label: "Michael Kors",
+                brandId: "690c6de1ce83c44ad440e016",
+              },
+              {
+                id: 4025,
+                label: "Oakley",
+                brandId: "690c6dface83c44ad440e019",
+              },
+              {
+                id: 4026,
+                label: "Persol",
+                brandId: "690c6e0ece83c44ad440e01c",
+              },
+              {
+                id: 4027,
+                label: "Polo Ralph Lauren",
+                brandId: "690c6e35ce83c44ad440e01f",
+              },
+              {
+                id: 4028,
+                label: "Ray-Ban",
+                brandId: "690c6e4bce83c44ad440e022",
+              },
+              {
+                id: 4029,
+                label: "Tory Burch",
+                brandId: "690c6e67ce83c44ad440e025",
+              },
+              {
+                id: 4030,
+                label: "Versace",
+                brandId: "690c6e7ece83c44ad440e028",
+              },
+              {
+                id: 4031,
+                label: "Vogue-Eyewear",
+                brandId: "690c6ea9ce83c44ad440e02b",
+              },
             ],
           },
         ],
@@ -391,13 +517,11 @@ function Header() {
           text: "Explore our top eyewear brands with exclusive styles and premium quality.",
           ctaLabel: "View All Brands",
           ctaTo: "/allBrands/allProduct",
-        }
-
+        },
       },
     }),
     []
   );
-
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -446,7 +570,10 @@ function Header() {
 
   const handleSearchClick = () => {
     if (!query.trim()) return;
-    const updated = [query, ...recentSearches.filter((s) => s !== query)].slice(0, 10);
+    const updated = [query, ...recentSearches.filter((s) => s !== query)].slice(
+      0,
+      10
+    );
     setRecentSearches(updated);
     localStorage.setItem("recentSearches", JSON.stringify(updated));
 
@@ -484,7 +611,7 @@ function Header() {
     try {
       const response = await API.get(`/customer/${user}`);
       setCustProfile(response?.data?.data?.profileImage);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -492,12 +619,17 @@ function Header() {
   }, [user]);
 
   const goToSelected = (product) => {
-    const updated = [query, ...recentSearches.filter((s) => s !== query)].slice(0, 10);
+    const updated = [query, ...recentSearches.filter((s) => s !== query)].slice(
+      0,
+      10
+    );
     setRecentSearches(updated);
     localStorage.setItem("recentSearches", JSON.stringify(updated));
 
     navigate(
-      `/product/${product._id}/${product.subCategoryName || "details"}/${product.subCat_id}`
+      `/product/${product._id}/${product.subCategoryName || "details"}/${
+        product.subCat_id
+      }`
     );
     setSearchModalOpen(false);
     setQuery("");
@@ -537,8 +669,6 @@ function Header() {
       document.documentElement.style.overflow = "auto";
     };
   }, [sidebarOpen, cartOpen]);
-
-
 
   return (
     <>
@@ -585,9 +715,10 @@ function Header() {
             aria-label="Open search"
           >
             <FaSearch size={16} className="text-red-600" />
-            <span className="text-sm text-gray-600 truncate">{placeholders[index]}</span>
+            <span className="text-sm text-gray-600 truncate">
+              {placeholders[index]}
+            </span>
           </button>
-
 
           <div className="relative flex-shrink-0">
             <button
@@ -626,7 +757,10 @@ function Header() {
               )}
             </Link>
           ) : (
-            <button onClick={() => navigate("/login")} className="flex-shrink-0 p-1">
+            <button
+              onClick={() => navigate("/login")}
+              className="flex-shrink-0 p-1"
+            >
               <FaUser className="text-[#f00000] hover:text-black w-6 h-6 transition-colors" />
             </button>
           )}
@@ -749,13 +883,13 @@ function Header() {
               >
                 Home
                 <span
-                  className={`inline-block transition-transform duration-200 ${homeOpen ? "rotate-180" : ""
-                    }`}
+                  className={`inline-block transition-transform duration-200 ${
+                    homeOpen ? "rotate-180" : ""
+                  }`}
                 >
                   ▾
                 </span>
               </button>
-
 
               <AnimatePresence>
                 {homeOpen && (
@@ -767,15 +901,20 @@ function Header() {
                     className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
                   >
                     <ul className="py-2">
-
                       {/* Regular Home submenu items */}
                       <li>
-                        <Link to="/general-info" className="block px-4 py-2 text-sm hover:bg-gray-100">
+                        <Link
+                          to="/general-info"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
                           General Information
                         </Link>
                       </li>
                       <li>
-                        <Link to="/our-mission" className="block px-4 py-2 text-sm hover:bg-gray-100">
+                        <Link
+                          to="/our-mission"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
                           Our Mission
                         </Link>
                       </li>
@@ -794,8 +933,9 @@ function Header() {
                         >
                           Corporate Policy
                           <span
-                            className={`inline-block text-lg transition-transform duration-200 ${policySubOpen ? "rotate-150" : ""
-                              }`}
+                            className={`inline-block text-lg transition-transform duration-200 ${
+                              policySubOpen ? "rotate-150" : ""
+                            }`}
                           >
                             ▾
                           </span>
@@ -809,6 +949,33 @@ function Header() {
                             onMouseLeave={handlePolicySubLeave}
                           >
                             <ul className="py-2">
+                              <li>
+                                <Link
+                                  to="/cookies-policy"
+                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                                >
+                                  Cookies Policy
+                                </Link>
+                              </li>
+
+                              <li>
+                                <Link
+                                  to="/disclaimer-policy"
+                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                                >
+                                  Disclaimer Policy
+                                </Link>
+                              </li>
+
+                              <li>
+                                <Link
+                                  to="/exchange-policy"
+                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                                >
+                                  Exchange Policy
+                                </Link>
+                              </li>
+
                               <li>
                                 <Link
                                   to="/eyeglasses-contact-policy"
@@ -838,10 +1005,28 @@ function Header() {
 
                               <li>
                                 <Link
+                                  to="/return-exchange"
+                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                                >
+                                  Return, Exchange & Consumer Policy
+                                </Link>
+                              </li>
+
+                              <li>
+                                <Link
                                   to="/rights-enforcement-policy"
                                   className="block px-4 py-2 text-sm hover:bg-gray-100"
                                 >
                                   Right Enforcement Policy
+                                </Link>
+                              </li>
+
+                              <li>
+                                <Link
+                                  to="/shipping-policy"
+                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                                >
+                                  Shipping Policy
                                 </Link>
                               </li>
                             </ul>
@@ -849,80 +1034,117 @@ function Header() {
                         )}
                       </li>
 
-
                       {/* More Home items */}
                       <li>
-                        <Link to="/our-vision" className="block px-4 py-2 text-sm hover:bg-gray-100">
+                        <Link
+                          to="/our-vision"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
                           Our Vision
                         </Link>
                       </li>
                       <li>
-                        <Link to="/responsibility" className="block px-4 py-2 text-sm hover:bg-gray-100">
+                        <Link
+                          to="/responsibility"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
                           Vision & Responsibility
                         </Link>
                       </li>
-
                     </ul>
                   </motion.div>
                 )}
               </AnimatePresence>
             </li>
 
-            <Link to="/about-us" className="hover:text-red-600 transition-colors">
+            <Link
+              to="/about-us"
+              className="hover:text-red-600 transition-colors"
+            >
               <li className="cursor-pointer">About Us</li>
             </Link>
 
-            <li onMouseEnter={() => handleMegaEnter("glasses")} onMouseLeave={handleMegaLeave}>
+            <li
+              onMouseEnter={() => handleMegaEnter("glasses")}
+              onMouseLeave={handleMegaLeave}
+            >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "glasses" ? "text-red-500" : ""
-                  }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${
+                  megaOpen && activeKey === "glasses" ? "text-red-500" : ""
+                }`}
               >
                 Glasses
               </button>
             </li>
 
-            <li onMouseEnter={() => handleMegaEnter("sunglasses")} onMouseLeave={handleMegaLeave}>
+            <li
+              onMouseEnter={() => handleMegaEnter("sunglasses")}
+              onMouseLeave={handleMegaLeave}
+            >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
-                  }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${
+                  megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
+                }`}
               >
                 Sunglasses
               </button>
             </li>
 
-            <li onMouseEnter={() => handleMegaEnter("contact_lenses")} onMouseLeave={handleMegaLeave}>
+            <li
+              onMouseEnter={() => handleMegaEnter("contact_lenses")}
+              onMouseLeave={handleMegaLeave}
+            >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "contact_lenses" ? "text-red-500" : ""
-                  }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${
+                  megaOpen && activeKey === "contact_lenses"
+                    ? "text-red-500"
+                    : ""
+                }`}
               >
                 Contact Lenses
               </button>
             </li>
 
-            <li onMouseEnter={() => handleMegaEnter("brands")} onMouseLeave={handleMegaLeave}>
+            <li
+              onMouseEnter={() => handleMegaEnter("brands")}
+              onMouseLeave={handleMegaLeave}
+            >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "brands" ? "text-red-500" : ""
-                  }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${
+                  megaOpen && activeKey === "brands" ? "text-red-500" : ""
+                }`}
               >
                 Brands
               </button>
             </li>
 
-            <Link to="/services" className="hover:text-red-600 transition-colors">
+            <Link
+              to="/services"
+              className="hover:text-red-600 transition-colors"
+            >
               <li className="cursor-pointer">Services</li>
             </Link>
-            <Link to="/how-to-order" className="hover:text-red-600 transition-colors">
+            <Link
+              to="/how-to-order"
+              className="hover:text-red-600 transition-colors"
+            >
               <li className="cursor-pointer">How To Order</li>
             </Link>
-            <Link to="/contact-us" className="hover:text-red-600 transition-colors">
+            <Link
+              to="/contact-us"
+              className="hover:text-red-600 transition-colors"
+            >
               <li className="cursor-pointer">Contact Us</li>
             </Link>
 
-            <Link to="/eye-schedule-test" className="hover:text-black transition-colors">
+            <Link
+              to="/eye-schedule-test"
+              className="hover:text-black transition-colors"
+            >
               <li className="cursor-pointer bg-[#f00000] py-1 px-4 rounded-xl">
                 BOOK EYE EXAM
               </li>
@@ -950,10 +1172,12 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${sidebarOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
-          }`}
+        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${
+          sidebarOpen
+            ? "translate-x-0 opacity-100"
+            : "-translate-x-full opacity-0"
+        }`}
       >
-
         {/* FIXED HEADER */}
         <div className="flex justify-between items-center bg-white h-[70px] border-b border-gray-200 px-3 sticky top-0 z-50">
           <Link to="/" onClick={() => setSidebarOpen(false)}>
@@ -974,10 +1198,8 @@ function Header() {
 
         {/* FULL SCROLLABLE AREA */}
         <div className="overflow-y-auto h-[calc(100vh-70px)] px-1 pb-24">
-
           {/* NAVIGATION LIST */}
           <nav className="flex flex-col p-4 text-base font-semibold overscroll-contain">
-
             {/* HOME */}
             <Link
               to="/"
@@ -1110,16 +1332,32 @@ function Header() {
             {/* EXTRA LINKS */}
             <hr className="my-2" />
 
-            <Link to="/contact-us" onClick={() => setSidebarOpen(false)} className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded">
+            <Link
+              to="/contact-us"
+              onClick={() => setSidebarOpen(false)}
+              className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded"
+            >
               Contact Us
             </Link>
-            <Link to="/services" onClick={() => setSidebarOpen(false)} className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded">
+            <Link
+              to="/services"
+              onClick={() => setSidebarOpen(false)}
+              className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded"
+            >
               Services
             </Link>
-            <Link to="/faq" onClick={() => setSidebarOpen(false)} className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded">
+            <Link
+              to="/faq"
+              onClick={() => setSidebarOpen(false)}
+              className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded"
+            >
               FAQ
             </Link>
-            <Link to="/how-to-order" onClick={() => setSidebarOpen(false)} className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded">
+            <Link
+              to="/how-to-order"
+              onClick={() => setSidebarOpen(false)}
+              className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded"
+            >
               How To Order
             </Link>
 
@@ -1189,11 +1427,9 @@ function Header() {
                 </button>
               </>
             )}
-
           </nav>
         </div>
       </div>
-
 
       {/* Sidebar Overlay */}
       {sidebarOpen && (
