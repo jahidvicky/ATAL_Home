@@ -671,7 +671,6 @@ const Checkout = () => {
               I agree to{" "}
               <Link
                 to="/terms&Conditions"
-                target="_blank"
                 className="text-blue-600 underline ml-1"
               >
                 Terms & Conditions
