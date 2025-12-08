@@ -4,147 +4,231 @@ export default function PrivacyPolicy() {
       title: "Introduction",
       content: (
         <p>
-          Atal Optical (“we,” “our,” or “us”) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, store, and safeguard your personal information in compliance with Canadian privacy laws, including PIPEDA.
-          <br /><br />
-          This policy applies when you visit our website, make a purchase, or use any of our optical services.
+          At Atal Optical, we are committed to protecting your personal
+          information and respecting your privacy. This policy explains how we
+          collect, use, disclose, and safeguard your information in accordance
+          with Canadian privacy laws.
+          <br />
+          <br />
+          This policy applies when you visit our website, make a purchase, or
+          use any of our optical services.
         </p>
-      )
+      ),
     },
+
     {
       title: "Information We Collect",
       content: (
         <>
-          <p className="mb-3">We collect information required to deliver our services, including:</p>
-          <ul className="space-y-1 list-disc list-inside">
-            <li>Personal Information: Name, email, phone, address</li>
-            <li>Optical & Health Data: Prescriptions, eye test results, history</li>
-            <li>Payment Details: Billing info, purchase history</li>
-            <li>Technical Data: IP address, device info, browser data, cookies</li>
-            <li>Service Details: Appointments, warranty/repair requests</li>
-            <li>Documents: Insurance or optical-related files, if provided</li>
+          <p className="mb-3">We may collect the following information:</p>
+
+          <ul className="space-y-2 list-disc list-inside">
+            <li>
+              <strong>Personal Information</strong>
+              <ul className="mt-1 ml-5 list-disc list-inside">
+                <li>Full name</li>
+                <li>Address</li>
+                <li>Phone number</li>
+                <li>Email address</li>
+              </ul>
+            </li>
+
+            <li>
+              <strong>Medical / Optical Information</strong>
+              <ul className="mt-1 ml-5 list-disc list-inside">
+                <li>Prescription details</li>
+                <li>Pupillary distance (PD)</li>
+                <li>Basic eye health information</li>
+              </ul>
+            </li>
+
+            <li>
+              <strong>Payment Information</strong>
+              <ul className="mt-1 ml-5 list-disc list-inside">
+                <li>Billing address</li>
+                <li>Transaction details</li>
+                <li className="mt-1 text-sm">
+                  {" "}
+                  We do not store full credit/debit card numbers.
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <strong>Website Usage Information</strong>
+              <ul className="mt-1 ml-5 list-disc list-inside">
+                <li>IP address</li>
+                <li>Browser type</li>
+                <li>Cookies and usage analytics</li>
+              </ul>
+            </li>
           </ul>
         </>
-      )
+      ),
     },
-    {
-      title: "How We Collect Information",
-      content: (
-        <>
-          <ul className="space-y-1 list-disc list-inside">
-            <li>Online forms and website interactions</li>
-            <li>In-store visits or phone conversations</li>
-            <li>Email or customer support communication</li>
-            <li>Trusted third-party services (payment processors, analytics)</li>
-          </ul>
-        </>
-      )
-    },
+
     {
       title: "How We Use Your Information",
       content: (
         <>
-          <p>Your information is used to:</p>
-          <ul className="space-y-1 list-disc list-inside mt-2">
-            <li>Process orders and appointments</li>
-            <li>Provide optical and customer services</li>
-            <li>Process payments and insurance claims</li>
-            <li>Send service-related updates</li>
-            <li>Improve site performance and customer experience</li>
+          <p>We use your information to:</p>
+          <ul className="space-y-2 list-disc list-inside mt-2">
+            <li>Process orders and services</li>
+            <li>Prepare custom optical products</li>
+            <li>Contact you about your order</li>
+            <li>Process payments</li>
+            <li>Improve customer service and website performance</li>
             <li>Comply with legal obligations</li>
           </ul>
         </>
-      )
+      ),
     },
+
     {
-      title: "Data Security & Retention",
+      title: "Sharing of Information",
       content: (
         <>
-          <ul className="space-y-1 list-disc list-inside">
-            <li>Data stored securely using modern security standards</li>
-            <li>Access granted only to authorized staff</li>
-            <li>Regular audits to maintain security</li>
+          <p>
+            We do not sell or rent your personal information. We may share
+            limited information with:
+          </p>
+          <ul className="space-y-2 list-disc list-inside mt-2">
+            <li>Lens and frame manufacturers</li>
+            <li>Insurance providers (with customer consent)</li>
+            <li>Payment processors</li>
+            <li>Legal and regulatory authorities when required by law</li>
+          </ul>
+        </>
+      ),
+    },
+
+    {
+      title: "Cookies & Website Tracking",
+      content: (
+        <>
+          <p>Our website uses cookies to:</p>
+          <ul className="space-y-2 list-disc list-inside mt-2">
+            <li>Improve site functionality</li>
+            <li>Track website performance</li>
+            <li>Enhance user experience</li>
           </ul>
           <p className="mt-3">
-            Information is retained only as long as required for business or legal purposes, then securely deleted.
+            You may disable cookies through your browser settings.
           </p>
         </>
-      )
+      ),
     },
+
     {
-      title: "Sharing Your Information",
+      title: "Data Security",
       content: (
         <>
-          <p>We may share your information with:</p>
-          <ul className="space-y-1 list-disc list-inside mt-2">
-            <li>Secure payment processors</li>
-            <li>Analytics and website service providers</li>
-            <li>Healthcare professionals (with consent)</li>
-            <li>Legal authorities when required</li>
-            <li>Business successors (in case of merger/acquisition)</li>
+          <p>We protect your information using:</p>
+          <ul className="space-y-2 list-disc list-inside mt-2">
+            <li>Secure servers</li>
+            <li>Encryption technologies</li>
+            <li>Restricted access controls</li>
+            <li>Industry-standard security practices</li>
           </ul>
-          <p className="mt-3">We never sell or rent your data to third parties.</p>
         </>
-      )
+      ),
     },
+
     {
-      title: "Cookies & Tracking",
+      title: "Data Retention",
       content: (
-        <ul className="space-y-1 list-disc list-inside">
-          <li>Used to enhance browsing experience</li>
-          <li>Helps improve website performance</li>
-          <li>You can disable cookies in your browser settings</li>
-        </ul>
-      )
+        <>
+          <p>We retain personal information only as long as necessary to:</p>
+          <ul className="space-y-2 list-disc list-inside mt-2">
+            <li>Fulfill business services</li>
+            <li>Meet legal and regulatory requirements</li>
+          </ul>
+        </>
+      ),
     },
+
     {
       title: "Your Rights",
       content: (
         <>
-          <ul className="space-y-1 list-disc list-inside">
-            <li>Access your personal data</li>
-            <li>Request corrections or updates</li>
-            <li>Request deletion (where legally applicable)</li>
-            <li>Withdraw consent from marketing emails</li>
+          <p>You have the right to:</p>
+          <ul className="space-y-2 list-disc list-inside mt-2">
+            <li>Request access to your personal data</li>
+            <li>Request correction of inaccurate information</li>
+            <li>Withdraw consent (where applicable)</li>
           </ul>
         </>
-      )
+      ),
     },
+
+    {
+      title: "Policy Updates & Legal Compliance",
+      content: (
+        <>
+          <p className="mb-2">
+            We may update this Privacy Policy from time to time. Any changes
+            will be posted on our website.
+          </p>
+          <p>
+            This policy is designed to comply with: <br />
+            • PIPEDA (Personal Information Protection and Electronic Documents
+            Act) <br />
+            • Ontario privacy regulations <br />• Applicable Canadian healthcare
+            privacy standards
+          </p>
+        </>
+      ),
+    },
+
     {
       title: "Contact Us",
       content: (
         <>
           <p className="mb-1">Atal Optical</p>
-          <p className="mb-1">Corporate Office : 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada</p>
+          <p className="mb-1">
+            Corporate Office : 34 Shining Willow Crescent, Brampton, ON L6P 2A2,
+            Canada
+          </p>
           <p className="mb-1">Toll-Free: 1-866-242-3545</p>
           <p>Email: info@ataloptical@gmail.com</p>
         </>
-      )
-    }
+      ),
+    },
   ];
 
   return (
     <>
-      {/* SIMPLE PREMIUM HEADER */}
-      <header className="mb-10 bg-gradient-to-r from-black via-red-600 to-black py-14 text-center shadow-md">
-        <h1 className="text-4xl md:text-5xl font-bold text-white tracking-wide">
+      {/* HEADER */}
+      <header className="mb-8 bg-gradient-to-r from-black via-red-600 to-black py-12 text-center shadow-md">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-wide px-4">
           Privacy Policy
         </h1>
-        <div className="border-b border-white w-24 mx-auto mt-4 opacity-70"></div>
+        <div className="border-b border-white w-20 sm:w-24 mx-auto mt-4 opacity-80" />
       </header>
 
       {/* MAIN CONTENT */}
-      <div className="max-w-7xl mx-auto px-5 md:px-8 lg:px-10 pb-16">
-        <div className="space-y-10">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pb-12">
+        <div className="space-y-6">
           {sections.map((section, idx) => (
-            <div key={idx} className="bg-white shadow-sm p-6 md:p-8 rounded-xl border border-red-400">
-              <h2 className="text-2xl font-semibold text-red-600 mb-3">{section.title}</h2>
-              <div className="text-gray-700 leading-relaxed text-[15px] md:text-base">
+            <section
+              key={idx}
+              className="bg-white shadow-sm p-4 sm:p-6 md:p-8 rounded-xl border border-red-400"
+              aria-labelledby={`section-${idx}`}
+            >
+              <h2
+                id={`section-${idx}`}
+                className="text-lg sm:text-xl md:text-2xl font-semibold text-red-600 mb-3"
+              >
+                {section.title}
+              </h2>
+
+              <div className="text-gray-700 leading-relaxed text-sm sm:text-[15px] md:text-base">
                 {section.content}
               </div>
-            </div>
+            </section>
           ))}
         </div>
-      </div>
+      </main>
     </>
   );
 }

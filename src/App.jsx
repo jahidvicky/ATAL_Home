@@ -61,7 +61,7 @@ import OrderHistory from "./page/order/OrderHistory";
 import ViewOrder from "./page/order/ViewOrder";
 import InsuranceClaim from "./page/insurance/InsuranceClaim";
 import CartPageWrapper from "./page/Cart/CartPageWrapper";
-import PolicyPayment from "./page/order/PolicyPayment"
+import PolicyPayment from "./page/order/PolicyPayment";
 import EyeWearGlasses from "./page/allEyeServices/EyeWearGlasses";
 import ContactLens from "./page/allEyeServices/ContactLens";
 import EyeExamService from "./page/allEyeServices/EyeExamService";
@@ -80,9 +80,15 @@ import FastShippingPage from "./page/postHeader/FastShippingPage";
 import ReferCoupon from "./components/ReferCoupon";
 import FaceShape from "./page/tipsAndGuides/FaceShape";
 import ReturnExchangePolicy from "./page/return&exchange/Return&Exchange";
+import ExchangePolicy from "./page/exchangePolicy/ExchangePolicy";
+import CookiesPolicy from "./page/cookiesPolicy/CookiesPolicy";
+import ShippingPolicy from "./page/shippingPolicy/ShippingPolicy";
+import DisclaimerPolicy from "./page/disclaimerPolicy/DisclaimerPolicy";
 
 function App() {
-  const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("user") || null);
+  const [currentUserId, setCurrentUserId] = useState(
+    localStorage.getItem("user") || null
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -110,17 +116,29 @@ function App() {
         { path: "/privacy-policy", element: <PrivacyPolicy /> },
         { path: "/optical-policy", element: <OpticalPolicy /> },
 
-        { path: "/allproduct/:subCategory/:catId/:subCatId", element: <Product /> },
+        {
+          path: "/allproduct/:subCategory/:catId/:subCatId",
+          element: <Product />,
+        },
         { path: "/product/:ID/:subCategory/:subCatId", element: <Cartpage /> },
 
         { path: "/disclaimer", element: <DisclaimerPage /> },
         { path: "/terms&Conditions", element: <TermsAndConditions /> },
         { path: "/liability", element: <LimitationOfLiability /> },
         { path: "/general-info", element: <GeneralInformation /> },
-        { path: "/eyeglasses-contact-policy", element: <EyeglassesContactPolicy /> },
-        { path: "/rights-enforcement-policy", element: <RightsEnforcementPolicy /> },
+        {
+          path: "/eyeglasses-contact-policy",
+          element: <EyeglassesContactPolicy />,
+        },
+        {
+          path: "/rights-enforcement-policy",
+          element: <RightsEnforcementPolicy />,
+        },
         { path: "/return-exchange", element: <ReturnExchangePolicy /> },
-
+        { path: "/exchange-policy", element: <ExchangePolicy /> },
+        { path: "/cookies-policy", element: <CookiesPolicy /> },
+        { path: "/Shipping-policy", element: <ShippingPolicy /> },
+        { path: "/disclaimer-policy", element: <DisclaimerPolicy /> },
 
         { path: "/cart", element: <CartPageWrapper /> },
         { path: "/checkout", element: <Checkout /> },
@@ -131,8 +149,6 @@ function App() {
         { path: "/contact-us", element: <ContactPage /> },
         { path: "/book-eye-exam", element: <EyeExam /> },
 
-
-
         // Friendly routes → resolvers
         { path: "/glasses/:shape", element: <Product /> },
         { path: "/glasses/gender/:gender", element: <Product /> },
@@ -140,34 +156,37 @@ function App() {
         { path: "/sunglasses/frame_shape/:frame_shape", element: <Product /> },
         { path: "/sunglasses/lens_type/:lens_type", element: <Product /> },
         { path: "/sunglasses/collection/:collection", element: <Product /> },
-        { path: "/contact_lenses/category/:lens_cat/:catId", element: < Product /> },
         {
           path: "/contact_lenses/category/:lens_cat/:catId",
-          element: <ContactLensPage />
+          element: <Product />,
+        },
+        {
+          path: "/contact_lenses/category/:lens_cat/:catId",
+          element: <ContactLensPage />,
         },
         {
           path: "/contact_lenses/:brand/:contactBrandId",
-          element: <Product />
+          element: <Product />,
         },
         {
           path: "/categoryProducts/:slug",
-          element: <Product />
+          element: <Product />,
         },
         {
           path: "/collectionProducts/:collectionName",
-          element: <Product />
+          element: <Product />,
         },
         {
           path: "/products/frame-shape/:frameShape",
-          element: <Product />
+          element: <Product />,
         },
         {
           path: "/products/collection/:collection",
-          element: <Product />
+          element: <Product />,
         },
         {
           path: "/allproduct/:categoryName/:categoryId",
-          element: <Product />
+          element: <Product />,
         },
         {
           path: "/brands/:BrandId",
@@ -177,10 +196,6 @@ function App() {
           path: "/allBrands/:allBrands",
           element: <Product />,
         },
-
-
-
-
 
         { path: "/products", element: <Product /> },
 
@@ -201,8 +216,14 @@ function App() {
         { path: "/intellectual-property", element: <SiteContentNotice /> },
         { path: "/learn-about-frame", element: <LearnAboutFrame /> },
         { path: "/learn-about-lens", element: <LearnAboutLens /> },
-        { path: "/learn-about-prescription", element: <LearnAboutPrescription /> },
-        { path: "/learn-about-maintenance", element: <LearnAboutMaintenance /> },
+        {
+          path: "/learn-about-prescription",
+          element: <LearnAboutPrescription />,
+        },
+        {
+          path: "/learn-about-maintenance",
+          element: <LearnAboutMaintenance />,
+        },
         { path: "/eye-check-details", element: <EyeCheckDetails /> },
         { path: "/promotions-page", element: <PromotionsPage /> },
         { path: "/how-to-order", element: <HowToOrder /> },
@@ -210,7 +231,10 @@ function App() {
         { path: "/appointmentSchedule", element: <AppointmentSchedule /> },
         { path: "/eye-schedule-test", element: <EyeExamStep1 /> },
         { path: "/update-profile", element: <UpdateProfile /> },
-        { path: "/product/:ID/:subCategory/:subCatId/lens-selection-flow", element: <LensSelection /> },
+        {
+          path: "/product/:ID/:subCategory/:subCatId/lens-selection-flow",
+          element: <LensSelection />,
+        },
         { path: "/track/:trackingNumber", element: <TrackOrder /> },
         { path: "/view-order", element: <ViewOrder /> },
         { path: "/order-history", element: <OrderHistory /> },
@@ -301,23 +325,16 @@ function App() {
 
         {
           path: "/offer-page",
-          element: (
-            <PricingPage />
-          ),
+          element: <PricingPage />,
         },
         {
           path: "/customer-care",
-          element: (
-            <CustomerCarePage />
-          ),
+          element: <CustomerCarePage />,
         },
         {
           path: "/fast-shipping",
-          element: (
-            <FastShippingPage />
-          ),
+          element: <FastShippingPage />,
         },
-
 
         {
           path: "/wishlist-page",
@@ -365,9 +382,7 @@ function App() {
           <Dashboardlayout />
         </ProtectedRoute>
       ),
-      children: [
-        { path: "*", element: <Page /> },
-      ],
+      children: [{ path: "*", element: <Page /> }],
     },
   ]);
 
