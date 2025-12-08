@@ -5,10 +5,12 @@ import API from "../../API/Api";
 
 const Payment = () => {
   const [order, setOrder] = useState(null);
+
+  // Coupon States
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
 
-  // Square States
+  // Square states
   const [card, setCard] = useState(null);
   const [loadingCard, setLoadingCard] = useState(true);
   const [initError, setInitError] = useState(null);
@@ -20,17 +22,15 @@ const Payment = () => {
   const applicationId = import.meta.env.VITE_SQUARE_APPLICATION_ID;
   const locationId = import.meta.env.VITE_SQUARE_LOCATION_ID;
 
-  // ---------------------------
-  // Load Order Summary
-  // ---------------------------
+
+
+  // Load order
   useEffect(() => {
     const savedOrder = localStorage.getItem("orderSummary");
     if (savedOrder) setOrder(JSON.parse(savedOrder));
   }, []);
 
-  // ---------------------------
-  // Detect when #card-container is ready in DOM
-  // ---------------------------
+  // Detect card container
   useEffect(() => {
     const checker = setInterval(() => {
       if (document.getElementById("card-container")) {
@@ -38,15 +38,12 @@ const Payment = () => {
         clearInterval(checker);
       }
     }, 50);
-
     return () => clearInterval(checker);
   }, []);
 
-  // ---------------------------
-  // INIT SQUARE (Works on first render)
-  // ---------------------------
+  // Init Square
   useEffect(() => {
-    if (!cardReady) return; // Wait for container to load
+    if (!cardReady) return;
 
     if (!applicationId || !locationId) {
       setInitError("Missing Square env vars");
@@ -86,7 +83,6 @@ const Payment = () => {
       }
     };
 
-    // If script already exists
     const existingScript = document.getElementById(scriptId);
     if (existingScript) {
       if (window.Square) initSquare();
@@ -94,10 +90,11 @@ const Payment = () => {
       return;
     }
 
-    // Inject Square JS
     const script = document.createElement("script");
     script.id = scriptId;
-    script.src = "https://web.squarecdn.com/v1/square.js";
+    // script.src = "https://sandbox.web.squarecdn.com/v1/square.js"; //sandbox use only
+    script.src = "https://web.squarecdn.com/v1/square.js"; // production use only
+
     script.async = true;
 
     script.onload = initSquare;
@@ -118,11 +115,48 @@ const Payment = () => {
   }
 
   const { subtotal, tax, shipping } = order;
+
   const finalTotal = Math.max(subtotal - discount + shipping + tax, 0.01);
 
-  // ---------------------------
-  // Create Order in Database
-  // ---------------------------
+  // ==========================
+  // COUPON HANDLER
+  // ==========================
+  const handleApplyCoupon = async () => {
+    if (!coupon.trim()) {
+      Swal.fire("Error", "Please enter a coupon code", "error");
+      return;
+    }
+
+    try {
+      const category = order.cartItems?.[0]?.categoryId || "";
+
+      const { data } = await API.get(
+        `/validateCoupon/${coupon}?cartTotal=${subtotal}&category=${category}`
+      );
+
+      if (data.success) {
+        setDiscount(data.data.discountAmount);
+
+        Swal.fire(
+          "Success",
+          `Coupon Applied! Discount: $${data.data.discountAmount.toFixed(2)}`,
+          "success"
+        );
+      } else {
+        setDiscount(0);
+        Swal.fire("Invalid Coupon", data.message, "error");
+      }
+    } catch (err) {
+      setDiscount(0);
+      Swal.fire(
+        "Error",
+        err.response?.data?.message || "Failed to apply coupon",
+        "error"
+      );
+    }
+  };
+
+  // Create Order after payment success
   const createOrder = async (payload) => {
     try {
       const fixedCartItems =
@@ -138,9 +172,9 @@ const Payment = () => {
         cartItems: fixedCartItems,
         shippingAddress: order.shippingAddress,
         billingAddress: order.billingAddress,
-        subtotal: order.subtotal,
-        tax: order.tax,
-        shipping: order.shipping,
+        subtotal,
+        tax,
+        shipping,
         total: finalTotal,
         coupon,
         discount,
@@ -160,14 +194,11 @@ const Payment = () => {
         navigate(`/order/${data.order._id}`);
       });
     } catch (err) {
-      console.error("Order creation failed:", err);
       Swal.fire("Error", "Failed to place order", "error");
     }
   };
 
-  // ---------------------------
-  // Square Payment Handlers
-  // ---------------------------
+  // SUCCESS
   const handleSquareSuccess = (response) => {
     const transactionId = response?.payment?.id || null;
 
@@ -178,52 +209,50 @@ const Payment = () => {
     });
   };
 
-  const handleSquareFail = (message) => {
-    createOrder({
-      paymentMethod: "Square",
-      paymentStatus: "Failed",
-      transactionId: null,
+  // FAIL (no order)
+  const handleSquareFail = () => {
+    Swal.fire({
+      icon: "error",
+      title: "Payment Failed",
+      text: "Your card was declined. Please try a different card."
     });
-
-    Swal.fire("Payment Failed", message || "Square payment failed.", "error");
   };
 
+
+  // PROCESS PAYMENT
   const handlePay = async () => {
     if (!card) return;
-
     setIsPaying(true);
 
     try {
       const tokenResult = await card.tokenize();
 
       if (tokenResult.status !== "OK") {
+        setIsPaying(false);
         return handleSquareFail("Card tokenization failed.");
       }
 
-      const res = await fetch("http://localhost:4000/api/pay", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nonce: tokenResult.token,
-          amount: finalTotal,
-        }),
+      const { data } = await API.post("/pay", {
+        nonce: tokenResult.token,
+        amount: finalTotal,
       });
 
-      const data = await res.json();
 
-      if (data.success) handleSquareSuccess(data);
-      else handleSquareFail(data.message);
+      // const data = await res.json();
+
+      if (data.success && data.payment?.status === "COMPLETED") {
+        handleSquareSuccess(data);
+      } else {
+        handleSquareFail();
+
+      }
     } catch (err) {
-      console.error("Payment error:", err);
-      handleSquareFail("Payment processing error.");
+      handleSquareFail("Payment processing error");
     }
 
     setIsPaying(false);
   };
 
-  // ---------------------------
-  // UI
-  // ---------------------------
   return (
     <div className="flex justify-center items-center min-h-[80vh] bg-gray-200 pt-20 pb-20">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md border border-red-600">
@@ -240,6 +269,13 @@ const Payment = () => {
               <span>Subtotal</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
+
+            {discount > 0 && (
+              <div className="flex justify-between text-green-600">
+                <span>Discount</span>
+                <span>- ${discount.toFixed(2)}</span>
+              </div>
+            )}
 
             <div className="flex justify-between">
               <span>Shipping</span>
@@ -268,8 +304,12 @@ const Payment = () => {
             className="flex-1 border p-2 rounded-lg uppercase"
           />
           <button
-            onClick={() => setDiscount(0)}
-            className="px-4 bg-gray-300 rounded-lg"
+            onClick={handleApplyCoupon}
+            disabled={coupon.trim().length < 2}
+            className={`px-4 rounded-lg ${coupon.trim().length < 2
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#f00000] text-white hover:bg-black"
+              }`}
           >
             Apply
           </button>
