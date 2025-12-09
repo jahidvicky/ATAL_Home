@@ -524,56 +524,77 @@ function Header() {
   );
 
   const handleSearch = (e) => {
-    const value = e.target.value;
-    setQuery(value);
+  const value = e.target.value;
+  setQuery(value);
+  setErrorMsg("");
+
+  // if empty query -> clear everything and abort outstanding requests
+  if (!value.trim()) {
+    setFilteredProducts([]);
     setErrorMsg("");
-
-    if (!value.trim()) {
-      setFilteredProducts([]);
-      setErrorMsg("");
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-      if (abortRef.current) abortRef.current.abort();
-      return;
-    }
-
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(async () => {
-      try {
-        if (abortRef.current) abortRef.current.abort();
-        const controller = new AbortController();
-        abortRef.current = controller;
+    if (abortRef.current) abortRef.current.abort();
+    return;
+  }
 
-        setIsLoading(true);
-        const res = await API.get(
-          `/products/search?search=${encodeURIComponent(value)}`,
-          { signal: controller.signal }
-        );
+  // clear previous debounce timer
+  if (debounceRef.current) clearTimeout(debounceRef.current);
 
-        const ok = res?.data?.success;
-        if (ok) {
-          const list = Array.isArray(res?.data?.products)
-            ? res.data.products
-            : [];
-          setFilteredProducts(list);
-          setErrorMsg(!ok || list.length === 0 ? "No products found" : "");
-        }
-      } catch (err) {
-        if (err.name !== "CanceledError" && err.name !== "AbortError") {
-          setErrorMsg("Something went wrong. Try again.");
-          setFilteredProducts([]);
-        }
-      } finally {
-        setIsLoading(false);
+  debounceRef.current = setTimeout(async () => {
+    try {
+      // abort previous fetch
+      if (abortRef.current) abortRef.current.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+
+      setIsLoading(true);
+
+      const res = await API.get(
+        `/products/search?search=${encodeURIComponent(value)}`,
+        { signal: controller.signal }
+      );
+
+      const ok = res?.data?.success;
+      const serverList = Array.isArray(res?.data?.products)
+        ? res.data.products
+        : [];
+
+      // helper to get product display name (adjust if your API uses a different key)
+      const getName = (p) =>
+        (p?.name || p?.title || p?.product_name || "").toString();
+
+      // prefix filter: only keep products whose name starts with the query
+      const qLower = value.toLowerCase();
+      const filteredByPrefix = serverList.filter((p) =>
+        getName(p).toLowerCase().startsWith(qLower)
+      );
+
+      setFilteredProducts(filteredByPrefix);
+
+      if (!ok || filteredByPrefix.length === 0) {
+        setErrorMsg("No products found");
+      } else {
+        setErrorMsg("");
       }
-    }, 300);
-  };
+    } catch (err) {
+      // ignore abort errors
+      if (err.name !== "CanceledError" && err.name !== "AbortError") {
+        setErrorMsg("Something went wrong. Try again.");
+        setFilteredProducts([]);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, 300);
+};
+
 
   const handleSearchClick = () => {
     if (!query.trim()) return;
     const updated = [query, ...recentSearches.filter((s) => s !== query)].slice(
       0,
       10
-    );
+    ); 
     setRecentSearches(updated);
     localStorage.setItem("recentSearches", JSON.stringify(updated));
 
