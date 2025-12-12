@@ -389,7 +389,7 @@ function App() {
 
   return (
     <>
-      {/* <NoCopy /> */}
+      <NoCopy />
       <RouterProvider router={router} />
     </>
   );
