@@ -11,7 +11,7 @@ const PaymentPolicy = () => {
   const [card, setCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [initError, setInitError] = useState(null);
-  const [containerReady, setContainerReady] = useState(false);
+  const [ready, setReady] = useState(false);
   const [isPaying, setIsPaying] = useState(false);
 
   if (!data) {
@@ -24,21 +24,21 @@ const PaymentPolicy = () => {
   const applicationId = import.meta.env.VITE_SQUARE_APPLICATION_ID;
   const locationId = import.meta.env.VITE_SQUARE_LOCATION_ID;
 
-  // ---- STEP 1: Detect container (Fixes first render bug) ----
+  // STEP 1 — Wait for card container
   useEffect(() => {
-    const waitForContainer = setInterval(() => {
+    const interval = setInterval(() => {
       if (document.getElementById("card-container")) {
-        setContainerReady(true);
-        clearInterval(waitForContainer);
+        setReady(true);
+        clearInterval(interval);
       }
     }, 40);
 
-    return () => clearInterval(waitForContainer);
+    return () => clearInterval(interval);
   }, []);
 
-  // ---- STEP 2: Load Square SDK + Init card ----
+  // STEP 2 — Load Square SDK + Initialize card
   useEffect(() => {
-    if (!containerReady) return;
+    if (!ready) return;
 
     if (!applicationId || !locationId) {
       setInitError("Missing Square environment keys!");
@@ -46,7 +46,7 @@ const PaymentPolicy = () => {
       return;
     }
 
-    const scriptId = "square-web-sdk-policy";
+    const scriptId = "square-policy-sdk";
 
     const initSquare = async () => {
       try {
@@ -56,9 +56,8 @@ const PaymentPolicy = () => {
           return;
         }
 
-        // Prevent duplicate card initialisation
-        if (window.__square_policy_card) {
-          setCard(window.__square_policy_card);
+        if (window.__policy_square_card) {
+          setCard(window.__policy_square_card);
           setLoading(false);
           return;
         }
@@ -67,28 +66,27 @@ const PaymentPolicy = () => {
         const cardInstance = await payments.card();
         await cardInstance.attach("#card-container");
 
-        window.__square_policy_card = cardInstance;
+        window.__policy_square_card = cardInstance;
         setCard(cardInstance);
-      } catch (err) {
-        console.error("Square init error:", err);
+      } catch (error) {
+        console.error("Square init error:", error);
         setInitError("Failed to initialize Square card");
       } finally {
         setLoading(false);
       }
     };
 
-    // Script exists already?
-    const existingScript = document.getElementById(scriptId);
-    if (existingScript) {
+    const existing = document.getElementById(scriptId);
+    if (existing) {
       if (window.Square) initSquare();
-      else existingScript.addEventListener("load", initSquare);
+      else existing.addEventListener("load", initSquare);
       return;
     }
 
-    // Inject Square SDK
     const script = document.createElement("script");
     script.id = scriptId;
-    script.src = "https://web.squarecdn.com/v1/square.js";
+    // script.src = "https://sandbox.web.squarecdn.com/v1/square.js"; //sandbox use only
+    script.src = "https://web.squarecdn.com/v1/square.js";  //production use only
     script.async = true;
     script.onload = initSquare;
     script.onerror = () => {
@@ -97,9 +95,9 @@ const PaymentPolicy = () => {
     };
 
     document.body.appendChild(script);
-  }, [containerReady]);
+  }, [ready]);
 
-  // ---- SQUARE PAYMENT ----
+  // STEP 3 — Handle Payment
   const handleSquarePayment = async () => {
     if (!card) return;
 
@@ -109,51 +107,52 @@ const PaymentPolicy = () => {
       const tokenResult = await card.tokenize();
 
       if (tokenResult.status !== "OK") {
-        Swal.fire("Error", "Card tokenization failed.", "error");
+        Swal.fire("Error", "Card tokenization failed", "error");
         setIsPaying(false);
         return;
       }
 
-      const res = await fetch("http://localhost:4000/api/pay", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nonce: tokenResult.token,
-          amount: policy.price,
-        }),
+      // CALL BACKEND USING AXIOS (Correct)
+      const { data: payResponse } = await API.post("/pay", {
+        nonce: tokenResult.token,
+        amount: policy.price,
       });
 
-      const dataRes = await res.json();
-
-      if (!dataRes.success) {
-        Swal.fire("Payment Failed", dataRes.message || "Try again.", "error");
+      if (!payResponse.success) {
+        Swal.fire(
+          "Payment Failed",
+          payResponse.message || "Card declined",
+          "error"
+        );
         setIsPaying(false);
         return;
       }
 
-      // SUCCESS → update policy
-      const isRenew = type === "renew";
-      const endpoint = isRenew
-        ? `/renewPolicy/${orderId}`
-        : `/payPolicy/${orderId}`;
+      // SUCCESS → UPDATE POLICY
+      const endpoint =
+        type === "renew"
+          ? `/renewPolicy/${orderId}`
+          : `/payPolicy/${orderId}`;
 
       await API.put(endpoint, {
         policyId: policy._id || policy.policyId,
-        transactionId: dataRes.payment.id,
+        transactionId: payResponse.payment.id,
         paymentMethod: "Square",
       });
 
       await Swal.fire({
         icon: "success",
         title: "Payment Successful",
-        text: isRenew
-          ? "Your policy has been renewed successfully."
-          : "Your policy is now active.",
+        text:
+          type === "renew"
+            ? "Your policy has been renewed successfully."
+            : "Your policy is now active.",
         confirmButtonColor: "#2563eb",
       });
 
-      navigate(`/view-order`, { state: { id: orderId } });
-    } catch (err) {
+      navigate("/view-order", { state: { id: orderId } });
+    } catch (error) {
+      console.error(error);
       Swal.fire("Error", "Payment failed. Try again.", "error");
     }
 
@@ -178,7 +177,6 @@ const PaymentPolicy = () => {
           </div>
         </div>
 
-        {/* Square UI */}
         {loading && <p>Loading payment form…</p>}
         {initError && <p className="text-red-600">{initError}</p>}
 

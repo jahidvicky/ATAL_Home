@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGlasses, FaHeadset, FaShippingFast } from "react-icons/fa";
 import { MdSavings } from "react-icons/md";
-import { Link } from "react-router-dom";  // ✅ ADD THIS
+import { Link } from "react-router-dom";  // ADD THIS
 
 const PostHeader = () => {
 

@@ -10,7 +10,7 @@ export const registerLoader = (fn) => {
 //local
 // export const CHAT_API_URL = "http://localhost:4000/api";
 // export const SOCKET_URL = "http://localhost:4000";
-// export const IMAGE_URL = "http://localhost:4000/uploads/";
+// // export const IMAGE_URL = "http://localhost:4000/uploads/";
 // export const PDF_URL = "http://localhost:4000/api";
 
 //LIVE

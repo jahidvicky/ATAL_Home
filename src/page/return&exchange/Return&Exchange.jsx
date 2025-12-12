@@ -1,175 +1,188 @@
-import { motion } from "framer-motion";
+import React from "react";
 
 export default function ReturnExchangePolicy() {
-  const fadeIn = {
-    hidden: { opacity: 0, y: 16 },
-    visible: { opacity: 1, y: 0 },
-  };
-
   const sections = [
     {
-      id: 1,
       title: "Custom & Prescription Products – Final Sale",
-      icon: "FiShield",
-      content: [
-        "All prescription eyeglasses, prescription sunglasses, custom lenses, and medical optical devices are custom-made and personalized.",
-        "As per Ontario Consumer Protection Act – Custom Goods Exemption, these products are final sale.",
-        "Orders cannot be cancelled, refunded, or changed once production has started.",
-      ],
+      content: (
+        <>
+          <p>
+            All prescription eyeglasses, prescription sunglasses, custom lenses,
+            and medical optical devices are custom-made and personalized.
+          </p>
+          <p>
+            As per Ontario Consumer Protection Act – Custom Goods Exemption,
+            these products are final sale.
+          </p>
+          <p>Orders cannot be cancelled, refunded, or changed once production has started.</p>
+        </>
+      ),
     },
     {
-      id: 2,
       title: "Non-Custom / Non-Prescription Products",
-      icon: "FiPackage",
-      content: [
-        "Non-prescription frames, sunglasses, contact lens accessories, cleaning kits, and cases may be returned within 7 days of purchase.",
-        "Products must be unused, in original packaging, in resalable condition, and accompanied by the original receipt.",
-      ],
+      content: (
+        <>
+          <p>
+            Non-prescription frames, sunglasses, contact lens accessories,
+            cleaning kits, and cases may be returned within 7 days of purchase.
+          </p>
+          <p>
+            Products must be unused, in original packaging, in resalable
+            condition, and accompanied by the original receipt.
+          </p>
+        </>
+      ),
     },
     {
-      id: 3,
       title: "Defective or Incorrect Products",
-      icon: "FiInfo",
-      content: [
-        "If Atal Optical makes an error or supplies a defective product, repair, replacement, or remake will be provided at no additional charge.",
-        "Claims must be reported within 7 calendar days of delivery/pickup and customers should provide proof of defect (photos or in-store inspection).",
-      ],
+      content: (
+        <>
+          <p>
+            If Atal Optical makes an error or supplies a defective product,
+            repair, replacement, or remake will be provided at no additional
+            charge.
+          </p>
+          <p>
+            Claims must be reported within 7 calendar days of delivery/pickup
+            and customers should provide proof of defect (photos or in-store
+            inspection).
+          </p>
+        </>
+      ),
     },
     {
-      id: 4,
       title: "Legal Cooling-Off Rights (Ontario Law)",
-      icon: "FiInfo",
-      content: [
-        "For in-store purchases, Ontario law does not provide automatic refund or cooling-off rights except where required by law.",
-        "For online or remote sales, customers may cancel within 7 days only if the product has not entered production.",
-      ],
+      content: (
+        <>
+          <p>
+            For in-store purchases, Ontario law does not provide automatic
+            refund or cooling-off rights except where required by law.
+          </p>
+          <p>
+            For online or remote sales, customers may cancel within 7 days only
+            if the product has not entered production.
+          </p>
+        </>
+      ),
     },
     {
-      id: 5,
       title: "Deposits and Special Orders",
-      icon: "FiCreditCard",
-      content: [
-        "Deposits for special orders are non-refundable once the manufacturing process has started.",
-        "Any balance must be paid before product collection or delivery.",
-      ],
+      content: (
+        <>
+          <p>Deposits for special orders are non-refundable once the manufacturing process has started.</p>
+          <p>Any balance must be paid before product collection or delivery.</p>
+        </>
+      ),
     },
     {
-      id: 6,
       title: "Sale, Clearance & Promotional Items",
-      icon: "FiPackage",
-      content: [
-        "All discounted, clearance, promotional, and warehouse sale items are considered final sale and are not eligible for return, exchange, or refund.",
-      ],
+      content: (
+        <p>
+          All discounted, clearance, promotional, and warehouse sale items are
+          considered final sale and are not eligible for return, exchange, or refund.
+        </p>
+      ),
     },
     {
-      id: 7,
       title: "Return Approval Conditions",
-      icon: "FiPackage",
-      content: [
-        "Returned items must be in original packaging and include the original receipt/proof of purchase.",
-        "Items must show no scratches, marks, damage, or wear and include all accessories. Items failing inspection will be refused.",
-      ],
+      content: (
+        <>
+          <p>Returned items must be in original packaging with a valid receipt.</p>
+          <p>
+            Items must show no scratches, marks, damage, or wear and must
+            include all accessories.
+          </p>
+          <p>Items failing inspection will be refused.</p>
+        </>
+      ),
     },
     {
-      id: 8,
       title: "Refunds (Where Applicable)",
-      icon: "FiCreditCard",
-      content: [
-        "Approved refunds are issued only to the original payment method — no cash refunds.",
-        "Refund processing time: 7–10 business days. Shipping charges are non-refundable.",
-      ],
+      content: (
+        <>
+          <p>Approved refunds are issued only to the original payment method.</p>
+          <p>Refund processing time: 7–10 business days.</p>
+          <p>Shipping charges are non-refundable.</p>
+        </>
+      ),
     },
     {
-      id: 9,
       title: "Shipping, Delivery & Risk of Loss",
-      icon: "FiPackage",
-      content: [
-        "Responsibility transfers to the customer once the order is collected, shipped, or delivered.",
-        "Atal Optical is not responsible for delays caused by third-party couriers.",
-      ],
+      content: (
+        <>
+          <p>
+            Responsibility transfers to the customer once the order is
+            collected, shipped, or delivered.
+          </p>
+          <p>Atal Optical is not responsible for delays caused by third-party couriers.</p>
+        </>
+      ),
     },
     {
-      id: 10,
       title: "Warranty Coverage",
-      icon: "FiShield",
-      content: [
-        "Manufacturer warranties apply to frames and lenses and cover manufacturing defects only.",
-        "Warranties do not cover accidental damage, scratches, misuse, neglect, or normal wear and tear.",
-      ],
+      content: (
+        <>
+          <p>Manufacturer warranties apply to frames and lenses for manufacturing defects only.</p>
+          <p>Warranties do NOT cover scratches, accidents, misuse, or normal wear and tear.</p>
+        </>
+      ),
     },
     {
-      id: 11,
       title: "Order Refusal Rights",
-      icon: "FiShield",
-      content: [
-        "Atal Optical reserves the legal right to refuse service, cancel orders, limit quantities, and protect against fraud or misuse.",
-      ],
+      content: (
+        <p>
+          Atal Optical reserves the right to refuse service, cancel orders,
+          limit quantities, or protect against fraud or misuse.
+        </p>
+      ),
     },
     {
-      id: 12,
       title: "Legal Compliance Statement",
-      icon: "FiInfo",
-      content: [
-        "This policy follows the Ontario Consumer Protection Act (CPA), Canadian Custom Goods Regulations, and industry standards for healthcare and optical devices.",
-      ],
+      content: (
+        <>
+          <p>
+            This policy follows the Ontario Consumer Protection Act (CPA),
+            Canadian Custom Goods Regulations, and industry standards for
+            healthcare and optical devices.
+          </p>
+        </>
+      ),
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8 flex justify-center">
-      <motion.main
-        initial="hidden"
-        animate="visible"
-        transition={{ staggerChildren: 0.08 }}
-        className="w-full max-w-5xl"
-      >
-        <motion.header variants={fadeIn} className="mb-6 text-center">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-red-600">
-            RETURN, EXCHANGE & CONSUMER POLICY
-          </h1>
-        </motion.header>
+    <>
+      {/* HEADER */}
+      <header className="mb-8 bg-gradient-to-r from-black via-red-600 to-black py-12 text-center shadow-md">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-wide px-4">
+          Return, Exchange & Consumer Policy
+        </h1>
+        <hr className="border border-gray-200 my-4 w-230 mx-auto" />
+      </header>
 
-        <motion.section
-          variants={fadeIn}
-          className="bg-white shadow-lg rounded-2xl p-6 sm:p-8 md:p-10"
-        >
-        
-
-          <div className="space-y-3 md:space-y-4">
-            {sections.map((sec) => (
-              <details
-                key={sec.id}
-                className="group bg-gray-50 rounded-xl p-4 sm:p-5 md:p-6 border border-gray-100"
+      {/* MAIN CONTENT */}
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pb-12">
+        <div className="space-y-6">
+          {sections.map((section, idx) => (
+            <section
+              key={idx}
+              className="bg-white shadow-sm p-4 sm:p-6 md:p-8 rounded-xl border border-red-400"
+              aria-labelledby={`section-${idx}`}
+            >
+              <h2
+                id={`section-${idx}`}
+                className="text-lg sm:text-xl md:text-2xl font-semibold text-red-600 mb-3"
               >
-                <summary className="flex items-center justify-between cursor-pointer list-none">
-                  <div className="flex items-center gap-3">
-                    {/* simple decorative icon box */}
-                    <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-red-50 text-red-600 font-bold">
-                      {sec.id}
-                    </div>
-                    <div>
-                      <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800">{sec.title}</h3>
-                      <p className="text-xs sm:text-sm text-gray-500 mt-0.5">Click to expand for details</p>
-                    </div>
-                  </div>
+                {section.title}
+              </h2>
 
-                  <span className="text-gray-400 group-open:rotate-180 transition-transform">▾</span>
-                </summary>
-
-                <div className="mt-3 text-gray-700 text-sm sm:text-base leading-relaxed space-y-2 pl-1">
-                  {sec.content.map((line, idx) => (
-                    <p key={idx} className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              </details>
-            ))}
-          </div>
-
-         
-        </motion.section>
-      </motion.main>
-    </div>
+              <div className="text-gray-700 leading-relaxed text-sm sm:text-[15px] md:text-base space-y-2">
+                {section.content}
+              </div>
+            </section>
+          ))}
+        </div>
+      </main>
+    </>
   );
 }

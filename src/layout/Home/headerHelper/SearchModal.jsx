@@ -59,7 +59,7 @@ function SearchModal({
         }
     }, [isOpen, onClose]);
 
-    // ⭐ Universal Image Getter
+    //  Universal Image Getter
     const getProductImage = (product) => {
         // PRIMARY - new system (sunglasses + contact lenses)
         const variantImage = product?.product_variants?.[0]?.images?.[0];
@@ -93,7 +93,7 @@ function SearchModal({
         }
     };
 
-    // ⭐ Updated Product Card With New Image System
+    // Updated Product Card With New Image System
     const ProductCard = ({ product, isCompact = false }) => (
         <div
             onClick={() => goToSelected(product)}

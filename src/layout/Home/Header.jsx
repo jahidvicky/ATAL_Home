@@ -4,10 +4,6 @@ import {
   FaHeart,
   FaSearch,
   FaBars,
-  FaClock,
-  FaTimes,
-  FaTrash,
-  FaArrowRight,
 } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -34,6 +30,10 @@ function Header() {
     contact_lenses: false,
     brands: false,
   });
+
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const aboutTimeoutRef = useRef(null);
+
 
   const homeTimeoutRef = useRef(null);
   const megaTimeoutRef = useRef(null);
@@ -524,69 +524,69 @@ function Header() {
   );
 
   const handleSearch = (e) => {
-  const value = e.target.value;
-  setQuery(value);
-  setErrorMsg("");
-
-  // if empty query -> clear everything and abort outstanding requests
-  if (!value.trim()) {
-    setFilteredProducts([]);
+    const value = e.target.value;
+    setQuery(value);
     setErrorMsg("");
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    if (abortRef.current) abortRef.current.abort();
-    return;
-  }
 
-  // clear previous debounce timer
-  if (debounceRef.current) clearTimeout(debounceRef.current);
-
-  debounceRef.current = setTimeout(async () => {
-    try {
-      // abort previous fetch
+    // if empty query -> clear everything and abort outstanding requests
+    if (!value.trim()) {
+      setFilteredProducts([]);
+      setErrorMsg("");
+      if (debounceRef.current) clearTimeout(debounceRef.current);
       if (abortRef.current) abortRef.current.abort();
-      const controller = new AbortController();
-      abortRef.current = controller;
-
-      setIsLoading(true);
-
-      const res = await API.get(
-        `/products/search?search=${encodeURIComponent(value)}`,
-        { signal: controller.signal }
-      );
-
-      const ok = res?.data?.success;
-      const serverList = Array.isArray(res?.data?.products)
-        ? res.data.products
-        : [];
-
-      // helper to get product display name (adjust if your API uses a different key)
-      const getName = (p) =>
-        (p?.name || p?.title || p?.product_name || "").toString();
-
-      // prefix filter: only keep products whose name starts with the query
-      const qLower = value.toLowerCase();
-      const filteredByPrefix = serverList.filter((p) =>
-        getName(p).toLowerCase().startsWith(qLower)
-      );
-
-      setFilteredProducts(filteredByPrefix);
-
-      if (!ok || filteredByPrefix.length === 0) {
-        setErrorMsg("No products found");
-      } else {
-        setErrorMsg("");
-      }
-    } catch (err) {
-      // ignore abort errors
-      if (err.name !== "CanceledError" && err.name !== "AbortError") {
-        setErrorMsg("Something went wrong. Try again.");
-        setFilteredProducts([]);
-      }
-    } finally {
-      setIsLoading(false);
+      return;
     }
-  }, 300);
-};
+
+    // clear previous debounce timer
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    debounceRef.current = setTimeout(async () => {
+      try {
+        // abort previous fetch
+        if (abortRef.current) abortRef.current.abort();
+        const controller = new AbortController();
+        abortRef.current = controller;
+
+        setIsLoading(true);
+
+        const res = await API.get(
+          `/products/search?search=${encodeURIComponent(value)}`,
+          { signal: controller.signal }
+        );
+
+        const ok = res?.data?.success;
+        const serverList = Array.isArray(res?.data?.products)
+          ? res.data.products
+          : [];
+
+        // helper to get product display name (adjust if your API uses a different key)
+        const getName = (p) =>
+          (p?.name || p?.title || p?.product_name || "").toString();
+
+        // prefix filter: only keep products whose name starts with the query
+        const qLower = value.toLowerCase();
+        const filteredByPrefix = serverList.filter((p) =>
+          getName(p).toLowerCase().startsWith(qLower)
+        );
+
+        setFilteredProducts(filteredByPrefix);
+
+        if (!ok || filteredByPrefix.length === 0) {
+          setErrorMsg("No products found");
+        } else {
+          setErrorMsg("");
+        }
+      } catch (err) {
+        // ignore abort errors
+        if (err.name !== "CanceledError" && err.name !== "AbortError") {
+          setErrorMsg("Something went wrong. Try again.");
+          setFilteredProducts([]);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }, 300);
+  };
 
 
   const handleSearchClick = () => {
@@ -594,7 +594,7 @@ function Header() {
     const updated = [query, ...recentSearches.filter((s) => s !== query)].slice(
       0,
       10
-    ); 
+    );
     setRecentSearches(updated);
     localStorage.setItem("recentSearches", JSON.stringify(updated));
 
@@ -632,7 +632,7 @@ function Header() {
     try {
       const response = await API.get(`/customer/${user}`);
       setCustProfile(response?.data?.data?.profileImage);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -648,8 +648,7 @@ function Header() {
     localStorage.setItem("recentSearches", JSON.stringify(updated));
 
     navigate(
-      `/product/${product._id}/${product.subCategoryName || "details"}/${
-        product.subCat_id
+      `/product/${product._id}/${product.subCategoryName || "details"}/${product.subCat_id
       }`
     );
     setSearchModalOpen(false);
@@ -690,6 +689,24 @@ function Header() {
       document.documentElement.style.overflow = "auto";
     };
   }, [sidebarOpen, cartOpen]);
+
+
+  const handleAboutEnter = () => {
+    if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
+    setAboutOpen(true);
+  };
+
+  const handleAboutLeave = () => {
+    if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
+    aboutTimeoutRef.current = setTimeout(() => setAboutOpen(false), 300);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
+    };
+  }, []);
+
 
   return (
     <>
@@ -904,9 +921,8 @@ function Header() {
               >
                 Home
                 <span
-                  className={`inline-block transition-transform duration-200 ${
-                    homeOpen ? "rotate-180" : ""
-                  }`}
+                  className={`inline-block transition-transform duration-200 ${homeOpen ? "rotate-180" : ""
+                    }`}
                 >
                   ▾
                 </span>
@@ -931,14 +947,6 @@ function Header() {
                           General Information
                         </Link>
                       </li>
-                      <li>
-                        <Link
-                          to="/our-mission"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          Our Mission
-                        </Link>
-                      </li>
 
                       {/* ===========================
                CORPORATE POLICY SUBMENU
@@ -954,9 +962,8 @@ function Header() {
                         >
                           Corporate Policy
                           <span
-                            className={`inline-block text-lg transition-transform duration-200 ${
-                              policySubOpen ? "rotate-150" : ""
-                            }`}
+                            className={`inline-block text-lg transition-transform duration-200 ${policySubOpen ? "rotate-150" : ""
+                              }`}
                           >
                             ▾
                           </span>
@@ -1058,14 +1065,6 @@ function Header() {
                       {/* More Home items */}
                       <li>
                         <Link
-                          to="/our-vision"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          Our Vision
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
                           to="/responsibility"
                           className="block px-4 py-2 text-sm hover:bg-gray-100"
                         >
@@ -1078,12 +1077,58 @@ function Header() {
               </AnimatePresence>
             </li>
 
-            <Link
-              to="/about-us"
-              className="hover:text-red-600 transition-colors"
+            <li
+              className="relative"
+              onMouseEnter={handleAboutEnter}
+              onMouseLeave={handleAboutLeave}
             >
-              <li className="cursor-pointer">About Us</li>
-            </Link>
+              <button
+                type="button"
+                className="flex items-center gap-1 cursor-pointer hover:text-red-600 transition-colors"
+              >
+                About Us
+                <span
+                  className={`inline-block transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""
+                    }`}
+                >
+                  ▾
+                </span>
+              </button>
+
+              <AnimatePresence>
+                {aboutOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
+                  >
+                    <ul className="py-2">
+                      <li>
+                        <Link
+                          to="/our-mission"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          Our Mission
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/our-vision"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          Our Vision
+                        </Link>
+                      </li>
+
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </li>
+
+
 
             <li
               onMouseEnter={() => handleMegaEnter("glasses")}
@@ -1091,9 +1136,8 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${
-                  megaOpen && activeKey === "glasses" ? "text-red-500" : ""
-                }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "glasses" ? "text-red-500" : ""
+                  }`}
               >
                 Glasses
               </button>
@@ -1105,9 +1149,8 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${
-                  megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
-                }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
+                  }`}
               >
                 Sunglasses
               </button>
@@ -1119,11 +1162,10 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${
-                  megaOpen && activeKey === "contact_lenses"
-                    ? "text-red-500"
-                    : ""
-                }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "contact_lenses"
+                  ? "text-red-500"
+                  : ""
+                  }`}
               >
                 Contact Lenses
               </button>
@@ -1135,9 +1177,8 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${
-                  megaOpen && activeKey === "brands" ? "text-red-500" : ""
-                }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "brands" ? "text-red-500" : ""
+                  }`}
               >
                 Brands
               </button>
@@ -1193,11 +1234,10 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${
-          sidebarOpen
-            ? "translate-x-0 opacity-100"
-            : "-translate-x-full opacity-0"
-        }`}
+        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${sidebarOpen
+          ? "translate-x-0 opacity-100"
+          : "-translate-x-full opacity-0"
+          }`}
       >
         {/* FIXED HEADER */}
         <div className="flex justify-between items-center bg-white h-[70px] border-b border-gray-200 px-3 sticky top-0 z-50">
