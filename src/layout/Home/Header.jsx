@@ -31,6 +31,10 @@ function Header() {
     brands: false,
   });
 
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const aboutTimeoutRef = useRef(null);
+
+
   const homeTimeoutRef = useRef(null);
   const megaTimeoutRef = useRef(null);
 
@@ -686,6 +690,24 @@ function Header() {
     };
   }, [sidebarOpen, cartOpen]);
 
+
+  const handleAboutEnter = () => {
+    if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
+    setAboutOpen(true);
+  };
+
+  const handleAboutLeave = () => {
+    if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
+    aboutTimeoutRef.current = setTimeout(() => setAboutOpen(false), 300);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
+    };
+  }, []);
+
+
   return (
     <>
       {/* Top Bar */}
@@ -925,14 +947,6 @@ function Header() {
                           General Information
                         </Link>
                       </li>
-                      <li>
-                        <Link
-                          to="/our-mission"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          Our Mission
-                        </Link>
-                      </li>
 
                       {/* ===========================
                CORPORATE POLICY SUBMENU
@@ -1051,14 +1065,6 @@ function Header() {
                       {/* More Home items */}
                       <li>
                         <Link
-                          to="/our-vision"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          Our Vision
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
                           to="/responsibility"
                           className="block px-4 py-2 text-sm hover:bg-gray-100"
                         >
@@ -1071,12 +1077,58 @@ function Header() {
               </AnimatePresence>
             </li>
 
-            <Link
-              to="/about-us"
-              className="hover:text-red-600 transition-colors"
+            <li
+              className="relative"
+              onMouseEnter={handleAboutEnter}
+              onMouseLeave={handleAboutLeave}
             >
-              <li className="cursor-pointer">About Us</li>
-            </Link>
+              <button
+                type="button"
+                className="flex items-center gap-1 cursor-pointer hover:text-red-600 transition-colors"
+              >
+                About Us
+                <span
+                  className={`inline-block transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""
+                    }`}
+                >
+                  ▾
+                </span>
+              </button>
+
+              <AnimatePresence>
+                {aboutOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
+                  >
+                    <ul className="py-2">
+                      <li>
+                        <Link
+                          to="/our-mission"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          Our Mission
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/our-vision"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          Our Vision
+                        </Link>
+                      </li>
+
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </li>
+
+
 
             <li
               onMouseEnter={() => handleMegaEnter("glasses")}
@@ -1111,8 +1163,8 @@ function Header() {
               <button
                 type="button"
                 className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "contact_lenses"
-                    ? "text-red-500"
-                    : ""
+                  ? "text-red-500"
+                  : ""
                   }`}
               >
                 Contact Lenses
@@ -1183,8 +1235,8 @@ function Header() {
       {/* Mobile Sidebar */}
       <div
         className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${sidebarOpen
-            ? "translate-x-0 opacity-100"
-            : "-translate-x-full opacity-0"
+          ? "translate-x-0 opacity-100"
+          : "-translate-x-full opacity-0"
           }`}
       >
         {/* FIXED HEADER */}

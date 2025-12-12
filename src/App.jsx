@@ -84,6 +84,7 @@ import ExchangePolicy from "./page/exchangePolicy/ExchangePolicy";
 import CookiesPolicy from "./page/cookiesPolicy/CookiesPolicy";
 import ShippingPolicy from "./page/shippingPolicy/ShippingPolicy";
 import DisclaimerPolicy from "./page/disclaimerPolicy/DisclaimerPolicy";
+import NoCopy from "./components/NoCopy";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(
@@ -386,7 +387,13 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      {/* <NoCopy /> */}
+      <RouterProvider router={router} />
+    </>
+  );
+
 }
 
 export default App;
