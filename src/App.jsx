@@ -85,6 +85,7 @@ import CookiesPolicy from "./page/cookiesPolicy/CookiesPolicy";
 import ShippingPolicy from "./page/shippingPolicy/ShippingPolicy";
 import DisclaimerPolicy from "./page/disclaimerPolicy/DisclaimerPolicy";
 import NoCopy from "./components/NoCopy";
+import OurCommunity from "./components/OurComminity";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(
@@ -370,6 +371,15 @@ function App() {
           ),
         },
 
+        {
+          path: "/our-community",
+          element: (
+            // <ProtectedRoute>
+            <OurCommunity />
+            // </ProtectedRoute>
+          ),
+        },
+
         // <Route path="/search-results" element={<SearchResults />} />
 
         { path: "*", element: <Page /> },
@@ -389,7 +399,7 @@ function App() {
 
   return (
     <>
-      <NoCopy />
+      {/* <NoCopy /> */}
       <RouterProvider router={router} />
     </>
   );

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaGlasses, FaHeadset, FaShippingFast } from "react-icons/fa";
+import { FaGlasses, FaHeadset, FaShippingFast, FaUser } from "react-icons/fa";
 import { MdSavings } from "react-icons/md";
 import { Link } from "react-router-dom";  // ADD THIS
+import { FaUserGroup } from "react-icons/fa6";
 
 const PostHeader = () => {
 
@@ -77,6 +78,15 @@ const PostHeader = () => {
                 >
                     <FaShippingFast className="text-lg" />
                     <span>Fast shipping and delivery</span>
+                </Link>
+
+                {/* our community */}
+                <Link
+                    to="/our-community"
+                    className="flex items-center gap-2 hover:text-red-600 transition"
+                >
+                    <FaUserGroup className="text-lg" />
+                    <span>Our Community</span>
                 </Link>
 
             </div>

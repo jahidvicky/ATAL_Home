@@ -25,7 +25,7 @@ const Footer = () => {
       <div className="bg-black text-white px-[5%] py-6">
         <div className="max-w-[1280px] mx-auto flex justify-between items-center">
           <p className="text-sm tracking-wide">
-            Stay up to date with atal otical holiday deals
+            Stay up to date with atal optical holiday deals.
           </p>
 
           <button className="bg-[#f00000] text-white px-5 py-2 rounded-xl text-sm font-semibold hover:bg-red-700 transition">
