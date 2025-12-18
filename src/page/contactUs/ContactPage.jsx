@@ -147,7 +147,7 @@ const ContactPage = () => {
               </li>
               <li>
                 <span className="font-semibold text-[#f00000]">Store Hours:</span>{" "}
-                Mon - Sat, 10:00 AM - 8:00 PM
+                Mon - Sat, 10:00 AM - 6:00 PM
               </li>
             </ul>
           </div>
