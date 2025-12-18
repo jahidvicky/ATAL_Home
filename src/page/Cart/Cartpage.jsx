@@ -257,7 +257,12 @@ const Cartpage = () => {
             <div>
               <h1 className="text-2xl font-semibold">{product.product_name}</h1>
               {!!product.gender && (
-                <p className="text-sm text-gray-500 mt-1">{product.gender}</p>
+                <p className="text-sm text-gray-500 mt-1">
+                  {subCatId === "6915763ceeb23fa59c7d5342" && subCategory === "Kids"
+                    ? "Kids"
+                    : product.gender}
+                </p>
+
               )}
             </div>
 
@@ -615,7 +620,16 @@ const Cartpage = () => {
             />
             <DetailRow label="Frame Fit:" value={product.frame_fit} />
             <DetailRow label="Face Shape:" value={product.face_shape} />
-            <DetailRow label="Gender:" value={product.gender} />
+            {/* <DetailRow label="Gender:" value={product.gender} /> */}
+            <DetailRow
+              label="Gender:"
+              value={
+                subCatId === "6915763ceeb23fa59c7d5342" && subCategory === "Kids"
+                  ? "Kids"
+                  : product.gender
+              }
+            />
+
           </div>
         </div>
 
