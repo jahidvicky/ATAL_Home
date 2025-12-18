@@ -281,19 +281,6 @@ function Header() {
               },
             ],
           },
-
-          {
-            id: 202,
-            title: "Shop By Lens Type",
-            links: [
-              {
-                id: 2021,
-                label: "Prescription Sunglasses",
-                lens_type: "prescription",
-              },
-              { id: 2022, label: "Polarized lenses", lens_type: "polarized" },
-            ],
-          },
           {
             id: 203,
             title: "Shop by Frame Shape",

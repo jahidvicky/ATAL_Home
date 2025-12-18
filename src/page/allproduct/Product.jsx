@@ -34,6 +34,11 @@ const toggleSet = (s, v) => {
   return n;
 };
 
+const GLASSES_CAT_ID = "69157332eeb23fa59c7d5326";
+const SUNGLASSES_CAT_ID = "6915705d9ceac0cdda41c83f";
+const CONTACT_LENS_CAT_ID = "6915735feeb23fa59c7d532b";
+
+
 const resolveImg = (src = "") => {
   if (!src) return "/no-image.png";
   if (src.startsWith("http://") || src.startsWith("https://")) return src;
@@ -158,7 +163,15 @@ function ProductCard({
         />
       </Link>
 
-      {data.gender && <p className="text-sm text-gray-400">{data.gender}</p>}
+      {/* {data.gender && <p className="text-sm text-gray-400">{data.gender}</p>} */}
+      {data.subCategoryName?.toLowerCase() === "kids" &&
+        (
+          String(data.cat_id) === GLASSES_CAT_ID ||
+          String(data.cat_id) === SUNGLASSES_CAT_ID
+        )
+        ? "Kids"
+        : data.gender}
+
 
       <p className="text-base font-semibold text-gray-900 capitalize mb-1">
         {data.product_name}
@@ -316,12 +329,34 @@ function Product() {
   const [sort, setSort] = useState("popular");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+
+
   //  CRITICAL FIX: Fetch Products with proper dependency array
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
       setErrorMsg("");
       setProducts([]); // Clear previous products IMMEDIATELY
+
+
+      // 🚨 HARD OVERRIDE: Men's / Women's Glasses
+      // ✅ GLASSES → MEN / WOMEN (STRICT)
+      if ((slug === "men" || slug === "women") && String(catId) === GLASSES_CAT_ID) {
+        const res = await API.get("/getallproduct");
+        const fullList = res.data?.products || [];
+
+        const filtered = fullList.filter(
+          (p) =>
+            String(p.cat_id) === GLASSES_CAT_ID &&
+            p.gender?.toLowerCase() === slug   // ❌ no unisex
+        );
+
+        setProducts(filtered);
+        setPage(1);
+        setIsLoading(false);
+        return;
+      }
+
 
 
       // ========== NEW: Handle View All Category Request ==========  
@@ -362,16 +397,17 @@ function Product() {
 
 
 
-      if (shape) {
+      if (shape && !slug) {
         try {
           const res = await API.get("/getallproduct");
           const fullList = res.data?.products || res.data || [];
 
-          const filtered = fullList.filter((p) => {
-            return (
-              String(p.face_shape)?.toLowerCase() === shape.toLowerCase()
-            );
-          });
+          const filtered = fullList.filter(
+            (p) =>
+              String(p.face_shape)?.toLowerCase() === shape.toLowerCase() &&
+              p.cat_id !== SUNGLASSES_CAT_ID &&     // ❌ block sunglasses
+              p.cat_id !== CONTACT_LENS_CAT_ID      // ❌ block contact lens
+          );
 
           setProducts(filtered);
           setPage(1);
@@ -383,6 +419,7 @@ function Product() {
         }
         return;
       }
+
 
 
       if (allBrands === "allProduct") {
@@ -405,26 +442,119 @@ function Product() {
       }
 
 
-      if (gender) {
+      const GLASSES_CAT_ID = "69157332eeb23fa59c7d5326";
+
+      // ✅ KIDS (Glasses + Sunglasses)
+      // ✅ KIDS (CATEGORY-AWARE & STRICT)
+      if (subCategoryName?.toLowerCase() === "kids") {
         try {
+          setIsLoading(true);
+
           const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || res.data || [];
-          const filtered = fullList.filter((p) => {
-            return (
-              String(p.gender)?.toLowerCase() === gender.toLowerCase()
-            );
-          });
+          const fullList = res.data?.products || [];
+
+          const filtered = fullList.filter(
+            (p) =>
+              p.subCategoryName?.toLowerCase() === "kids" &&
+              String(p.cat_id) === String(catId) // 🔥 ONLY current category
+          );
 
           setProducts(filtered);
           setPage(1);
         } catch (e) {
-          console.log(e);
+          console.error(e);
+          setErrorMsg("Failed to load kids products");
+        } finally {
+          setIsLoading(false);
+        }
+
+        return; // ⛔ STOP HERE
+      }
+
+
+
+
+      // ✅ SUNGLASSES → MEN (STRICT)
+      if (gender === "men" && String(catId) === SUNGLASSES_CAT_ID) {
+        try {
+          setIsLoading(true);
+
+          const res = await API.get("/getallproduct");
+          const fullList = res.data?.products || [];
+
+          const filtered = fullList.filter(
+            (p) =>
+              String(p.cat_id) === SUNGLASSES_CAT_ID &&   // Sunglasses only
+              p.gender?.toLowerCase() === "men"           // ONLY men
+          );
+
+          setProducts(filtered);
+          setPage(1);
+        } catch (e) {
+          console.error(e);
+          setErrorMsg("Failed to load men sunglasses");
+        } finally {
+          setIsLoading(false);
+        }
+
+        return; // ⛔ STOP here
+      }
+
+      // ✅ SUNGLASSES → WOMEN (STRICT)
+      if (gender === "women" && String(catId) === SUNGLASSES_CAT_ID) {
+        try {
+          setIsLoading(true);
+
+          const res = await API.get("/getallproduct");
+          const fullList = res.data?.products || [];
+
+          const filtered = fullList.filter(
+            (p) =>
+              String(p.cat_id) === SUNGLASSES_CAT_ID &&   // ✅ Sunglasses only
+              p.gender?.toLowerCase() === "women"         // ✅ ONLY women
+          );
+
+          setProducts(filtered);
+          setPage(1);
+        } catch (e) {
+          console.error(e);
+          setErrorMsg("Failed to load women sunglasses");
+        } finally {
+          setIsLoading(false);
+        }
+
+        return; // ⛔ STOP everything else
+      }
+
+
+
+      if (gender && !slug) {
+        try {
+          setIsLoading(true);
+
+          const res = await API.get("/getallproduct");
+          const fullList = res.data?.products || [];
+
+          const filtered = fullList.filter(
+            (p) =>
+              String(p.cat_id) === GLASSES_CAT_ID &&          // ✅ Only Glasses
+              String(p.gender)?.toLowerCase() === gender.toLowerCase() // ✅ EXACT match
+          );
+
+          setProducts(filtered);
+          setPage(1);
+        } catch (e) {
+          console.error(e);
           setErrorMsg("Failed to load products");
         } finally {
           setIsLoading(false);
         }
-        return;
+
+        return; // ⛔ Stop further filters
       }
+
+
+
 
       if (lens_type) {
         try {
@@ -597,30 +727,37 @@ function Product() {
           let filtered = [];
 
           // Allowed categories for Men/Women
-          const allowedCatIds = [
-            "6915705d9ceac0cdda41c83f",
-            "69157332eeb23fa59c7d5326",
-          ];
+          // const allowedCatIds = [
+          //   "6915705d9ceac0cdda41c83f",
+          //   "69157332eeb23fa59c7d5326",
+          // ];
+
 
           // MEN
-          if (slug === "men") {
-            filtered = fullList.filter(
-              (p) =>
-                allowedCatIds.includes(p.cat_id) &&
-                (p.gender?.toLowerCase() === "men" ||
-                  p.gender?.toLowerCase() === "unisex")
-            );
-          }
+          // if (slug === "men") {
+          //   filtered = fullList.filter(
+          //     (p) =>
+          //       allowedCatIds.includes(p.cat_id) &&
+          //       (p.gender?.toLowerCase() === "men" ||
+          //         p.gender?.toLowerCase() === "unisex")
+          //   );
+          // }
+
+
+
 
           // WOMEN
-          if (slug === "women") {
-            filtered = fullList.filter(
-              (p) =>
-                allowedCatIds.includes(p.cat_id) &&
-                (p.gender?.toLowerCase() === "women" ||
-                  p.gender?.toLowerCase() === "unisex")
-            );
-          }
+          // if (slug === "women") {
+          //   filtered = fullList.filter(
+          //     (p) =>
+          //       allowedCatIds.includes(p.cat_id) &&
+          //       (p.gender?.toLowerCase() === "women" ||
+          //         p.gender?.toLowerCase() === "unisex")
+          //   );
+          // }
+
+
+
 
           // CONTACT LENS BY catId
           if (slug === "contact-lens") {
@@ -693,16 +830,14 @@ function Product() {
             case "men":
               filtered = fullList.filter(
                 (p) =>
-                  p.gender?.toLowerCase() === "men" ||
-                  p.gender?.toLowerCase() === "unisex"
+                  p.gender?.toLowerCase() === "men"
               );
               break;
 
             case "women":
               filtered = fullList.filter(
                 (p) =>
-                  p.gender?.toLowerCase() === "women" ||
-                  p.gender?.toLowerCase() === "unisex"
+                  p.gender?.toLowerCase() === "women"
               );
               break;
 
@@ -808,8 +943,13 @@ function Product() {
         "";
       if (brandName) brands.add(brandName.trim());
 
-      const gender = p.gender?.trim();
+      const gender =
+        p.subCategoryName?.toLowerCase() === "kids"
+          ? "Kids"
+          : p.gender?.trim();
+
       if (gender) genders.add(gender);
+
 
       if (p.frame_shape) shapes.add(p.frame_shape.trim());
       if (p.face_shape) shapes.add(p.face_shape.trim());
