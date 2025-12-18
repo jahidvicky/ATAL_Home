@@ -1,10 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  FaUser,
-  FaHeart,
-  FaSearch,
-  FaBars,
-} from "react-icons/fa";
+import { FaUser, FaHeart, FaSearch, FaBars } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import logo from "../../assets/category/logo.png";
@@ -34,6 +29,8 @@ function Header() {
   const [aboutOpen, setAboutOpen] = useState(false);
   const aboutTimeoutRef = useRef(null);
 
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const servicesTimeoutRef = useRef(null);
 
   const homeTimeoutRef = useRef(null);
   const megaTimeoutRef = useRef(null);
@@ -139,6 +136,17 @@ function Header() {
     if (homeTimeoutRef.current) clearTimeout(homeTimeoutRef.current);
     homeTimeoutRef.current = setTimeout(() => setHomeOpen(false), 300);
   };
+
+  const handleServicesEnter = () => {
+  if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
+  setServicesOpen(true);
+};
+
+const handleServicesLeave = () => {
+  if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
+  servicesTimeoutRef.current = setTimeout(() => setServicesOpen(false), 300);
+};
+
 
   const handlePolicySubEnter = () => {
     if (policySubTimeoutRef.current) clearTimeout(policySubTimeoutRef.current);
@@ -330,16 +338,16 @@ function Header() {
             id: 301,
             title: "Shop by Lens Category",
             links: [
+               {
+                id: 3012,
+                label: "Daily",
+                lens_cat: "daily",
+                catId: "6915735feeb23fa59c7d532b",
+              },
               {
                 id: 3011,
                 label: "Biweekly / Weekly",
                 lens_cat: "weekly" || "biweekly",
-                catId: "6915735feeb23fa59c7d532b",
-              },
-              {
-                id: 3012,
-                label: "Daily",
-                lens_cat: "daily",
                 catId: "6915735feeb23fa59c7d532b",
               },
               {
@@ -354,15 +362,15 @@ function Header() {
             id: 302,
             title: "Top Brands",
             links: [
+               {
+                id: 3022,
+                label: "Air Optix",
+                brandId: "690c6ee3ce83c44ad440e031",
+              },
               {
                 id: 3021,
                 label: "Acuvue",
                 brandId: "690c6ecece83c44ad440e02e",
-              },
-              {
-                id: 3022,
-                label: "Air Optix",
-                brandId: "690c6ee3ce83c44ad440e031",
               },
               {
                 id: 3023,
@@ -588,7 +596,6 @@ function Header() {
     }, 300);
   };
 
-
   const handleSearchClick = () => {
     if (!query.trim()) return;
     const updated = [query, ...recentSearches.filter((s) => s !== query)].slice(
@@ -632,7 +639,7 @@ function Header() {
     try {
       const response = await API.get(`/customer/${user}`);
       setCustProfile(response?.data?.data?.profileImage);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -648,7 +655,8 @@ function Header() {
     localStorage.setItem("recentSearches", JSON.stringify(updated));
 
     navigate(
-      `/product/${product._id}/${product.subCategoryName || "details"}/${product.subCat_id
+      `/product/${product._id}/${product.subCategoryName || "details"}/${
+        product.subCat_id
       }`
     );
     setSearchModalOpen(false);
@@ -690,7 +698,6 @@ function Header() {
     };
   }, [sidebarOpen, cartOpen]);
 
-
   const handleAboutEnter = () => {
     if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
     setAboutOpen(true);
@@ -706,7 +713,6 @@ function Header() {
       if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
     };
   }, []);
-
 
   return (
     <>
@@ -906,7 +912,7 @@ function Header() {
         </div>
 
         <nav className="relative border-t border-gray-200">
-          <ul className="flex items-center justify-center gap-10 py-3 font-semibold text-white bg-black tracking-wide text-base flex-wrap">
+          <ul className="flex items-center justify-center gap-7 py-2 font-semibold text-white bg-black tracking-wide text-base flex-wrap">
             <li
               className="relative"
               onMouseEnter={handleHomeEnter}
@@ -921,8 +927,9 @@ function Header() {
               >
                 Home
                 <span
-                  className={`inline-block transition-transform duration-200 ${homeOpen ? "rotate-180" : ""
-                    }`}
+                  className={`inline-block transition-transform duration-200 ${
+                    homeOpen ? "rotate-180" : ""
+                  }`}
                 >
                   ▾
                 </span>
@@ -962,8 +969,9 @@ function Header() {
                         >
                           Corporate Policy
                           <span
-                            className={`inline-block text-lg transition-transform duration-200 ${policySubOpen ? "rotate-150" : ""
-                              }`}
+                            className={`inline-block text-lg transition-transform duration-200 ${
+                              policySubOpen ? "rotate-150" : ""
+                            }`}
                           >
                             ▾
                           </span>
@@ -1015,15 +1023,6 @@ function Header() {
 
                               <li>
                                 <Link
-                                  to="/optical-policy"
-                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
-                                >
-                                  Optical Policy
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link
                                   to="/privacy-policy"
                                   className="block px-4 py-2 text-sm hover:bg-gray-100"
                                 >
@@ -1062,13 +1061,12 @@ function Header() {
                         )}
                       </li>
 
-                      {/* More Home items */}
                       <li>
                         <Link
-                          to="/responsibility"
+                          to="/optical-policy"
                           className="block px-4 py-2 text-sm hover:bg-gray-100"
                         >
-                          Vision & Responsibility
+                          Optical Policy
                         </Link>
                       </li>
                     </ul>
@@ -1082,19 +1080,21 @@ function Header() {
               onMouseEnter={handleAboutEnter}
               onMouseLeave={handleAboutLeave}
             >
-              <button
-                type="button"
-                className="flex items-center gap-1 cursor-pointer hover:text-red-600 transition-colors"
-              >
-                About Us
-                <span
-                  className={`inline-block transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""
-                    }`}
+              <Link to="/about-us">
+                <button
+                  type="button"
+                  className="flex items-center gap-1 cursor-pointer hover:text-red-600 transition-colors"
                 >
-                  ▾
-                </span>
-              </button>
-
+                  About Us
+                  <span
+                    className={`inline-block transition-transform duration-200 ${
+                      aboutOpen ? "rotate-180" : ""
+                    }`}
+                  >
+                    ▾
+                  </span>
+                </button>
+              </Link>
               <AnimatePresence>
                 {aboutOpen && (
                   <motion.div
@@ -1121,14 +1121,19 @@ function Header() {
                           Our Vision
                         </Link>
                       </li>
-
+                      <li>
+                        <Link
+                          to="/responsibility"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          Vision & Responsibility
+                        </Link>
+                      </li>
                     </ul>
                   </motion.div>
                 )}
               </AnimatePresence>
             </li>
-
-
 
             <li
               onMouseEnter={() => handleMegaEnter("glasses")}
@@ -1136,8 +1141,9 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "glasses" ? "text-red-500" : ""
-                  }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${
+                  megaOpen && activeKey === "glasses" ? "text-red-500" : ""
+                }`}
               >
                 Glasses
               </button>
@@ -1149,8 +1155,9 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
-                  }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${
+                  megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
+                }`}
               >
                 Sunglasses
               </button>
@@ -1162,10 +1169,11 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "contact_lenses"
-                  ? "text-red-500"
-                  : ""
-                  }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${
+                  megaOpen && activeKey === "contact_lenses"
+                    ? "text-red-500"
+                    : ""
+                }`}
               >
                 Contact Lenses
               </button>
@@ -1177,19 +1185,102 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "brands" ? "text-red-500" : ""
-                  }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${
+                  megaOpen && activeKey === "brands" ? "text-red-500" : ""
+                }`}
               >
                 Brands
               </button>
             </li>
 
+            <li
+              className="relative"
+              onMouseEnter={handleServicesEnter}
+              onMouseLeave={handleServicesLeave}
+            >
+              <Link to="/services">
+                <button
+                  type="button"
+                  className="flex items-center gap-1 cursor-pointer hover:text-red-600 transition-colors"
+                >
+                  Services
+                  <span
+                    className={`inline-block transition-transform duration-200 ${
+                      aboutOpen ? "rotate-180" : ""
+                    }`}
+                  >
+                    ▾
+                  </span>
+                </button>
+              </Link>
+              <AnimatePresence>
+                {servicesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
+                  >
+                    <ul className="py-2">
+                      <li>
+                        <Link
+                          to="/optical-education"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          Optical Education
+                        </Link>
+                      </li>
+
+                      <li>
+                        <Link
+                          to="/our-community"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          Our Community
+                        </Link>
+                      </li>
+
+                      <li>
+                        <Link
+                          to="/insurance-policies"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          Insurance Policies
+                        </Link>
+                      </li>
+
+
+                       <li>
+                        <Link
+                          to="/free-eye-exam"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          Free Eye Exam
+                        </Link>
+                      </li>
+
+                      {/* <li>
+                        <Link
+                          to="/blog"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          Blog
+                        </Link>
+                      </li> */}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </li>
+
             <Link
-              to="/services"
+              to="/faq"
               className="hover:text-red-600 transition-colors"
             >
-              <li className="cursor-pointer">Services</li>
+              <li className="cursor-pointer">FAQ</li>
             </Link>
+
             <Link
               to="/how-to-order"
               className="hover:text-red-600 transition-colors"
@@ -1234,10 +1325,11 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${sidebarOpen
-          ? "translate-x-0 opacity-100"
-          : "-translate-x-full opacity-0"
-          }`}
+        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${
+          sidebarOpen
+            ? "translate-x-0 opacity-100"
+            : "-translate-x-full opacity-0"
+        }`}
       >
         {/* FIXED HEADER */}
         <div className="flex justify-between items-center bg-white h-[70px] border-b border-gray-200 px-3 sticky top-0 z-50">

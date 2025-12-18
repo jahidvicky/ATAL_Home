@@ -13,6 +13,7 @@ const OurCommunity = () => {
         city: "",
         postal: "",
         province: "",
+        frameType: "",
         frameImages: [],
     });
 
@@ -86,6 +87,7 @@ const OurCommunity = () => {
         const fullAddress = `${formData.street}, ${formData.city}, ${formData.province}, ${formData.postal}, Canada`;
         data.append("address", fullAddress);
         data.append("postal", formData.postal);
+        data.append("frameType", formData.frameType)
 
         formData.frameImages.forEach((file) => {
             data.append("frameImages", file);
@@ -108,6 +110,7 @@ const OurCommunity = () => {
                 city: "",
                 postal: "",
                 province: "",
+                frameType: "",
                 frameImages: [],
             });
 
@@ -264,6 +267,15 @@ const OurCommunity = () => {
                                 <option key={p} value={p}>{p}</option>
                             ))}
                         </select>
+
+                         <input
+                            type="text"
+                            placeholder="Frame Type"
+                            value={formData.frameType}
+                            onChange={(e) => handleChange("frameType", e.target.value)}
+                            className="border p-3 rounded col-span-2"
+                            required
+                        />
 
                         <div className="col-span-2 border-2 border-dashed rounded-xl p-6 text-center">
                             <input
