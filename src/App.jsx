@@ -86,6 +86,9 @@ import ShippingPolicy from "./page/shippingPolicy/ShippingPolicy";
 import DisclaimerPolicy from "./page/disclaimerPolicy/DisclaimerPolicy";
 import NoCopy from "./components/NoCopy";
 import OurCommunity from "./components/OurComminity";
+import OpticalEducation from "./page/opticalEducation/OpticalEducation";
+import FreeEyeExam from "./page/freeExam/FreeEyeExam";
+import InsurancePolicies from "./page/insurance/InsurancePolicies";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(
@@ -218,6 +221,8 @@ function App() {
         { path: "/intellectual-property", element: <SiteContentNotice /> },
         { path: "/learn-about-frame", element: <LearnAboutFrame /> },
         { path: "/learn-about-lens", element: <LearnAboutLens /> },
+        { path: "/optical-education", element: <OpticalEducation /> },
+        { path: "/free-eye-exam", element: <FreeEyeExam /> },
         {
           path: "/learn-about-prescription",
           element: <LearnAboutPrescription />,
@@ -376,6 +381,14 @@ function App() {
           element: (
             // <ProtectedRoute>
             <OurCommunity />
+            // </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/insurance-policies",
+          element: (
+            // <ProtectedRoute>
+            <InsurancePolicies />
             // </ProtectedRoute>
           ),
         },
