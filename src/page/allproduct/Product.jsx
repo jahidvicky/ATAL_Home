@@ -7,6 +7,7 @@ import RecentlyView from "../collections/RecentlyView";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import OurPromise from "../Cart/OurPromise";
 import { useLocation } from "react-router-dom";
+import FilterSections from "./SideFilter";
 
 // Toast setup
 const Toast = Swal.mixin({
@@ -21,18 +22,18 @@ const Toast = Swal.mixin({
 const initialFilters = {
   brands: new Set(),
   genders: new Set(),
-  shapes: new Set(),
+  faceShapes: new Set(),   // 👈 NEW
+  frameShapes: new Set(),  // 👈 NEW
   colors: new Set(),
   materials: new Set(),
   priceMin: 0,
   priceMax: 9999,
+  isKids: false,
 };
 
-const toggleSet = (s, v) => {
-  const n = new Set(s);
-  n.has(v) ? n.delete(v) : n.add(v);
-  return n;
-};
+
+
+
 
 const GLASSES_CAT_ID = "69157332eeb23fa59c7d5326";
 const SUNGLASSES_CAT_ID = "6915705d9ceac0cdda41c83f";
@@ -163,7 +164,6 @@ function ProductCard({
         />
       </Link>
 
-      {/* {data.gender && <p className="text-sm text-gray-400">{data.gender}</p>} */}
       {data.subCategoryName?.toLowerCase() === "kids" &&
         (
           String(data.cat_id) === GLASSES_CAT_ID ||
@@ -223,83 +223,6 @@ function ProductCard({
   );
 }
 
-// FilterSections Component
-const FilterSections = ({ filters, setFilters, facetData }) => {
-  const Section = ({ title, children }) => (
-    <div className="py-3 border-b last:border-b-0">
-      <h4 className="font-medium text-sm mb-2">{title}</h4>
-      {children}
-    </div>
-  );
-
-  const Check = ({ label, setKey, value }) => {
-    const on = filters[setKey].has(value);
-    return (
-      <label className="flex items-center gap-2 py-1 cursor-pointer">
-        <input
-          type="checkbox"
-          className="h-4 w-4 rounded border-gray-300"
-          checked={on}
-          onChange={() =>
-            setFilters((prev) => ({
-              ...prev,
-              [setKey]: toggleSet(prev[setKey], value),
-            }))
-          }
-        />
-        <span className="text-sm capitalize">{label}</span>
-      </label>
-    );
-  };
-
-  return (
-    <div>
-      {facetData.brands.length > 0 && (
-        <Section title="Brand">
-          <div className="max-h-40 overflow-auto pr-1">
-            {facetData.brands.map((b) => (
-              <Check key={b} label={b} setKey="brands" value={b} />
-            ))}
-          </div>
-        </Section>
-      )}
-
-      {facetData.genders.length > 0 && (
-        <Section title="Gender">
-          <div className="flex flex-col gap-1">
-            {facetData.genders.map((g) => (
-              <Check key={g} label={g} setKey="genders" value={g} />
-            ))}
-          </div>
-        </Section>
-      )}
-
-      <Section title="Shape">
-        <div className="max-h-40 overflow-auto pr-1">
-          {facetData.shapes.map((s) => (
-            <Check key={s} label={s} setKey="shapes" value={s} />
-          ))}
-        </div>
-      </Section>
-
-      <Section title="Color">
-        <div className="max-h-40 overflow-auto pr-1">
-          {facetData.colors.map((c) => (
-            <Check key={c} label={c} setKey="colors" value={c} />
-          ))}
-        </div>
-      </Section>
-
-      <Section title="Material">
-        <div className="max-h-40 overflow-auto pr-1">
-          {facetData.materials.map((m) => (
-            <Check key={m} label={m} setKey="materials" value={m} />
-          ))}
-        </div>
-      </Section>
-    </div>
-  );
-};
 
 // Main Product Component
 function Product() {
@@ -348,7 +271,7 @@ function Product() {
         const filtered = fullList.filter(
           (p) =>
             String(p.cat_id) === GLASSES_CAT_ID &&
-            p.gender?.toLowerCase() === slug   // ❌ no unisex
+            p.gender?.toLowerCase() === slug
         );
 
         setProducts(filtered);
@@ -841,6 +764,19 @@ function Product() {
               );
               break;
 
+            case "kids":
+              filtered = fullList.filter(
+                (p) =>
+                  p.gender?.toLowerCase() === "kids"
+              );
+              break;
+            case "unisex":
+              filtered = fullList.filter(
+                (p) =>
+                  p.gender?.toLowerCase() === "unisex"
+              );
+              break;
+
             case "contact-lens":
               filtered = fullList.filter(
                 (p) => p.cat_id === "6915735feeb23fa59c7d532b"
@@ -929,7 +865,8 @@ function Product() {
     const norm = (s) => String(s || "").toLowerCase().trim();
     const brands = new Set();
     const genders = new Set();
-    const shapes = new Set();
+    const faceShapes = new Set();
+    const frameShapes = new Set();
     const colors = new Set();
     const materials = new Set();
     let min = Infinity,
@@ -947,12 +884,18 @@ function Product() {
         p.subCategoryName?.toLowerCase() === "kids"
           ? "Kids"
           : p.gender?.trim();
-
       if (gender) genders.add(gender);
 
+      // ✅ FACE SHAPE
+      if (p.face_shape) {
+        faceShapes.add(p.face_shape.trim());
+      }
 
-      if (p.frame_shape) shapes.add(p.frame_shape.trim());
-      if (p.face_shape) shapes.add(p.face_shape.trim());
+      // ✅ FRAME SHAPE
+      if (p.frame_shape) {
+        frameShapes.add(p.frame_shape.trim());
+      }
+
       if (p.frame_color) colors.add(p.frame_color.trim());
       if (p.frame_material) materials.add(p.frame_material.trim());
 
@@ -963,45 +906,87 @@ function Product() {
       }
     });
 
+
     if (!Number.isFinite(min)) {
       min = 0;
       max = 9999;
     }
 
     return {
-      brands: Array.from(brands).sort(),
-      genders: Array.from(genders).sort(),
-      shapes: Array.from(shapes).sort(),
-      colors: Array.from(colors).sort(),
-      materials: Array.from(materials).sort(),
+      brands: [...brands],
+      genders: [...genders],
+      faceShapes: [...faceShapes],
+      frameShapes: [...frameShapes],
+      colors: [...colors],
+      materials: [...materials],
       min,
       max,
     };
   }, [products]);
 
-  // Filter and Sort
   const matchesFilters = (p) => {
     const brand =
       p?.brand_id?.brand?.trim() ||
       p?.brand?.trim() ||
       p?.product_brand?.trim() ||
       "";
+
     const gender = (p.gender || "").trim().toLowerCase();
-    const shape = String(p.frame_shape || "").trim();
-    const face_shape = String(p.face_shape || "").trim();
     const color = String(p.frame_color || "").trim();
     const material = String(p.frame_material || "").trim();
     const price = Number(p.product_sale_price || p.product_price || 0);
 
+    /* ---------- BRAND ---------- */
     if (filters.brands.size && !filters.brands.has(brand)) return false;
-    if (filters.genders.size && ![...filters.genders].some(g => g.toLowerCase() === gender)) return false;
-    if (filters.shapes.size && !filters.shapes.has(shape)) return false;
-    if (filters.face_shape && !filters.face_shape.has(face_shape)) return false;
+
+    /* ---------- MEN / WOMEN ---------- */
+    if (
+      filters.genders.size &&
+      ![...filters.genders].some(
+        (g) => g.toLowerCase() === gender
+      )
+    ) {
+      return false;
+    }
+
+    /* ---------- KIDS (SUBCATEGORY) ---------- */
+    if (
+      filters.isKids &&
+      p.subCategoryName?.toLowerCase() !== "kids"
+    ) {
+      return false;
+    }
+
+    /* ---------- SHAPE ---------- */
+    /* ---------- FACE SHAPE ---------- */
+    if (
+      filters.faceShapes.size &&
+      !filters.faceShapes.has(p.face_shape?.trim())
+    ) {
+      return false;
+    }
+
+    /* ---------- FRAME SHAPE ---------- */
+    if (
+      filters.frameShapes.size &&
+      !filters.frameShapes.has(p.frame_shape?.trim())
+    ) {
+      return false;
+    }
+
+
+    /* ---------- COLOR ---------- */
     if (filters.colors.size && !filters.colors.has(color)) return false;
+
+    /* ---------- MATERIAL ---------- */
     if (filters.materials.size && !filters.materials.has(material)) return false;
+
+    /* ---------- PRICE ---------- */
     if (price < filters.priceMin || price > filters.priceMax) return false;
+
     return true;
   };
+
 
   const applySort = (arr) => {
     switch (sort) {
@@ -1044,10 +1029,12 @@ function Product() {
     filters.priceMin,
     filters.priceMax,
     JSON.stringify([...filters.brands]),
-    JSON.stringify([...filters.shapes]),
+    JSON.stringify([...filters.faceShapes]),   // ✅
+    JSON.stringify([...filters.frameShapes]),  // ✅
     JSON.stringify([...filters.colors]),
     JSON.stringify([...filters.materials]),
   ]);
+
 
   const wishSet = useMemo(() => new Set(wishlist), [wishlist]);
 

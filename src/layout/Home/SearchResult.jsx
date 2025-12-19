@@ -20,12 +20,16 @@ const Toast = Swal.mixin({
 const initialFilters = {
     brands: new Set(),
     genders: new Set(),
-    shapes: new Set(),
+    faceShapes: new Set(),   // 👈 NEW
+    frameShapes: new Set(),  // 👈 NEW
     colors: new Set(),
     materials: new Set(),
     priceMin: 0,
     priceMax: 9999,
+    isKids: false,
 };
+
+
 
 const toggleSet = (s, v) => {
     const n = new Set(s);
@@ -268,15 +272,37 @@ const FilterSections = ({ filters, setFilters, facetData }) => {
             )}
 
             {/* Shape Filter */}
-            {facetData.shapes.length > 0 && (
-                <Section title="Shape">
+            {facetData.faceShapes?.length > 0 && (
+                <Section title="Face Shape">
                     <div className="max-h-40 overflow-auto pr-1">
-                        {facetData.shapes.map((s) => (
-                            <Check key={s} label={s} setKey="shapes" value={s} />
+                        {facetData.faceShapes.map(s => (
+                            <Check
+                                key={s}
+                                label={s}
+                                setKey="faceShapes"
+                                value={s}
+                            />
                         ))}
                     </div>
                 </Section>
             )}
+
+            {facetData.frameShapes?.length > 0 && (
+                <Section title="Frame Shape">
+                    <div className="max-h-40 overflow-auto pr-1">
+                        {facetData.frameShapes.map(s => (
+                            <Check
+                                key={s}
+                                label={s}
+                                setKey="frameShapes"
+                                value={s}
+                            />
+                        ))}
+                    </div>
+                </Section>
+            )}
+
+
 
             {/* Color Filter */}
             {facetData.colors.length > 0 && (
@@ -373,7 +399,8 @@ function SearchResults() {
     const facetData = useMemo(() => {
         const brands = new Set();
         const genders = new Set();
-        const shapes = new Set();
+        const faceShapes = new Set();
+        const frameShapes = new Set();
         const colors = new Set();
         const materials = new Set();
         let min = Infinity,
@@ -390,7 +417,15 @@ function SearchResults() {
             const gender = p.gender?.trim();
             if (gender) genders.add(gender);
 
-            if (p.frame_shape) shapes.add(p.frame_shape.trim());
+            products.forEach((p) => {
+                if (p.face_shape) {
+                    faceShapes.add(p.face_shape.trim());
+                }
+
+                if (p.frame_shape) {
+                    frameShapes.add(p.frame_shape.trim());
+                }
+            });
             if (p.frame_color) colors.add(p.frame_color.trim());
             if (p.frame_material) materials.add(p.frame_material.trim());
 
@@ -407,14 +442,16 @@ function SearchResults() {
         }
 
         return {
-            brands: Array.from(brands).sort(),
-            genders: Array.from(genders).sort(),
-            shapes: Array.from(shapes).sort(),
-            colors: Array.from(colors).sort(),
-            materials: Array.from(materials).sort(),
+            brands: [...brands],
+            genders: [...genders],
+            faceShapes: [...faceShapes],
+            frameShapes: [...frameShapes],
+            colors: [...colors],
+            materials: [...materials],
             min,
             max,
         };
+
     }, [products]);
 
     // Filter and Sort
@@ -432,7 +469,22 @@ function SearchResults() {
 
         if (filters.brands.size && !filters.brands.has(brand)) return false;
         if (filters.genders.size && ![...filters.genders].some(g => g.toLowerCase() === gender)) return false;
-        if (filters.shapes.size && !filters.shapes.has(shape)) return false;
+        /* ---------- FACE SHAPE ---------- */
+        if (
+            filters.faceShapes.size &&
+            !filters.faceShapes.has(p.face_shape?.trim())
+        ) {
+            return false;
+        }
+
+        /* ---------- FRAME SHAPE ---------- */
+        if (
+            filters.frameShapes.size &&
+            !filters.frameShapes.has(p.frame_shape?.trim())
+        ) {
+            return false;
+        }
+
         if (filters.colors.size && !filters.colors.has(color)) return false;
         if (filters.materials.size && !filters.materials.has(material)) return false;
         if (price < filters.priceMin || price > filters.priceMax) return false;
@@ -480,7 +532,7 @@ function SearchResults() {
         filters.priceMin,
         filters.priceMax,
         JSON.stringify([...filters.brands]),
-        JSON.stringify([...filters.shapes]),
+        // JSON.stringify([...filters.shapes]),
         JSON.stringify([...filters.colors]),
         JSON.stringify([...filters.materials]),
     ]);
