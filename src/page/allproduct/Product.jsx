@@ -263,7 +263,7 @@ function Product() {
 
 
       // 🚨 HARD OVERRIDE: Men's / Women's Glasses
-      // ✅ GLASSES → MEN / WOMEN (STRICT)
+      //  GLASSES → MEN / WOMEN (STRICT)
       if ((slug === "men" || slug === "women") && String(catId) === GLASSES_CAT_ID) {
         const res = await API.get("/getallproduct");
         const fullList = res.data?.products || [];
@@ -367,8 +367,8 @@ function Product() {
 
       const GLASSES_CAT_ID = "69157332eeb23fa59c7d5326";
 
-      // ✅ KIDS (Glasses + Sunglasses)
-      // ✅ KIDS (CATEGORY-AWARE & STRICT)
+      //  KIDS (Glasses + Sunglasses)
+      //  KIDS (CATEGORY-AWARE & STRICT)
       if (subCategoryName?.toLowerCase() === "kids") {
         try {
           setIsLoading(true);
@@ -379,7 +379,7 @@ function Product() {
           const filtered = fullList.filter(
             (p) =>
               p.subCategoryName?.toLowerCase() === "kids" &&
-              String(p.cat_id) === String(catId) // 🔥 ONLY current category
+              String(p.cat_id) === String(catId) //ONLY current category
           );
 
           setProducts(filtered);
@@ -397,7 +397,7 @@ function Product() {
 
 
 
-      // ✅ SUNGLASSES → MEN (STRICT)
+      //  SUNGLASSES → MEN (STRICT)
       if (gender === "men" && String(catId) === SUNGLASSES_CAT_ID) {
         try {
           setIsLoading(true);
@@ -423,7 +423,7 @@ function Product() {
         return; // ⛔ STOP here
       }
 
-      // ✅ SUNGLASSES → WOMEN (STRICT)
+      //  SUNGLASSES → WOMEN (STRICT)
       if (gender === "women" && String(catId) === SUNGLASSES_CAT_ID) {
         try {
           setIsLoading(true);
@@ -433,8 +433,8 @@ function Product() {
 
           const filtered = fullList.filter(
             (p) =>
-              String(p.cat_id) === SUNGLASSES_CAT_ID &&   // ✅ Sunglasses only
-              p.gender?.toLowerCase() === "women"         // ✅ ONLY women
+              String(p.cat_id) === SUNGLASSES_CAT_ID &&   //  Sunglasses only
+              p.gender?.toLowerCase() === "women"         //  ONLY women
           );
 
           setProducts(filtered);
@@ -460,8 +460,8 @@ function Product() {
 
           const filtered = fullList.filter(
             (p) =>
-              String(p.cat_id) === GLASSES_CAT_ID &&          // ✅ Only Glasses
-              String(p.gender)?.toLowerCase() === gender.toLowerCase() // ✅ EXACT match
+              String(p.cat_id) === GLASSES_CAT_ID &&          //  Only Glasses
+              String(p.gender)?.toLowerCase() === gender.toLowerCase() //  EXACT match
           );
 
           setProducts(filtered);
@@ -649,39 +649,6 @@ function Product() {
 
           let filtered = [];
 
-          // Allowed categories for Men/Women
-          // const allowedCatIds = [
-          //   "6915705d9ceac0cdda41c83f",
-          //   "69157332eeb23fa59c7d5326",
-          // ];
-
-
-          // MEN
-          // if (slug === "men") {
-          //   filtered = fullList.filter(
-          //     (p) =>
-          //       allowedCatIds.includes(p.cat_id) &&
-          //       (p.gender?.toLowerCase() === "men" ||
-          //         p.gender?.toLowerCase() === "unisex")
-          //   );
-          // }
-
-
-
-
-          // WOMEN
-          // if (slug === "women") {
-          //   filtered = fullList.filter(
-          //     (p) =>
-          //       allowedCatIds.includes(p.cat_id) &&
-          //       (p.gender?.toLowerCase() === "women" ||
-          //         p.gender?.toLowerCase() === "unisex")
-          //   );
-          // }
-
-
-
-
           // CONTACT LENS BY catId
           if (slug === "contact-lens") {
             filtered = fullList.filter(
@@ -740,12 +707,6 @@ function Product() {
             case "progressive":
               filtered = fullList.filter(
                 (p) => p.subCategoryName?.toLowerCase() === "progressive"
-              );
-              break;
-
-            case "kids":
-              filtered = fullList.filter(
-                (p) => p.subCategoryName?.toLowerCase() === "kids"
               );
               break;
 
@@ -886,12 +847,12 @@ function Product() {
           : p.gender?.trim();
       if (gender) genders.add(gender);
 
-      // ✅ FACE SHAPE
+      //  FACE SHAPE
       if (p.face_shape) {
         faceShapes.add(p.face_shape.trim());
       }
 
-      // ✅ FRAME SHAPE
+      //  FRAME SHAPE
       if (p.frame_shape) {
         frameShapes.add(p.frame_shape.trim());
       }
@@ -1029,8 +990,8 @@ function Product() {
     filters.priceMin,
     filters.priceMax,
     JSON.stringify([...filters.brands]),
-    JSON.stringify([...filters.faceShapes]),   // ✅
-    JSON.stringify([...filters.frameShapes]),  // ✅
+    JSON.stringify([...filters.faceShapes]),   // 
+    JSON.stringify([...filters.frameShapes]),  // 
     JSON.stringify([...filters.colors]),
     JSON.stringify([...filters.materials]),
   ]);
