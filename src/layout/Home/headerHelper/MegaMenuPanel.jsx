@@ -287,7 +287,7 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
                             {menu?.promo?.image && (
                                 <img
                                     src={menu.promo.image}
-                                    className="w-full h-[300px] rounded-sm object-cover"
+                                    className="w-full h-[300px] rounded-sm object-fill"
                                     alt="promo"
                                 />
                             )}

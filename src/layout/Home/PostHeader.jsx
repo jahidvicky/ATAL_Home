@@ -80,15 +80,6 @@ const PostHeader = () => {
                     <span>Fast shipping and delivery</span>
                 </Link>
 
-                {/* our community */}
-                <Link
-                    to="/our-community"
-                    className="flex items-center gap-2 hover:text-red-600 transition"
-                >
-                    <FaUserGroup className="text-lg" />
-                    <span>Our Community</span>
-                </Link>
-
             </div>
         </div>
     );

@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import img1 from "../../assets/megaMenu/1st.avif";
-import img2 from "../../assets/megaMenu/3rd.avif";
+import img1 from "../../assets/megaMenu/1st.png";
+import img2 from "../../assets/megaMenu/3rd.png";
 
 const red = "#f00000";
 

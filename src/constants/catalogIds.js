@@ -6,16 +6,17 @@ import Sunglasses from "../assets/megaMenu/sunglsses.jpg"
 import Contact_Lens from "../assets/megaMenu/contactLens.avif"
 import Contact from "../assets/megaMenu/contact.avif"
 import KIDS_GLASSES from "../assets/megaMenu/kidsglasses.jpg"
-import Banner1 from "../assets/megaMenu/1st.avif"
-import Banner2 from "../assets/megaMenu/2nd.webp"
-import Banner3 from "../assets/megaMenu/3rd.avif"
+import Banner1 from "../assets/megaMenu/1st.png"
+import Banner2 from "../assets/megaMenu/2nd.jpg"
+import Banner3 from "../assets/megaMenu/3rd.png"
+import Banner4 from "../assets/megaMenu/4th.png"
 import Aviator from "../assets/megaMenu/Aviator Frame.webp"
 import Round from "../assets/megaMenu/Round Frame.webp"
 import Rectangle from "../assets/megaMenu/Rectangle Frame.webp"
 import Cat_Eye from "../assets/megaMenu/Cat-Eye Frame.avif"
 import Oval from "../assets/megaMenu/Oval Frame.webp"
 import Square from "../assets/megaMenu/Square Frame.jpg"
-import Banner4 from "../assets/megaMenu/top_brands.jpeg"
+
 
 export const CAT = {
     sunglasses: "6915705d9ceac0cdda41c83f",

@@ -1,45 +1,31 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import API from "../../API/Api";
 
 const company = {
   name: "magniteBarbeque.pvt.ltd",
   tagline: "Reliable Protection for Your Vision Investments",
 };
 
-const policies = [
-  {
-    name: "Vision Care Basic",
-    description:
-      "Covers accidental damage to lenses or sunglasses up to $2,000 and includes free repair within the warranty period.",
-    price: 499,
-    duration: 365,
-  },
-  {
-    name: "Lens Protection Plus",
-    description:
-      "Protects your prescription lenses from scratches, breakage, and coating wear with one free replacement per year.",
-    price: 899,
-    duration: 365,
-  },
-  {
-    name: "Sunglass Shield Premium",
-    description:
-      "Full protection for designer sunglasses against accidental damage, lens cracks, or frame bending.",
-    price: 265,
-    duration: 365,
-  },
-  {
-    name: "Complete Eye Gear Cover",
-    description:
-      "A comprehensive plan covering damage, theft, or loss of any eyewear purchased, plus 20% off on replacements.",
-    price: 185,
-    duration: 300,
-  },
-];
-
 export default function InsurancePolicies() {
+  const [policies, setPolicies] = useState([]);
+
+  const fetchPolicies = async () => {
+    try {
+      const res = await API.get("/getPolicies");
+      setPolicies(res.data?.data || []);
+    } catch (err) {
+      console.error("Failed to fetch policies", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchPolicies();
+  }, []);
+
   return (
     <div className="bg-gray-50 min-h-screen">
-
       {/* ================= HERO ================= */}
       <motion.section
         initial={{ opacity: 0, y: -30 }}
@@ -47,15 +33,11 @@ export default function InsurancePolicies() {
         transition={{ duration: 0.8 }}
         className="bg-[#f00000] text-white text-center py-20 px-6"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Insurance Plans
-        </h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">Insurance Plans</h1>
         <p className="text-lg opacity-90">
           Offered by <strong>{company.name}</strong>
         </p>
-        <p className="mt-3 max-w-3xl mx-auto opacity-90">
-          {company.tagline}
-        </p>
+        <p className="mt-3 max-w-3xl mx-auto opacity-90">{company.tagline}</p>
       </motion.section>
 
       {/* ================= POLICIES ================= */}
@@ -86,13 +68,13 @@ export default function InsurancePolicies() {
                 </h3>
 
                 <p className="text-gray-700 text-sm mb-5 leading-relaxed">
-                  {policy.description}
+                  {policy.coverage}
                 </p>
 
                 <div className="space-y-2 text-sm text-gray-600">
                   <p>
                     <span className="font-semibold">Coverage Duration:</span>{" "}
-                    {policy.duration} days
+                    {policy.durationDays} days
                   </p>
                 </div>
               </div>
@@ -122,10 +104,10 @@ export default function InsurancePolicies() {
             Why Insure Your Eyewear?
           </h2>
           <p className="text-gray-700 text-lg leading-relaxed">
-            Eyewear is an essential investment for your daily life.
-            Our insurance plans ensure peace of mind by protecting
-            against accidental damage, loss, and unexpected repair costs.
-            Stay protected and save more in the long run.
+            Eyewear is an essential investment for your daily life. Our
+            insurance plans ensure peace of mind by protecting against
+            accidental damage, loss, and unexpected repair costs. Stay protected
+            and save more in the long run.
           </p>
         </div>
       </motion.section>
@@ -138,18 +120,17 @@ export default function InsurancePolicies() {
         viewport={{ once: true }}
         className="bg-[#f00000] text-white py-16 text-center px-6"
       >
-        <h3 className="text-3xl font-bold mb-4">
-          Secure Your Vision Today
-        </h3>
+        <h3 className="text-3xl font-bold mb-4">Secure Your Vision Today</h3>
         <p className="max-w-2xl mx-auto mb-6 opacity-90 text-lg">
-          These insurance plans are available at our store during
-          eyewear purchase. Visit us to know more.
+          These insurance plans are available at our store during eyewear
+          purchase. Visit us to know more.
         </p>
-        <button className="bg-white text-[#f00000] px-10 py-3 rounded-full font-bold">
-          Visit Our Store
-        </button>
+        <Link to="/">
+          <button className="bg-white text-[#f00000] px-10 py-3 rounded-full font-bold">
+            Visit Our Store
+          </button>
+        </Link>
       </motion.section>
-
     </div>
   );
 }
