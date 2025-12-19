@@ -1193,7 +1193,7 @@ const handleServicesLeave = () => {
                   Services
                   <span
                     className={`inline-block transition-transform duration-200 ${
-                      aboutOpen ? "rotate-180" : ""
+                      servicesOpen ? "rotate-180" : ""
                     }`}
                   >
                     ▾

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import DiwaliImg from "../../assets/freeExam/diwali.jpg";
 import VaisakhiImg from "../../assets/freeExam/vaisakhi.png";
 import ChristmasImg from "../../assets/freeExam/Christmas.png";
+import { Link } from "react-router-dom";
 
 
 
@@ -75,13 +76,15 @@ export default function FreeEyeExam() {
                 {item.desc}
               </p>
 
-              <motion.button
+              <Link to="/">
+                <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="bg-[#f00000] text-white px-8 py-3 rounded-full font-semibold shadow-md"
               >
                 Visit Our Store
               </motion.button>
+              </Link>
             </div>
           </motion.div>
         ))}
@@ -205,9 +208,11 @@ export default function FreeEyeExam() {
           and expert consultation. Don’t miss this festive opportunity.
         </p>
 
+      <Link to="/">
         <button className="bg-white text-[#f00000] px-10 py-3 rounded-full font-bold">
           Visit Our Store
         </button>
+      </Link>
       </motion.section>
 
     </div>
