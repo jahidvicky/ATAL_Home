@@ -283,11 +283,11 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
                         </div>
 
                         {/* RIGHT COLUMN */}
-                        <div className="p-6 bg-[#fafafa] border-l">
+                        <div className="p-1 bg-[#fafafa] border-l">
                             {menu?.promo?.image && (
                                 <img
                                     src={menu.promo.image}
-                                    className="w-full h-[300px] rounded-sm object-fill"
+                                    className="w-full h-[360px] rounded-sm object-cover object-top "
                                     alt="promo"
                                 />
                             )}

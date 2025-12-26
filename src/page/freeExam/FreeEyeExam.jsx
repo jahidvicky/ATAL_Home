@@ -63,7 +63,7 @@ export default function FreeEyeExam() {
               <img
                 src={item.img}
                 alt={item.name}
-                className="rounded-2xl shadow-lg w-full h-[320px] object-fill"
+                className="rounded-2xl shadow-lg w-full h-[320px] object-cover object-top"
               />
             </div>
 
