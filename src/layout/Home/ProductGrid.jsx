@@ -169,6 +169,12 @@ const ProductGrid = () => {
   // Show first 4 for homepage
   const visibleProducts = bestSellerData.slice(0, 4);
 
+  const getStockQty = (p) =>
+    p?.availableStock ??
+    p?.availableQty ??
+    p?.finishedStock ??
+    0;
+
   return (
     <section className="py-12 md:px-24 px-6 bg-white">
       {/* Header */}
@@ -203,7 +209,15 @@ const ProductGrid = () => {
               product={product}
               onClick={() => handleProductClick(product)}
             >
-              <StockAvailability data={product.stockAvailability} />
+              {getStockQty(product) > 0 ? (
+                <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                  In stock
+                </span>
+              ) : (
+                <span className="absolute top-2 left-2 bg-gray-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                  Out of stock
+                </span>
+              )}
             </ProductCard>
           </Link>
         ))}

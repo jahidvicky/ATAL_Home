@@ -22,8 +22,8 @@ const Toast = Swal.mixin({
 const initialFilters = {
   brands: new Set(),
   genders: new Set(),
-  faceShapes: new Set(),   // 👈 NEW
-  frameShapes: new Set(),  // 👈 NEW
+  faceShapes: new Set(),
+  frameShapes: new Set(),
   colors: new Set(),
   materials: new Set(),
   priceMin: 0,
@@ -151,18 +151,18 @@ function ProductCard({
         </div>
       )}
 
+
       <Link to={`/product/${data._id}/${data.subCategoryName}/${data.subCat_id}`}>
         <img
           key={currentImg}
           src={currentImg}
           alt={data.product_name}
-          className="w-full h-32 object-contain mb-3 mt-4 transition-transform duration-300 hover:scale-105
-                     motion-safe:transition-opacity motion-safe:duration-300 motion-safe:ease-out
-                     motion-safe:animate-[fadeIn_220ms_ease-out]"
+          className="w-full h-32 object-contain mb-3 mt-4 transition-transform duration-300 hover:scale-105"
           loading="lazy"
           decoding="async"
         />
       </Link>
+
 
       {data.subCategoryName?.toLowerCase() === "kids" &&
         (
@@ -189,7 +189,7 @@ function ProductCard({
       </div>
 
       <div className="mb-2">
-        <span className={`text-sm font-medium ${isInStock ? "text-green-600" : "text-gray-500"}`}>
+        <span className={`text-sm font-medium ${isInStock ? "text-green-600" : "text-red-600"}`}>
           {isInStock ? "In stock" : "Out of stock"}
         </span>
       </div>
@@ -226,13 +226,16 @@ function ProductCard({
 
 // Main Product Component
 function Product() {
-  const { subCategory, subCatId, shape, gender, lens_type, frame_shape, collection, catId, lens_cat, contactBrandId, slug, collectionName, frameShape, categoryName, categoryId, BrandId, allBrands } = useParams();
+  const { subCategory, subCatId, shape, gender, lens_type, frame_shape, collection, catId, lens_cat, contactBrandId, slug, frameSlug, collectionName, frameShape, categoryName, categoryId, BrandId, allBrands } = useParams();
 
   const location = useLocation();
+  const [locationFilter, setLocationFilter] = useState("all");
   const brandId = location.state?.brandId || null;
   const brandName = location.state?.brandName || null;
 
   const [products, setProducts] = useState([]);
+  // const userLocation = localStorage.getItem("userLocation") || "east";
+
   const [wishlist, setWishlist] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -254,6 +257,16 @@ function Product() {
 
 
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const loc = params.get("location");
+
+    setLocationFilter(
+      loc ? loc.toLowerCase().trim() : "all"
+    );
+  }, [location.search]);
+
+
   //  CRITICAL FIX: Fetch Products with proper dependency array
   const fetchProducts = async () => {
     try {
@@ -263,12 +276,15 @@ function Product() {
 
 
       // 🚨 HARD OVERRIDE: Men's / Women's Glasses
-      // ✅ GLASSES → MEN / WOMEN (STRICT)
+      //  GLASSES → MEN / WOMEN (STRICT)
       if ((slug === "men" || slug === "women") && String(catId) === GLASSES_CAT_ID) {
-        const res = await API.get("/getallproduct");
-        const fullList = res.data?.products || [];
+        const res = await API.get(
+          "/getallproduct"
+        );
 
-        const filtered = fullList.filter(
+        const inventoryProducts = res.data?.products || [];
+
+        const filtered = inventoryProducts.filter(
           (p) =>
             String(p.cat_id) === GLASSES_CAT_ID &&
             p.gender?.toLowerCase() === slug
@@ -290,7 +306,18 @@ function Product() {
           const res = await API.get(`/getProductByCatId/${categoryId}`);
           const list = res.data?.data || [];
 
-          setProducts(list);
+          setProducts(
+            list.map(p => ({
+              ...p,
+              availableQty:
+                p.availableQty ??
+                p.availableStock ??
+                p.finishedStock ??
+                p.stockAvailability ??
+                0
+            }))
+          );
+
           setPage(1);
         } catch (e) {
           console.log(e);
@@ -307,7 +334,18 @@ function Product() {
         try {
           const res = await API.get(`/brand/${BrandId}`);
           const list = res.data?.products || [];
-          setProducts(list);
+          setProducts(
+            list.map(p => ({
+              ...p,
+              availableQty:
+                p.availableQty ??
+                p.availableStock ??
+                p.finishedStock ??
+                p.stockAvailability ??
+                0
+            }))
+          );
+
           setPage(1);
         } catch (e) {
           console.log(e);
@@ -322,10 +360,13 @@ function Product() {
 
       if (shape && !slug) {
         try {
-          const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || res.data || [];
+          const res = await API.get(
+            "/getallproduct"
+          );
 
-          const filtered = fullList.filter(
+          const inventoryProducts = res.data?.products || [];
+
+          const filtered = inventoryProducts.filter(
             (p) =>
               String(p.face_shape)?.toLowerCase() === shape.toLowerCase() &&
               p.cat_id !== SUNGLASSES_CAT_ID &&     // ❌ block sunglasses
@@ -347,10 +388,13 @@ function Product() {
 
       if (allBrands === "allProduct") {
         try {
-          const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || res.data || [];
+          const res = await API.get(
+            "/getallproduct"
+          );
 
-          const filtered = fullList.filter((p) => p.
+          const inventoryProducts = res.data?.products || [];
+
+          const filtered = inventoryProducts.filter((p) => p.
             brand_id
           );
           setProducts(filtered);
@@ -367,19 +411,22 @@ function Product() {
 
       const GLASSES_CAT_ID = "69157332eeb23fa59c7d5326";
 
-      // ✅ KIDS (Glasses + Sunglasses)
-      // ✅ KIDS (CATEGORY-AWARE & STRICT)
+      //  KIDS (Glasses + Sunglasses)
+      //  KIDS (CATEGORY-AWARE & STRICT)
       if (subCategoryName?.toLowerCase() === "kids") {
         try {
           setIsLoading(true);
 
-          const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || [];
+          const res = await API.get(
+            "/getallproduct"
+          );
 
-          const filtered = fullList.filter(
+          const inventoryProducts = res.data?.products || [];
+
+          const filtered = inventoryProducts.filter(
             (p) =>
               p.subCategoryName?.toLowerCase() === "kids" &&
-              String(p.cat_id) === String(catId) // 🔥 ONLY current category
+              String(p.cat_id) === String(catId) //ONLY current category
           );
 
           setProducts(filtered);
@@ -391,21 +438,24 @@ function Product() {
           setIsLoading(false);
         }
 
-        return; // ⛔ STOP HERE
+        return; //STOP HERE
       }
 
 
 
 
-      // ✅ SUNGLASSES → MEN (STRICT)
+      //  SUNGLASSES → MEN (STRICT)
       if (gender === "men" && String(catId) === SUNGLASSES_CAT_ID) {
         try {
           setIsLoading(true);
 
-          const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || [];
+          const res = await API.get(
+            "/getallproduct"
+          );
 
-          const filtered = fullList.filter(
+          const inventoryProducts = res.data?.products || [];
+
+          const filtered = inventoryProducts.filter(
             (p) =>
               String(p.cat_id) === SUNGLASSES_CAT_ID &&   // Sunglasses only
               p.gender?.toLowerCase() === "men"           // ONLY men
@@ -423,18 +473,21 @@ function Product() {
         return; // ⛔ STOP here
       }
 
-      // ✅ SUNGLASSES → WOMEN (STRICT)
+      //  SUNGLASSES → WOMEN (STRICT)
       if (gender === "women" && String(catId) === SUNGLASSES_CAT_ID) {
         try {
           setIsLoading(true);
 
-          const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || [];
+          const res = await API.get(
+            "/getallproduct"
+          );
 
-          const filtered = fullList.filter(
+          const inventoryProducts = res.data?.products || [];
+
+          const filtered = inventoryProducts.filter(
             (p) =>
-              String(p.cat_id) === SUNGLASSES_CAT_ID &&   // ✅ Sunglasses only
-              p.gender?.toLowerCase() === "women"         // ✅ ONLY women
+              String(p.cat_id) === SUNGLASSES_CAT_ID &&   //  Sunglasses only
+              p.gender?.toLowerCase() === "women"         //  ONLY women
           );
 
           setProducts(filtered);
@@ -455,13 +508,16 @@ function Product() {
         try {
           setIsLoading(true);
 
-          const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || [];
+          const res = await API.get(
+            "/getallproduct"
+          );
 
-          const filtered = fullList.filter(
+          const inventoryProducts = res.data?.products || [];
+
+          const filtered = inventoryProducts.filter(
             (p) =>
-              String(p.cat_id) === GLASSES_CAT_ID &&          // ✅ Only Glasses
-              String(p.gender)?.toLowerCase() === gender.toLowerCase() // ✅ EXACT match
+              String(p.cat_id) === GLASSES_CAT_ID &&          //  Only Glasses
+              String(p.gender)?.toLowerCase() === gender.toLowerCase() //  EXACT match
           );
 
           setProducts(filtered);
@@ -481,9 +537,12 @@ function Product() {
 
       if (lens_type) {
         try {
-          const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || res.data || [];
-          const filtered = fullList.filter((p) => {
+          const res = await API.get(
+            "/getallproduct"
+          );
+
+          const inventoryProducts = res.data?.products || [];
+          const filtered = inventoryProducts.filter((p) => {
             return (
               String(p.subCategoryName)?.toLowerCase() === lens_type.toLowerCase()
             );
@@ -503,10 +562,13 @@ function Product() {
 
       if (frame_shape) {
         try {
-          const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || res.data || [];
+          const res = await API.get(
+            "/getallproduct"
+          );
 
-          const filtered = fullList.filter((p) =>
+          const inventoryProducts = res.data?.products || [];
+
+          const filtered = inventoryProducts.filter((p) =>
             String(p.frame_shape)?.toLowerCase() === frame_shape.toLowerCase() &&
             String(p.cat_id) === "6915705d9ceac0cdda41c83f"
           );
@@ -525,10 +587,13 @@ function Product() {
 
       if (frameShape) {
         try {
-          const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || res.data || [];
+          const res = await API.get(
+            "/getallproduct"
+          );
 
-          const filtered = fullList.filter((p) =>
+          const inventoryProducts = res.data?.products || [];
+
+          const filtered = inventoryProducts.filter((p) =>
             String(p.frame_shape)?.toLowerCase() === frameShape.toLowerCase()
           );
 
@@ -545,10 +610,13 @@ function Product() {
 
       if (contactBrandId) {
         try {
-          const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || res.data || [];
+          const res = await API.get(
+            "/getallproduct"
+          );
 
-          const filtered = fullList.filter((p) =>
+          const inventoryProducts = res.data?.products || [];
+
+          const filtered = inventoryProducts.filter((p) =>
             String(p.brand_id) === contactBrandId
             &&
             String(p.cat_id) === "6915735feeb23fa59c7d532b"
@@ -568,8 +636,11 @@ function Product() {
 
       if (collection) {
         try {
-          const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || res.data || [];
+          const res = await API.get(
+            "/getallproduct"
+          );
+
+          const fullList = res.data?.products || [];
 
           let filtered = [];
 
@@ -598,12 +669,16 @@ function Product() {
 
       if (lens_cat) {
         try {
-          const res = await API.get("/getallproduct");
-          const fullList = res.data?.products || res.data || [];
+          const res = await API.get(
+            "/getallproduct"
+          );
+
+          const inventoryProducts = res.data?.products || [];
+
 
           const cleanedLens = lens_cat.trim().toLowerCase();
 
-          const filtered = fullList.filter((p) => {
+          const filtered = inventoryProducts.filter((p) => {
             const type = String(p.lens_type || "").trim().toLowerCase();
             const catIdMatch = String(p.cat_id) === "6915735feeb23fa59c7d532b";
 
@@ -642,73 +717,64 @@ function Product() {
 
 
       // ========== New CategoryProducts Filter ============
-      if (slug) {
+      if (frameSlug) {
         try {
-          const res = await API.get("/getAllProduct");
+          setIsLoading(true);
+
+          const res = await API.get(
+            "/getallproduct"
+          );
+
           const fullList = res.data?.products || [];
+
 
           let filtered = [];
 
-          // Allowed categories for Men/Women
-          // const allowedCatIds = [
-          //   "6915705d9ceac0cdda41c83f",
-          //   "69157332eeb23fa59c7d5326",
-          // ];
-
-
-          // MEN
-          // if (slug === "men") {
-          //   filtered = fullList.filter(
-          //     (p) =>
-          //       allowedCatIds.includes(p.cat_id) &&
-          //       (p.gender?.toLowerCase() === "men" ||
-          //         p.gender?.toLowerCase() === "unisex")
-          //   );
-          // }
-
-
-
-
-          // WOMEN
-          // if (slug === "women") {
-          //   filtered = fullList.filter(
-          //     (p) =>
-          //       allowedCatIds.includes(p.cat_id) &&
-          //       (p.gender?.toLowerCase() === "women" ||
-          //         p.gender?.toLowerCase() === "unisex")
-          //   );
-          // }
-
-
-
-
-          // CONTACT LENS BY catId
-          if (slug === "contact-lens") {
+          // 👨 MEN → glasses + sunglasses (gender only)
+          if (frameSlug === "men") {
             filtered = fullList.filter(
-              (p) => p.cat_id === "6915735feeb23fa59c7d532b"
+              (p) => p.gender?.toLowerCase() === "men" && p.cat_id !== "6915735feeb23fa59c7d532b"
+            );
+          }
+
+          // 👩 WOMEN → glasses + sunglasses (gender only)
+          else if (frameSlug === "women") {
+            filtered = fullList.filter(
+              (p) => p.gender?.toLowerCase() === "women" && p.cat_id !== "6915735feeb23fa59c7d532b"
+            );
+          }
+
+          // 👁️ CONTACT LENS → category based
+          else if (frameSlug === "contact-lens") {
+            filtered = fullList.filter(
+              (p) => String(p.cat_id) === CONTACT_LENS_CAT_ID
             );
           }
 
           setProducts(filtered);
           setPage(1);
-
-        } catch (e) {
-          console.log(e);
+        } catch (error) {
+          console.error(error);
           setErrorMsg("Failed to load products");
         } finally {
           setIsLoading(false);
         }
 
-        return; // IMPORTANT
+        return; // ⛔ STOP
       }
+
 
 
 
 
       if (collectionName) {
         try {
-          const res = await API.get("/getAllProduct");
+          const res = await API.get(
+            "/getallproduct"
+          );
+
           const fullList = res.data?.products || [];
+
 
           let filtered = [];
 
@@ -740,12 +806,6 @@ function Product() {
             case "progressive":
               filtered = fullList.filter(
                 (p) => p.subCategoryName?.toLowerCase() === "progressive"
-              );
-              break;
-
-            case "kids":
-              filtered = fullList.filter(
-                (p) => p.subCategoryName?.toLowerCase() === "kids"
               );
               break;
 
@@ -804,7 +864,18 @@ function Product() {
       if (brandId) {
         const res = await API.get(`/brand/${brandId}`);
         const list = res.data?.products || [];
-        setProducts(list);
+        setProducts(
+          list.map(p => ({
+            ...p,
+            availableQty:
+              p.availableQty ??
+              p.availableStock ??
+              p.finishedStock ??
+              p.stockAvailability ??
+              0
+          }))
+        );
+
         setPage(1);
         return;
       }
@@ -833,7 +904,18 @@ function Product() {
             ? data.data
             : [];
 
-      setProducts(list);
+      setProducts(
+        list.map(p => ({
+          ...p,
+          availableQty:
+            p.availableQty ??
+            p.availableStock ??
+            p.finishedStock ??
+            p.stockAvailability ??
+            0
+        }))
+      );
+
       setPage(1);
     } catch (e) {
       console.error("PLP fetch error:", e);
@@ -886,12 +968,12 @@ function Product() {
           : p.gender?.trim();
       if (gender) genders.add(gender);
 
-      // ✅ FACE SHAPE
+      //  FACE SHAPE
       if (p.face_shape) {
         faceShapes.add(p.face_shape.trim());
       }
 
-      // ✅ FRAME SHAPE
+      //  FRAME SHAPE
       if (p.frame_shape) {
         frameShapes.add(p.frame_shape.trim());
       }
@@ -984,6 +1066,29 @@ function Product() {
     /* ---------- PRICE ---------- */
     if (price < filters.priceMin || price > filters.priceMax) return false;
 
+
+    /* ---------- LOCATION ---------- */
+    if (locationFilter !== "all") {
+      const locs = Array.isArray(p.productLocation)
+        ? p.productLocation.map(l => String(l).toLowerCase().trim())
+        : String(p.productLocation || "")
+          .toLowerCase()
+          .split(",")
+          .map(s => s.trim())
+          .filter(Boolean);
+
+      // exclude products with no location when filtering
+      if (!locs.length) return false;
+
+      // must explicitly match selected filter
+      if (!locs.includes(locationFilter.toLowerCase().trim())) return false;
+    }
+
+
+
+
+
+
     return true;
   };
 
@@ -1013,8 +1118,10 @@ function Product() {
 
   const filteredProducts = useMemo(
     () => applySort(products.filter(matchesFilters)),
-    [products, filters, sort]
+    [products, filters, sort, locationFilter]
   );
+
+
 
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / pageSize));
   const pageSlice = useMemo(() => {
@@ -1029,10 +1136,11 @@ function Product() {
     filters.priceMin,
     filters.priceMax,
     JSON.stringify([...filters.brands]),
-    JSON.stringify([...filters.faceShapes]),   // ✅
-    JSON.stringify([...filters.frameShapes]),  // ✅
+    JSON.stringify([...filters.faceShapes]),   // 
+    JSON.stringify([...filters.frameShapes]),  // 
     JSON.stringify([...filters.colors]),
     JSON.stringify([...filters.materials]),
+    locationFilter
   ]);
 
 
@@ -1071,6 +1179,7 @@ function Product() {
       "";
     return resolveImg(src);
   };
+
 
   return (
     <div className="bg-white">
@@ -1215,7 +1324,7 @@ function Product() {
                 {pageSlice.map((data) => {
                   const img = primaryImage(data);
                   const inWishlist = wishSet.has(data._id);
-                  const isInStock = (data.stockAvailability ?? 0) > 0;
+                  const isInStock = (data.availableStock ?? 0) > 0;
 
                   return (
                     <ProductCard

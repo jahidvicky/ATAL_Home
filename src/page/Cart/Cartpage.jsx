@@ -17,6 +17,14 @@ const Cartpage = () => {
   const { ID, subCategory, subCatId } = useParams();
 
   const [product, setProduct] = useState({});
+  const isInStock =
+    (
+      product?.availableStock ??
+      product?.finishedStock ??
+      product?.inventory?.finishedStock ??
+      product?.inventory?.availableStock ??
+      0) > 0;
+
   const [wishlist, setWishlist] = useState([]);
 
   const [selectedSize, setSelectedSize] = useState(null);
@@ -375,7 +383,7 @@ const Cartpage = () => {
                   </button>
                 </Link>
 
-                {product.stockAvailability > 0 ? (
+                {isInStock ? (
                   <button
                     onClick={() => {
                       if (!product) return;
@@ -384,22 +392,18 @@ const Cartpage = () => {
                       const hasColor = product.product_variants?.length > 0;
 
                       const multiSize = product.product_size?.length > 1;
-                      const multiColor =
-                        product.product_variants?.length > 1;
+                      const multiColor = product.product_variants?.length > 1;
 
-                      if (multiSize && multiColor) {
-                        if (!selectedSize || !selectedColor) {
-                          Swal.fire({
-                            icon: "warning",
-                            title: "Please select size and color!",
-                            toast: true,
-                            position: "top-end",
-                            showConfirmButton: false,
-                            timer: 1800,
-                            timerProgressBar: true,
-                          });
-                          return;
-                        }
+                      if (multiSize && multiColor && (!selectedSize || !selectedColor)) {
+                        Swal.fire({
+                          icon: "warning",
+                          title: "Please select size and color!",
+                          toast: true,
+                          position: "top-end",
+                          showConfirmButton: false,
+                          timer: 1800,
+                        });
+                        return;
                       }
 
                       if (multiSize && !selectedSize) {
@@ -410,7 +414,6 @@ const Cartpage = () => {
                           position: "top-end",
                           showConfirmButton: false,
                           timer: 1800,
-                          timerProgressBar: true,
                         });
                         return;
                       }
@@ -423,7 +426,6 @@ const Cartpage = () => {
                           position: "top-end",
                           showConfirmButton: false,
                           timer: 1800,
-                          timerProgressBar: true,
                         });
                         return;
                       }
@@ -435,18 +437,14 @@ const Cartpage = () => {
                           selectedSize: selectedSize || null,
                           selectedColor: selectedColor || null,
                           price:
-                            product.discountedPrice ??
-                            product.product_sale_price,
+                            product.discountedPrice ?? product.product_sale_price,
                           originalPrice,
                           image: mainImage,
                           lens: lensDetails || null,
                           policy: selectedPolicy || null,
                           cat_id: product.cat_id,
                           subCat_id: subCatId,
-                          vendorID:
-                            product.vendorID ||
-                            product.vendorId ||
-                            null,
+                          vendorID: product.vendorID || product.vendorId || null,
                         })
                       );
 
@@ -471,6 +469,7 @@ const Cartpage = () => {
                     Out of stock
                   </button>
                 )}
+
               </div>
             </div>
 

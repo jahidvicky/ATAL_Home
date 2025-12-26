@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FaUser, FaHeart, FaSearch, FaBars } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import logo from "../../assets/category/logo.png";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,6 +17,7 @@ import SearchModal from "./headerHelper/SearchModal";
 /* ======================== Main Header Component ======================== */
 function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const [mobileDropdown, setMobileDropdown] = useState({
@@ -28,6 +29,9 @@ function Header() {
 
   const [aboutOpen, setAboutOpen] = useState(false);
   const aboutTimeoutRef = useRef(null);
+
+  const [locationOpen, setLocationOpen] = useState(false);
+  const locationTimeoutRef = useRef(null);
 
   const [servicesOpen, setServicesOpen] = useState(false);
   const servicesTimeoutRef = useRef(null);
@@ -62,6 +66,8 @@ function Header() {
   const totalQuantity = useSelector((state) =>
     state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
   );
+
+
 
   const user = localStorage.getItem("user");
   const [cartOpen, setCartOpen] = useState(false);
@@ -138,14 +144,14 @@ function Header() {
   };
 
   const handleServicesEnter = () => {
-  if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
-  setServicesOpen(true);
-};
+    if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
+    setServicesOpen(true);
+  };
 
-const handleServicesLeave = () => {
-  if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
-  servicesTimeoutRef.current = setTimeout(() => setServicesOpen(false), 300);
-};
+  const handleServicesLeave = () => {
+    if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
+    servicesTimeoutRef.current = setTimeout(() => setServicesOpen(false), 300);
+  };
 
 
   const handlePolicySubEnter = () => {
@@ -325,7 +331,7 @@ const handleServicesLeave = () => {
             id: 301,
             title: "Shop by Lens Category",
             links: [
-               {
+              {
                 id: 3012,
                 label: "Daily",
                 lens_cat: "daily",
@@ -349,7 +355,7 @@ const handleServicesLeave = () => {
             id: 302,
             title: "Top Brands",
             links: [
-               {
+              {
                 id: 3022,
                 label: "Air Optix",
                 brandId: "690c6ee3ce83c44ad440e031",
@@ -626,7 +632,7 @@ const handleServicesLeave = () => {
     try {
       const response = await API.get(`/customer/${user}`);
       setCustProfile(response?.data?.data?.profileImage);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -642,8 +648,7 @@ const handleServicesLeave = () => {
     localStorage.setItem("recentSearches", JSON.stringify(updated));
 
     navigate(
-      `/product/${product._id}/${product.subCategoryName || "details"}/${
-        product.subCat_id
+      `/product/${product._id}/${product.subCategoryName || "details"}/${product.subCat_id
       }`
     );
     setSearchModalOpen(false);
@@ -695,11 +700,24 @@ const handleServicesLeave = () => {
     aboutTimeoutRef.current = setTimeout(() => setAboutOpen(false), 300);
   };
 
+  const handleLocationEnter = () => {
+    if (locationTimeoutRef.current) clearTimeout(locationTimeoutRef.current);
+    setLocationOpen(true);
+  };
+
+  const handleLocationLeave = () => {
+    if (locationTimeoutRef.current) clearTimeout(locationTimeoutRef.current);
+    locationTimeoutRef.current = setTimeout(() => setLocationOpen(false), 300);
+  };
+
+
   useEffect(() => {
     return () => {
       if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
+      if (locationTimeoutRef.current) clearTimeout(locationTimeoutRef.current); // 👈 NEW
     };
   }, []);
+
 
   return (
     <>
@@ -914,9 +932,8 @@ const handleServicesLeave = () => {
               >
                 Home
                 <span
-                  className={`inline-block transition-transform duration-200 ${
-                    homeOpen ? "rotate-180" : ""
-                  }`}
+                  className={`inline-block transition-transform duration-200 ${homeOpen ? "rotate-180" : ""
+                    }`}
                 >
                   ▾
                 </span>
@@ -956,9 +973,8 @@ const handleServicesLeave = () => {
                         >
                           Corporate Policy
                           <span
-                            className={`inline-block text-lg transition-transform duration-200 ${
-                              policySubOpen ? "rotate-150" : ""
-                            }`}
+                            className={`inline-block text-lg transition-transform duration-200 ${policySubOpen ? "rotate-150" : ""
+                              }`}
                           >
                             ▾
                           </span>
@@ -1074,9 +1090,8 @@ const handleServicesLeave = () => {
                 >
                   About Us
                   <span
-                    className={`inline-block transition-transform duration-200 ${
-                      aboutOpen ? "rotate-180" : ""
-                    }`}
+                    className={`inline-block transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""
+                      }`}
                   >
                     ▾
                   </span>
@@ -1122,15 +1137,62 @@ const handleServicesLeave = () => {
               </AnimatePresence>
             </li>
 
+
+            <li
+              className="relative"
+              onMouseEnter={handleLocationEnter}
+              onMouseLeave={handleLocationLeave}
+            >
+              <button type="button" className="flex items-center gap-1">
+                Location ▾
+              </button>
+
+              <AnimatePresence>
+                {locationOpen && (
+                  <motion.div className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white border rounded-lg shadow-2xl z-50">
+                    <ul className="py-2">
+                      <li>
+                        <button
+                          onClick={() => navigate(`${location.pathname}?location=all`)}
+                          className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100"
+                        >
+                          All
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => navigate(`${location.pathname}?location=east`)}
+                          className="block w-full text-left px-4 py-2 text-black text-sm hover:bg-gray-100"
+                        >
+                          East
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => navigate(`${location.pathname}?location=west`)}
+                          className="block w-full text-left text-black px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          West
+                        </button>
+                      </li>
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </li>
+
+
+
+
+
             <li
               onMouseEnter={() => handleMegaEnter("glasses")}
               onMouseLeave={handleMegaLeave}
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${
-                  megaOpen && activeKey === "glasses" ? "text-red-500" : ""
-                }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "glasses" ? "text-red-500" : ""
+                  }`}
               >
                 Glasses
               </button>
@@ -1142,9 +1204,8 @@ const handleServicesLeave = () => {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${
-                  megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
-                }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
+                  }`}
               >
                 Sunglasses
               </button>
@@ -1156,11 +1217,10 @@ const handleServicesLeave = () => {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${
-                  megaOpen && activeKey === "contact_lenses"
-                    ? "text-red-500"
-                    : ""
-                }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "contact_lenses"
+                  ? "text-red-500"
+                  : ""
+                  }`}
               >
                 Contact Lenses
               </button>
@@ -1172,9 +1232,8 @@ const handleServicesLeave = () => {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${
-                  megaOpen && activeKey === "brands" ? "text-red-500" : ""
-                }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "brands" ? "text-red-500" : ""
+                  }`}
               >
                 Brands
               </button>
@@ -1192,9 +1251,8 @@ const handleServicesLeave = () => {
                 >
                   Services
                   <span
-                    className={`inline-block transition-transform duration-200 ${
-                      servicesOpen ? "rotate-180" : ""
-                    }`}
+                    className={`inline-block transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""
+                      }`}
                   >
                     ▾
                   </span>
@@ -1238,7 +1296,7 @@ const handleServicesLeave = () => {
                       </li>
 
 
-                       <li>
+                      <li>
                         <Link
                           to="/free-eye-exam"
                           className="block px-4 py-2 text-sm hover:bg-gray-100"
@@ -1312,11 +1370,10 @@ const handleServicesLeave = () => {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${
-          sidebarOpen
-            ? "translate-x-0 opacity-100"
-            : "-translate-x-full opacity-0"
-        }`}
+        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${sidebarOpen
+          ? "translate-x-0 opacity-100"
+          : "-translate-x-full opacity-0"
+          }`}
       >
         {/* FIXED HEADER */}
         <div className="flex justify-between items-center bg-white h-[70px] border-b border-gray-200 px-3 sticky top-0 z-50">

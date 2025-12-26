@@ -4,7 +4,6 @@ import { FiArrowRight } from "react-icons/fi";
 import API, { IMAGE_URL } from "../../API/Api";
 import { Link } from "react-router-dom";
 import { useRecentlyViewed } from "../../page/collections/RecentlyViewedContext";
-import StockAvailability from "../../page/collections/StockAvailability";
 
 const Trending = () => {
   const [reviews, setReviews] = useState([]);
@@ -53,6 +52,18 @@ const Trending = () => {
     return img.startsWith("http") ? img : `${IMAGE_URL}${img}`;
   };
 
+  const getStockStatus = (item) => {
+    const qty =
+      item.availableStock ??
+      item.availableQty ??
+      item.finishedStock ??
+      item.stockAvailability ??
+      0;
+
+    return qty > 0;
+  };
+
+
   return (
     <section className="py-12 md:px-24 px-6 bg-white">
       <div className="flex justify-between items-center mb-6">
@@ -87,10 +98,23 @@ const Trending = () => {
             >
               <Link to={`/product/${item._id}/${item.subCategoryName}/${item.subCat_id}`}>
                 <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full hover:cursor-pointer shadow-white relative">
+
                   {/* Stock Badge */}
-                  <div className="absolute top-4 left-6 z-20">
-                    <StockAvailability data={item.stockAvailability} />
-                  </div>
+                  {(
+                    (item?.availableStock ??
+                      item?.availableQty ??
+                      item?.finishedStock ??
+                      item?.stockAvailability ??
+                      0) > 0
+                  ) ? (
+                    <span className="absolute top-3 left-3 bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                      In stock
+                    </span>
+                  ) : (
+                    <span className="absolute top-3 left-3 bg-gray-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                      Out of stock
+                    </span>
+                  )}
 
                   {/* Image: prefer variant image, then product_image_collection, then fallback */}
                   {(() => {
@@ -112,7 +136,7 @@ const Trending = () => {
                       <img
                         src={finalSrc}
                         alt={item.product_name}
-                        className="w-full h-36 object-contain mb-4 hover:scale-105 transition-transform duration-200"
+                        className="w-full h-45 object-contain mb-4 hover:scale-103 transition-transform duration-200 p-1"
                         loading="lazy"
                       />
                     );
@@ -123,6 +147,7 @@ const Trending = () => {
                     {item.product_name}
                   </p>
                 </div>
+
               </Link>
             </div>
           ))}
