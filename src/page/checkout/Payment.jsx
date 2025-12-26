@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import API from "../../API/Api";
+const BYPASS_PAYMENT = import.meta.env.VITE_BYPASS_PAYMENT === "true";
+
 
 const Payment = () => {
   const [order, setOrder] = useState(null);
@@ -21,8 +23,6 @@ const Payment = () => {
 
   const applicationId = import.meta.env.VITE_SQUARE_APPLICATION_ID;
   const locationId = import.meta.env.VITE_SQUARE_LOCATION_ID;
-
-
 
   // Load order
   useEffect(() => {
@@ -178,8 +178,18 @@ const Payment = () => {
         total: finalTotal,
         coupon,
         discount,
+        location: order.location,
         ...payload,
       });
+
+      for (const item of fixedCartItems) {
+        await API.post("/inventory/move-to-ordered", {
+          productId: item.productId,
+          location: order.location,
+          quantity: item.quantity || 1,
+        });
+      }
+
 
       Swal.fire({
         icon: "success",
@@ -217,6 +227,24 @@ const Payment = () => {
       text: "Your card was declined. Please try a different card."
     });
   };
+
+  //  BYPASS PAYMENT (TEST MODE)
+  // const handleBypassPayment = async () => {
+  //   setIsPaying(true);
+
+  //   try {
+  //     await createOrder({
+  //       paymentMethod: "BYPASS",
+  //       paymentStatus: "Paid",
+  //       transactionId: "TEST_TXN_" + Date.now(),
+  //     });
+  //   } catch (err) {
+  //     Swal.fire("Error", "Bypass payment failed", "error");
+  //   }
+
+  //   setIsPaying(false);
+  // };
+
 
 
   // PROCESS PAYMENT
@@ -326,16 +354,34 @@ const Payment = () => {
             style={{ minHeight: "60px" }}
           />
 
-          <button
-            onClick={handlePay}
-            disabled={!card || isPaying || !!initError}
+          {/* bypass button */}
+          {/* <button
+            onClick={BYPASS_PAYMENT ? handleBypassPayment : handlePay}
+            disabled={isPaying || (!BYPASS_PAYMENT && (!card || !!initError))}
             className={`w-full mt-2 py-2 rounded-lg font-semibold ${!card || isPaying || initError
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-[#f00000] text-white hover:bg-black"
               }`}
           >
+            {isPaying
+              ? "Processing..."
+              : BYPASS_PAYMENT
+                ? "Bypass Payment (Test)"
+                : "Pay Now"}
+          </button> */}
+
+          <button
+            onClick={handlePay}
+            disabled={isPaying || !card || !!initError}
+            className={`w-full mt-2 py-2 rounded-lg font-semibold ${!card || isPaying || initError
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-[#f00000] text-white hover:bg-black"
+              }`}
+          >
             {isPaying ? "Processing..." : "Pay Now"}
           </button>
+
+
         </div>
       </div>
     </div>

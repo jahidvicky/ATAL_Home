@@ -54,7 +54,6 @@ import AppointmentSchedule from "./layout/Home/AppointmentSchedule";
 import EyeExamStep1 from "./page/EyeExamPage/EyeExamStep1";
 import OrderSuccess from "./page/order/OrderSuccess";
 import UpdateProfile from "./page/updateProfile/UpdateProfile";
-import Collections from "./page/collections/Collections";
 import LensSelection from "./page/lensSelection/LensSelectionFlow";
 import TrackOrder from "./page/order/TrackOrder";
 import OrderHistory from "./page/order/OrderHistory";
@@ -173,12 +172,13 @@ function App() {
           path: "/contact_lenses/:brand/:contactBrandId",
           element: <Product />,
         },
+
         {
-          path: "/categoryProducts/:slug",
+          path: "/collectionProducts/:collectionName",
           element: <Product />,
         },
         {
-          path: "/collectionProducts/:collectionName",
+          path: "/categoryProducts/:frameSlug",
           element: <Product />,
         },
         {
@@ -412,7 +412,7 @@ function App() {
 
   return (
     <>
-      <NoCopy />
+      {/* <NoCopy /> */}
       <RouterProvider router={router} />
     </>
   );

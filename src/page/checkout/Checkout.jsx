@@ -143,11 +143,52 @@ const Checkout = () => {
 
   const prevStep = () => setCurrentStep((p) => Math.max(p - 1, 0));
 
+  const resolveLocationFromProvince = (province) => {
+    const EAST = [
+      "Ontario",
+      "Quebec",
+      "Nova Scotia",
+      "New Brunswick",
+      "Newfoundland",
+      "Prince Edward Island",
+    ];
+
+    const WEST = [
+      "Alberta",
+      "British Columbia",
+      "Manitoba",
+      "Saskatchewan",
+      "Northwest Territories",
+      "Yukon",
+      "Nunavut",
+    ];
+
+    if (EAST.includes(province)) return "east";
+    if (WEST.includes(province)) return "west";
+    return null; // do NOT allow International orders for now
+
+  };
+
+
   const handleSubmit = () => {
+    const location = resolveLocationFromProvince(
+      formData.shippingProvince
+    );
+
+    if (!location) {
+      Swal.fire({
+        icon: "error",
+        title: "Location not supported",
+        text: "We currently deliver only in East or West Canada",
+      });
+      return;
+    }
+
     const orderSummary = {
       userId,
       email: formData.email,
       phone: formData.phone,
+      location,
       cartItems: cartItems.map((item) => ({
         productId: item.id,
         name: item.name,

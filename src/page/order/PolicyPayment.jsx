@@ -85,8 +85,8 @@ const PaymentPolicy = () => {
 
     const script = document.createElement("script");
     script.id = scriptId;
-    // script.src = "https://sandbox.web.squarecdn.com/v1/square.js"; //sandbox use only
-    script.src = "https://web.squarecdn.com/v1/square.js";  //production use only
+    script.src = "https://sandbox.web.squarecdn.com/v1/square.js"; //sandbox use only
+    // script.src = "https://web.squarecdn.com/v1/square.js";  //production use only
     script.async = true;
     script.onload = initSquare;
     script.onerror = () => {

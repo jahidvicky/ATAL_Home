@@ -63,6 +63,18 @@ const ContactLensPage = () => {
 
   const dispatch = useDispatch();
   const handleAddToCart = () => {
+
+    if (getStockQty(product) <= 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Out of stock",
+        text: "This contact lens pack is currently unavailable.",
+        timer: 1800,
+        showConfirmButton: false,
+      });
+      return;
+    }
+
     const cartItem = {
       id: product._id,
       name: product.product_name,
@@ -70,12 +82,10 @@ const ContactLensPage = () => {
         selectedPack !== null
           ? Number(lensPacks[selectedPack].salePrice)
           : Number(product.product_sale_price ?? product.product_price ?? 0),
-
       oldPrice:
         selectedPack !== null
           ? Number(lensPacks[selectedPack].oldPrice)
           : Number(product.product_price ?? 0),
-
       pack: selectedPack !== null ? lensPacks[selectedPack] : null,
       image: mainImage,
       cat_id: product.cat_id,
@@ -111,6 +121,7 @@ const ContactLensPage = () => {
       timer: 1500,
     });
   };
+
 
   const normalizeUrl = (path) => {
     if (!path) return "";
@@ -220,6 +231,13 @@ const ContactLensPage = () => {
       .map((c) => c.trim())
       .filter(Boolean);
   }, [product]); // Drives color circles identical to Cartpage. [web:59]
+
+  const getStockQty = (p) =>
+    p?.availableStock ??
+    p?.availableQty ??
+    p?.finishedStock ??
+    0;
+
 
   return (
     <>
@@ -530,10 +548,16 @@ const ContactLensPage = () => {
               </div>
               <button
                 onClick={handleAddToCart}
-                className="bg-[#f00000] w-full sm:w-[100%] md:w-[100%] lg:w-[100%] xl:w-[100%] text-white px-6 py-4 mt-6 mb-2 rounded-lg hover:bg-red-700 font-semibold text-lg sm:text-xl border border-black transition-all duration-200 mx-auto block"
+                disabled={getStockQty(product) <= 0}
+                className={`w-full text-white px-6 py-4 mt-6 mb-2 rounded-lg font-semibold text-lg border border-black transition-all duration-200 mx-auto block
+    ${getStockQty(product) > 0
+                    ? "bg-[#f00000] hover:bg-red-700 cursor-pointer"
+                    : "bg-gray-400 cursor-not-allowed"
+                  }`}
               >
-                ADD TO CART
+                {getStockQty(product) > 0 ? "ADD TO CART" : "OUT OF STOCK"}
               </button>
+
             </div>
           </div>
 
