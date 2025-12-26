@@ -134,7 +134,7 @@ const FilterSections = ({ filters, setFilters, facetData }) => {
                         onChange={(e) =>
                             setFilters(prev => ({
                                 ...prev,
-                                priceMin: 0,                    // always 0
+                                priceMin: 0,
                                 priceMax: Number(e.target.value),
                             }))
                         }
