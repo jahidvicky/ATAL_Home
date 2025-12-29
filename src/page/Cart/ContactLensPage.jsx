@@ -232,11 +232,18 @@ const ContactLensPage = () => {
       .filter(Boolean);
   }, [product]); // Drives color circles identical to Cartpage. [web:59]
 
-  const getStockQty = (p) =>
-    p?.availableStock ??
-    p?.availableQty ??
-    p?.finishedStock ??
-    0;
+  // Unified stock check (same rules as Cart, Product list, Search, Trending)
+  const getStockQty = (p) => {
+    const qty =
+      (p?.availableQty ?? 0) ||
+      (p?.availableStock ?? 0) ||
+      (p?.finishedStock ?? 0) ||
+      (p?.inventory?.finishedStock ?? 0);
+
+    return Number(qty);
+  };
+
+
 
 
   return (

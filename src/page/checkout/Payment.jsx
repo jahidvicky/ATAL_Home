@@ -26,9 +26,16 @@ const Payment = () => {
 
   // Load order
   useEffect(() => {
-    const savedOrder = localStorage.getItem("orderSummary");
-    if (savedOrder) setOrder(JSON.parse(savedOrder));
+    try {
+      const saved = localStorage.getItem("orderSummary");
+      if (!saved) return navigate("/cart");
+
+      setOrder(JSON.parse(saved));
+    } catch {
+      navigate("/cart");
+    }
   }, []);
+
 
   // Detect card container
   useEffect(() => {
@@ -92,8 +99,8 @@ const Payment = () => {
 
     const script = document.createElement("script");
     script.id = scriptId;
-    // script.src = "https://sandbox.web.squarecdn.com/v1/square.js"; //sandbox use only
-    script.src = "https://web.squarecdn.com/v1/square.js"; // production use only
+    script.src = "https://sandbox.web.squarecdn.com/v1/square.js"; //sandbox use only
+    // script.src = "https://web.squarecdn.com/v1/square.js"; // production use only
 
     script.async = true;
 
@@ -182,15 +189,6 @@ const Payment = () => {
         ...payload,
       });
 
-      for (const item of fixedCartItems) {
-        await API.post("/inventory/move-to-ordered", {
-          productId: item.productId,
-          location: order.location,
-          quantity: item.quantity || 1,
-        });
-      }
-
-
       Swal.fire({
         icon: "success",
         title: "Order Placed!",
@@ -228,58 +226,58 @@ const Payment = () => {
     });
   };
 
-  //  BYPASS PAYMENT (TEST MODE)
-  // const handleBypassPayment = async () => {
-  //   setIsPaying(true);
-
-  //   try {
-  //     await createOrder({
-  //       paymentMethod: "BYPASS",
-  //       paymentStatus: "Paid",
-  //       transactionId: "TEST_TXN_" + Date.now(),
-  //     });
-  //   } catch (err) {
-  //     Swal.fire("Error", "Bypass payment failed", "error");
-  //   }
-
-  //   setIsPaying(false);
-  // };
-
-
-
-  // PROCESS PAYMENT
-  const handlePay = async () => {
-    if (!card) return;
+  //BYPASS PAYMENT (TEST MODE)
+  const handleBypassPayment = async () => {
     setIsPaying(true);
 
     try {
-      const tokenResult = await card.tokenize();
-
-      if (tokenResult.status !== "OK") {
-        setIsPaying(false);
-        return handleSquareFail("Card tokenization failed.");
-      }
-
-      const { data } = await API.post("/pay", {
-        nonce: tokenResult.token,
-        amount: finalTotal,
+      await createOrder({
+        paymentMethod: "BYPASS",
+        paymentStatus: "Paid",
+        transactionId: "TEST_TXN_" + Date.now(),
       });
-
-
-      // const data = await res.json();
-
-      if (data.success && data.payment?.status === "COMPLETED") {
-        handleSquareSuccess(data);
-      } else {
-        handleSquareFail();
-
-      }
     } catch (err) {
-      handleSquareFail("Payment processing error");
+      Swal.fire("Error", "Bypass payment failed", "error");
     }
 
     setIsPaying(false);
   };
+
+
+
+  // PROCESS PAYMENT
+  // const handlePay = async () => {
+  //   if (!card) return;
+  //   setIsPaying(true);
+
+  //   try {
+  //     const tokenResult = await card.tokenize();
+
+  //     if (tokenResult.status !== "OK") {
+  //       setIsPaying(false);
+  //       return handleSquareFail("Card tokenization failed.");
+  //     }
+
+  //     const { data } = await API.post("/pay", {
+  //       nonce: tokenResult.token,
+  //       amount: finalTotal,
+  //     });
+
+
+  //     // const data = await res.json();
+
+  //     if (data.success && data.payment?.status === "COMPLETED") {
+  //       handleSquareSuccess(data);
+  //     } else {
+  //       handleSquareFail();
+
+  //     }
+  //   } catch (err) {
+  //     handleSquareFail("Payment processing error");
+  //   }
+
+  //   setIsPaying(false);
+  // };
 
   return (
     <div className="flex justify-center items-center min-h-[80vh] bg-gray-200 pt-20 pb-20">
@@ -355,31 +353,33 @@ const Payment = () => {
           />
 
           {/* bypass button */}
-          {/* <button
+          <button
             onClick={BYPASS_PAYMENT ? handleBypassPayment : handlePay}
             disabled={isPaying || (!BYPASS_PAYMENT && (!card || !!initError))}
-            className={`w-full mt-2 py-2 rounded-lg font-semibold ${!card || isPaying || initError
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#f00000] text-white hover:bg-black"
-              }`}
+            className={`w-full mt-2 py-2 rounded-lg font-semibold 
+    ${isPaying ? "pointer-events-none opacity-60" : ""}
+    ${!card || isPaying || initError
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-[#f00000] text-white hover:bg-black"}
+  `}
           >
             {isPaying
               ? "Processing..."
               : BYPASS_PAYMENT
                 ? "Bypass Payment (Test)"
                 : "Pay Now"}
-          </button> */}
+          </button>
 
-          <button
+          {/* <button
             onClick={handlePay}
             disabled={isPaying || !card || !!initError}
             className={`w-full mt-2 py-2 rounded-lg font-semibold ${!card || isPaying || initError
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[#f00000] text-white hover:bg-black"
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#f00000] text-white hover:bg-black"
               }`}
           >
             {isPaying ? "Processing..." : "Pay Now"}
-          </button>
+          </button> */}
 
 
         </div>

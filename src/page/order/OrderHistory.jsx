@@ -7,6 +7,15 @@ const OrderHistory = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const user = localStorage.getItem("user");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(orders.length / itemsPerPage);
+
+  const paginatedOrders = orders.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -81,7 +90,7 @@ const OrderHistory = () => {
                 </tr>
               </thead>
               <tbody>
-                {orders.map((order) => (
+                {paginatedOrders.map((order) => (
                   <tr
                     key={order._id}
                     className="hover:bg-gray-50 text-center align-top"
@@ -151,11 +160,10 @@ const OrderHistory = () => {
                               key="claim"
                             >
                               <button
-                                className={`px-3 py-1.5 text-sm rounded-lg ${
-                                  canClaim
-                                    ? "bg-blue-600 text-white hover:bg-black"
-                                    : "bg-gray-400 text-white cursor-not-allowed"
-                                }`}
+                                className={`px-3 py-1.5 text-sm rounded-lg ${canClaim
+                                  ? "bg-blue-600 text-white hover:bg-black"
+                                  : "bg-gray-400 text-white cursor-not-allowed"
+                                  }`}
                                 disabled={!canClaim}
                               >
                                 Claim
@@ -185,11 +193,42 @@ const OrderHistory = () => {
                 ))}
               </tbody>
             </table>
+            {orders.length > itemsPerPage && (
+              <div className="flex justify-center gap-2 mt-6">
+                <button
+                  onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 border rounded disabled:opacity-50"
+                >
+                  Prev
+                </button>
+
+                {[...Array(totalPages)].map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentPage(i + 1)}
+                    className={`px-4 py-2 border rounded ${currentPage === i + 1 ? "bg-black text-white" : ""
+                      }`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 border rounded disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+
           </div>
 
           {/* Mobile: card layout */}
           <div className="block md:hidden space-y-4">
-            {orders.map((order) => (
+            {paginatedOrders.map((order) => (
               <div key={order._id} className="border rounded-lg p-4 shadow-sm">
                 <div className="flex items-center justify-between mb-2">
                   <div className="text-sm font-semibold">
@@ -239,30 +278,29 @@ const OrderHistory = () => {
                   {order?.cartItems?.some(
                     (item) => item?.policy?.status === "Active"
                   ) && (
-                    (() => {
-                      const isCancelled = order.orderStatus === "Cancelled";
-                      const isDelivered = order.orderStatus === "Delivered";
-                      const canClaim = isDelivered && !isCancelled;
+                      (() => {
+                        const isCancelled = order.orderStatus === "Cancelled";
+                        const isDelivered = order.orderStatus === "Delivered";
+                        const canClaim = isDelivered && !isCancelled;
 
-                      return (
-                        <Link
-                          to={canClaim ? `/insurance-claim` : "#"}
-                          state={canClaim ? { order } : {}}
-                        >
-                          <button
-                            className={`w-full sm:w-auto px-4 py-2 rounded-lg ${
-                              canClaim
+                        return (
+                          <Link
+                            to={canClaim ? `/insurance-claim` : "#"}
+                            state={canClaim ? { order } : {}}
+                          >
+                            <button
+                              className={`w-full sm:w-auto px-4 py-2 rounded-lg ${canClaim
                                 ? "bg-blue-600 text-white hover:bg-black"
                                 : "bg-gray-400 text-white cursor-not-allowed"
-                            }`}
-                            disabled={!canClaim}
-                          >
-                            Claim
-                          </button>
-                        </Link>
-                      );
-                    })()
-                  )}
+                                }`}
+                              disabled={!canClaim}
+                            >
+                              Claim
+                            </button>
+                          </Link>
+                        );
+                      })()
+                    )}
 
                   <Link to={`/track/${order.trackingNumber}`}>
                     <button className="w-full sm:w-auto bg-[#f00000] text-white px-4 py-2 rounded-lg hover:bg-black">

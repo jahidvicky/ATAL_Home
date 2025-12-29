@@ -36,7 +36,9 @@ function WishlistPage({ userId }) {
             product.product_image_collection?.[0] ||
             product.product_variants?.[0]?.images?.[0];
 
-        return img ? `${IMAGE_URL}${img}` : null;
+        if (!img) return null;
+        return img.startsWith("http") ? img : `${IMAGE_URL}${img}`;
+
     };
 
     // Helper: Show discount badge
@@ -52,8 +54,18 @@ function WishlistPage({ userId }) {
         return 0;
     };
 
-    // Helper: Is product in stock
-    const isInStock = (product) => product.stockAvailability > 0;
+    // Unified stock check (same as Cart, Product List, Search, Trending, PDP)
+    const isInStock = (product) => {
+        const qty =
+            (product?.availableQty ?? 0) ||
+            (product?.availableStock ?? 0) ||
+            (product?.finishedStock ?? 0) ||
+            (product?.inventory?.finishedStock ?? 0);
+
+        return Number(qty) > 0;
+    };
+
+
 
     // Wishlist toggler
     const toggleWishlist = async (productId) => {

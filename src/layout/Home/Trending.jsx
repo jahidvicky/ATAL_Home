@@ -52,15 +52,15 @@ const Trending = () => {
     return img.startsWith("http") ? img : `${IMAGE_URL}${img}`;
   };
 
-  const getStockStatus = (item) => {
+  // Unified stock check (matches Product page + Cart page)
+  const getStockQty = (item) => {
     const qty =
-      item.availableStock ??
-      item.availableQty ??
-      item.finishedStock ??
-      item.stockAvailability ??
-      0;
+      (item?.availableQty ?? 0) ||
+      (item?.availableStock ?? 0) ||
+      (item?.finishedStock ?? 0) ||
+      (item?.inventory?.finishedStock ?? 0);
 
-    return qty > 0;
+    return Number(qty);
   };
 
 
@@ -100,13 +100,8 @@ const Trending = () => {
                 <div className="border border-red-600 rounded-lg shadow-2xl hover:shadow-red-500 transition-all text-center p-4 h-full hover:cursor-pointer shadow-white relative">
 
                   {/* Stock Badge */}
-                  {(
-                    (item?.availableStock ??
-                      item?.availableQty ??
-                      item?.finishedStock ??
-                      item?.stockAvailability ??
-                      0) > 0
-                  ) ? (
+
+                  {getStockQty(item) > 0 ? (
                     <span className="absolute top-3 left-3 bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
                       In stock
                     </span>
@@ -116,11 +111,12 @@ const Trending = () => {
                     </span>
                   )}
 
+
                   {/* Image: prefer variant image, then product_image_collection, then fallback */}
                   {(() => {
-                    const variantImg = item.product_variants?.[0]?.images?.[0] || null;
-                    const collectionImg = item.product_image_collection?.[0] || null;
-                    const imgToShow = variantImg || collectionImg;
+                    const variantImg = item?.product_variants?.[0]?.images?.[0];
+                    const collectionImg = item?.product_image_collection?.[0];
+                    const imgToShow = variantImg || collectionImg || null;
 
                     if (!imgToShow) {
                       return (

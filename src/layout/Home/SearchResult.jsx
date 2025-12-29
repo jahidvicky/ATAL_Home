@@ -403,32 +403,32 @@ function SearchResults() {
         const frameShapes = new Set();
         const colors = new Set();
         const materials = new Set();
-        let min = Infinity,
-            max = -Infinity;
+
+        let min = Infinity;
+        let max = -Infinity;
 
         products.forEach((p) => {
+            // Brand
             const brandName =
                 p?.brand_id?.brand ||
                 p?.brand ||
                 p?.product_brand ||
                 "";
+
             if (brandName) brands.add(brandName.trim());
 
-            const gender = p.gender?.trim();
-            if (gender) genders.add(gender);
+            // Gender
+            if (p.gender) genders.add(p.gender.trim());
 
-            products.forEach((p) => {
-                if (p.face_shape) {
-                    faceShapes.add(p.face_shape.trim());
-                }
+            // Face & Frame shapes
+            if (p.face_shape) faceShapes.add(p.face_shape.trim());
+            if (p.frame_shape) frameShapes.add(p.frame_shape.trim());
 
-                if (p.frame_shape) {
-                    frameShapes.add(p.frame_shape.trim());
-                }
-            });
+            // Colors & materials
             if (p.frame_color) colors.add(p.frame_color.trim());
             if (p.frame_material) materials.add(p.frame_material.trim());
 
+            // Price range
             const price = Number(p.product_sale_price || p.product_price || 0);
             if (!Number.isNaN(price)) {
                 min = Math.min(min, price);
@@ -451,8 +451,8 @@ function SearchResults() {
             min,
             max,
         };
-
     }, [products]);
+
 
     // Filter and Sort
     const matchesFilters = (p) => {
@@ -572,6 +572,18 @@ function SearchResults() {
             "";
         return resolveImg(src);
     };
+
+    // Unified stock check (same as Cart, Product, Trending)
+    const getStockQty = (p) => {
+        const qty =
+            (p?.availableQty ?? 0) ||
+            (p?.availableStock ?? 0) ||
+            (p?.finishedStock ?? 0) ||
+            (p?.inventory?.finishedStock ?? 0);
+
+        return Number(qty);
+    };
+
 
     return (
         <div className="bg-white">
@@ -720,7 +732,7 @@ function SearchResults() {
                                 {pageSlice.map((data) => {
                                     const img = primaryImage(data);
                                     const inWishlist = wishSet.has(data._id);
-                                    const isInStock = (data.stockAvailability ?? 0) > 0;
+                                    const isInStock = getStockQty(data) > 0;
 
                                     return (
                                         <ProductCard
