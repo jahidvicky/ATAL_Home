@@ -313,7 +313,6 @@ function Product() {
                 p.availableQty ??
                 p.availableStock ??
                 p.finishedStock ??
-                p.stockAvailability ??
                 0
             }))
           );
@@ -341,7 +340,6 @@ function Product() {
                 p.availableQty ??
                 p.availableStock ??
                 p.finishedStock ??
-                p.stockAvailability ??
                 0
             }))
           );
@@ -871,7 +869,6 @@ function Product() {
               p.availableQty ??
               p.availableStock ??
               p.finishedStock ??
-              p.stockAvailability ??
               0
           }))
         );
@@ -911,7 +908,6 @@ function Product() {
             p.availableQty ??
             p.availableStock ??
             p.finishedStock ??
-            p.stockAvailability ??
             0
         }))
       );
@@ -1071,23 +1067,24 @@ function Product() {
     if (locationFilter !== "all") {
       const locs = Array.isArray(p.productLocation)
         ? p.productLocation.map(l => String(l).toLowerCase().trim())
-        : String(p.productLocation || "")
-          .toLowerCase()
-          .split(",")
-          .map(s => s.trim())
-          .filter(Boolean);
+        : typeof p.productLocation === "string"
+          ? [p.productLocation.toLowerCase().trim()]
+          : [];
 
-      // exclude products with no location when filtering
-      if (!locs.length) return false;
+      const qty =
+        p.availableQty ??
+        p.availableStock ??
+        p.finishedStock ??
+        0;
 
-      // must explicitly match selected filter
-      if (!locs.includes(locationFilter.toLowerCase().trim())) return false;
+      // Prefer location match
+      if (locs.includes(locationFilter)) return true;
+
+      // Fallback. If stock exists, still show
+      if (qty > 0) return true;
+
+      return false;
     }
-
-
-
-
-
 
     return true;
   };
@@ -1179,6 +1176,20 @@ function Product() {
       "";
     return resolveImg(src);
   };
+
+  // Real stock from inventory
+  const getStockQty = (p) => {
+    // Prefer normalized fields like Cart page
+    const qty =
+      (p?.availableQty ?? 0) ||
+      (p?.availableStock ?? 0) ||
+      (p?.finishedStock ?? 0) ||
+      (p?.inventory?.finishedStock ?? 0);
+
+    return Number(qty);
+  };
+
+
 
 
   return (
@@ -1324,7 +1335,8 @@ function Product() {
                 {pageSlice.map((data) => {
                   const img = primaryImage(data);
                   const inWishlist = wishSet.has(data._id);
-                  const isInStock = (data.availableStock ?? 0) > 0;
+
+                  const isInStock = getStockQty(data) > 0;
 
                   return (
                     <ProductCard

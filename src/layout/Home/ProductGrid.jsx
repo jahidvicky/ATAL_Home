@@ -3,7 +3,6 @@ import { FiArrowRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import API, { IMAGE_URL } from "../../API/Api";
 import { useRecentlyViewed } from "../../page/collections/RecentlyViewedContext";
-import StockAvailability from "../../page/collections/StockAvailability";
 
 const ProductCard = ({ product, onClick, children }) => {
   // Start with first variant's first image if present
@@ -162,18 +161,24 @@ const ProductGrid = () => {
     }
   };
 
+
   useEffect(() => {
     getBestSeller();
   }, []);
 
-  // Show first 4 for homepage
-  const visibleProducts = bestSellerData.slice(0, 4);
+  // Unified stock check (same as Cart, Product List, Search, Trending, Wishlist, PDP)
+  const getStockQty = (p) => {
+    const qty =
+      (p?.availableQty ?? 0) ||
+      (p?.availableStock ?? 0) ||
+      (p?.finishedStock ?? 0) ||
+      (p?.inventory?.finishedStock ?? 0);
 
-  const getStockQty = (p) =>
-    p?.availableStock ??
-    p?.availableQty ??
-    p?.finishedStock ??
-    0;
+    return Number(qty);
+  };
+
+
+  const visibleProducts = bestSellerData.slice(0, 4);
 
   return (
     <section className="py-12 md:px-24 px-6 bg-white">

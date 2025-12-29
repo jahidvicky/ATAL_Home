@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
+import API from "../../API/Api";
 
 const Checkout = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -170,7 +171,7 @@ const Checkout = () => {
   };
 
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const location = resolveLocationFromProvince(
       formData.shippingProvince
     );
@@ -183,6 +184,49 @@ const Checkout = () => {
       });
       return;
     }
+
+    // STEP: verify items are still available before moving to payment
+    try {
+      const res = await API.get(`/inventory/available-products/${location}`);
+      const availableProducts = res.data.products || [];
+
+      for (const item of cartItems) {
+        const found = availableProducts.find(
+          (p) => String(p._id) === String(item.id)
+        );
+
+        // Not in stock at all
+        if (!found) {
+          await Swal.fire({
+            icon: "warning",
+            title: `${item.name} is no longer available`,
+            text: "Please remove it from your cart before continuing."
+          });
+          return;
+        }
+
+        // Not enough quantity
+        const availableQty = found.availableQty || 0;
+
+        if (availableQty < item.quantity) {
+          await Swal.fire({
+            icon: "warning",
+            title: `Only ${availableQty} left in stock`,
+            text: `Reduce quantity of ${item.name} to continue.`
+          });
+          return;
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Stock check failed",
+        text: "Please try again."
+      });
+      return;
+    }
+
 
     const orderSummary = {
       userId,

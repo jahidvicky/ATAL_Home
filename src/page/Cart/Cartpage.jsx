@@ -17,13 +17,17 @@ const Cartpage = () => {
   const { ID, subCategory, subCatId } = useParams();
 
   const [product, setProduct] = useState({});
-  const isInStock =
-    (
-      product?.availableStock ??
-      product?.finishedStock ??
-      product?.inventory?.finishedStock ??
-      product?.inventory?.availableStock ??
-      0) > 0;
+  const isInStock = (() => {
+    const qty =
+      (product?.availableQty ?? 0) ||
+      (product?.availableStock ?? 0) ||
+      (product?.inventory?.finishedStock ?? 0);
+
+    return Number(qty) > 0;
+  })();
+
+
+
 
   const [wishlist, setWishlist] = useState([]);
 
@@ -430,14 +434,38 @@ const Cartpage = () => {
                         return;
                       }
 
+                      if (!product) return;
+
+                      const availableQty =
+                        product.availableQty ??
+                        product.availableStock ??
+                        product?.inventory?.finishedStock ??
+                        0;
+
+                      // check how many already in cart
+                      const cart = JSON.parse(localStorage.getItem("cartItems") || "[]");
+                      const existing = cart.find(c => c.id === ID);
+                      const currentQty = existing?.quantity ?? 0;
+
+                      if (currentQty + 1 > availableQty) {
+                        Swal.fire({
+                          icon: "warning",
+                          title: `Only ${availableQty} left in stock`,
+                          toast: true,
+                          position: "top-end",
+                          showConfirmButton: false,
+                          timer: 1800
+                        });
+                        return;
+                      }
+
                       dispatch(
                         addToCart({
                           id: ID,
                           name: product.product_name,
                           selectedSize: selectedSize || null,
                           selectedColor: selectedColor || null,
-                          price:
-                            product.discountedPrice ?? product.product_sale_price,
+                          price: product.discountedPrice ?? product.product_sale_price,
                           originalPrice,
                           image: mainImage,
                           lens: lensDetails || null,
@@ -450,12 +478,13 @@ const Cartpage = () => {
 
                       Swal.fire({
                         toast: true,
-                        position: "top-end",
                         icon: "success",
                         title: "Product added to cart!",
+                        position: "top-end",
                         showConfirmButton: false,
                         timer: 1500,
                       });
+
                     }}
                     className="mt-3 bg-[#f00000] hover:bg-red-700 text-white w-full rounded-md py-3 text-sm"
                   >

@@ -142,7 +142,7 @@ const ViewOrder = () => {
   if (loading)
     return (
       <div className="flex justify-center items-center min-h-screen text-gray-700 text-base">
-        <svg className="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+        <svg className="animate-spin h-10 w-10 mr-2" viewBox="0 0 24 24">
           <circle
             className="opacity-25"
             cx="12"
@@ -222,11 +222,13 @@ const ViewOrder = () => {
                   className="border border-gray-300 p-2 w-64 rounded focus:ring-2 focus:ring-red-500 focus:outline-none"
                 >
                   <option value="">-- Select Product --</option>
-                  {order?.cartItems.map((item) => (
-                    <option key={item._id} value={item._id}>
-                      {item.name} (${item.price})
-                    </option>
-                  ))}
+                  {order?.cartItems
+                    .filter(item => item.status !== "Cancelled")
+                    .map((item) => (
+                      <option key={item._id} value={item._id}>
+                        {item.name} (${item.price})
+                      </option>
+                    ))}
                 </select>
               </div>
 
@@ -250,7 +252,7 @@ const ViewOrder = () => {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-4">
             {/* Ordered Products */}
-            <Section title="Ordered Sunglasses">
+            <Section title="Ordered Products">
               <div className="space-y-3">
                 {order.cartItems.map((item, index) => (
                   <motion.div
