@@ -17,14 +17,40 @@ const Cartpage = () => {
   const { ID, subCategory, subCatId } = useParams();
 
   const [product, setProduct] = useState({});
-  const isInStock = (() => {
-    const qty =
-      (product?.availableQty ?? 0) ||
-      (product?.availableStock ?? 0) ||
-      (product?.inventory?.finishedStock ?? 0);
+  const userLocation = localStorage.getItem("userLocation") || "east";
 
-    return Number(qty) > 0;
-  })();
+  const isAvailable = (product) => {
+    // 1️⃣ If inventory exists, use true location stock
+    if (Array.isArray(product?.inventory) && product.inventory.length) {
+      return product.inventory
+        .filter(i => String(i.location).toLowerCase() === userLocation)
+        .some(i =>
+          (i.rawStock || 0) +
+          (i.inProcessing || 0) +
+          (i.finishedStock || 0) -
+          (i.orderedStock || 0) > 0
+        );
+    }
+
+    // 2️⃣ Fallback when inventory is NOT sent in API
+    const locations = Array.isArray(product?.productLocation)
+      ? product.productLocation.map(l => String(l).toLowerCase())
+      : product?.productLocation
+        ? [String(product.productLocation).toLowerCase()]
+        : [];
+
+    const qty =
+      product?.availableQty ??
+      product?.availableStock ??
+      product?.finishedStock ??
+      0;
+
+    return locations.includes(userLocation) && qty > 0;
+  };
+
+
+  const inStock = isAvailable(product);
+
 
 
 
@@ -387,7 +413,7 @@ const Cartpage = () => {
                   </button>
                 </Link>
 
-                {isInStock ? (
+                {inStock ? (
                   <button
                     onClick={() => {
                       if (!product) return;
@@ -434,13 +460,42 @@ const Cartpage = () => {
                         return;
                       }
 
-                      if (!product) return;
+                      // REAL location-based available qty
+                      const userLocation = localStorage.getItem("userLocation") || "east";
 
-                      const availableQty =
-                        product.availableQty ??
-                        product.availableStock ??
-                        product?.inventory?.finishedStock ??
-                        0;
+                      let availableQty = 0;
+
+                      // 1️⃣ Use real inventory if API returned it
+                      if (Array.isArray(product?.inventory) && product.inventory.length) {
+                        const locationInventory = product.inventory.find(
+                          i => String(i.location).toLowerCase() === userLocation
+                        );
+
+                        if (locationInventory) {
+                          availableQty =
+                            (locationInventory.rawStock || 0) +
+                            (locationInventory.inProcessing || 0) +
+                            (locationInventory.finishedStock || 0) -
+                            (locationInventory.orderedStock || 0);
+                        }
+                      }
+
+                      // 2️⃣ Fallback when inventory is NOT included in product response
+                      if (availableQty === 0) {
+                        const locations = Array.isArray(product?.productLocation)
+                          ? product.productLocation.map(l => String(l).toLowerCase())
+                          : product?.productLocation
+                            ? [String(product.productLocation).toLowerCase()]
+                            : [];
+
+                        if (locations.includes(userLocation)) {
+                          availableQty =
+                            product?.availableQty ??
+                            product?.availableStock ??
+                            product?.finishedStock ??
+                            0;
+                        }
+                      }
 
                       // check how many already in cart
                       const cart = JSON.parse(localStorage.getItem("cartItems") || "[]");
@@ -454,7 +509,7 @@ const Cartpage = () => {
                           toast: true,
                           position: "top-end",
                           showConfirmButton: false,
-                          timer: 1800
+                          timer: 1800,
                         });
                         return;
                       }
@@ -484,7 +539,6 @@ const Cartpage = () => {
                         showConfirmButton: false,
                         timer: 1500,
                       });
-
                     }}
                     className="mt-3 bg-[#f00000] hover:bg-red-700 text-white w-full rounded-md py-3 text-sm"
                   >
