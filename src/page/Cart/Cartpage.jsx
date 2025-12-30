@@ -8,10 +8,10 @@ import API, { IMAGE_URL } from "../../API/Api";
 import Swal from "sweetalert2";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import ContactLensPage from "./ContactLensPage";
-import lensWidth from "../../assets/product-measurement/Lenswidt.jpeg"
-import lensHeight from "../../assets/product-measurement/Lensheigh.jpeg"
-import bridgeWidth from "../../assets/product-measurement/Bridgewidt.jpeg"
-import templeLength from "../../assets/product-measurement/Templelengt.jpeg"
+import lensWidth from "../../assets/product-measurement/Lenswidt.jpeg";
+import lensHeight from "../../assets/product-measurement/Lensheigh.jpeg";
+import bridgeWidth from "../../assets/product-measurement/Bridgewidt.jpeg";
+import templeLength from "../../assets/product-measurement/Templelengt.jpeg";
 
 const Cartpage = () => {
   const { ID, subCategory, subCatId } = useParams();
@@ -52,9 +52,6 @@ const Cartpage = () => {
   const inStock = isAvailable(product);
 
 
-
-
-
   const [wishlist, setWishlist] = useState([]);
 
   const [selectedSize, setSelectedSize] = useState(null);
@@ -75,7 +72,9 @@ const Cartpage = () => {
     return Number.isFinite(n) ? n : 0;
   };
 
-  const originalPrice = parsePrice(product.product_price ?? product.product_sale_price ?? 0);
+  const originalPrice = parsePrice(
+    product.product_price ?? product.product_sale_price ?? 0
+  );
 
   const normalizeUrl = (path) => {
     if (!path) return "";
@@ -86,10 +85,16 @@ const Cartpage = () => {
 
   const colorToImages = useMemo(() => {
     const map = new Map();
-    const variants = Array.isArray(product?.product_variants) ? product.product_variants : [];
+    const variants = Array.isArray(product?.product_variants)
+      ? product.product_variants
+      : [];
     variants.forEach((v) => {
-      const key = String(v?.colorName || "").toLowerCase().trim();
-      const imgs = Array.isArray(v?.images) ? v.images.map(normalizeUrl).filter(Boolean) : [];
+      const key = String(v?.colorName || "")
+        .toLowerCase()
+        .trim();
+      const imgs = Array.isArray(v?.images)
+        ? v.images.map(normalizeUrl).filter(Boolean)
+        : [];
       if (key && imgs.length) map.set(key, imgs);
     });
     return map;
@@ -103,7 +108,9 @@ const Cartpage = () => {
   }, [product]);
 
   useEffect(() => {
-    const colorKey = String(selectedColor || "").toLowerCase().trim();
+    const colorKey = String(selectedColor || "")
+      .toLowerCase()
+      .trim();
     const colorImgs = colorKey ? colorToImages.get(colorKey) : null;
     const nextGallery = colorImgs?.length ? colorImgs : baseGallery;
     setGalleryImages(nextGallery);
@@ -162,20 +169,38 @@ const Cartpage = () => {
     }
   }, [product]);
 
-  const lensSelectionDetails = JSON.parse(localStorage.getItem("lensSelectionDetails") || "null");
+  const lensSelectionDetails = JSON.parse(
+    localStorage.getItem("lensSelectionDetails") || "null"
+  );
   const lensTotalPrice = lensSelectionDetails?.totalPrice || 0;
 
   const toggleWishlist = async (productId) => {
     const userId2 = localStorage.getItem("user");
     try {
       if (wishlist.includes(productId)) {
-        await API.delete("/removeWishlist", { data: { userId: userId2, productId } });
+        await API.delete("/removeWishlist", {
+          data: { userId: userId2, productId },
+        });
         setWishlist((prev) => prev.filter((id) => id !== productId));
-        Swal.fire({ toast: true, position: "top-end", icon: "error", title: "Removed from wishlist", showConfirmButton: false, timer: 1500 });
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "error",
+          title: "Removed from wishlist",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
         await API.post("/addWishlist", { userId: userId2, productId });
         setWishlist((prev) => [...prev, productId]);
-        Swal.fire({ toast: true, position: "top-end", icon: "success", title: "Added in wishlist", showConfirmButton: false, timer: 1500 });
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: "Added in wishlist",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
     } catch (err) {
       console.error("Wishlist toggle failed:", err);
@@ -202,9 +227,15 @@ const Cartpage = () => {
   };
 
   const variantColors = useMemo(() => {
-    const arr = Array.isArray(product?.product_variants) ? product.product_variants : [];
+    const arr = Array.isArray(product?.product_variants)
+      ? product.product_variants
+      : [];
     return arr
-      .map((v) => String(v?.colorName || "").toLowerCase().trim())
+      .map((v) =>
+        String(v?.colorName || "")
+          .toLowerCase()
+          .trim()
+      )
       .filter(Boolean);
   }, [product]);
 
@@ -214,7 +245,6 @@ const Cartpage = () => {
     }
   }, [variantColors, selectedColor]);
 
-
   // UPDATED DETAIL ROW
   const DetailRow = ({ label, value }) => (
     <div className="min-w-[220px]">
@@ -223,6 +253,10 @@ const Cartpage = () => {
     </div>
   );
 
+  const isSunglasses =
+    product?.cat_id === "6915705d9ceac0cdda41c83f" ||
+    product?.cat_sec?.toLowerCase() === "sunglasses";
+
   if (product.cat_id === "6915735feeb23fa59c7d532b") {
     return <ContactLensPage />;
   }
@@ -230,10 +264,8 @@ const Cartpage = () => {
     <>
       <div className="mt-10 px-4 md:px-8 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
           {/* Left column: gallery */}
           <div className="grid grid-cols-[96px_1fr] gap-4">
-
             {/* Thumbs */}
             <div className="flex flex-col gap-3 overflow-auto max-h-[520px] pr-1">
               {galleryImages.map((img, idx) => (
@@ -241,10 +273,11 @@ const Cartpage = () => {
                   key={idx}
                   onMouseEnter={() => setMainImage(img)}
                   onFocus={() => setMainImage(img)}
-                  className={`rounded-lg border ${mainImage === img
-                    ? "border-red-600 ring-2 ring-red-200"
-                    : "border-gray-200"
-                    } overflow-hidden`}
+                  className={`rounded-lg border ${
+                    mainImage === img
+                      ? "border-red-600 ring-2 ring-red-200"
+                      : "border-gray-200"
+                  } overflow-hidden`}
                 >
                   <img
                     src={img}
@@ -290,17 +323,16 @@ const Cartpage = () => {
 
           {/* Right column: info and purchase */}
           <div className="space-y-5">
-
             {/* Title + Gender */}
             <div>
               <h1 className="text-2xl font-semibold">{product.product_name}</h1>
               {!!product.gender && (
                 <p className="text-sm text-gray-500 mt-1">
-                  {subCatId === "6915763ceeb23fa59c7d5342" && subCategory === "Kids"
+                  {subCatId === "6915763ceeb23fa59c7d5342" &&
+                  subCategory === "Kids"
                     ? "Kids"
                     : product.gender}
                 </p>
-
               )}
             </div>
 
@@ -319,10 +351,11 @@ const Cartpage = () => {
                       <label
                         key={c}
                         htmlFor={id}
-                        className={`h-7 w-7 rounded-full border hover:cursor-pointer ${checked
-                          ? "ring-2 ring-offset-1 ring-black border-black"
-                          : "border-gray-300"
-                          }`}
+                        className={`h-7 w-7 rounded-full border hover:cursor-pointer ${
+                          checked
+                            ? "ring-2 ring-offset-1 ring-black border-black"
+                            : "border-gray-300"
+                        }`}
                         title={c}
                         style={{ backgroundColor: c }}
                       >
@@ -360,10 +393,11 @@ const Cartpage = () => {
                         key={key}
                         type="button"
                         onClick={() => toggleSize(token)}
-                        className={`px-4 py-2 rounded border text-sm ${active
-                          ? "bg-black text-white border-black"
-                          : "bg-white text-black border-gray-300 hover:border-black"
-                          }`}
+                        className={`px-4 py-2 rounded border text-sm ${
+                          active
+                            ? "bg-black text-white border-black"
+                            : "bg-white text-black border-gray-300 hover:border-black"
+                        }`}
                         aria-pressed={active}
                         aria-label={`Select size ${token}`}
                       >
@@ -392,26 +426,27 @@ const Cartpage = () => {
                   <span className="text-lg font-bold">
                     $
                     {Number(
-                      product.product_sale_price ??
-                      product.product_price ??
-                      0
+                      product.product_sale_price ?? product.product_price ?? 0
                     ).toFixed(2)}
                   </span>
                 </div>
               </div>
 
               <div className="px-4 pb-4">
-                <Link to="lens-selection-flow" state={{ ID }}>
-                  <button
-                    className={`${isLensSelected
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-black hover:bg-gray-900"
+                {!isSunglasses && (
+                  <Link to="lens-selection-flow" state={{ ID }}>
+                    <button
+                      className={`${
+                        isLensSelected
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-black hover:bg-gray-900"
                       } text-white w-full rounded-md py-3 text-sm`}
-                    disabled={isLensSelected}
-                  >
-                    {isLensSelected ? "Lens Selected" : "Select lenses"}
-                  </button>
-                </Link>
+                      disabled={isLensSelected}
+                    >
+                      {isLensSelected ? "Lens Selected" : "Select lenses"}
+                    </button>
+                  </Link>
+                )}
 
                 {inStock ? (
                   <button
@@ -424,7 +459,11 @@ const Cartpage = () => {
                       const multiSize = product.product_size?.length > 1;
                       const multiColor = product.product_variants?.length > 1;
 
-                      if (multiSize && multiColor && (!selectedSize || !selectedColor)) {
+                      if (
+                        multiSize &&
+                        multiColor &&
+                        (!selectedSize || !selectedColor)
+                      ) {
                         Swal.fire({
                           icon: "warning",
                           title: "Please select size and color!",
@@ -498,8 +537,10 @@ const Cartpage = () => {
                       }
 
                       // check how many already in cart
-                      const cart = JSON.parse(localStorage.getItem("cartItems") || "[]");
-                      const existing = cart.find(c => c.id === ID);
+                      const cart = JSON.parse(
+                        localStorage.getItem("cartItems") || "[]"
+                      );
+                      const existing = cart.find((c) => c.id === ID);
                       const currentQty = existing?.quantity ?? 0;
 
                       if (currentQty + 1 > availableQty) {
@@ -520,14 +561,17 @@ const Cartpage = () => {
                           name: product.product_name,
                           selectedSize: selectedSize || null,
                           selectedColor: selectedColor || null,
-                          price: product.discountedPrice ?? product.product_sale_price,
+                          price:
+                            product.discountedPrice ??
+                            product.product_sale_price,
                           originalPrice,
                           image: mainImage,
                           lens: lensDetails || null,
                           policy: selectedPolicy || null,
                           cat_id: product.cat_id,
                           subCat_id: subCatId,
-                          vendorID: product.vendorID || product.vendorId || null,
+                          vendorID:
+                            product.vendorID || product.vendorId || null,
                         })
                       );
 
@@ -552,7 +596,6 @@ const Cartpage = () => {
                     Out of stock
                   </button>
                 )}
-
               </div>
             </div>
 
@@ -593,16 +636,13 @@ const Cartpage = () => {
                 </p>
                 <p>
                   <strong>Prescription:</strong>{" "}
-                  {lensDetails.lens?.selectedLens ===
-                    "Non-prescription lenses"
+                  {lensDetails.lens?.selectedLens === "Non-prescription lenses"
                     ? "Not required"
-                    : lensDetails.lens?.prescriptionMethod ||
-                    "Not provided"}
+                    : lensDetails.lens?.prescriptionMethod || "Not provided"}
                 </p>
                 <p>
                   <strong>Lens type:</strong>{" "}
-                  {lensDetails.lens?.lensType?.name ||
-                    "Clear lenses"}{" "}
+                  {lensDetails.lens?.lensType?.name || "Clear lenses"}{" "}
                   {lensDetails.lens?.lensType?.price ? (
                     <span className="text-blue-600">
                       {lensDetails.lens.lensType.price}
@@ -613,8 +653,7 @@ const Cartpage = () => {
                 {lensDetails.lens?.lensType?.name === "Sun lenses" &&
                   lensDetails.lens?.tint && (
                     <p>
-                      <strong>Tint:</strong>{" "}
-                      {lensDetails.lens.tint.name}{" "}
+                      <strong>Tint:</strong> {lensDetails.lens.tint.name}{" "}
                       <span className="text-blue-600">
                         {lensDetails.lens.tint.price}
                       </span>
@@ -655,29 +694,12 @@ const Cartpage = () => {
 
         {/* ===================== ABOUT THIS PRODUCT ===================== */}
         <div className="mt-16 ml-10">
-
           {/* TITLE + ICON */}
           <div className="flex items-center gap-3 mb-2">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M3 12h3l2 5h6l2-5h3"
-                stroke="black"
-                strokeWidth="1.5"
-              />
-              <circle
-                cx="8"
-                cy="12"
-                r="3"
-                stroke="black"
-                strokeWidth="1.5"
-              />
-              <circle
-                cx="16"
-                cy="12"
-                r="3"
-                stroke="black"
-                strokeWidth="1.5"
-              />
+              <path d="M3 12h3l2 5h6l2-5h3" stroke="black" strokeWidth="1.5" />
+              <circle cx="8" cy="12" r="3" stroke="black" strokeWidth="1.5" />
+              <circle cx="16" cy="12" r="3" stroke="black" strokeWidth="1.5" />
             </svg>
 
             <h3 className="text-2xl font-semibold">Frame description</h3>
@@ -706,20 +728,22 @@ const Cartpage = () => {
             <DetailRow
               label="Gender:"
               value={
-                subCatId === "6915763ceeb23fa59c7d5342" && subCategory === "Kids"
+                subCatId === "6915763ceeb23fa59c7d5342" &&
+                subCategory === "Kids"
                   ? "Kids"
                   : product.gender
               }
             />
-
           </div>
         </div>
 
         {/* ===================== PRODUCT MEASUREMENT ===================== */}
         <div className="mt-16 ml-10">
-
           {/* TITLE + ICON */}
-          {(product.lens_width || product.lens_hieght || product.bridge_width || product.temple_length) && (
+          {(product.lens_width ||
+            product.lens_hieght ||
+            product.bridge_width ||
+            product.temple_length) && (
             <>
               <div className="flex items-center gap-3 mb-2">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -735,46 +759,67 @@ const Cartpage = () => {
 
           {/* MEASUREMENTS GRID */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-10">
-
             {/* Lens Width */}
             {product.lens_width && (
               <div className="flex flex-col items-center text-center">
-                <img src={lensWidth} alt="Lens Width" className="w-[180px] h-auto object-contain" />
+                <img
+                  src={lensWidth}
+                  alt="Lens Width"
+                  className="w-[180px] h-auto object-contain"
+                />
                 <p className="font-semibold text-[15px] mt-2">Lens width:</p>
-                <p className="text-[14px] text-gray-700">{product.lens_width} mm</p>
+                <p className="text-[14px] text-gray-700">
+                  {product.lens_width} mm
+                </p>
               </div>
             )}
 
             {/* Lens Height */}
             {product.lens_hieght && (
               <div className="flex flex-col items-center text-center">
-                <img src={lensHeight} alt="Lens Height" className="w-[180px] h-auto object-contain" />
+                <img
+                  src={lensHeight}
+                  alt="Lens Height"
+                  className="w-[180px] h-auto object-contain"
+                />
                 <p className="font-semibold text-[15px] mt-2">Lens height:</p>
-                <p className="text-[14px] text-gray-700">{product.lens_hieght} mm</p>
+                <p className="text-[14px] text-gray-700">
+                  {product.lens_hieght} mm
+                </p>
               </div>
             )}
 
             {/* Bridge Width */}
             {product.bridge_width && (
               <div className="flex flex-col items-center text-center">
-                <img src={bridgeWidth} alt="Bridge Width" className="w-[180px] h-auto object-contain" />
+                <img
+                  src={bridgeWidth}
+                  alt="Bridge Width"
+                  className="w-[180px] h-auto object-contain"
+                />
                 <p className="font-semibold text-[15px] mt-2">Bridge width:</p>
-                <p className="text-[14px] text-gray-700">{product.bridge_width} mm</p>
+                <p className="text-[14px] text-gray-700">
+                  {product.bridge_width} mm
+                </p>
               </div>
             )}
 
             {/* Temple Length */}
             {product.temple_length && (
               <div className="flex flex-col items-center text-center">
-                <img src={templeLength} alt="Temple Length" className="w-[180px] h-auto object-contain" />
+                <img
+                  src={templeLength}
+                  alt="Temple Length"
+                  className="w-[180px] h-auto object-contain"
+                />
                 <p className="font-semibold text-[15px] mt-2">Temple length:</p>
-                <p className="text-[14px] text-gray-700">{product.temple_length} mm</p>
+                <p className="text-[14px] text-gray-700">
+                  {product.temple_length} mm
+                </p>
               </div>
             )}
-
           </div>
         </div>
-
 
         {product.product_description && (
           <div className="mt-16 ml-10 max-w-7xl">
@@ -792,7 +837,6 @@ const Cartpage = () => {
       {product.product_lens_image1 && product.product_lens_image2 && (
         <div className="py-12">
           <div className="mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
-
             {/* Lens Tile 1 */}
             <div className="text-center">
               <img
@@ -803,9 +847,7 @@ const Cartpage = () => {
               <h4 className="text-3xl font-semibold mb-4">
                 {product.product_lens_title1}
               </h4>
-              <p className="text-lg">
-                {product.product_lens_description1}
-              </p>
+              <p className="text-lg">{product.product_lens_description1}</p>
             </div>
 
             {/* Lens Tile 2 */}
@@ -818,11 +860,8 @@ const Cartpage = () => {
               <h4 className="text-3xl font-semibold mb-4">
                 {product.product_lens_title2}
               </h4>
-              <p className="text-lg">
-                {product.product_lens_description2}
-              </p>
+              <p className="text-lg">{product.product_lens_description2}</p>
             </div>
-
           </div>
         </div>
       )}
@@ -834,7 +873,6 @@ const Cartpage = () => {
       <OurPromise />
     </>
   );
-
 };
 
 export default Cartpage;

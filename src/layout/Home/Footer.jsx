@@ -1,5 +1,6 @@
 import { MdEmail, MdLocalPhone } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
+import { NavLink, Link } from "react-router-dom";
 import Mastercard from "../../assets/footer/mastercard.png";
 import Paypal from "../../assets/footer/paypal.png";
 import Visa from "../../assets/footer/visa.png";
@@ -123,14 +124,32 @@ const Footer = () => {
                 </span>
               </div>
 
-              <div className="flex items-start gap-1 text-gray-300">
-                <FaMapMarkerAlt className="text-xl mt-1 text-white" />
+              <div className="flex items-start gap-1 mb-2 text-gray-300">
+                <IoChatbubbleEllipsesSharp className="text-xl mt-1 text-white" />
                 <button
                   onClick={() => setOpenChat(!openChat)}
-                  className="text-sm"
+                  className="text-sm  hover:text-[#f00000]"
                 >
                   Chat with an agent
                 </button>
+              </div>
+
+              <div className="flex items-start gap-1 mb-2 text-gray-300">
+                <FaMapMarkerAlt className="text-xl mt-1 text-white" />
+                <NavLink
+                  to="/location"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-[#f00000]"
+                      : "cursor-pointer hover:text-red-600"
+                  }
+                >
+                  <span className="text-xs  hover:text-[#f00000]">
+                    Corporate Office: 34 Shining <br />
+                    Willow Crescent, Brampton,
+                    <br /> ON L6P 2A2, Canada
+                  </span>
+                </NavLink>
               </div>
 
               {/* Chatbox - toggles open/close */}

@@ -1074,6 +1074,15 @@ function Header() {
                           Optical Policy
                         </Link>
                       </li>
+
+                      <li>
+                        <Link
+                          to="/location"
+                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          GTA Location
+                        </Link>
+                      </li>
                     </ul>
                   </motion.div>
                 )}

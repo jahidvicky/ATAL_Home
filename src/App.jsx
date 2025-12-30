@@ -88,6 +88,7 @@ import OurCommunity from "./components/OurComminity";
 import OpticalEducation from "./page/opticalEducation/OpticalEducation";
 import FreeEyeExam from "./page/freeExam/FreeEyeExam";
 import InsurancePolicies from "./page/insurance/InsurancePolicies";
+import Locations from "./page/location/Locations";
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(
@@ -382,6 +383,14 @@ function App() {
             // <ProtectedRoute>
             <OurCommunity />
             // </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/location",
+          element: (
+           
+            <Locations/>
+           
           ),
         },
         {
