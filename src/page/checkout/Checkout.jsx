@@ -185,34 +185,46 @@ const Checkout = () => {
       return;
     }
 
-    // STEP: verify items are still available before moving to payment
+    // STEP: verify inventory at selected location
     try {
       const res = await API.get(`/inventory/available-products/${location}`);
       const availableProducts = res.data.products || [];
 
       for (const item of cartItems) {
+        // const productKey = item.productId || item.id;
+
+        // const found = availableProducts.find((p) => {
+        //   const backendProductId =
+        //     p.productId?._id || p.productId || p._id;
+
+        //   return String(backendProductId) === String(productKey);
+        // });
+
+
+        const productKey = item.productId || item.id;
+
         const found = availableProducts.find(
-          (p) => String(p._id) === String(item.id)
+          (p) => String(p._id) === String(productKey)
         );
 
-        // Not in stock at all
+
+
         if (!found) {
           await Swal.fire({
             icon: "warning",
-            title: `${item.name} is no longer available`,
-            text: "Please remove it from your cart before continuing."
+            title: `${item.name} is Out of Stock`,
+            text: `This item is not available in the ${location.toUpperCase()} warehouse.`,
           });
           return;
         }
 
-        // Not enough quantity
-        const availableQty = found.availableQty || 0;
+        const availableQty = Number(found.availableQty || 0);
 
         if (availableQty < item.quantity) {
           await Swal.fire({
             icon: "warning",
-            title: `Only ${availableQty} left in stock`,
-            text: `Reduce quantity of ${item.name} to continue.`
+            title: `Only ${availableQty} left`,
+            text: `Reduce quantity of ${item.name} to continue.`,
           });
           return;
         }
@@ -222,10 +234,11 @@ const Checkout = () => {
       Swal.fire({
         icon: "error",
         title: "Stock check failed",
-        text: "Please try again."
+        text: "Please try again.",
       });
       return;
     }
+
 
 
     const orderSummary = {

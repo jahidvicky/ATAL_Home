@@ -1177,17 +1177,28 @@ function Product() {
     return resolveImg(src);
   };
 
-  // Real stock from inventory
-  const getStockQty = (p) => {
-    // Prefer normalized fields like Cart page
-    const qty =
-      (p?.availableQty ?? 0) ||
-      (p?.availableStock ?? 0) ||
-      (p?.finishedStock ?? 0) ||
-      (p?.inventory?.finishedStock ?? 0);
+  const userLocation = localStorage.getItem("userLocation") || "east";
 
-    return Number(qty);
+  // Real stock from inventory
+  const hasStockAtLocation = (product) => {
+    const userLoc = String(userLocation || "").toLowerCase().trim();
+
+    // 1. If the API sent a calculated availableQty, trust it first
+    if (typeof product.availableQty === 'number') {
+      return product.availableQty > 0;
+    }
+
+    // 2. Check the productLocation array for the current branch
+    const locations = Array.isArray(product?.productLocation)
+      ? product.productLocation.map(l => String(l).toLowerCase().trim())
+      : [];
+
+    const isAvailableInBranch = locations.includes(userLoc);
+
+    // 3. Final Check: Must be in branch AND have a positive stock flag
+    return isAvailableInBranch && (product.inStock || product.availableStock > 0);
   };
+
 
 
 
@@ -1336,7 +1347,7 @@ function Product() {
                   const img = primaryImage(data);
                   const inWishlist = wishSet.has(data._id);
 
-                  const isInStock = getStockQty(data) > 0;
+                  const isInStock = hasStockAtLocation(data);
 
                   return (
                     <ProductCard

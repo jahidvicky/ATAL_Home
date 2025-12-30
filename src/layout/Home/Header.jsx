@@ -25,6 +25,9 @@ function Header() {
     sunglasses: false,
     contact_lenses: false,
     brands: false,
+    about: false,
+    home: false,
+    policyMobile: false
   });
 
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -66,7 +69,6 @@ function Header() {
   const totalQuantity = useSelector((state) =>
     state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
   );
-
 
 
   const user = localStorage.getItem("user");
@@ -946,7 +948,7 @@ function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
+                    className="absolute left-1/2 -translate-x-1/2 mt-3 ml-11 w-47 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
                   >
                     <ul className="py-2">
                       {/* Regular Home submenu items */}
@@ -1406,14 +1408,129 @@ function Header() {
         <div className="overflow-y-auto h-[calc(100vh-70px)] px-1 pb-24">
           {/* NAVIGATION LIST */}
           <nav className="flex flex-col p-4 text-base font-semibold overscroll-contain">
-            {/* HOME */}
-            <Link
-              to="/"
-              onClick={() => setSidebarOpen(false)}
-              className="px-4 py-3 rounded hover:text-red-600 hover:bg-gray-100 transition-colors"
-            >
-              Home
-            </Link>
+
+            {/* HOME DROPDOWN */}
+            <div className="px-4 py-3">
+              <button
+                onClick={() => toggleMobileDropdown("home")}
+                className="w-full flex justify-between items-center py-2 hover:text-red-600"
+              >
+                Home
+                <span>{mobileDropdown.home ? "▲" : "▼"}</span>
+              </button>
+
+              {mobileDropdown.home && (
+                <div className="ml-4 mt-2 flex flex-col gap-2 text-sm">
+
+                  {/* GENERAL INFORMATION */}
+                  <Link
+                    to="/general-info"
+                    onClick={() => setSidebarOpen(false)}
+                    className="py-1 px-2 rounded hover:bg-gray-100"
+                  >
+                    General Information
+                  </Link>
+
+                  {/* CORPORATE POLICY DROPDOWN */}
+                  <button
+                    onClick={() => toggleMobileDropdown("policyMobile")}
+                    className="w-full flex justify-between items-center py-2 rounded hover:bg-gray-100"
+                  >
+                    Corporate Policy
+                    <span>{mobileDropdown.policyMobile ? "▲" : "▼"}</span>
+                  </button>
+
+                  {mobileDropdown.policyMobile && (
+                    <div className="ml-4 mt-2 flex flex-col gap-2">
+
+                      <Link to="/cookies-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                        Cookies Policy
+                      </Link>
+
+                      <Link to="/disclaimer-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                        Disclaimer Policy
+                      </Link>
+
+                      <Link to="/exchange-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                        Exchange Policy
+                      </Link>
+
+                      <Link to="/eyeglasses-contact-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                        Eyeglasses Contact Policy
+                      </Link>
+
+                      <Link to="/privacy-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                        Privacy Policy
+                      </Link>
+
+                      <Link to="/return-exchange" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                        Return, Exchange & Consumer Policy
+                      </Link>
+
+                      <Link to="/rights-enforcement-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                        Right Enforcement Policy
+                      </Link>
+
+                      <Link to="/shipping-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                        Shipping Policy
+                      </Link>
+
+                    </div>
+                  )}
+
+                  {/* OPTICAL POLICY */}
+                  <Link
+                    to="/optical-policy"
+                    onClick={() => setSidebarOpen(false)}
+                    className="py-1 px-2 rounded hover:bg-gray-100"
+                  >
+                    Optical Policy
+                  </Link>
+
+                </div>
+              )}
+            </div>
+
+
+            {/* ABOUT US */}
+            <div className="px-4 py-3">
+              <button
+                onClick={() => toggleMobileDropdown("about")}
+                className="w-full flex justify-between items-center py-2 hover:text-red-600"
+              >
+                About Us
+                <span>{mobileDropdown.about ? "▲" : "▼"}</span>
+              </button>
+
+              {mobileDropdown.about && (
+                <div className="ml-4 mt-2 flex flex-col gap-2 text-sm">
+                  <Link
+                    to="/our-mission"
+                    onClick={() => setSidebarOpen(false)}
+                    className="py-1 px-2 rounded hover:bg-gray-100"
+                  >
+                    Our Mission
+                  </Link>
+
+                  <Link
+                    to="/our-vision"
+                    onClick={() => setSidebarOpen(false)}
+                    className="py-1 px-2 rounded hover:bg-gray-100"
+                  >
+                    Our Vision
+                  </Link>
+
+                  <Link
+                    to="/responsibility"
+                    onClick={() => setSidebarOpen(false)}
+                    className="py-1 px-2 rounded hover:bg-gray-100"
+                  >
+                    Vision & Responsibility
+                  </Link>
+                </div>
+              )}
+            </div>
+
 
             {/* GLASSES */}
             <div className="px-4 py-3">
