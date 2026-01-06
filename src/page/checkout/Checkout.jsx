@@ -13,7 +13,6 @@ const Checkout = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const userId = localStorage.getItem("user");
 
-
   const subtotal = cartItems.reduce((total, item) => {
     const catId = item.cat_id || "";
     const isContactLens = catId.includes("6915735feeb23fa59c7d532b");
@@ -21,7 +20,6 @@ const Checkout = () => {
     const frameTotal = item.price * item.quantity;
     const lensTotal = (item.lens?.totalPrice || 0) * item.quantity;
     const policyTotal = (item.policy?.price || 0) * item.quantity;
-
 
     if (isContactLens) {
       return total + frameTotal + policyTotal;
@@ -167,14 +165,10 @@ const Checkout = () => {
     if (EAST.includes(province)) return "east";
     if (WEST.includes(province)) return "west";
     return null; // do NOT allow International orders for now
-
   };
 
-
   const handleSubmit = async () => {
-    const location = resolveLocationFromProvince(
-      formData.shippingProvince
-    );
+    const location = resolveLocationFromProvince(formData.shippingProvince);
 
     if (!location) {
       Swal.fire({
@@ -200,14 +194,11 @@ const Checkout = () => {
         //   return String(backendProductId) === String(productKey);
         // });
 
-
         const productKey = item.productId || item.id;
 
         const found = availableProducts.find(
           (p) => String(p._id) === String(productKey)
         );
-
-
 
         if (!found) {
           await Swal.fire({
@@ -238,8 +229,6 @@ const Checkout = () => {
       });
       return;
     }
-
-
 
     const orderSummary = {
       userId,
@@ -274,23 +263,23 @@ const Checkout = () => {
 
       billingAddress: billingDifferent
         ? {
-          fullName: formData.shippingName,
-          address: formData.billingStreet,
-          city: formData.billingCity,
-          province: formData.billingProvince,
-          postalCode: formData.billingPostal,
-          country: "Canada",
-          phone: formData.phone,
-        }
+            fullName: formData.shippingName,
+            address: formData.billingStreet,
+            city: formData.billingCity,
+            province: formData.billingProvince,
+            postalCode: formData.billingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          }
         : {
-          fullName: formData.shippingName,
-          address: formData.shippingStreet,
-          city: formData.shippingCity,
-          province: formData.shippingProvince,
-          postalCode: formData.shippingPostal,
-          country: "Canada",
-          phone: formData.phone,
-        },
+            fullName: formData.shippingName,
+            address: formData.shippingStreet,
+            city: formData.shippingCity,
+            province: formData.shippingProvince,
+            postalCode: formData.shippingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          },
 
       subtotal,
       tax,
@@ -363,18 +352,20 @@ const Checkout = () => {
               >
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all
-                  ${idx <= currentStep
+                  ${
+                    idx <= currentStep
                       ? "bg-[#f00000] text-white border-red-600"
                       : "border-black text-black group-hover:bg-black group-hover:text-white"
-                    }`}
+                  }`}
                 >
                   {idx + 1}
                 </div>
                 <span
-                  className={`mt-2 text-sm ${idx === currentStep
-                    ? "text-[#f00000] font-bold"
-                    : "text-gray-700"
-                    }`}
+                  className={`mt-2 text-sm ${
+                    idx === currentStep
+                      ? "text-[#f00000] font-bold"
+                      : "text-gray-700"
+                  }`}
                 >
                   {step}
                 </span>
@@ -400,10 +391,11 @@ const Checkout = () => {
               value={formData.email || ""}
               onChange={(e) => handleChange("email", e.target.value)}
               className={`border p-2 rounded w-full 
-          ${formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
-                  ? "border-red-500"
-                  : "border-black"
-                }`}
+          ${
+            formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+              ? "border-red-500"
+              : "border-black"
+          }`}
               required
             />
             {formData.email &&
@@ -420,11 +412,12 @@ const Checkout = () => {
               placeholder="416 123 4567"
               value={formData.phone || ""}
               onChange={(e) => handleChange("phone", e.target.value)}
-              className={`border p-2 rounded w-full ${formData.phone &&
+              className={`border p-2 rounded w-full ${
+                formData.phone &&
                 !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone)
-                ? "border-red-500"
-                : "border-black"
-                }`}
+                  ? "border-red-500"
+                  : "border-black"
+              }`}
               required
             />
             {formData.phone &&
@@ -448,10 +441,11 @@ const Checkout = () => {
           </h1>
           <br />
           <hr
-            className={`border-t-2 -mt-2 ${!deliveryRange
-              ? "w-[418px] border-black"
-              : "w-[498px] border-black"
-              }`}
+            className={`border-t-2 -mt-2 ${
+              !deliveryRange
+                ? "w-[418px] border-black"
+                : "w-[498px] border-black"
+            }`}
           />
 
           <input
@@ -486,13 +480,14 @@ const Checkout = () => {
               const val = e.target.value.toUpperCase();
               handleChange("shippingPostal", val);
             }}
-            className={`border p-2 rounded w-full ${formData.shippingPostal &&
+            className={`border p-2 rounded w-full ${
+              formData.shippingPostal &&
               !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                 formData.shippingPostal
               )
-              ? "border-red-500"
-              : "border-black"
-              }`}
+                ? "border-red-500"
+                : "border-black"
+            }`}
             required
           />
           {formData.shippingPostal &&
@@ -581,13 +576,14 @@ const Checkout = () => {
                   const val = e.target.value.toUpperCase(); // convert to uppercase
                   handleChange("billingPostal", val);
                 }}
-                className={`border p-2 rounded w-full ${formData.billingPostal &&
+                className={`border p-2 rounded w-full ${
+                  formData.billingPostal &&
                   !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
                     formData.billingPostal
                   )
-                  ? "border-red-500"
-                  : "border-black"
-                  }`}
+                    ? "border-red-500"
+                    : "border-black"
+                }`}
                 required
               />
               {formData.billingPostal &&
@@ -685,7 +681,8 @@ const Checkout = () => {
 
                     {item.policy && item.policy.active && (
                       <p className="text-gray-600 text-sm mt-1">
-                        Policy: {item.policy.name} (${(item.policy.price || 0).toFixed(2)})
+                        Policy: {item.policy.name} ($
+                        {(item.policy.price || 0).toFixed(2)})
                       </p>
                     )}
 
@@ -729,7 +726,6 @@ const Checkout = () => {
                   )}
                 </div>
               </div>
-
             ))}
             <div className="mt-4 space-y-2 text-gray-700">
               <div className="flex flex-col sm:flex-row sm:justify-between">
@@ -807,8 +803,6 @@ const Checkout = () => {
               </Link>
             </label>
           </div>
-
-
         </div>
       )}
 

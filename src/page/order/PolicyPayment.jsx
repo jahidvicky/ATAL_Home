@@ -85,8 +85,8 @@ const PaymentPolicy = () => {
 
     const script = document.createElement("script");
     script.id = scriptId;
-    script.src = "https://sandbox.web.squarecdn.com/v1/square.js"; //sandbox use only
-    // script.src = "https://web.squarecdn.com/v1/square.js";  //production use only
+    // script.src = "https://sandbox.web.squarecdn.com/v1/square.js"; //sandbox use only
+    script.src = "https://web.squarecdn.com/v1/square.js"; //production use only
     script.async = true;
     script.onload = initSquare;
     script.onerror = () => {
@@ -130,9 +130,7 @@ const PaymentPolicy = () => {
 
       // SUCCESS → UPDATE POLICY
       const endpoint =
-        type === "renew"
-          ? `/renewPolicy/${orderId}`
-          : `/payPolicy/${orderId}`;
+        type === "renew" ? `/renewPolicy/${orderId}` : `/payPolicy/${orderId}`;
 
       await API.put(endpoint, {
         policyId: policy._id || policy.policyId,
@@ -189,10 +187,11 @@ const PaymentPolicy = () => {
         <button
           onClick={handleSquarePayment}
           disabled={!card || isPaying}
-          className={`w-full px-4 py-2 rounded-lg text-white font-semibold ${!card || isPaying
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-[#f00000] hover:bg-black"
-            }`}
+          className={`w-full px-4 py-2 rounded-lg text-white font-semibold ${
+            !card || isPaying
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#f00000] hover:bg-black"
+          }`}
         >
           {isPaying ? "Processing..." : "Pay Now"}
         </button>
