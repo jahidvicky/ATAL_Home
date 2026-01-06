@@ -2,38 +2,28 @@ import { useEffect } from "react";
 
 export default function NoCopy() {
     useEffect(() => {
-        // Block Right Click
+        // Disable right click menu
         const handleContextMenu = e => e.preventDefault();
         document.addEventListener("contextmenu", handleContextMenu);
 
-        // Block Text Selection
-        const style = document.createElement("style");
-        style.innerHTML = `
-      * {
-        user-select: none !important;
-        -webkit-user-select: none !important;
-      }
-    `;
-        document.head.appendChild(style);
-
-        // Block Copy Shortcuts (Ctrl+C, Ctrl+U, Ctrl+S, F12, etc.)
+        // Block ONLY copy shortcut (Ctrl + C)
         const blockKeys = e => {
             const key = e.key.toLowerCase();
-            if (
-                (e.ctrlKey && ["c", "u", "s", "p"].includes(key)) ||
-                (e.ctrlKey && e.shiftKey && ["i", "j"].includes(key)) ||
-                key === "f12"
-            ) {
+            if (e.ctrlKey && key === "c") {
                 e.preventDefault();
                 return false;
             }
         };
         document.addEventListener("keydown", blockKeys);
 
+        // Block copy event (like context menu Copy)
+        const blockCopy = e => e.preventDefault();
+        document.addEventListener("copy", blockCopy);
+
         return () => {
             document.removeEventListener("contextmenu", handleContextMenu);
             document.removeEventListener("keydown", blockKeys);
-            document.head.removeChild(style);
+            document.removeEventListener("copy", blockCopy);
         };
     }, []);
 

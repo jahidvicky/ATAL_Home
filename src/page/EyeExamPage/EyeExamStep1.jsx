@@ -53,7 +53,7 @@ export default function EyeExamStep1() {
                 <div>
                     <Clock className="w-10 h-10 mx-auto mb-2 text-[#f00000]" />
                     <h2 className="font-bold">Store Hours</h2>
-                    <p>Mon - Sat:  10:00 AM - 8:00 PM</p>
+                    <p>Mon - Sat:  10:00 AM - 6:00 PM</p>
                     <p>Sun: Closed</p>
                 </div>
                 <div>

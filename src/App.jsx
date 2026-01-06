@@ -388,9 +388,9 @@ function App() {
         {
           path: "/location",
           element: (
-           
-            <Locations/>
-           
+
+            <Locations />
+
           ),
         },
         {
@@ -421,7 +421,7 @@ function App() {
 
   return (
     <>
-      {/* <NoCopy /> */}
+      <NoCopy />
       <RouterProvider router={router} />
     </>
   );
