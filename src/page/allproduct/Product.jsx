@@ -137,7 +137,7 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, isInStock }) {
           {Math.round(
             ((data.product_price - data.product_sale_price) /
               data.product_price) *
-              100
+            100
           )}
           % OFF
         </div>
@@ -157,8 +157,8 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, isInStock }) {
       </Link>
 
       {data.subCategoryName?.toLowerCase() === "kids" &&
-      (String(data.cat_id) === GLASSES_CAT_ID ||
-        String(data.cat_id) === SUNGLASSES_CAT_ID)
+        (String(data.cat_id) === GLASSES_CAT_ID ||
+          String(data.cat_id) === SUNGLASSES_CAT_ID)
         ? "Kids"
         : data.gender}
 
@@ -182,9 +182,8 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, isInStock }) {
 
       <div className="mb-2">
         <span
-          className={`text-sm font-medium ${
-            isInStock ? "text-green-600" : "text-red-600"
-          }`}
+          className={`text-sm font-medium ${isInStock ? "text-green-600" : "text-red-600"
+            }`}
         >
           {isInStock ? "In stock" : "Out of stock"}
         </span>
@@ -201,11 +200,10 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, isInStock }) {
               onMouseLeave={onCardLeave}
               onBlur={onCardLeave}
               className={`w-5 h-5 rounded-full border transition-all duration-200 
-          ${
-            activeVar?.colorName === variant.colorName
-              ? "border-black ring-2 ring-black/10 scale-110"
-              : "border-gray-300 hover:scale-105"
-          }`}
+          ${activeVar?.colorName === variant.colorName
+                  ? "border-black ring-2 ring-black/10 scale-110"
+                  : "border-gray-300 hover:scale-105"
+                }`}
               style={{
                 backgroundColor:
                   variant.colorName?.toLowerCase().trim() || "gray",
@@ -559,7 +557,7 @@ function Product() {
           const filtered = inventoryProducts.filter(
             (p) =>
               String(p.frame_shape)?.toLowerCase() ===
-                frame_shape.toLowerCase() &&
+              frame_shape.toLowerCase() &&
               String(p.cat_id) === "6915705d9ceac0cdda41c83f"
           );
 
@@ -856,10 +854,10 @@ function Product() {
       const list = Array.isArray(data)
         ? data
         : Array.isArray(data?.products)
-        ? data.products
-        : Array.isArray(data?.data)
-        ? data.data
-        : [];
+          ? data.products
+          : Array.isArray(data?.data)
+            ? data.data
+            : [];
 
       setProducts(
         list.map((p) => ({
@@ -886,7 +884,7 @@ function Product() {
       const res = await API.get(`/getWishlist/${userId2}`);
       const valid = res.data?.products?.filter((p) => p.productId) || [];
       setWishlist(valid.map((p) => p.productId._id));
-    } catch (e) {}
+    } catch (e) { }
   };
 
   //  CRITICAL FIX: Proper dependency array with catId, subCatId, and brandId
@@ -1035,20 +1033,12 @@ function Product() {
       const locs = Array.isArray(p.productLocation)
         ? p.productLocation.map((l) => String(l).toLowerCase().trim())
         : typeof p.productLocation === "string"
-        ? [p.productLocation.toLowerCase().trim()]
-        : [];
+          ? [p.productLocation.toLowerCase().trim()]
+          : [];
 
-      const qty = p.availableQty ?? p.availableStock ?? p.finishedStock ?? 0;
-
-      // Prefer location match
-      if (locs.includes(locationFilter)) return true;
-
-      // Fallback. If stock exists, still show
-      if (qty > 0) return true;
-
-      return false;
+      // Only show products that actually belong to selected location
+      return locs.includes(locationFilter);
     }
-
     return true;
   };
 
@@ -1142,9 +1132,9 @@ function Product() {
 
 
 
- const checkInStock = (productId) => {
-  return (inventoryMap[productId] || 0) > 0;
-};
+  const checkInStock = (productId) => {
+    return (inventoryMap[productId] || 0) > 0;
+  };
 
   return (
     <div className="bg-white">
@@ -1197,9 +1187,8 @@ function Product() {
 
       {/* Mobile Filter Drawer */}
       <div
-        className={`fixed inset-0 bg-black/40 z-40 ${
-          isFilterOpen ? "block" : "hidden"
-        }`}
+        className={`fixed inset-0 bg-black/40 z-40 ${isFilterOpen ? "block" : "hidden"
+          }`}
         onClick={() => setIsFilterOpen(false)}
         aria-hidden="true"
       />
@@ -1207,9 +1196,8 @@ function Product() {
         id="filters-drawer"
         role="dialog"
         aria-modal="true"
-        className={`fixed z-50 inset-y-0 left-0 w-80 bg-white border-r border-gray-200 transform transition-transform duration-200 ${
-          isFilterOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:hidden`}
+        className={`fixed z-50 inset-y-0 left-0 w-80 bg-white border-r border-gray-200 transform transition-transform duration-200 ${isFilterOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:hidden`}
       >
         <div className="p-4 flex items-center justify-between border-b">
           <h3 className="text-base font-semibold">Filters</h3>
@@ -1292,7 +1280,7 @@ function Product() {
                   const img = primaryImage(data);
                   const inWishlist = wishSet.has(data._id);
 
-                const inStock = checkInStock(data._id);
+                  const inStock = checkInStock(data._id);
 
 
                   return (
@@ -1302,7 +1290,7 @@ function Product() {
                       img={img}
                       inWishlist={inWishlist}
                       toggleWishlist={toggleWishlist}
-                     isInStock={inStock}
+                      isInStock={inStock}
                     />
                   );
                 })}
@@ -1333,11 +1321,10 @@ function Product() {
                       <button
                         key={n}
                         onClick={() => setPage(n)}
-                        className={`px-3 py-1 rounded border ${
-                          isActive
-                            ? "bg-black text-white border-black"
-                            : "border-gray-300 hover:bg-gray-50"
-                        }`}
+                        className={`px-3 py-1 rounded border ${isActive
+                          ? "bg-black text-white border-black"
+                          : "border-gray-300 hover:bg-gray-50"
+                          }`}
                         aria-current={isActive ? "page" : undefined}
                       >
                         {n}

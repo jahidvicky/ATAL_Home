@@ -1154,8 +1154,17 @@ function Header() {
               onMouseEnter={handleLocationEnter}
               onMouseLeave={handleLocationLeave}
             >
-              <button type="button" className="flex items-center gap-1">
-                Location ▾
+              <button
+                type="button"
+                className="flex items-center gap-1 cursor-pointer hover:text-red-600 transition-colors"
+              >
+                Location
+                <span
+                  className={`inline-block transition-transform duration-200 ${locationOpen ? "rotate-180" : ""
+                    }`}
+                >
+                  ▾
+                </span>
               </button>
 
               <AnimatePresence>
