@@ -31,14 +31,9 @@ const initialFilters = {
   isKids: false,
 };
 
-
-
-
-
 const GLASSES_CAT_ID = "69157332eeb23fa59c7d5326";
 const SUNGLASSES_CAT_ID = "6915705d9ceac0cdda41c83f";
 const CONTACT_LENS_CAT_ID = "6915735feeb23fa59c7d532b";
-
 
 const resolveImg = (src = "") => {
   if (!src) return "/no-image.png";
@@ -49,13 +44,7 @@ const resolveImg = (src = "") => {
 };
 
 // ProductCard Component
-function ProductCard({
-  data,
-  img,
-  inWishlist,
-  toggleWishlist,
-  isInStock,
-}) {
+function ProductCard({ data, img, inWishlist, toggleWishlist, isInStock }) {
   const [activeVar, setActiveVar] = React.useState(null);
   const [slideIdx, setSlideIdx] = React.useState(0);
   const slideTimerRef = React.useRef(null);
@@ -67,7 +56,6 @@ function ProductCard({
     return resolveImg(v0 || c0 || fallback || "");
   }, [data, img]);
 
-
   const baseImgs = React.useMemo(() => {
     const allImgs = [
       ...(data?.product_image_collection || []),
@@ -76,12 +64,10 @@ function ProductCard({
     return allImgs.length ? allImgs.map(resolveImg) : [primary];
   }, [data, primary]);
 
-
   const images = React.useMemo(() => {
     const srcs = activeVar?.images?.length ? activeVar.images : baseImgs;
     return srcs.map(resolveImg);
   }, [activeVar, baseImgs]);
-
 
   const currentImg = images[slideIdx] || images[0] || primary;
 
@@ -100,9 +86,12 @@ function ProductCard({
     setSlideIdx(0);
   };
 
-  React.useEffect(() => () => {
-    if (slideTimerRef.current) clearInterval(slideTimerRef.current);
-  }, []);
+  React.useEffect(
+    () => () => {
+      if (slideTimerRef.current) clearInterval(slideTimerRef.current);
+    },
+    []
+  );
 
   const onSwatchEnter = (variant) => {
     setActiveVar(variant);
@@ -114,11 +103,12 @@ function ProductCard({
     stopSlide();
   };
 
-  const variants = Array.isArray(data.product_variants) ? data.product_variants : [];
+  const variants = Array.isArray(data.product_variants)
+    ? data.product_variants
+    : [];
   const isContactLens =
     data?.cat_id?._id === "6915735feeb23fa59c7d532b" ||
     data?.cat_id === "6915735feeb23fa59c7d532b";
-
 
   return (
     <div
@@ -145,14 +135,17 @@ function ProductCard({
       {data.product_price > data.product_sale_price && (
         <div className="absolute top-2 left-2 bg-gray-200 text-[#f00000] text-xs font-semibold px-2 py-1 rounded-full z-10">
           {Math.round(
-            ((data.product_price - data.product_sale_price) / data.product_price) * 100
+            ((data.product_price - data.product_sale_price) /
+              data.product_price) *
+              100
           )}
           % OFF
         </div>
       )}
 
-
-      <Link to={`/product/${data._id}/${data.subCategoryName}/${data.subCat_id}`}>
+      <Link
+        to={`/product/${data._id}/${data.subCategoryName}/${data.subCat_id}`}
+      >
         <img
           key={currentImg}
           src={currentImg}
@@ -163,15 +156,11 @@ function ProductCard({
         />
       </Link>
 
-
       {data.subCategoryName?.toLowerCase() === "kids" &&
-        (
-          String(data.cat_id) === GLASSES_CAT_ID ||
-          String(data.cat_id) === SUNGLASSES_CAT_ID
-        )
+      (String(data.cat_id) === GLASSES_CAT_ID ||
+        String(data.cat_id) === SUNGLASSES_CAT_ID)
         ? "Kids"
         : data.gender}
-
 
       <p className="text-base font-semibold text-gray-900 capitalize mb-1">
         {data.product_name}
@@ -184,16 +173,22 @@ function ProductCard({
           </span>
         )}
         <span className="text-gray-900 font-bold">
-          ${Number(data.product_sale_price ?? data.product_price ?? 0).toFixed(2)}
+          $
+          {Number(data.product_sale_price ?? data.product_price ?? 0).toFixed(
+            2
+          )}
         </span>
       </div>
 
       <div className="mb-2">
-        <span className={`text-sm font-medium ${isInStock ? "text-green-600" : "text-red-600"}`}>
+        <span
+          className={`text-sm font-medium ${
+            isInStock ? "text-green-600" : "text-red-600"
+          }`}
+        >
           {isInStock ? "In stock" : "Out of stock"}
         </span>
       </div>
-
 
       {variants.length > 0 && !isContactLens && (
         <div className="flex justify-center gap-2 mt-2">
@@ -206,11 +201,14 @@ function ProductCard({
               onMouseLeave={onCardLeave}
               onBlur={onCardLeave}
               className={`w-5 h-5 rounded-full border transition-all duration-200 
-          ${activeVar?.colorName === variant.colorName
-                  ? "border-black ring-2 ring-black/10 scale-110"
-                  : "border-gray-300 hover:scale-105"}`}
+          ${
+            activeVar?.colorName === variant.colorName
+              ? "border-black ring-2 ring-black/10 scale-110"
+              : "border-gray-300 hover:scale-105"
+          }`}
               style={{
-                backgroundColor: variant.colorName?.toLowerCase().trim() || "gray",
+                backgroundColor:
+                  variant.colorName?.toLowerCase().trim() || "gray",
               }}
               role="button"
               tabIndex={0}
@@ -223,10 +221,28 @@ function ProductCard({
   );
 }
 
-
 // Main Product Component
 function Product() {
-  const { subCategory, subCatId, shape, gender, lens_type, frame_shape, collection, catId, lens_cat, contactBrandId, slug, frameSlug, collectionName, frameShape, categoryName, categoryId, BrandId, allBrands } = useParams();
+  const {
+    subCategory,
+    subCatId,
+    shape,
+    gender,
+    lens_type,
+    frame_shape,
+    collection,
+    catId,
+    lens_cat,
+    contactBrandId,
+    slug,
+    frameSlug,
+    collectionName,
+    frameShape,
+    categoryName,
+    categoryId,
+    BrandId,
+    allBrands,
+  } = useParams();
 
   const location = useLocation();
   const [locationFilter, setLocationFilter] = useState("all");
@@ -255,17 +271,31 @@ function Product() {
   const [sort, setSort] = useState("popular");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+  const [inventoryMap, setInventoryMap] = useState({});
 
+  const fetchInventory = async () => {
+    try {
+      const userLoc = localStorage.getItem("userLocation") || "east";
+
+      const res = await API.get(`/inventory/available-products/${userLoc}?scope=global`);
+
+      const map = {};
+      (res.data.products || []).forEach((p) => {
+        map[p._id] = Number(p.availableQty || 0);
+      });
+
+      setInventoryMap(map);
+    } catch (err) {
+      console.error("Inventory fetch failed", err);
+    }
+  };
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const loc = params.get("location");
 
-    setLocationFilter(
-      loc ? loc.toLowerCase().trim() : "all"
-    );
+    setLocationFilter(loc ? loc.toLowerCase().trim() : "all");
   }, [location.search]);
-
 
   //  CRITICAL FIX: Fetch Products with proper dependency array
   const fetchProducts = async () => {
@@ -274,13 +304,13 @@ function Product() {
       setErrorMsg("");
       setProducts([]); // Clear previous products IMMEDIATELY
 
-
-      // 🚨 HARD OVERRIDE: Men's / Women's Glasses
+      //  HARD OVERRIDE: Men's / Women's Glasses
       //  GLASSES → MEN / WOMEN (STRICT)
-      if ((slug === "men" || slug === "women") && String(catId) === GLASSES_CAT_ID) {
-        const res = await API.get(
-          "/getallproduct"
-        );
+      if (
+        (slug === "men" || slug === "women") &&
+        String(catId) === GLASSES_CAT_ID
+      ) {
+        const res = await API.get("/getallproduct");
 
         const inventoryProducts = res.data?.products || [];
 
@@ -296,9 +326,7 @@ function Product() {
         return;
       }
 
-
-
-      // ========== NEW: Handle View All Category Request ==========  
+      // ========== NEW: Handle View All Category Request ==========
       if (categoryId && categoryName) {
         try {
           setIsLoading(true);
@@ -307,13 +335,10 @@ function Product() {
           const list = res.data?.data || [];
 
           setProducts(
-            list.map(p => ({
+            list.map((p) => ({
               ...p,
               availableQty:
-                p.availableQty ??
-                p.availableStock ??
-                p.finishedStock ??
-                0
+                p.availableQty ?? p.availableStock ?? p.finishedStock ?? 0,
             }))
           );
 
@@ -328,19 +353,15 @@ function Product() {
         return; // VERY IMPORTANT
       }
 
-
       if (BrandId) {
         try {
           const res = await API.get(`/brand/${BrandId}`);
           const list = res.data?.products || [];
           setProducts(
-            list.map(p => ({
+            list.map((p) => ({
               ...p,
               availableQty:
-                p.availableQty ??
-                p.availableStock ??
-                p.finishedStock ??
-                0
+                p.availableQty ?? p.availableStock ?? p.finishedStock ?? 0,
             }))
           );
 
@@ -354,21 +375,17 @@ function Product() {
         return;
       }
 
-
-
       if (shape && !slug) {
         try {
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const inventoryProducts = res.data?.products || [];
 
           const filtered = inventoryProducts.filter(
             (p) =>
               String(p.face_shape)?.toLowerCase() === shape.toLowerCase() &&
-              p.cat_id !== SUNGLASSES_CAT_ID &&     // ❌ block sunglasses
-              p.cat_id !== CONTACT_LENS_CAT_ID      // ❌ block contact lens
+              p.cat_id !== SUNGLASSES_CAT_ID && //  block sunglasses
+              p.cat_id !== CONTACT_LENS_CAT_ID //  block contact lens
           );
 
           setProducts(filtered);
@@ -381,20 +398,14 @@ function Product() {
         }
         return;
       }
-
-
 
       if (allBrands === "allProduct") {
         try {
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const inventoryProducts = res.data?.products || [];
 
-          const filtered = inventoryProducts.filter((p) => p.
-            brand_id
-          );
+          const filtered = inventoryProducts.filter((p) => p.brand_id);
           setProducts(filtered);
           setPage(1);
         } catch (e) {
@@ -405,7 +416,6 @@ function Product() {
         }
         return;
       }
-
 
       const GLASSES_CAT_ID = "69157332eeb23fa59c7d5326";
 
@@ -415,9 +425,7 @@ function Product() {
         try {
           setIsLoading(true);
 
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const inventoryProducts = res.data?.products || [];
 
@@ -439,24 +447,19 @@ function Product() {
         return; //STOP HERE
       }
 
-
-
-
       //  SUNGLASSES → MEN (STRICT)
       if (gender === "men" && String(catId) === SUNGLASSES_CAT_ID) {
         try {
           setIsLoading(true);
 
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const inventoryProducts = res.data?.products || [];
 
           const filtered = inventoryProducts.filter(
             (p) =>
-              String(p.cat_id) === SUNGLASSES_CAT_ID &&   // Sunglasses only
-              p.gender?.toLowerCase() === "men"           // ONLY men
+              String(p.cat_id) === SUNGLASSES_CAT_ID && // Sunglasses only
+              p.gender?.toLowerCase() === "men" // ONLY men
           );
 
           setProducts(filtered);
@@ -468,7 +471,7 @@ function Product() {
           setIsLoading(false);
         }
 
-        return; // ⛔ STOP here
+        return; //  STOP here
       }
 
       //  SUNGLASSES → WOMEN (STRICT)
@@ -476,16 +479,14 @@ function Product() {
         try {
           setIsLoading(true);
 
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const inventoryProducts = res.data?.products || [];
 
           const filtered = inventoryProducts.filter(
             (p) =>
-              String(p.cat_id) === SUNGLASSES_CAT_ID &&   //  Sunglasses only
-              p.gender?.toLowerCase() === "women"         //  ONLY women
+              String(p.cat_id) === SUNGLASSES_CAT_ID && //  Sunglasses only
+              p.gender?.toLowerCase() === "women" //  ONLY women
           );
 
           setProducts(filtered);
@@ -497,24 +498,20 @@ function Product() {
           setIsLoading(false);
         }
 
-        return; // ⛔ STOP everything else
+        return; //  STOP everything else
       }
-
-
 
       if (gender && !slug) {
         try {
           setIsLoading(true);
 
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const inventoryProducts = res.data?.products || [];
 
           const filtered = inventoryProducts.filter(
             (p) =>
-              String(p.cat_id) === GLASSES_CAT_ID &&          //  Only Glasses
+              String(p.cat_id) === GLASSES_CAT_ID && //  Only Glasses
               String(p.gender)?.toLowerCase() === gender.toLowerCase() //  EXACT match
           );
 
@@ -527,22 +524,18 @@ function Product() {
           setIsLoading(false);
         }
 
-        return; // ⛔ Stop further filters
+        return; //  Stop further filters
       }
-
-
-
 
       if (lens_type) {
         try {
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const inventoryProducts = res.data?.products || [];
           const filtered = inventoryProducts.filter((p) => {
             return (
-              String(p.subCategoryName)?.toLowerCase() === lens_type.toLowerCase()
+              String(p.subCategoryName)?.toLowerCase() ===
+              lens_type.toLowerCase()
             );
           });
 
@@ -555,20 +548,19 @@ function Product() {
           setIsLoading(false);
         }
         return;
-
       }
 
       if (frame_shape) {
         try {
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const inventoryProducts = res.data?.products || [];
 
-          const filtered = inventoryProducts.filter((p) =>
-            String(p.frame_shape)?.toLowerCase() === frame_shape.toLowerCase() &&
-            String(p.cat_id) === "6915705d9ceac0cdda41c83f"
+          const filtered = inventoryProducts.filter(
+            (p) =>
+              String(p.frame_shape)?.toLowerCase() ===
+                frame_shape.toLowerCase() &&
+              String(p.cat_id) === "6915705d9ceac0cdda41c83f"
           );
 
           setProducts(filtered);
@@ -582,17 +574,15 @@ function Product() {
         return;
       }
 
-
       if (frameShape) {
         try {
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const inventoryProducts = res.data?.products || [];
 
-          const filtered = inventoryProducts.filter((p) =>
-            String(p.frame_shape)?.toLowerCase() === frameShape.toLowerCase()
+          const filtered = inventoryProducts.filter(
+            (p) =>
+              String(p.frame_shape)?.toLowerCase() === frameShape.toLowerCase()
           );
 
           setProducts(filtered);
@@ -608,16 +598,14 @@ function Product() {
 
       if (contactBrandId) {
         try {
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const inventoryProducts = res.data?.products || [];
 
-          const filtered = inventoryProducts.filter((p) =>
-            String(p.brand_id) === contactBrandId
-            &&
-            String(p.cat_id) === "6915735feeb23fa59c7d532b"
+          const filtered = inventoryProducts.filter(
+            (p) =>
+              String(p.brand_id) === contactBrandId &&
+              String(p.cat_id) === "6915735feeb23fa59c7d532b"
           );
           setProducts(filtered);
           setPage(1);
@@ -630,13 +618,9 @@ function Product() {
         return;
       }
 
-
-
       if (collection) {
         try {
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const fullList = res.data?.products || [];
 
@@ -644,12 +628,12 @@ function Product() {
 
           if (collection === "best-seller") {
             filtered = fullList.filter((p) => p.isBestSeller === true);
-          }
-          else if (collection === "trending") {
+          } else if (collection === "trending") {
             filtered = fullList.filter((p) => p.isTrending === true);
-          }
-          else {
-            filtered = fullList.filter((p) => String(p.brand_id) === collection);
+          } else {
+            filtered = fullList.filter(
+              (p) => String(p.brand_id) === collection
+            );
           }
 
           setProducts(filtered);
@@ -663,21 +647,18 @@ function Product() {
         return;
       }
 
-
-
       if (lens_cat) {
         try {
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const inventoryProducts = res.data?.products || [];
-
 
           const cleanedLens = lens_cat.trim().toLowerCase();
 
           const filtered = inventoryProducts.filter((p) => {
-            const type = String(p.lens_type || "").trim().toLowerCase();
+            const type = String(p.lens_type || "")
+              .trim()
+              .toLowerCase();
             const catIdMatch = String(p.cat_id) === "6915735feeb23fa59c7d532b";
 
             // DAILY
@@ -688,8 +669,7 @@ function Product() {
             // WEEKLY or BIWEEKLY
             if (cleanedLens === "weekly" || cleanedLens === "biweekly") {
               return (
-                (type.includes("week") || type.includes("bi")) &&
-                catIdMatch
+                (type.includes("week") || type.includes("bi")) && catIdMatch
               );
             }
 
@@ -712,37 +692,36 @@ function Product() {
         return;
       }
 
-
-
       // ========== New CategoryProducts Filter ============
       if (frameSlug) {
         try {
           setIsLoading(true);
 
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const fullList = res.data?.products || [];
-
 
           let filtered = [];
 
           // 👨 MEN → glasses + sunglasses (gender only)
           if (frameSlug === "men") {
             filtered = fullList.filter(
-              (p) => p.gender?.toLowerCase() === "men" && p.cat_id !== "6915735feeb23fa59c7d532b"
+              (p) =>
+                p.gender?.toLowerCase() === "men" &&
+                p.cat_id !== "6915735feeb23fa59c7d532b"
             );
           }
 
-          // 👩 WOMEN → glasses + sunglasses (gender only)
+          //  WOMEN → glasses + sunglasses (gender only)
           else if (frameSlug === "women") {
             filtered = fullList.filter(
-              (p) => p.gender?.toLowerCase() === "women" && p.cat_id !== "6915735feeb23fa59c7d532b"
+              (p) =>
+                p.gender?.toLowerCase() === "women" &&
+                p.cat_id !== "6915735feeb23fa59c7d532b"
             );
           }
 
-          // 👁️ CONTACT LENS → category based
+          //  CONTACT LENS → category based
           else if (frameSlug === "contact-lens") {
             filtered = fullList.filter(
               (p) => String(p.cat_id) === CONTACT_LENS_CAT_ID
@@ -758,21 +737,14 @@ function Product() {
           setIsLoading(false);
         }
 
-        return; // ⛔ STOP
+        return; //  STOP
       }
-
-
-
-
 
       if (collectionName) {
         try {
-          const res = await API.get(
-            "/getallproduct"
-          );
+          const res = await API.get("/getallproduct");
 
           const fullList = res.data?.products || [];
-
 
           let filtered = [];
 
@@ -810,28 +782,24 @@ function Product() {
             // OLD LOGIC
             case "men":
               filtered = fullList.filter(
-                (p) =>
-                  p.gender?.toLowerCase() === "men"
+                (p) => p.gender?.toLowerCase() === "men"
               );
               break;
 
             case "women":
               filtered = fullList.filter(
-                (p) =>
-                  p.gender?.toLowerCase() === "women"
+                (p) => p.gender?.toLowerCase() === "women"
               );
               break;
 
             case "kids":
               filtered = fullList.filter(
-                (p) =>
-                  p.gender?.toLowerCase() === "kids"
+                (p) => p.gender?.toLowerCase() === "kids"
               );
               break;
             case "unisex":
               filtered = fullList.filter(
-                (p) =>
-                  p.gender?.toLowerCase() === "unisex"
+                (p) => p.gender?.toLowerCase() === "unisex"
               );
               break;
 
@@ -841,7 +809,6 @@ function Product() {
               );
               break;
           }
-
 
           setProducts(filtered);
           setPage(1);
@@ -855,21 +822,14 @@ function Product() {
         return;
       }
 
-
-
-
-
       if (brandId) {
         const res = await API.get(`/brand/${brandId}`);
         const list = res.data?.products || [];
         setProducts(
-          list.map(p => ({
+          list.map((p) => ({
             ...p,
             availableQty:
-              p.availableQty ??
-              p.availableStock ??
-              p.finishedStock ??
-              0
+              p.availableQty ?? p.availableStock ?? p.finishedStock ?? 0,
           }))
         );
 
@@ -896,19 +856,16 @@ function Product() {
       const list = Array.isArray(data)
         ? data
         : Array.isArray(data?.products)
-          ? data.products
-          : Array.isArray(data?.data)
-            ? data.data
-            : [];
+        ? data.products
+        : Array.isArray(data?.data)
+        ? data.data
+        : [];
 
       setProducts(
-        list.map(p => ({
+        list.map((p) => ({
           ...p,
           availableQty:
-            p.availableQty ??
-            p.availableStock ??
-            p.finishedStock ??
-            0
+            p.availableQty ?? p.availableStock ?? p.finishedStock ?? 0,
         }))
       );
 
@@ -929,18 +886,40 @@ function Product() {
       const res = await API.get(`/getWishlist/${userId2}`);
       const valid = res.data?.products?.filter((p) => p.productId) || [];
       setWishlist(valid.map((p) => p.productId._id));
-    } catch (e) { }
+    } catch (e) {}
   };
 
   //  CRITICAL FIX: Proper dependency array with catId, subCatId, and brandId
   useEffect(() => {
     fetchProducts();
     fetchWishlist();
-  }, [catId, subCatId, brandId, shape, gender, lens_type, frame_shape, collection, lens_cat, contactBrandId, slug, collectionName, frameShape, categoryId, categoryName, BrandId, allBrands]);
+    fetchInventory();
+  }, [
+    catId,
+    subCatId,
+    brandId,
+    shape,
+    gender,
+    lens_type,
+    frame_shape,
+    collection,
+    lens_cat,
+    contactBrandId,
+    slug,
+    collectionName,
+    frameShape,
+    categoryId,
+    categoryName,
+    BrandId,
+    allBrands,
+  ]);
 
   // Facets + Filters
   const facetData = useMemo(() => {
-    const norm = (s) => String(s || "").toLowerCase().trim();
+    const norm = (s) =>
+      String(s || "")
+        .toLowerCase()
+        .trim();
     const brands = new Set();
     const genders = new Set();
     const faceShapes = new Set();
@@ -952,16 +931,11 @@ function Product() {
 
     products.forEach((p) => {
       const brandName =
-        p?.brand_id?.brand ||
-        p?.brand ||
-        p?.product_brand ||
-        "";
+        p?.brand_id?.brand || p?.brand || p?.product_brand || "";
       if (brandName) brands.add(brandName.trim());
 
       const gender =
-        p.subCategoryName?.toLowerCase() === "kids"
-          ? "Kids"
-          : p.gender?.trim();
+        p.subCategoryName?.toLowerCase() === "kids" ? "Kids" : p.gender?.trim();
       if (gender) genders.add(gender);
 
       //  FACE SHAPE
@@ -983,7 +957,6 @@ function Product() {
         max = Math.max(max, price);
       }
     });
-
 
     if (!Number.isFinite(min)) {
       min = 0;
@@ -1020,18 +993,13 @@ function Product() {
     /* ---------- MEN / WOMEN ---------- */
     if (
       filters.genders.size &&
-      ![...filters.genders].some(
-        (g) => g.toLowerCase() === gender
-      )
+      ![...filters.genders].some((g) => g.toLowerCase() === gender)
     ) {
       return false;
     }
 
     /* ---------- KIDS (SUBCATEGORY) ---------- */
-    if (
-      filters.isKids &&
-      p.subCategoryName?.toLowerCase() !== "kids"
-    ) {
+    if (filters.isKids && p.subCategoryName?.toLowerCase() !== "kids") {
       return false;
     }
 
@@ -1052,30 +1020,25 @@ function Product() {
       return false;
     }
 
-
     /* ---------- COLOR ---------- */
     if (filters.colors.size && !filters.colors.has(color)) return false;
 
     /* ---------- MATERIAL ---------- */
-    if (filters.materials.size && !filters.materials.has(material)) return false;
+    if (filters.materials.size && !filters.materials.has(material))
+      return false;
 
     /* ---------- PRICE ---------- */
     if (price < filters.priceMin || price > filters.priceMax) return false;
 
-
     /* ---------- LOCATION ---------- */
     if (locationFilter !== "all") {
       const locs = Array.isArray(p.productLocation)
-        ? p.productLocation.map(l => String(l).toLowerCase().trim())
+        ? p.productLocation.map((l) => String(l).toLowerCase().trim())
         : typeof p.productLocation === "string"
-          ? [p.productLocation.toLowerCase().trim()]
-          : [];
+        ? [p.productLocation.toLowerCase().trim()]
+        : [];
 
-      const qty =
-        p.availableQty ??
-        p.availableStock ??
-        p.finishedStock ??
-        0;
+      const qty = p.availableQty ?? p.availableStock ?? p.finishedStock ?? 0;
 
       // Prefer location match
       if (locs.includes(locationFilter)) return true;
@@ -1088,7 +1051,6 @@ function Product() {
 
     return true;
   };
-
 
   const applySort = (arr) => {
     switch (sort) {
@@ -1118,8 +1080,6 @@ function Product() {
     [products, filters, sort, locationFilter]
   );
 
-
-
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / pageSize));
   const pageSlice = useMemo(() => {
     const start = (page - 1) * pageSize;
@@ -1133,13 +1093,12 @@ function Product() {
     filters.priceMin,
     filters.priceMax,
     JSON.stringify([...filters.brands]),
-    JSON.stringify([...filters.faceShapes]),   // 
-    JSON.stringify([...filters.frameShapes]),  // 
+    JSON.stringify([...filters.faceShapes]), //
+    JSON.stringify([...filters.frameShapes]), //
     JSON.stringify([...filters.colors]),
     JSON.stringify([...filters.materials]),
-    locationFilter
+    locationFilter,
   ]);
-
 
   const wishSet = useMemo(() => new Set(wishlist), [wishlist]);
 
@@ -1152,11 +1111,15 @@ function Product() {
     }
     const isIn = wishSet.has(productId);
     const prev = wishlist;
-    const next = isIn ? prev.filter((id) => id !== productId) : [...prev, productId];
+    const next = isIn
+      ? prev.filter((id) => id !== productId)
+      : [...prev, productId];
     setWishlist(next);
     try {
       if (isIn) {
-        await API.delete("/removeWishlist", { data: { userId: userId2, productId } });
+        await API.delete("/removeWishlist", {
+          data: { userId: userId2, productId },
+        });
         Toast.fire({ icon: "success", title: "Removed from wishlist" });
       } else {
         await API.post("/addWishlist", { userId: userId2, productId });
@@ -1177,31 +1140,11 @@ function Product() {
     return resolveImg(src);
   };
 
-  const userLocation = localStorage.getItem("userLocation") || "east";
-
-  // Real stock from inventory
-  const hasStockAtLocation = (product) => {
-    const userLoc = String(userLocation || "").toLowerCase().trim();
-
-    // 1. If the API sent a calculated availableQty, trust it first
-    if (typeof product.availableQty === 'number') {
-      return product.availableQty > 0;
-    }
-
-    // 2. Check the productLocation array for the current branch
-    const locations = Array.isArray(product?.productLocation)
-      ? product.productLocation.map(l => String(l).toLowerCase().trim())
-      : [];
-
-    const isAvailableInBranch = locations.includes(userLoc);
-
-    // 3. Final Check: Must be in branch AND have a positive stock flag
-    return isAvailableInBranch && (product.inStock || product.availableStock > 0);
-  };
 
 
-
-
+ const checkInStock = (productId) => {
+  return (inventoryMap[productId] || 0) > 0;
+};
 
   return (
     <div className="bg-white">
@@ -1254,8 +1197,9 @@ function Product() {
 
       {/* Mobile Filter Drawer */}
       <div
-        className={`fixed inset-0 bg-black/40 z-40 ${isFilterOpen ? "block" : "hidden"
-          }`}
+        className={`fixed inset-0 bg-black/40 z-40 ${
+          isFilterOpen ? "block" : "hidden"
+        }`}
         onClick={() => setIsFilterOpen(false)}
         aria-hidden="true"
       />
@@ -1263,8 +1207,9 @@ function Product() {
         id="filters-drawer"
         role="dialog"
         aria-modal="true"
-        className={`fixed z-50 inset-y-0 left-0 w-80 bg-white border-r border-gray-200 transform transition-transform duration-200 ${isFilterOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:hidden`}
+        className={`fixed z-50 inset-y-0 left-0 w-80 bg-white border-r border-gray-200 transform transition-transform duration-200 ${
+          isFilterOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:hidden`}
       >
         <div className="p-4 flex items-center justify-between border-b">
           <h3 className="text-base font-semibold">Filters</h3>
@@ -1347,7 +1292,8 @@ function Product() {
                   const img = primaryImage(data);
                   const inWishlist = wishSet.has(data._id);
 
-                  const isInStock = hasStockAtLocation(data);
+                const inStock = checkInStock(data._id);
+
 
                   return (
                     <ProductCard
@@ -1356,7 +1302,7 @@ function Product() {
                       img={img}
                       inWishlist={inWishlist}
                       toggleWishlist={toggleWishlist}
-                      isInStock={isInStock}
+                     isInStock={inStock}
                     />
                   );
                 })}
@@ -1387,10 +1333,11 @@ function Product() {
                       <button
                         key={n}
                         onClick={() => setPage(n)}
-                        className={`px-3 py-1 rounded border ${isActive
-                          ? "bg-black text-white border-black"
-                          : "border-gray-300 hover:bg-gray-50"
-                          }`}
+                        className={`px-3 py-1 rounded border ${
+                          isActive
+                            ? "bg-black text-white border-black"
+                            : "border-gray-300 hover:bg-gray-50"
+                        }`}
                         aria-current={isActive ? "page" : undefined}
                       >
                         {n}

@@ -17,40 +17,47 @@ const Cartpage = () => {
   const { ID, subCategory, subCatId } = useParams();
 
   const [product, setProduct] = useState({});
-  const userLocation = localStorage.getItem("userLocation") || "east";
+  const [availability, setAvailability] = useState({
+    availableQty: 0,
+    inStock: false,
+  });
 
-  const isAvailable = (product) => {
-    // 1️⃣ If inventory exists, use true location stock
-    if (Array.isArray(product?.inventory) && product.inventory.length) {
-      return product.inventory
-        .filter(i => String(i.location).toLowerCase() === userLocation)
-        .some(i =>
-          (i.rawStock || 0) +
-          (i.inProcessing || 0) +
-          (i.finishedStock || 0) -
-          (i.orderedStock || 0) > 0
-        );
+
+
+  const fetchAvailability = async () => {
+    try {
+      const location = localStorage.getItem("userLocation") || "east";
+
+      const res = await API.get(`inventory/available-products/${location}?scope=global`);
+
+      const found = res.data?.products?.find(
+        (p) => String(p._id) === String(ID)
+      );
+ 
+      
+
+      if (found) {
+        setAvailability({
+          availableQty: found.availableQty || 0,
+          inStock: found.inStock === true,
+        });
+      } else {
+        setAvailability({
+          availableQty: 0,
+          inStock: false,
+        });
+      }
+    } catch (err) {
+      console.error("Availability fetch failed", err);
+      setAvailability({
+        availableQty: 0,
+        inStock: false,
+      });
     }
-
-    // 2️⃣ Fallback when inventory is NOT sent in API
-    const locations = Array.isArray(product?.productLocation)
-      ? product.productLocation.map(l => String(l).toLowerCase())
-      : product?.productLocation
-        ? [String(product.productLocation).toLowerCase()]
-        : [];
-
-    const qty =
-      product?.availableQty ??
-      product?.availableStock ??
-      product?.finishedStock ??
-      0;
-
-    return locations.includes(userLocation) && qty > 0;
   };
 
-
-  const inStock = isAvailable(product);
-
+  // const inStock = isAvailable(product);
+  const inStock = availability.inStock;
 
   const [wishlist, setWishlist] = useState([]);
 
@@ -151,6 +158,7 @@ const Cartpage = () => {
   useEffect(() => {
     fetchProducts();
     fetchWishlist();
+    fetchAvailability();
   }, [ID]);
 
   useEffect(() => {
@@ -499,44 +507,12 @@ const Cartpage = () => {
                         return;
                       }
 
-                      // REAL location-based available qty
-                      const userLocation = localStorage.getItem("userLocation") || "east";
+                      // =======================
+                      // GLOBAL AVAILABLE QTY LOGIC (FIXED)
+                      // =======================
 
-                      let availableQty = 0;
+                      const availableQty = availability.availableQty;
 
-                      // 1️⃣ Use real inventory if API returned it
-                      if (Array.isArray(product?.inventory) && product.inventory.length) {
-                        const locationInventory = product.inventory.find(
-                          i => String(i.location).toLowerCase() === userLocation
-                        );
-
-                        if (locationInventory) {
-                          availableQty =
-                            (locationInventory.rawStock || 0) +
-                            (locationInventory.inProcessing || 0) +
-                            (locationInventory.finishedStock || 0) -
-                            (locationInventory.orderedStock || 0);
-                        }
-                      }
-
-                      // 2️⃣ Fallback when inventory is NOT included in product response
-                      if (availableQty === 0) {
-                        const locations = Array.isArray(product?.productLocation)
-                          ? product.productLocation.map(l => String(l).toLowerCase())
-                          : product?.productLocation
-                            ? [String(product.productLocation).toLowerCase()]
-                            : [];
-
-                        if (locations.includes(userLocation)) {
-                          availableQty =
-                            product?.availableQty ??
-                            product?.availableStock ??
-                            product?.finishedStock ??
-                            0;
-                        }
-                      }
-
-                      // check how many already in cart
                       const cart = JSON.parse(
                         localStorage.getItem("cartItems") || "[]"
                       );
@@ -555,6 +531,7 @@ const Cartpage = () => {
                         return;
                       }
 
+                
                       dispatch(
                         addToCart({
                           id: ID,

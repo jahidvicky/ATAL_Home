@@ -58,7 +58,12 @@ const EyeExam = () => {
           phone: "",
         });
       } else {
-        alert(res.data.message || "Failed to book appointment.");
+        Swal.fire({
+        title: "Error!",
+        text: "Failed to book appointment",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
       }
     } catch (error) {
       console.error("Error booking appointment:", error.response?.data || error);
