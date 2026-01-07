@@ -8,6 +8,7 @@ import { useRecentlyViewed } from "../../page/collections/RecentlyViewedContext"
 const Trending = () => {
   const [reviews, setReviews] = useState([]);
   const { handleProductClick } = useRecentlyViewed();
+  const [inventoryMap, setInventoryMap] = useState({});
 
   const fetchTrendingProducts = async () => {
     try {
@@ -18,8 +19,29 @@ const Trending = () => {
     }
   };
 
+  const fetchInventory = async () => {
+    try {
+      const userLoc = localStorage.getItem("userLocation") || "east";
+
+      const res = await API.get(
+        `/inventory/available-products/${userLoc}?scope=global`
+      );
+
+      const map = {};
+      (res.data.products || []).forEach(p => {
+        map[p._id] = Number(p.availableQty || 0);
+      });
+
+      setInventoryMap(map);
+    } catch (err) {
+      console.error("Inventory fetch failed", err);
+    }
+  };
+
+
   useEffect(() => {
     fetchTrendingProducts();
+    fetchInventory();
   }, []);
 
   const settings = {
@@ -50,17 +72,6 @@ const Trending = () => {
   const resolveImgSrc = (img) => {
     if (!img) return null;
     return img.startsWith("http") ? img : `${IMAGE_URL}${img}`;
-  };
-
-  // Unified stock check (matches Product page + Cart page)
-  const getStockQty = (item) => {
-    const qty =
-      (item?.availableQty ?? 0) ||
-      (item?.availableStock ?? 0) ||
-      (item?.finishedStock ?? 0) ||
-      (item?.inventory?.finishedStock ?? 0);
-
-    return Number(qty);
   };
 
 
@@ -101,7 +112,7 @@ const Trending = () => {
 
                   {/* Stock Badge */}
 
-                  {getStockQty(item) > 0 ? (
+                  {(inventoryMap[item._id] || 0) > 0 ? (
                     <span className="absolute top-3 left-3 bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
                       In stock
                     </span>
@@ -110,7 +121,6 @@ const Trending = () => {
                       Out of stock
                     </span>
                   )}
-
 
                   {/* Image: prefer variant image, then product_image_collection, then fallback */}
                   {(() => {
