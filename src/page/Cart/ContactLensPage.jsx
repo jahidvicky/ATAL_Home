@@ -16,6 +16,7 @@ const ContactLensPage = () => {
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedPolicy, setSelectedPolicy] = useState(null);
   const [selectedPack, setSelectedPack] = useState(null);
+  const [inventoryMap, setInventoryMap] = useState({});
 
   const [formData, setFormData] = useState({
     od_selected: true,
@@ -64,7 +65,7 @@ const ContactLensPage = () => {
   const dispatch = useDispatch();
   const handleAddToCart = () => {
 
-    if (getStockQty(product) <= 0) {
+    if ((inventoryMap[product._id] || 0) <= 0) {
       Swal.fire({
         icon: "warning",
         title: "Out of stock",
@@ -169,6 +170,26 @@ const ContactLensPage = () => {
     }
   };
 
+  const fetchInventory = async () => {
+    try {
+      const userLoc = localStorage.getItem("userLocation") || "east";
+
+      const res = await API.get(
+        `/inventory/available-products/${userLoc}?scope=global`
+      );
+
+      const map = {};
+      (res.data.products || []).forEach(p => {
+        map[p._id] = Number(p.availableQty || 0);
+      });
+
+      setInventoryMap(map);
+    } catch (err) {
+      console.error("Inventory fetch failed:", err);
+    }
+  };
+
+
 
   // Toggle wishlist (add/remove)
   const toggleWishlist = async (productId) => {
@@ -208,6 +229,7 @@ const ContactLensPage = () => {
   useEffect(() => {
     fetchProducts();
     fetchWishlist();
+    fetchInventory();
   }, []);
 
 
@@ -231,18 +253,6 @@ const ContactLensPage = () => {
       .map((c) => c.trim())
       .filter(Boolean);
   }, [product]); // Drives color circles identical to Cartpage. [web:59]
-
-  // Unified stock check (same rules as Cart, Product list, Search, Trending)
-  const getStockQty = (p) => {
-    const qty =
-      (p?.availableQty ?? 0) ||
-      (p?.availableStock ?? 0) ||
-      (p?.finishedStock ?? 0) ||
-      (p?.inventory?.finishedStock ?? 0);
-
-    return Number(qty);
-  };
-
 
 
 
@@ -555,14 +565,14 @@ const ContactLensPage = () => {
               </div>
               <button
                 onClick={handleAddToCart}
-                disabled={getStockQty(product) <= 0}
+                disabled={(inventoryMap[product._id] || 0) <= 0}
                 className={`w-full text-white px-6 py-4 mt-6 mb-2 rounded-lg font-semibold text-lg border border-black transition-all duration-200 mx-auto block
-    ${getStockQty(product) > 0
+    ${(inventoryMap[product._id] || 0) > 0
                     ? "bg-[#f00000] hover:bg-red-700 cursor-pointer"
                     : "bg-gray-400 cursor-not-allowed"
                   }`}
               >
-                {getStockQty(product) > 0 ? "ADD TO CART" : "OUT OF STOCK"}
+                {(inventoryMap[product._id] || 0) > 0 ? "ADD TO CART" : "OUT OF STOCK"}
               </button>
 
             </div>

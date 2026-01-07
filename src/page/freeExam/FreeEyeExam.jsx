@@ -54,9 +54,8 @@ export default function FreeEyeExam() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className={`flex flex-col md:flex-row items-center gap-12 ${
-              index % 2 !== 0 ? "md:flex-row-reverse" : ""
-            }`}
+            className={`flex flex-col md:flex-row items-center gap-12 ${index % 2 !== 0 ? "md:flex-row-reverse" : ""
+              }`}
           >
             {/* IMAGE */}
             <div className="md:w-1/2">
@@ -78,12 +77,12 @@ export default function FreeEyeExam() {
 
               <Link to="/">
                 <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-[#f00000] text-white px-8 py-3 rounded-full font-semibold shadow-md"
-              >
-                Visit Our Store
-              </motion.button>
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-[#f00000] text-white px-8 py-3 rounded-full font-semibold shadow-md"
+                >
+                  Visit Our Store
+                </motion.button>
               </Link>
             </div>
           </motion.div>
@@ -131,7 +130,7 @@ export default function FreeEyeExam() {
               <motion.div
                 key={i}
                 whileHover={{ scale: 1.05 }}
-                className="bg-white p-8 rounded-2xl shadow-md"
+                className="bg-white p-8 border border-red-600 rounded-2xl shadow-md"
               >
                 <div className="text-4xl mb-4 text-[#f00000]">👁️</div>
                 <h4 className="font-semibold text-lg text-gray-800">
@@ -155,7 +154,7 @@ export default function FreeEyeExam() {
           Who Should Attend This Camp?
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-8 text-gray-700 text-lg">
+        <div className="grid md:grid-cols-3 gap-8 text-black text-lg">
           {[
             "People working long hours on digital screens",
             "Senior citizens facing vision issues",
@@ -166,7 +165,7 @@ export default function FreeEyeExam() {
           ].map((text, i) => (
             <div
               key={i}
-              className="p-6 border rounded-xl bg-white shadow-sm"
+              className="p-6 border border-red-600 rounded-xl bg-white shadow-sm"
             >
               {text}
             </div>
@@ -208,11 +207,11 @@ export default function FreeEyeExam() {
           and expert consultation. Don’t miss this festive opportunity.
         </p>
 
-      <Link to="/">
-        <button className="bg-white text-[#f00000] px-10 py-3 rounded-full font-bold">
-          Visit Our Store
-        </button>
-      </Link>
+        <Link to="/">
+          <button className="bg-white text-[#f00000] px-10 py-3 rounded-full font-bold">
+            Visit Our Store
+          </button>
+        </Link>
       </motion.section>
 
     </div>
