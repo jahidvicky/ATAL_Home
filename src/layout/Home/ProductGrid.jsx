@@ -136,6 +136,7 @@ const ProductCard = ({ product, onClick, children }) => {
 
 const ProductGrid = () => {
   const [bestSellerData, setBestSellerData] = useState([]);
+  const [inventoryMap, setInventoryMap] = useState({});
   const { handleProductClick } = useRecentlyViewed();
 
   const getBestSeller = async () => {
@@ -162,20 +163,30 @@ const ProductGrid = () => {
   };
 
 
+  const fetchInventory = async () => {
+    try {
+      const userLoc = localStorage.getItem("userLocation") || "east";
+
+      const res = await API.get(
+        `/inventory/available-products/${userLoc}?scope=global`
+      );
+
+      const map = {};
+      (res.data.products || []).forEach(p => {
+        map[p._id] = Number(p.availableQty || 0);
+      });
+
+      setInventoryMap(map);
+    } catch (err) {
+      console.error("Inventory fetch failed", err);
+    }
+  };
+
+
   useEffect(() => {
     getBestSeller();
+    fetchInventory();
   }, []);
-
-  // Unified stock check (same as Cart, Product List, Search, Trending, Wishlist, PDP)
-  const getStockQty = (p) => {
-    const qty =
-      (p?.availableQty ?? 0) ||
-      (p?.availableStock ?? 0) ||
-      (p?.finishedStock ?? 0) ||
-      (p?.inventory?.finishedStock ?? 0);
-
-    return Number(qty);
-  };
 
 
   const visibleProducts = bestSellerData.slice(0, 4);
@@ -214,7 +225,7 @@ const ProductGrid = () => {
               product={product}
               onClick={() => handleProductClick(product)}
             >
-              {getStockQty(product) > 0 ? (
+              {(inventoryMap[product._id] || 0) > 0 ? (
                 <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
                   In stock
                 </span>

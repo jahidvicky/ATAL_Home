@@ -338,6 +338,7 @@ function SearchResults() {
     const [products, setProducts] = useState([]);
     const [wishlist, setWishlist] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [inventoryMap, setInventoryMap] = useState({});
     const [errorMsg, setErrorMsg] = useState("");
     const [page, setPage] = useState(1);
     const pageSize = 24;
@@ -390,9 +391,30 @@ function SearchResults() {
         }
     };
 
+    const fetchInventory = async () => {
+        try {
+            const userLoc = localStorage.getItem("userLocation") || "east";
+
+            const res = await API.get(
+                `/inventory/available-products/${userLoc}?scope=global`
+            );
+
+            const map = {};
+            (res.data.products || []).forEach((p) => {
+                map[p._id] = Number(p.availableQty || 0);
+            });
+
+            setInventoryMap(map);
+        } catch (err) {
+            console.error("Inventory fetch failed", err);
+        }
+    };
+
+
     useEffect(() => {
         fetchSearchResults();
         fetchWishlist();
+        fetchInventory();
     }, [query]);
 
     // Facets + Filters
@@ -573,17 +595,6 @@ function SearchResults() {
         return resolveImg(src);
     };
 
-    // Unified stock check (same as Cart, Product, Trending)
-    const getStockQty = (p) => {
-        const qty =
-            (p?.availableQty ?? 0) ||
-            (p?.availableStock ?? 0) ||
-            (p?.finishedStock ?? 0) ||
-            (p?.inventory?.finishedStock ?? 0);
-
-        return Number(qty);
-    };
-
 
     return (
         <div className="bg-white">
@@ -732,8 +743,7 @@ function SearchResults() {
                                 {pageSlice.map((data) => {
                                     const img = primaryImage(data);
                                     const inWishlist = wishSet.has(data._id);
-                                    const isInStock = getStockQty(data) > 0;
-
+                                    const isInStock = (inventoryMap[data._id] || 0) > 0;
                                     return (
                                         <ProductCard
                                             key={data._id}
