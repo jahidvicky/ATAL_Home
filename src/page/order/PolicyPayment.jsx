@@ -187,11 +187,10 @@ const PaymentPolicy = () => {
         <button
           onClick={handleSquarePayment}
           disabled={!card || isPaying}
-          className={`w-full px-4 py-2 rounded-lg text-white font-semibold ${
-            !card || isPaying
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#f00000] hover:bg-black"
-          }`}
+          className={`w-full px-4 py-2 rounded-lg text-white font-semibold ${!card || isPaying
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-[#f00000] hover:bg-black"
+            }`}
         >
           {isPaying ? "Processing..." : "Pay Now"}
         </button>

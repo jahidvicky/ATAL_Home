@@ -44,7 +44,7 @@ const PricingPage = () => {
                             <img
                                 src={img1}
                                 alt="Glasses"
-                                className="w-full h-90 object-cover rounded-lg"
+                                className="w-full h-100 object-cover object-top rounded-lg"
                             />
 
                             <div className="mt-auto pt-6 text-center">
@@ -72,7 +72,7 @@ const PricingPage = () => {
                             <img
                                 src={img2}
                                 alt="Contact Lenses"
-                                className="w-full h-90 object-cover rounded-lg"
+                                className="w-full h-100 object-cover object-top rounded-lg"
                             />
 
                             <div className="mt-auto pt-6 text-center">
@@ -141,7 +141,7 @@ const PricingPage = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="py-20 bg-black text-white text-center">
+            <section className="py-20 bg-red-600 text-white text-center">
                 <h2 className="text-3xl font-bold mb-3">Upgrade Your Vision Today</h2>
                 <p className="mb-6 text-lg">
                     High-quality eyewear at prices you'll love.

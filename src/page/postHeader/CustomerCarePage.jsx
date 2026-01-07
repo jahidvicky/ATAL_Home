@@ -148,7 +148,7 @@ const CustomerCarePage = () => {
             </section>
 
             {/* CTA */}
-            <section className="py-20 bg-black text-white text-center">
+            <section className="py-20 bg-red-600 text-white text-center">
                 <h2 className="text-3xl font-bold mb-3">Need Help Right Now?</h2>
                 <p className="mb-6">Our support team is standing by 24/7 to assist you.</p>
                 <Link to="/contact-us">

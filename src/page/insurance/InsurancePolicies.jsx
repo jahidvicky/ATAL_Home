@@ -60,7 +60,7 @@ export default function InsurancePolicies() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition"
+              className="bg-white rounded-2xl border border-red-600 shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition"
             >
               <div>
                 <h3 className="text-xl font-bold text-[#f00000] mb-3">

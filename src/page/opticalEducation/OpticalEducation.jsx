@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const OpticalEducation = () => {
   return (
     <div className="bg-white text-gray-800">
-      
+
       {/* Hero Section */}
       <section className="bg-[#f00000] text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
@@ -60,7 +60,7 @@ const OpticalEducation = () => {
             ].map((item, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl p-6 shadow-sm border"
+                className="bg-white rounded-xl p-6 shadow-sm border border-red-600"
               >
                 <h3 className="font-semibold text-lg mb-2 text-gray-900">
                   {item.title}
@@ -110,7 +110,7 @@ const OpticalEducation = () => {
             ].map((item, index) => (
               <div
                 key={index}
-                className="border rounded-xl p-6 hover:shadow-md transition"
+                className="border rounded-xl p-6 hover:shadow-md transition border-red-600"
               >
                 <h3 className="font-semibold text-lg mb-2">
                   {item.title}
@@ -142,9 +142,9 @@ const OpticalEducation = () => {
             ].map((tip, index) => (
               <li
                 key={index}
-                className="bg-white p-5 rounded-lg border flex items-start gap-3"
+                className="bg-white p-5 rounded-lg border border-red-600 flex items-start gap-3"
               >
-                <span className="text-[#f00000] font-bold">•</span>
+                <span className="text-black font-bold">•</span>
                 <span>{tip}</span>
               </li>
             ))}
@@ -164,8 +164,8 @@ const OpticalEducation = () => {
           </p>
           <Link to="/eye-schedule-test">
             <button className="bg-[#f00000] text-white px-8 py-3 rounded-lg font-medium hover:opacity-90 transition">
-            Book an Eye Test
-          </button>
+              Book an Eye Test
+            </button>
           </Link>
         </div>
       </section>

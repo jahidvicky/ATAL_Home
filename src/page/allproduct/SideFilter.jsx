@@ -54,25 +54,8 @@ const FilterSections = ({ filters, setFilters, facetData }) => {
             <Section title="Gender">
                 <div className="flex flex-col gap-1">
 
-                    {/* KIDS */}
-                    <label className="flex items-center gap-2 py-1 cursor-pointer">
-                        <input
-                            type="checkbox"
-                            className="h-4 w-4 rounded border-gray-300"
-                            checked={filters.isKids}
-                            onChange={() =>
-                                setFilters(prev => ({
-                                    ...prev,
-                                    isKids: !prev.isKids,
-                                }))
-                            }
-                        />
-                        <span className="text-sm">Kids</span>
-                    </label>
-
                     {/* MEN / WOMEN */}
                     {facetData.genders
-                        ?.filter(g => g !== "Kids")
                         .map(g => (
                             <Check
                                 key={g}
