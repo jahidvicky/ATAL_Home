@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import API from "../../API/Api";
-const BYPASS_PAYMENT = import.meta.env.VITE_BYPASS_PAYMENT === "true";
+// const BYPASS_PAYMENT = import.meta.env.VITE_BYPASS_PAYMENT === "true";
 
 
 const Payment = () => {
