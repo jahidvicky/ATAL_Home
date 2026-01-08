@@ -227,21 +227,21 @@ const Payment = () => {
   };
 
   //BYPASS PAYMENT (TEST MODE)
-  // const handleBypassPayment = async () => {
-  //   setIsPaying(true);
+  const handleBypassPayment = async () => {
+    setIsPaying(true);
 
-  //   try {
-  //     await createOrder({
-  //       paymentMethod: "BYPASS",
-  //       paymentStatus: "Paid",
-  //       transactionId: "TEST_TXN_" + Date.now(),
-  //     });
-  //   } catch (err) {
-  //     Swal.fire("Error", "Bypass payment failed", "error");
-  //   }
+    try {
+      await createOrder({
+        paymentMethod: "BYPASS",
+        paymentStatus: "Paid",
+        transactionId: "TEST_TXN_" + Date.now(),
+      });
+    } catch (err) {
+      Swal.fire("Error", "Bypass payment failed", "error");
+    }
 
-  //   setIsPaying(false);
-  // };
+    setIsPaying(false);
+  };
 
 
 
@@ -353,7 +353,7 @@ const Payment = () => {
           />
 
           {/* bypass button */}
-          {/* <button
+          <button
             onClick={BYPASS_PAYMENT ? handleBypassPayment : handlePay}
             disabled={isPaying || (!BYPASS_PAYMENT && (!card || !!initError))}
             className={`w-full mt-2 py-2 rounded-lg font-semibold 
@@ -368,9 +368,9 @@ const Payment = () => {
               : BYPASS_PAYMENT
                 ? "Bypass Payment (Test)"
                 : "Pay Now"}
-          </button> */}
+          </button>
 
-          <button
+          {/* <button
             onClick={handlePay}
             disabled={isPaying || !card || !!initError}
             className={`w-full mt-2 py-2 rounded-lg font-semibold ${!card || isPaying || initError
@@ -379,7 +379,7 @@ const Payment = () => {
               }`}
           >
             {isPaying ? "Processing..." : "Pay Now"}
-          </button>
+          </button> */}
 
 
         </div>
