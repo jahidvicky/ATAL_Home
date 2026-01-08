@@ -5,8 +5,8 @@ import OvalImg from "../../assets/faceShape/Oval.jpeg";
 import RoundImg from "../../assets/faceShape/Round.jpeg";
 import SquareImg from "../../assets/faceShape/Square.jpeg";
 import TriangleImg from "../../assets/faceShape/Triangle.jpeg";
-import GlassesImg from "../../assets/faceshape/glasses.jpeg";
-import SunglassesImg from "../../assets/faceshape/Sunglasses.jpeg";
+import GlassesImg from "../../assets/faceShape/glasses.jpeg";
+import SunglassesImg from "../../assets/faceShape/Sunglasses.jpeg";
 
 export default function FaceShape() {
   const imgHero = RoundImg;
