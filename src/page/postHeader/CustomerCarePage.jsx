@@ -104,8 +104,9 @@ const CustomerCarePage = () => {
                             <h3 className="text-xl font-semibold mb-2">Email Support</h3>
                             <p className="text-gray-600">Get responses within minutes — any time of day.</p>
                             <p className="font-bold mt-3" style={{ color: red }}>
-                                sales.ataloptical@gmail.com <br />
-                                info.ataloptical@gmail.com
+                                <a href="mailto:sales.ataloptical@gmail.com">sales.ataloptical@gmail.com</a>
+                                <br />
+                                <a href="mailto:info.ataloptical@gmail.com">info.ataloptical@gmail.com</a>
                             </p>
                         </motion.div>
 
@@ -148,7 +149,7 @@ const CustomerCarePage = () => {
             </section>
 
             {/* CTA */}
-            <section className="py-20 bg-red-600 text-white text-center">
+            <section className="py-20 bg-[#f00000] text-white text-center">
                 <h2 className="text-3xl font-bold mb-3">Need Help Right Now?</h2>
                 <p className="mb-6">Our support team is standing by 24/7 to assist you.</p>
                 <Link to="/contact-us">

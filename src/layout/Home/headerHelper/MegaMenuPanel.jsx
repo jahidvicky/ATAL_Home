@@ -102,7 +102,7 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
                                             .map((brand) => (
                                                 <li
                                                     key={brand._id}
-                                                    className="flex items-center gap-3 p-1 rounded-sm hover:bg-red-600 cursor-pointer transition"
+                                                    className="flex items-center gap-3 p-1 rounded-sm hover:bg-[#f00000] cursor-pointer transition"
                                                     onClick={() => {
                                                         onClose?.();
                                                         navigate(`/brands/${brand._id}`);
@@ -155,7 +155,7 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
                                                 return (
                                                     <li
                                                         key={sub.id}
-                                                        className="flex items-center gap-4 p-2 rounded-lg hover:bg-red-600 hover:text-white cursor-pointer transition"
+                                                        className="flex items-center gap-4 p-2 rounded-lg hover:bg-[#f00000] hover:text-white cursor-pointer transition"
                                                         onClick={() => {
                                                             onClose?.();
                                                             navigate(

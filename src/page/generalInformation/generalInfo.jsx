@@ -38,7 +38,7 @@ export default function GeneralInformation() {
 
                     {/* Submissions Section */}
                     <h2 className="text-3xl text-center font-semibold text-[#f00000] mt-10">Submissions</h2>
-                    <hr className="border-red-600 w-50 ml-136 mb-15 mt-1" />
+                    <hr className="border-red-600 w-50 ml-130 mb-15" />
                     <ul className="list-disc list-inside space-y-2">
                         <li>All Submissions shall be deemed and remain the exclusive property of Atal Optical Corp.</li>
                         <li>We hold no obligation of confidentiality concerning any Submissions you provide.</li>
@@ -59,7 +59,7 @@ export default function GeneralInformation() {
 
                     {/* Copyright Section */}
                     <h2 className="text-3xl text-center font-semibold text-[#f00000] mt-10">Copyright Notice</h2>
-                    <hr className="border-red-600 w-65 ml-129 mb-4 mt-1" />
+                    <hr className="border-red-600 w-65 ml-123 mb-4" />
                     <p>
                         © 2025 Atal Optical Corp. All rights reserved. All rights not
                         expressly granted herein are reserved. Unauthorized use or

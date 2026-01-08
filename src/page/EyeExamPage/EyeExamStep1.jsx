@@ -140,7 +140,7 @@ export default function EyeExamStep1() {
             {/* Exclusive Offer */}
             <section className="bg-black py-10 text-center border-t border-red-600">
                 <h2 className="text-2xl font-bold mb-4 text-[#f00000]">In-store Exclusive</h2>
-                <p className="text-lg text-white">$20 OFF on your first pair of glasses at Atal Optical</p>
+                <p className="text-lg text-white">20% OFF on your first pair of glasses at Atal Optical</p>
             </section>
 
             <DoctorPage />

@@ -37,7 +37,7 @@ function Layout() {
       {isVisible && (
         <button
           onClick={() => setOpenChat(!openChat)}
-          className="fixed bottom-4 right-0 bottom-40 bg-red-600 text-white px-6 py-2 rounded-lg shadow-lg 
+          className="fixed bottom-4 right-0 bottom-40 bg-[#f00000] text-white px-6 py-2 rounded-lg shadow-lg 
              hover:bg-red-700 transition transform rotate-270 origin-bottom-right"
         >
           Help

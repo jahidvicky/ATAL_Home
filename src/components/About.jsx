@@ -47,7 +47,7 @@ const About = () => {
                     After years of building a successful career and settling his
                     family—whose members have since flourished in Canadian society through
                     their own community contributions—our CEO finally turned his long-held
-                    vision into reality. In 2023, <strong>Atal Optical</strong> was
+                    vision into reality. In 2024, <strong>Atal Optical</strong> was
                     officially incorporated, marking a powerful new chapter dedicated to
                     serving the community with integrity, expertise, and compassion.
                 </p>
