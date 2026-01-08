@@ -5,7 +5,7 @@ import OvalImg from "../../assets/faceShape/Oval.jpeg";
 import RoundImg from "../../assets/faceShape/Round.jpeg";
 import SquareImg from "../../assets/faceShape/Square.jpeg";
 import TriangleImg from "../../assets/faceShape/Triangle.jpeg";
-import GlassesImg from "../../assets/faceshape/Glasses.jpeg";
+import GlassesImg from "../../assets/faceshape/glasses.jpeg";
 import SunglassesImg from "../../assets/faceshape/Sunglasses.jpeg";
 
 export default function FaceShape() {
@@ -132,7 +132,7 @@ export default function FaceShape() {
                   Discover the best sunglasses for your face shape. Let's
                   Explore.
                 </p>
-                 <NavLink
+                <NavLink
                   to="/allproduct/glasses/69157332eeb23fa59c7d5326"
                   className=" px-6 py-2 bg-black text-white rounded  "
                 >
