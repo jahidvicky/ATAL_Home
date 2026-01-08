@@ -118,7 +118,7 @@ export default function SupportChat({ onClose }) {
                         {messages.map((msg, i) => (
                             <div key={i} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
                                 <div className={`px-3 py-2 rounded-2xl max-w-[70%] shadow
-                                ${msg.sender === "user" ? "bg-red-600 text-white" :
+                                ${msg.sender === "user" ? "bg-[#f00000] text-white" :
                                         msg.sender === "admin" ? "bg-blue-100 text-gray-900" :
                                             msg.sender === "ai" ? "bg-gray-300 text-black" :
                                                 "bg-yellow-200 text-gray-900 text-xs text-center"}`}>
@@ -144,7 +144,7 @@ export default function SupportChat({ onClose }) {
                         <button
                             onClick={submitRating}
                             disabled={rating === 0}
-                            className="bg-red-600 text-white rounded-lg px-4 py-2 disabled:bg-gray-400">
+                            className="bg-[#f00000] text-white rounded-lg px-4 py-2 disabled:bg-gray-400">
                             Submit Rating
                         </button>
                     </div>
@@ -166,7 +166,7 @@ export default function SupportChat({ onClose }) {
                             />
                             <button
                                 onClick={handleNext}
-                                className="bg-red-600 text-white px-4 py-2 rounded-xl text-sm shadow">
+                                className="bg-[#f00000] text-white px-4 py-2 rounded-xl text-sm shadow">
                                 {step === "welcome" ? "Start" : "Next"}
                             </button>
                         </div>
@@ -178,7 +178,7 @@ export default function SupportChat({ onClose }) {
                                 onChange={(e) => setInput(e.target.value)}
                                 placeholder="Type message..."
                             />
-                            <button className="bg-red-600 text-white px-4 py-2 rounded-xl shadow">
+                            <button className="bg-[#f00000] text-white px-4 py-2 rounded-xl shadow">
                                 ➤
                             </button>
                             <button

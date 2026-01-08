@@ -76,7 +76,7 @@ export default function FaceShape() {
                   className={({ isActive }) =>
                     isActive
                       ? "mt-6 w-48 md:w-56 lg:w-48 py-3 bg-black text-white rounded-md text-sm font-medium text-center"
-                      : "mt-6 w-48 md:w-56 lg:w-48 py-3 bg-black text-white rounded-md text-sm font-medium text-center hover:bg-red-600"
+                      : "mt-6 w-48 md:w-56 lg:w-48 py-3 bg-black text-white rounded-md text-sm font-medium text-center hover:bg-[#f00000]"
                   }
                 >
                   {f.label}
@@ -133,7 +133,7 @@ export default function FaceShape() {
                   Explore.
                 </p>
                 <NavLink
-                  to="/allproduct/glasses/69157332eeb23fa59c7d5326"
+                  to="/allproduct/sunglasses/6915705d9ceac0cdda41c83f"
                   className=" px-6 py-2 bg-black text-white rounded  "
                 >
                   Shop Now

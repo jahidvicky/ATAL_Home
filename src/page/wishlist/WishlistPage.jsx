@@ -146,7 +146,7 @@ function WishlistPage({ userId }) {
                     </p>
                     <Link
                         to="/"
-                        className="inline-block bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-medium"
+                        className="inline-block bg-red-500 hover:bg-[#f00000] text-white px-6 py-2 rounded-lg font-medium"
                     >
                         Continue Shopping
                     </Link>
