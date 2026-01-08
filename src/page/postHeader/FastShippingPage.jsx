@@ -158,7 +158,7 @@ const FastShippingPage = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="py-20 bg-black text-white text-center">
+            <section className="py-20 bg-[#f00000] text-white text-center">
                 <h2 className="text-3xl font-bold mb-3">Ready to Receive Your Order Fast?</h2>
                 <p className="mb-6 text-lg">Place your order today and enjoy reliable, fast shipping.</p>
                 <Link to="/allproduct/glasses/69157332eeb23fa59c7d5326">

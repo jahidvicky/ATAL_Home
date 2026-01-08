@@ -129,7 +129,7 @@ export default function RightsEnforcementPolicy() {
                         <p>Atal Optical</p>
                         <p>Corporate Office : 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada</p>
                         <p>Toll-Free: 1-866-242-3545</p>
-                        <p>Email: support@ataloptical.com</p>
+                        <p>Email: sales.ataloptical@gmail.com</p>
                     </section>
                 </div>
             </div>

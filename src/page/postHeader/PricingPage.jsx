@@ -141,7 +141,7 @@ const PricingPage = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="py-20 bg-red-600 text-white text-center">
+            <section className="py-20 bg-[#f00000] text-white text-center">
                 <h2 className="text-3xl font-bold mb-3">Upgrade Your Vision Today</h2>
                 <p className="mb-6 text-lg">
                     High-quality eyewear at prices you'll love.

@@ -291,7 +291,7 @@ function SearchModal({
 
                                                                 <button
                                                                     onClick={() => goToSelected(selectedProduct)}
-                                                                    className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors"
+                                                                    className="w-full bg-[#f00000] hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors"
                                                                 >
                                                                     View Full Details
                                                                 </button>

@@ -1753,7 +1753,7 @@ function Header() {
                     navigate("/");
                     setSidebarOpen(false);
                   }}
-                  className="px-4 py-3 bg-red-600 text-white rounded hover:bg-red-700 mt-2 text-left"
+                  className="px-4 py-3 bg-[#f00000] text-white rounded hover:bg-red-700 mt-2 text-left"
                 >
                   Logout
                 </button>
