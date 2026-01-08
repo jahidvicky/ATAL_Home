@@ -6,29 +6,18 @@ on:
       - D-Home
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: Build frontend
-        run: npm run build
-
-      - name: Copy build to VPS
-        uses: appleboy/scp-action@v0.1.7
+      - name: Deploy on VPS (git pull & build)
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_PRIVATE_KEY }}
-          source: "dist/*"
-          target: "/var/www/ATAL_Home"
+          script: |
+            cd /var/www/ATAL_Home
+            git pull origin D-Home
+            npm install --legacy-peer-deps
+            npm run build
