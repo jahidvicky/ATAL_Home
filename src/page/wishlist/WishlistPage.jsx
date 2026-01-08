@@ -7,6 +7,28 @@ import Swal from "sweetalert2";
 function WishlistPage({ userId }) {
     const [wishlist, setWishlist] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [inventoryMap, setInventoryMap] = useState({});
+
+
+    const fetchInventory = async () => {
+        try {
+            const userLoc = localStorage.getItem("userLocation") || "east";
+
+            const res = await API.get(
+                `/inventory/available-products/${userLoc}?scope=global`
+            );
+
+            const map = {};
+            (res.data.products || []).forEach((p) => {
+                map[p._id] = Number(p.availableQty || 0);
+            });
+
+            setInventoryMap(map);
+        } catch (err) {
+            console.error("Inventory fetch failed:", err);
+        }
+    };
+
 
     // Fetch wishlist on mount
     useEffect(() => {
@@ -27,8 +49,11 @@ function WishlistPage({ userId }) {
                 setLoading(false);
             }
         };
+
         fetchWishlist();
+        fetchInventory();   // NEW
     }, []);
+
 
     // Helper: Get primary image
     const getProductImage = (product) => {
@@ -52,17 +77,6 @@ function WishlistPage({ userId }) {
             );
         }
         return 0;
-    };
-
-    // Unified stock check (same as Cart, Product List, Search, Trending, PDP)
-    const isInStock = (product) => {
-        const qty =
-            (product?.availableQty ?? 0) ||
-            (product?.availableStock ?? 0) ||
-            (product?.finishedStock ?? 0) ||
-            (product?.inventory?.finishedStock ?? 0);
-
-        return Number(qty) > 0;
     };
 
 
@@ -144,7 +158,7 @@ function WishlistPage({ userId }) {
                         if (!product) return null;
 
                         const imageUrl = getProductImage(product);
-                        const inStock = isInStock(product);
+                        const inStock = (inventoryMap[product._id] || 0) > 0;
                         const discount = getDiscountPercentage(product);
 
                         return (
@@ -163,8 +177,8 @@ function WishlistPage({ userId }) {
 
                                     {/* Stock Status */}
                                     {!inStock && (
-                                        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center z-20">
-                                            <span className="text-white font-bold text-lg">
+                                        <div className="absolute inset-1 bg-black/6 backdrop-blur-xs flex items-center justify-center z-20 rounded-lg">
+                                            <span className="text-red-600 font-bold text-lg tracking-wide">
                                                 Out of Stock
                                             </span>
                                         </div>
