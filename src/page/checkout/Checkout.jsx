@@ -96,7 +96,7 @@ const Checkout = () => {
         confirmButtonText: "Go to Login",
         confirmButtonColor: "#dc2626",
       }).then(() => {
-        navigate("/login"); // redirect to login page
+        navigate("/login");
       });
     }
   }, [userId, navigate]);
