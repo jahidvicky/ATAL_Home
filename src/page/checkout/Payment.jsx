@@ -8,7 +8,7 @@ const BYPASS_PAYMENT = import.meta.env.VITE_BYPASS_PAYMENT === "true";
 const Payment = () => {
   const [order, setOrder] = useState(null);
 
-  // Coupon States
+  // Coupon State
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
 
