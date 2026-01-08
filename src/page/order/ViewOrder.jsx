@@ -12,6 +12,133 @@ const ViewOrder = () => {
   const [loading, setLoading] = useState(true);
   const [cancelling, setCancelling] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [exchangingId, setExchangingId] = useState(null);
+
+  //  Sunglasses category ID
+  const SUNGLASSES_CATEGORY_ID = "6915705d9ceac0cdda41c83f";
+
+  //  Check if product is eligible for exchange
+  const canExchange = (item) => {
+    if (!order) return false;
+    if (order.orderStatus !== "Delivered") return false;
+    if (!order.deliveryDate) return false;
+
+    // Sunglasses only
+    if (item.categoryId !== SUNGLASSES_CATEGORY_ID) return false;
+
+    if (item.isPrescription) return false;
+    if (item.status === "Cancelled") return false;
+    if (item.exchangeStatus && item.exchangeStatus !== "None") return false;
+
+    const hours =
+      (Date.now() - new Date(order.deliveryDate).getTime()) /
+      (1000 * 60 * 60);
+
+    return hours <= 48;
+  };
+
+
+  const handleExchange = async (item) => {
+    const { value: formValues } = await Swal.fire({
+      title: "Request Exchange",
+      width: 600,
+      showCancelButton: true,
+      confirmButtonText: "Submit Request",
+      confirmButtonColor: "#2563eb",
+      html: `
+      <div style="text-align:left">
+        <label style="font-weight:600">Reason</label>
+        <textarea 
+          id="reason" 
+          class="swal2-textarea" 
+          placeholder="Why do you want to exchange this product?"
+        ></textarea>
+
+        <label style="font-weight:600;margin-top:10px;display:block">
+          Upload Images
+        </label>
+
+        <input 
+          id="images" 
+          type="file" 
+          class="swal2-file" 
+          multiple 
+          accept="image/*"
+        />
+
+        <div 
+          id="preview"
+          style="display:flex;flex-wrap:wrap;margin-top:10px;gap:8px"
+        ></div>
+      </div>
+    `,
+      focusConfirm: false,
+
+      didOpen: () => {
+        const input = document.getElementById("images");
+        const preview = document.getElementById("preview");
+
+        input.addEventListener("change", () => {
+          preview.innerHTML = "";
+
+          Array.from(input.files).forEach((file) => {
+            const img = document.createElement("img");
+            img.src = URL.createObjectURL(file);
+            img.style.width = "80px";
+            img.style.height = "80px";
+            img.style.objectFit = "cover";
+            img.style.borderRadius = "6px";
+            img.style.border = "1px solid #ddd";
+            preview.appendChild(img);
+          });
+        });
+      },
+
+      preConfirm: () => {
+        const reason = document.getElementById("reason").value;
+        const images = document.getElementById("images").files;
+
+        if (!reason.trim()) {
+          Swal.showValidationMessage("Please enter exchange reason");
+          return false;
+        }
+
+        return { reason, images };
+      },
+    });
+
+    if (!formValues) return;
+
+    const formData = new FormData();
+    formData.append("productId", item._id);
+    formData.append("reason", formValues.reason);
+
+    Array.from(formValues.images || []).forEach((img) => {
+      formData.append("exchangeImages", img);
+    });
+
+    try {
+      setExchangingId(item._id);
+
+      const res = await API.post(
+        `/order/exchange/${order._id}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      Swal.fire("Success", "Exchange request sent", "success");
+      setOrder(res.data.order);
+    } catch (err) {
+      Swal.fire(
+        "Error",
+        err.response?.data?.message || "Exchange failed",
+        "error"
+      );
+    } finally {
+      setExchangingId(null);
+    }
+  };
+
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -256,7 +383,7 @@ const ViewOrder = () => {
               <div className="space-y-3">
                 {order.cartItems.map((item, index) => (
                   <motion.div
-                    key={index}
+                    key={item._id}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
@@ -267,35 +394,83 @@ const ViewOrder = () => {
                       alt={item.name}
                       className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-md border border-gray-200"
                     />
+
                     <div className="flex-1">
+                      {/* PRODUCT NAME */}
                       <p
                         className={`text-base font-medium ${item.status === "Cancelled"
                           ? "text-gray-400 line-through"
                           : "text-gray-900"
                           }`}
                       >
-
                         {item.name}
+
+                        {/* ❌ Cancelled Badge */}
                         {item.status === "Cancelled" && (
-                          <span className="inline-block ml-2 text-xs font-semibold text-[#f00000] bg-gray-100 px-3 py-2 rounded-full">
+                          <span className="ml-2 text-xs font-semibold text-red-600 bg-red-100 px-3 py-1 rounded-full">
                             Cancelled
                           </span>
                         )}
                       </p>
+
+                      {/* PRODUCT META */}
                       <p className="text-sm text-gray-600">
                         ${Math.round(item.price)} × {item.quantity}
                       </p>
+
                       <p className="text-sm text-gray-600">
                         Size: {item.product_size?.join(", ") || "N/A"}
                       </p>
+
                       <p className="text-sm text-gray-600">
                         Color: {item.product_color?.join(", ") || "N/A"}
                       </p>
+
+                      {/* 🔁 EXCHANGE UI */}
+                      <div className="mt-2">
+                        {item.exchangeStatus === "Requested" && (
+                          <span className="inline-block text-xs font-semibold text-blue-700 bg-blue-100 px-3 py-1 rounded-full">
+                            Exchange Requested
+                          </span>
+                        )}
+
+                        {item.exchangeStatus === "Approved" && (
+                          <span className="inline-block text-xs font-semibold text-green-700 bg-green-100 px-3 py-1 rounded-full">
+                            Exchange Approved – Processing
+                          </span>
+                        )}
+
+                        {item.exchangeStatus === "Rejected" && (
+                          <span className="inline-block text-xs font-semibold text-red-700 bg-red-100 px-3 py-1 rounded-full">
+                            Exchange Rejected
+                          </span>
+                        )}
+
+                        {item.exchangeStatus === "Completed" && (
+                          <span className="inline-block text-xs font-semibold text-gray-700 bg-gray-200 px-3 py-1 rounded-full">
+                            Exchange Completed
+                          </span>
+                        )}
+
+                        {/* 🔁 REQUEST EXCHANGE BUTTON */}
+                        {canExchange(item) && (
+                          <button
+                            onClick={() => handleExchange(item)}
+                            disabled={exchangingId === item._id}
+                            className="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 disabled:opacity-50"
+                          >
+                            {exchangingId === item._id
+                              ? "Requesting..."
+                              : "Request Exchange"}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </motion.div>
                 ))}
               </div>
             </Section>
+
 
             {/* Policy Details */}
             {order.cartItems[0]?.policy && (
