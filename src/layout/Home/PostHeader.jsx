@@ -68,7 +68,7 @@ const PostHeader = () => {
                     className="flex items-center gap-2 hover:text-red-600 transition"
                 >
                     <FaHeadset className="text-lg" />
-                    <span>24/7 customer care</span>
+                    <span>24/7 Customer care</span>
                 </Link>
 
                 {/* Fast Shipping */}
