@@ -24,9 +24,6 @@ const Payment = () => {
   const applicationId = import.meta.env.VITE_SQUARE_APPLICATION_ID;
   const locationId = import.meta.env.VITE_SQUARE_LOCATION_ID;
 
-  console.log("applicationId", applicationId)
-  console.log("locationId", locationId)
-
   // Load order
   useEffect(() => {
     try {
