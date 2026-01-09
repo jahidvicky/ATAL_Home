@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Home from "./page/Home/Home";
-import Page from "./page/Page";
-import Layout from "./layout/Layout";
+const Home = lazy(() => import("./page/Home/Home"));
+const Page = lazy(() => import("./page/Page"));
+const Layout = lazy(() => import("./layout/Layout"));
 
 import Cartpage from "./page/Cart/Cartpage";
 
@@ -21,13 +21,13 @@ import Dashboardlayout from "./layout/Dashboardlayout";
 import About from "./components/About";
 import Category from "./layout/Home/Category";
 
-import Product from "./page/allproduct/Product";
+const Product = lazy(() => import("./page/allproduct/Product"));
 
-import Checkout from "./page/checkout/Checkout";
-import OrderPlaced from "./page/order/OrderPlaced";
-import Register from "./page/register/Register";
+const Checkout = lazy(() => import("./page/checkout/Checkout"));
+const OrderPlaced = lazy(() => import("./page/order/OrderPlaced"));
+const Login = lazy(() => import("./page/login/Login"));
+const Register = lazy(() => import("./page/register/Register"));
 import ProtectedRoute from "./page/protectedRoute/ProtectedRoute";
-import Login from "./page/login/Login";
 import WishlistPage from "./page/wishlist/WishlistPage";
 import ContactPage from "./page/contactUs/ContactPage";
 import EyeExam from "./page/bookEyeExam/EyeExam";
