@@ -14,8 +14,9 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
+          username: root
           key: ${{ secrets.VPS_PRIVATE_KEY }}
+          port: 22
           script: |
             cd /var/www/ATAL_Home
             git pull origin D-Home
