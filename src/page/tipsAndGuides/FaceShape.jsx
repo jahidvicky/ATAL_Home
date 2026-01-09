@@ -28,7 +28,7 @@ export default function FaceShape() {
         </div>
       </header>
 
-      {/* Hero */}
+      {/* Hero section */}
       <section className="bg-purple-50">
         <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-6">
