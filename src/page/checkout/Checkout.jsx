@@ -297,9 +297,10 @@ const Checkout = () => {
       shipping,
       total,
 
-      paymentMethod: "COD",
+      paymentMethod: "Stripe",
       paymentStatus: "Pending",
-      orderStatus: "Placed",
+      orderStatus: "Payment Pending",
+
     };
 
     localStorage.setItem("orderSummary", JSON.stringify(orderSummary));
@@ -347,6 +348,13 @@ const Checkout = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (!cartItems.length) {
+      navigate("/cart");
+    }
+  }, [cartItems]);
+
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -830,13 +838,21 @@ const Checkout = () => {
           </button>
         )}
         {currentStep === steps.length - 1 && (
+          // <button
+          //   onClick={handleSubmit}
+          //   disabled={!validateStep()}
+          //   className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 hover:cursor-pointer"
+          // >
+          //   Continue Order
+          // </button>
           <button
             onClick={handleSubmit}
             disabled={!validateStep()}
             className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 hover:cursor-pointer"
           >
-            Continue Order
+            Proceed to Payment
           </button>
+
         )}
       </div>
     </div>

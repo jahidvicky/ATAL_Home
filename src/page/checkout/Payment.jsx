@@ -2,7 +2,19 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import API from "../../API/Api";
-// const BYPASS_PAYMENT = import.meta.env.VITE_BYPASS_PAYMENT === "true";
+
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+);
+
 
 
 const Payment = () => {
@@ -12,17 +24,11 @@ const Payment = () => {
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
 
-  // Square states
-  const [card, setCard] = useState(null);
-  const [loadingCard, setLoadingCard] = useState(true);
-  const [initError, setInitError] = useState(null);
-  const [isPaying, setIsPaying] = useState(false);
-  const [cardReady, setCardReady] = useState(false);
+  const [clientSecret, setClientSecret] = useState(null);
+
 
   const navigate = useNavigate();
 
-  const applicationId = import.meta.env.VITE_SQUARE_APPLICATION_ID;
-  const locationId = import.meta.env.VITE_SQUARE_LOCATION_ID;
 
   // Load order
   useEffect(() => {
@@ -36,82 +42,21 @@ const Payment = () => {
     }
   }, []);
 
+  const { subtotal, tax, shipping } = order || {};
+  const finalTotal = order
+    ? Math.max(subtotal - discount + shipping + tax, 0.01)
+    : 0;
 
-  // Detect card container
   useEffect(() => {
-    const checker = setInterval(() => {
-      if (document.getElementById("card-container")) {
-        setCardReady(true);
-        clearInterval(checker);
-      }
-    }, 50);
-    return () => clearInterval(checker);
-  }, []);
+    if (!order) return;
 
-  // Init Square
-  useEffect(() => {
-    if (!cardReady) return;
+    API.post("/payment/create-payment-intent", {
+      amount: finalTotal,
+    }).then(({ data }) => {
+      setClientSecret(data.clientSecret);
+    });
+  }, [order, finalTotal, discount]);
 
-    if (!applicationId || !locationId) {
-      setInitError("Missing Square env vars");
-      setLoadingCard(false);
-      return;
-    }
-
-    const scriptId = "square-web-sdk";
-
-    const initSquare = async () => {
-      try {
-        if (!window.Square) {
-          setInitError("Square.js not loaded");
-          setLoadingCard(false);
-          return;
-        }
-
-        if (window.__square_initialized) {
-          setCard(window.__square_card);
-          setLoadingCard(false);
-          return;
-        }
-
-        window.__square_initialized = true;
-
-        const payments = window.Square.payments(applicationId, locationId);
-        const cardInstance = await payments.card();
-        await cardInstance.attach("#card-container");
-
-        window.__square_card = cardInstance;
-        setCard(cardInstance);
-      } catch (err) {
-        console.error("Square init error:", err);
-        setInitError("Failed to initialize Square card");
-      } finally {
-        setLoadingCard(false);
-      }
-    };
-
-    const existingScript = document.getElementById(scriptId);
-    if (existingScript) {
-      if (window.Square) initSquare();
-      else existingScript.addEventListener("load", initSquare);
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.id = scriptId;
-    // script.src = "https://sandbox.web.squarecdn.com/v1/square.js"; //sandbox use only
-    script.src = "https://web.squarecdn.com/v1/square.js"; // production use only
-
-    script.async = true;
-
-    script.onload = initSquare;
-    script.onerror = () => {
-      setInitError("Failed to load Square.js");
-      setLoadingCard(false);
-    };
-
-    document.body.appendChild(script);
-  }, [cardReady]);
 
   if (!order) {
     return (
@@ -120,10 +65,6 @@ const Payment = () => {
       </div>
     );
   }
-
-  const { subtotal, tax, shipping } = order;
-
-  const finalTotal = Math.max(subtotal - discount + shipping + tax, 0.01);
 
   // ==========================
   // COUPON HANDLER
@@ -163,121 +104,8 @@ const Payment = () => {
     }
   };
 
-  // Create Order after payment success
-  const createOrder = async (payload) => {
-    try {
-      const fixedCartItems =
-        order.cartItems?.map((item) => ({
-          ...item,
-          vendorID: item.vendorID || item.vendorId || null,
-          categoryId: item.categoryId || null,
-        })) || [];
-
-      const { data } = await API.post("/order", {
-        userId: order.userId,
-        email: order.email,
-        cartItems: fixedCartItems,
-        shippingAddress: order.shippingAddress,
-        billingAddress: order.billingAddress,
-        subtotal,
-        tax,
-        shipping,
-        total: finalTotal,
-        coupon,
-        discount,
-        location: order.location,
-        ...payload,
-      });
-
-      Swal.fire({
-        icon: "success",
-        title: "Order Placed!",
-        html: `<p>Tracking Number: <b>${data.order.trackingNumber}</b></p>`,
-        confirmButtonText: "View Order",
-      }).then(() => {
-        localStorage.removeItem("orderSummary");
-        localStorage.removeItem("cartItems");
-        localStorage.removeItem("checkoutDraft");
-        localStorage.removeItem("lensSelectionDetails");
-        navigate(`/order/${data.order._id}`);
-      });
-    } catch (err) {
-      Swal.fire("Error", "Failed to place order", "error");
-    }
-  };
-
-  // SUCCESS
-  const handleSquareSuccess = (response) => {
-    const transactionId = response?.payment?.id || null;
-
-    createOrder({
-      paymentMethod: "Square",
-      paymentStatus: "Paid",
-      transactionId,
-    });
-  };
-
-  // FAIL (no order)
-  const handleSquareFail = () => {
-    Swal.fire({
-      icon: "error",
-      title: "Payment Failed",
-      text: "Your card was declined. Please try a different card."
-    });
-  };
-
-  //BYPASS PAYMENT (TEST MODE)
-  // const handleBypassPayment = async () => {
-  //   setIsPaying(true);
-
-  //   try {
-  //     await createOrder({
-  //       paymentMethod: "BYPASS",
-  //       paymentStatus: "Paid",
-  //       transactionId: "TEST_TXN_" + Date.now(),
-  //     });
-  //   } catch (err) {
-  //     Swal.fire("Error", "Bypass payment failed", "error");
-  //   }
-
-  //   setIsPaying(false);
-  // };
 
 
-
-  // PROCESS PAYMENT
-  const handlePay = async () => {
-    if (!card) return;
-    setIsPaying(true);
-
-    try {
-      const tokenResult = await card.tokenize();
-
-      if (tokenResult.status !== "OK") {
-        setIsPaying(false);
-        return handleSquareFail("Card tokenization failed.");
-      }
-
-      const { data } = await API.post("/pay", {
-        nonce: tokenResult.token,
-        amount: finalTotal,
-      });
-
-
-      // const data = await res.json();
-
-      if (data.success && data.payment?.status === "COMPLETED") {
-        handleSquareSuccess(data);
-      } else {
-        handleSquareFail();
-
-      }
-    } catch (err) {
-      handleSquareFail("Payment processing error");
-    }
-
-    setIsPaying(false);
-  };
 
   return (
     <div className="flex justify-center items-center min-h-[80vh] bg-gray-200 pt-20 pb-20">
@@ -341,51 +169,88 @@ const Payment = () => {
           </button>
         </div>
 
-        {/* Square Form */}
-        <div className="space-y-3">
-          {loadingCard && <p>Loading payment form…</p>}
-          {initError && <p className="text-red-600">{initError}</p>}
-
-          <div
-            id="card-container"
-            className="border rounded-lg p-4 bg-white"
-            style={{ minHeight: "60px" }}
-          />
-
-          {/* bypass button */}
-          {/* <button
-            onClick={BYPASS_PAYMENT ? handleBypassPayment : handlePay}
-            disabled={isPaying || (!BYPASS_PAYMENT && (!card || !!initError))}
-            className={`w-full mt-2 py-2 rounded-lg font-semibold 
-    ${isPaying ? "pointer-events-none opacity-60" : ""}
-    ${!card || isPaying || initError
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[#f00000] text-white hover:bg-black"}
-  `}
+        {clientSecret && (
+          <Elements
+            stripe={stripePromise}
+            options={{
+              clientSecret,
+              appearance: {
+                theme: "stripe",
+              },
+            }}
           >
-            {isPaying
-              ? "Processing..."
-              : BYPASS_PAYMENT
-                ? "Bypass Payment (Test)"
-                : "Pay Now"}
-          </button> */}
+            <PaymentForm
+              order={order}
+              finalTotal={finalTotal}
+              coupon={coupon}
+              discount={discount}
+              navigate={navigate}
+            />
+          </Elements>
+        )}
 
-          <button
-            onClick={handlePay}
-            disabled={isPaying || !card || !!initError}
-            className={`w-full mt-2 py-2 rounded-lg font-semibold ${!card || isPaying || initError
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#f00000] text-white hover:bg-black"
-              }`}
-          >
-            {isPaying ? "Processing..." : "Pay Now"}
-          </button>
-
-
-        </div>
       </div>
     </div>
   );
 };
+
+
+const PaymentForm = ({ order, finalTotal, coupon, discount, navigate }) => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [isPaying, setIsPaying] = useState(false);
+
+  const handlePay = async () => {
+    if (!stripe || !elements || isPaying) return;
+    setIsPaying(true);
+
+    const result = await stripe.confirmPayment({
+      elements,
+      redirect: "if_required",
+    });
+
+    if (result.error) {
+      Swal.fire("Payment Failed", result.error.message, "error");
+      setIsPaying(false);
+      return;
+    }
+
+    if (result.paymentIntent.status === "succeeded") {
+      const { data } = await API.post("/order", {
+        ...order,
+        total: finalTotal,
+        coupon,
+        discount,
+        paymentMethod: "Stripe",
+        paymentStatus: "Paid",
+        transactionId: result.paymentIntent.id,
+      });
+
+      Swal.fire("Order Placed!", "Payment successful", "success").then(() => {
+        localStorage.removeItem("orderSummary");
+        localStorage.removeItem("cartItems");
+        localStorage.removeItem("checkoutDraft");
+        localStorage.removeItem("lensSelectionDetails");
+        navigate(`/order/${data.order._id}`);
+      });
+    }
+
+    setIsPaying(false);
+  };
+
+  return (
+    <>
+      <PaymentElement options={{ layout: "tabs" }} />
+      <button
+        onClick={handlePay}
+        disabled={isPaying}
+        className="w-full mt-3 py-2 rounded-lg bg-[#f00000] text-white hover:bg-black"
+      >
+        {isPaying ? "Processing..." : "Pay Now"}
+      </button>
+    </>
+  );
+};
+
 
 export default Payment;
