@@ -9,9 +9,12 @@ const Checkout = () => {
   const [formData, setFormData] = useState({});
   const [billingDifferent, setBillingDifferent] = useState(false);
   const [deliveryRange, setDeliveryRange] = useState("");
+  const [draftLoaded, setDraftLoaded] = useState(false);
+
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.items);
   const userId = localStorage.getItem("user");
+  const token = localStorage.getItem("token");
 
   const subtotal = cartItems.reduce((total, item) => {
     const catId = item.cat_id || "";
@@ -70,16 +73,30 @@ const Checkout = () => {
   const total = +(subtotal + tax + shipping).toFixed(2);
 
   // Load saved data from localStorage
+  // useEffect(() => {
+  //   const savedData = localStorage.getItem("checkoutDraft");
+  //   if (savedData) setFormData(JSON.parse(savedData));
+  // }, []);
+
   useEffect(() => {
     const savedData = localStorage.getItem("checkoutDraft");
-    if (savedData) setFormData(JSON.parse(savedData));
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+    setDraftLoaded(true);
   }, []);
+
+  useEffect(() => {
+    if (draftLoaded && userId && token) {
+      autofillUserAddress();
+    }
+  }, [draftLoaded, userId, token]);
 
   // Save form data in localStorage
   useEffect(() => {
     localStorage.setItem(
       "checkoutDraft",
-      JSON.stringify({ ...formData, currentStep })
+      JSON.stringify({ ...formData, currentStep }),
     );
   }, [formData, currentStep]);
 
@@ -87,19 +104,63 @@ const Checkout = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  useEffect(() => {
-    if (!userId) {
-      Swal.fire({
-        icon: "warning",
-        title: "Login Required",
-        text: "Please login to proceed with checkout.",
-        confirmButtonText: "Go to Login",
-        confirmButtonColor: "#dc2626",
-      }).then(() => {
-        navigate("/login");
+  const autofillUserAddress = async () => {
+    if (!userId || !token) return;
+
+    try {
+      const res = await API.get(`/customer/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
+
+      if (!res.data?.success || !res.data?.data) return;
+
+      const customer = res.data.data;
+
+      setFormData((prev) => ({
+        ...prev,
+
+        // only fill if empty
+        email: prev.email || customer.email || "",
+        phone: prev.phone || customer.mobilePhone || "",
+
+        shippingName:
+          prev.shippingName ||
+          `${customer.firstName || ""} ${customer.lastName || ""}`.trim(),
+
+        shippingStreet: prev.shippingStreet || customer.address?.street || "",
+        shippingCity: prev.shippingCity || customer.address?.city || "",
+        shippingPostal:
+          prev.shippingPostal || customer.address?.postalCode || "",
+      }));
+    } catch (error) {
+      console.error(
+        "Failed to autofill address",
+        error.response?.data || error,
+      );
     }
-  }, [userId, navigate]);
+  };
+
+  useEffect(() => {
+    if (userId && token) {
+      autofillUserAddress();
+    }
+  }, [userId, token]);
+
+  // useEffect(() => {
+  //   if (!userId) {
+  //     Swal.fire({
+  //       icon: "warning",
+  //       title: "Login Required",
+  //       text: "Please login to proceed with checkout.",
+  //       confirmButtonText: "Go to Login",
+  //       confirmButtonColor: "#dc2626",
+  //     }).then(() => {
+  //       navigate("/login");
+  //     });
+  //   }
+  // }, [userId, navigate]);
 
   const validateStep = () => {
     switch (currentStep) {
@@ -196,19 +257,10 @@ const Checkout = () => {
       const availableProducts = res.data.products || [];
 
       for (const item of cartItems) {
-        // const productKey = item.productId || item.id;
-
-        // const found = availableProducts.find((p) => {
-        //   const backendProductId =
-        //     p.productId?._id || p.productId || p._id;
-
-        //   return String(backendProductId) === String(productKey);
-        // });
-
         const productKey = item.productId || item.id;
 
         const found = availableProducts.find(
-          (p) => String(p._id) === String(productKey)
+          (p) => String(p._id) === String(productKey),
         );
 
         if (!found) {
@@ -242,7 +294,8 @@ const Checkout = () => {
     }
 
     const orderSummary = {
-      userId,
+      userId: userId || null,
+      isGuest: !userId,
       email: formData.email,
       phone: formData.phone,
       location,
@@ -274,23 +327,23 @@ const Checkout = () => {
 
       billingAddress: billingDifferent
         ? {
-          fullName: formData.shippingName,
-          address: formData.billingStreet,
-          city: formData.billingCity,
-          province: formData.billingProvince,
-          postalCode: formData.billingPostal,
-          country: "Canada",
-          phone: formData.phone,
-        }
+            fullName: formData.shippingName,
+            address: formData.billingStreet,
+            city: formData.billingCity,
+            province: formData.billingProvince,
+            postalCode: formData.billingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          }
         : {
-          fullName: formData.shippingName,
-          address: formData.shippingStreet,
-          city: formData.shippingCity,
-          province: formData.shippingProvince,
-          postalCode: formData.shippingPostal,
-          country: "Canada",
-          phone: formData.phone,
-        },
+            fullName: formData.shippingName,
+            address: formData.shippingStreet,
+            city: formData.shippingCity,
+            province: formData.shippingProvince,
+            postalCode: formData.shippingPostal,
+            country: "Canada",
+            phone: formData.phone,
+          },
 
       subtotal,
       tax,
@@ -329,8 +382,8 @@ const Checkout = () => {
       setDeliveryRange(
         `${startDate.toLocaleDateString(
           "en-US",
-          options
-        )} - ${endDate.toLocaleDateString("en-US", options)}`
+          options,
+        )} - ${endDate.toLocaleDateString("en-US", options)}`,
       );
     } else {
       setDeliveryRange("");
@@ -371,18 +424,20 @@ const Checkout = () => {
               >
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all
-                  ${idx <= currentStep
+                  ${
+                    idx <= currentStep
                       ? "bg-[#f00000] text-white border-red-600"
                       : "border-black text-black group-hover:bg-black group-hover:text-white"
-                    }`}
+                  }`}
                 >
                   {idx + 1}
                 </div>
                 <span
-                  className={`mt-2 text-sm ${idx === currentStep
-                    ? "text-[#f00000] font-bold"
-                    : "text-gray-700"
-                    }`}
+                  className={`mt-2 text-sm ${
+                    idx === currentStep
+                      ? "text-[#f00000] font-bold"
+                      : "text-gray-700"
+                  }`}
                 >
                   {step}
                 </span>
@@ -408,10 +463,11 @@ const Checkout = () => {
               value={formData.email || ""}
               onChange={(e) => handleChange("email", e.target.value)}
               className={`border p-2 rounded w-full 
-          ${formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
-                  ? "border-red-500"
-                  : "border-black"
-                }`}
+          ${
+            formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+              ? "border-red-500"
+              : "border-black"
+          }`}
               required
             />
             {formData.email &&
@@ -428,16 +484,17 @@ const Checkout = () => {
               placeholder="416 123 4567"
               value={formData.phone || ""}
               onChange={(e) => handleChange("phone", e.target.value)}
-              className={`border p-2 rounded w-full ${formData.phone &&
+              className={`border p-2 rounded w-full ${
+                formData.phone &&
                 !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(formData.phone)
-                ? "border-red-500"
-                : "border-black"
-                }`}
+                  ? "border-red-500"
+                  : "border-black"
+              }`}
               required
             />
             {formData.phone &&
               !/^(\+1\s?)?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/.test(
-                formData.phone
+                formData.phone,
               ) && (
                 <p className="text-[#f00000] text-sm mt-1">
                   Invalid phone number. Use 416 123 4567 format.
@@ -456,10 +513,11 @@ const Checkout = () => {
           </h1>
           <br />
           <hr
-            className={`border-t-2 -mt-2 ${!deliveryRange
-              ? "w-[418px] border-black"
-              : "w-[498px] border-black"
-              }`}
+            className={`border-t-2 -mt-2 ${
+              !deliveryRange
+                ? "w-[418px] border-black"
+                : "w-[498px] border-black"
+            }`}
           />
 
           <input
@@ -494,18 +552,19 @@ const Checkout = () => {
               const val = e.target.value.toUpperCase();
               handleChange("shippingPostal", val);
             }}
-            className={`border p-2 rounded w-full ${formData.shippingPostal &&
+            className={`border p-2 rounded w-full ${
+              formData.shippingPostal &&
               !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
-                formData.shippingPostal
+                formData.shippingPostal,
               )
-              ? "border-red-500"
-              : "border-black"
-              }`}
+                ? "border-red-500"
+                : "border-black"
+            }`}
             required
           />
           {formData.shippingPostal &&
             !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
-              formData.shippingPostal
+              formData.shippingPostal,
             ) && (
               <p className="text-[#f00000] text-sm mt-1">
                 Invalid postal code. Example: A1A 1A1
@@ -589,18 +648,19 @@ const Checkout = () => {
                   const val = e.target.value.toUpperCase(); // convert to uppercase
                   handleChange("billingPostal", val);
                 }}
-                className={`border p-2 rounded w-full ${formData.billingPostal &&
+                className={`border p-2 rounded w-full ${
+                  formData.billingPostal &&
                   !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
-                    formData.billingPostal
+                    formData.billingPostal,
                   )
-                  ? "border-red-500"
-                  : "border-black"
-                  }`}
+                    ? "border-red-500"
+                    : "border-black"
+                }`}
                 required
               />
               {formData.billingPostal &&
                 !/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/.test(
-                  formData.billingPostal
+                  formData.billingPostal,
                 ) && (
                   <p className="text-[#f00000] text-sm mt-1">
                     Invalid postal code. Example: A1A 1A1
