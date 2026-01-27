@@ -44,7 +44,7 @@ const resolveImg = (src = "") => {
 };
 
 // ProductCard Component
-function ProductCard({ data, img, inWishlist, toggleWishlist, isInStock }) {
+function ProductCard({ data, img, inWishlist, toggleWishlist, quantity = 0 }) {
   const [activeVar, setActiveVar] = React.useState(null);
   const [slideIdx, setSlideIdx] = React.useState(0);
   const slideTimerRef = React.useRef(null);
@@ -90,7 +90,7 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, isInStock }) {
     () => () => {
       if (slideTimerRef.current) clearInterval(slideTimerRef.current);
     },
-    []
+    [],
   );
 
   const onSwatchEnter = (variant) => {
@@ -137,7 +137,7 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, isInStock }) {
           {Math.round(
             ((data.product_price - data.product_sale_price) /
               data.product_price) *
-            100
+              100,
           )}
           % OFF
         </div>
@@ -157,8 +157,8 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, isInStock }) {
       </Link>
 
       {data.subCategoryName?.toLowerCase() === "kids" &&
-        (String(data.cat_id) === GLASSES_CAT_ID ||
-          String(data.cat_id) === SUNGLASSES_CAT_ID)
+      (String(data.cat_id) === GLASSES_CAT_ID ||
+        String(data.cat_id) === SUNGLASSES_CAT_ID)
         ? "Kids"
         : data.gender}
 
@@ -175,18 +175,31 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, isInStock }) {
         <span className="text-gray-900 font-bold">
           $
           {Number(data.product_sale_price ?? data.product_price ?? 0).toFixed(
-            2
+            2,
           )}
         </span>
       </div>
 
-      <div className="mb-2">
+      {/* <div className="mb-2">
         <span
           className={`text-sm font-medium ${isInStock ? "text-green-600" : "text-red-600"
             }`}
         >
           {isInStock ? "In stock" : "Out of stock"}
         </span>
+      </div> */}
+      <div className="mb-2">
+        {quantity === 0 ? (
+          <span className="text-sm font-medium text-red-600">Out of stock</span>
+        ) : quantity < 10 ? (
+          <span className="text-sm font-medium text-orange-600">
+            Only {quantity} left
+          </span>
+        ) : (
+          <span className="text-sm font-medium text-green-600">
+            {quantity} available
+          </span>
+        )}
       </div>
 
       {variants.length > 0 && !isContactLens && (
@@ -200,10 +213,11 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, isInStock }) {
               onMouseLeave={onCardLeave}
               onBlur={onCardLeave}
               className={`w-5 h-5 rounded-full border transition-all duration-200 
-          ${activeVar?.colorName === variant.colorName
-                  ? "border-black ring-2 ring-black/10 scale-110"
-                  : "border-gray-300 hover:scale-105"
-                }`}
+          ${
+            activeVar?.colorName === variant.colorName
+              ? "border-black ring-2 ring-black/10 scale-110"
+              : "border-gray-300 hover:scale-105"
+          }`}
               style={{
                 backgroundColor:
                   variant.colorName?.toLowerCase().trim() || "gray",
@@ -275,7 +289,9 @@ function Product() {
     try {
       const userLoc = localStorage.getItem("userLocation") || "east";
 
-      const res = await API.get(`/inventory/available-products/${userLoc}?scope=global`);
+      const res = await API.get(
+        `/inventory/available-products/${userLoc}?scope=global`,
+      );
 
       const map = {};
       (res.data.products || []).forEach((p) => {
@@ -315,7 +331,7 @@ function Product() {
         const filtered = inventoryProducts.filter(
           (p) =>
             String(p.cat_id) === GLASSES_CAT_ID &&
-            p.gender?.toLowerCase() === slug
+            p.gender?.toLowerCase() === slug,
         );
 
         setProducts(filtered);
@@ -337,7 +353,7 @@ function Product() {
               ...p,
               availableQty:
                 p.availableQty ?? p.availableStock ?? p.finishedStock ?? 0,
-            }))
+            })),
           );
 
           setPage(1);
@@ -360,7 +376,7 @@ function Product() {
               ...p,
               availableQty:
                 p.availableQty ?? p.availableStock ?? p.finishedStock ?? 0,
-            }))
+            })),
           );
 
           setPage(1);
@@ -383,7 +399,7 @@ function Product() {
             (p) =>
               String(p.face_shape)?.toLowerCase() === shape.toLowerCase() &&
               p.cat_id !== SUNGLASSES_CAT_ID && //  block sunglasses
-              p.cat_id !== CONTACT_LENS_CAT_ID //  block contact lens
+              p.cat_id !== CONTACT_LENS_CAT_ID, //  block contact lens
           );
 
           setProducts(filtered);
@@ -430,7 +446,7 @@ function Product() {
           const filtered = inventoryProducts.filter(
             (p) =>
               p.subCategoryName?.toLowerCase() === "kids" &&
-              String(p.cat_id) === String(catId) //ONLY current category
+              String(p.cat_id) === String(catId), //ONLY current category
           );
 
           setProducts(filtered);
@@ -457,7 +473,7 @@ function Product() {
           const filtered = inventoryProducts.filter(
             (p) =>
               String(p.cat_id) === SUNGLASSES_CAT_ID && // Sunglasses only
-              p.gender?.toLowerCase() === "men" // ONLY men
+              p.gender?.toLowerCase() === "men", // ONLY men
           );
 
           setProducts(filtered);
@@ -484,7 +500,7 @@ function Product() {
           const filtered = inventoryProducts.filter(
             (p) =>
               String(p.cat_id) === SUNGLASSES_CAT_ID && //  Sunglasses only
-              p.gender?.toLowerCase() === "women" //  ONLY women
+              p.gender?.toLowerCase() === "women", //  ONLY women
           );
 
           setProducts(filtered);
@@ -510,7 +526,7 @@ function Product() {
           const filtered = inventoryProducts.filter(
             (p) =>
               String(p.cat_id) === GLASSES_CAT_ID && //  Only Glasses
-              String(p.gender)?.toLowerCase() === gender.toLowerCase() //  EXACT match
+              String(p.gender)?.toLowerCase() === gender.toLowerCase(), //  EXACT match
           );
 
           setProducts(filtered);
@@ -557,8 +573,8 @@ function Product() {
           const filtered = inventoryProducts.filter(
             (p) =>
               String(p.frame_shape)?.toLowerCase() ===
-              frame_shape.toLowerCase() &&
-              String(p.cat_id) === "6915705d9ceac0cdda41c83f"
+                frame_shape.toLowerCase() &&
+              String(p.cat_id) === "6915705d9ceac0cdda41c83f",
           );
 
           setProducts(filtered);
@@ -580,7 +596,7 @@ function Product() {
 
           const filtered = inventoryProducts.filter(
             (p) =>
-              String(p.frame_shape)?.toLowerCase() === frameShape.toLowerCase()
+              String(p.frame_shape)?.toLowerCase() === frameShape.toLowerCase(),
           );
 
           setProducts(filtered);
@@ -603,7 +619,7 @@ function Product() {
           const filtered = inventoryProducts.filter(
             (p) =>
               String(p.brand_id) === contactBrandId &&
-              String(p.cat_id) === "6915735feeb23fa59c7d532b"
+              String(p.cat_id) === "6915735feeb23fa59c7d532b",
           );
           setProducts(filtered);
           setPage(1);
@@ -630,7 +646,7 @@ function Product() {
             filtered = fullList.filter((p) => p.isTrending === true);
           } else {
             filtered = fullList.filter(
-              (p) => String(p.brand_id) === collection
+              (p) => String(p.brand_id) === collection,
             );
           }
 
@@ -706,7 +722,7 @@ function Product() {
             filtered = fullList.filter(
               (p) =>
                 p.gender?.toLowerCase() === "men" &&
-                p.cat_id !== "6915735feeb23fa59c7d532b"
+                p.cat_id !== "6915735feeb23fa59c7d532b",
             );
           }
 
@@ -715,14 +731,14 @@ function Product() {
             filtered = fullList.filter(
               (p) =>
                 p.gender?.toLowerCase() === "women" &&
-                p.cat_id !== "6915735feeb23fa59c7d532b"
+                p.cat_id !== "6915735feeb23fa59c7d532b",
             );
           }
 
           //  CONTACT LENS → category based
           else if (frameSlug === "contact-lens") {
             filtered = fullList.filter(
-              (p) => String(p.cat_id) === CONTACT_LENS_CAT_ID
+              (p) => String(p.cat_id) === CONTACT_LENS_CAT_ID,
             );
           }
 
@@ -761,49 +777,49 @@ function Product() {
 
             case "transitions":
               filtered = fullList.filter(
-                (p) => p.subCategoryName?.toLowerCase() === "transitions"
+                (p) => p.subCategoryName?.toLowerCase() === "transitions",
               );
               break;
 
             case "blue-violet":
               filtered = fullList.filter(
-                (p) => p.subCategoryName?.toLowerCase() === "blue violet"
+                (p) => p.subCategoryName?.toLowerCase() === "blue violet",
               );
               break;
 
             case "progressive":
               filtered = fullList.filter(
-                (p) => p.subCategoryName?.toLowerCase() === "progressive"
+                (p) => p.subCategoryName?.toLowerCase() === "progressive",
               );
               break;
 
             // OLD LOGIC
             case "men":
               filtered = fullList.filter(
-                (p) => p.gender?.toLowerCase() === "men"
+                (p) => p.gender?.toLowerCase() === "men",
               );
               break;
 
             case "women":
               filtered = fullList.filter(
-                (p) => p.gender?.toLowerCase() === "women"
+                (p) => p.gender?.toLowerCase() === "women",
               );
               break;
 
             case "kids":
               filtered = fullList.filter(
-                (p) => p.gender?.toLowerCase() === "kids"
+                (p) => p.gender?.toLowerCase() === "kids",
               );
               break;
             case "unisex":
               filtered = fullList.filter(
-                (p) => p.gender?.toLowerCase() === "unisex"
+                (p) => p.gender?.toLowerCase() === "unisex",
               );
               break;
 
             case "contact-lens":
               filtered = fullList.filter(
-                (p) => p.cat_id === "6915735feeb23fa59c7d532b"
+                (p) => p.cat_id === "6915735feeb23fa59c7d532b",
               );
               break;
           }
@@ -828,7 +844,7 @@ function Product() {
             ...p,
             availableQty:
               p.availableQty ?? p.availableStock ?? p.finishedStock ?? 0,
-          }))
+          })),
         );
 
         setPage(1);
@@ -864,7 +880,7 @@ function Product() {
           ...p,
           availableQty:
             p.availableQty ?? p.availableStock ?? p.finishedStock ?? 0,
-        }))
+        })),
       );
 
       setPage(1);
@@ -884,7 +900,7 @@ function Product() {
       const res = await API.get(`/getWishlist/${userId2}`);
       const valid = res.data?.products?.filter((p) => p.productId) || [];
       setWishlist(valid.map((p) => p.productId._id));
-    } catch (e) { }
+    } catch (e) {}
   };
 
   //  CRITICAL FIX: Proper dependency array with catId, subCatId, and brandId
@@ -1048,17 +1064,17 @@ function Product() {
         return [...arr].sort(
           (a, b) =>
             (a.product_sale_price || a.product_price || 0) -
-            (b.product_sale_price || b.product_price || 0)
+            (b.product_sale_price || b.product_price || 0),
         );
       case "high":
         return [...arr].sort(
           (a, b) =>
             (b.product_sale_price || b.product_price || 0) -
-            (a.product_sale_price || a.product_price || 0)
+            (a.product_sale_price || a.product_price || 0),
         );
       case "new":
         return [...arr].sort(
-          (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+          (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0),
         );
       default:
         return arr;
@@ -1067,7 +1083,7 @@ function Product() {
 
   const filteredProducts = useMemo(
     () => applySort(products.filter(matchesFilters)),
-    [products, filters, sort, locationFilter]
+    [products, filters, sort, locationFilter],
   );
 
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / pageSize));
@@ -1130,10 +1146,12 @@ function Product() {
     return resolveImg(src);
   };
 
-
-
   const checkInStock = (productId) => {
     return (inventoryMap[productId] || 0) > 0;
+  };
+
+  const getAvailableQty = (productId) => {
+    return inventoryMap[productId] || 0;
   };
 
   return (
@@ -1187,8 +1205,9 @@ function Product() {
 
       {/* Mobile Filter Drawer */}
       <div
-        className={`fixed inset-0 bg-black/40 z-40 ${isFilterOpen ? "block" : "hidden"
-          }`}
+        className={`fixed inset-0 bg-black/40 z-40 ${
+          isFilterOpen ? "block" : "hidden"
+        }`}
         onClick={() => setIsFilterOpen(false)}
         aria-hidden="true"
       />
@@ -1196,8 +1215,9 @@ function Product() {
         id="filters-drawer"
         role="dialog"
         aria-modal="true"
-        className={`fixed z-50 inset-y-0 left-0 w-80 bg-white border-r border-gray-200 transform transition-transform duration-200 ${isFilterOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:hidden`}
+        className={`fixed z-50 inset-y-0 left-0 w-80 bg-white border-r border-gray-200 transform transition-transform duration-200 ${
+          isFilterOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:hidden`}
       >
         <div className="p-4 flex items-center justify-between border-b">
           <h3 className="text-base font-semibold">Filters</h3>
@@ -1281,7 +1301,7 @@ function Product() {
                   const inWishlist = wishSet.has(data._id);
 
                   const inStock = checkInStock(data._id);
-
+                  const qty = getAvailableQty(data._id);
 
                   return (
                     <ProductCard
@@ -1290,7 +1310,8 @@ function Product() {
                       img={img}
                       inWishlist={inWishlist}
                       toggleWishlist={toggleWishlist}
-                      isInStock={inStock}
+                      // isInStock={inStock}
+                      quantity={qty}
                     />
                   );
                 })}
@@ -1312,7 +1333,7 @@ function Product() {
                   {Array.from({
                     length: Math.max(
                       1,
-                      Math.ceil(filteredProducts.length / pageSize)
+                      Math.ceil(filteredProducts.length / pageSize),
                     ),
                   }).map((_, i) => {
                     const n = i + 1;
@@ -1321,10 +1342,11 @@ function Product() {
                       <button
                         key={n}
                         onClick={() => setPage(n)}
-                        className={`px-3 py-1 rounded border ${isActive
-                          ? "bg-black text-white border-black"
-                          : "border-gray-300 hover:bg-gray-50"
-                          }`}
+                        className={`px-3 py-1 rounded border ${
+                          isActive
+                            ? "bg-black text-white border-black"
+                            : "border-gray-300 hover:bg-gray-50"
+                        }`}
                         aria-current={isActive ? "page" : undefined}
                       >
                         {n}

@@ -27,7 +27,7 @@ function Header() {
     brands: false,
     about: false,
     home: false,
-    policyMobile: false
+    policyMobile: false,
   });
 
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -67,9 +67,8 @@ function Header() {
   const [product, setProduct] = useState();
 
   const totalQuantity = useSelector((state) =>
-    state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
+    state.cart.items.reduce((sum, item) => sum + item.quantity, 0),
   );
-
 
   const user = localStorage.getItem("user");
   const [cartOpen, setCartOpen] = useState(false);
@@ -154,7 +153,6 @@ function Header() {
     if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
     servicesTimeoutRef.current = setTimeout(() => setServicesOpen(false), 300);
   };
-
 
   const handlePolicySubEnter = () => {
     if (policySubTimeoutRef.current) clearTimeout(policySubTimeoutRef.current);
@@ -523,7 +521,7 @@ function Header() {
         },
       },
     }),
-    []
+    [],
   );
 
   const handleSearch = (e) => {
@@ -554,7 +552,7 @@ function Header() {
 
         const res = await API.get(
           `/products/search?search=${encodeURIComponent(value)}`,
-          { signal: controller.signal }
+          { signal: controller.signal },
         );
 
         const ok = res?.data?.success;
@@ -569,7 +567,7 @@ function Header() {
         // prefix filter: only keep products whose name starts with the query
         const qLower = value.toLowerCase();
         const filteredByPrefix = serverList.filter((p) =>
-          getName(p).toLowerCase().startsWith(qLower)
+          getName(p).toLowerCase().startsWith(qLower),
         );
 
         setFilteredProducts(filteredByPrefix);
@@ -595,7 +593,7 @@ function Header() {
     if (!query.trim()) return;
     const updated = [query, ...recentSearches.filter((s) => s !== query)].slice(
       0,
-      10
+      10,
     );
     setRecentSearches(updated);
     localStorage.setItem("recentSearches", JSON.stringify(updated));
@@ -634,7 +632,7 @@ function Header() {
     try {
       const response = await API.get(`/customer/${user}`);
       setCustProfile(response?.data?.data?.profileImage);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -644,14 +642,15 @@ function Header() {
   const goToSelected = (product) => {
     const updated = [query, ...recentSearches.filter((s) => s !== query)].slice(
       0,
-      10
+      10,
     );
     setRecentSearches(updated);
     localStorage.setItem("recentSearches", JSON.stringify(updated));
 
     navigate(
-      `/product/${product._id}/${product.subCategoryName || "details"}/${product.subCat_id
-      }`
+      `/product/${product._id}/${product.subCategoryName || "details"}/${
+        product.subCat_id
+      }`,
     );
     setSearchModalOpen(false);
     setQuery("");
@@ -712,14 +711,12 @@ function Header() {
     locationTimeoutRef.current = setTimeout(() => setLocationOpen(false), 300);
   };
 
-
   useEffect(() => {
     return () => {
       if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
       if (locationTimeoutRef.current) clearTimeout(locationTimeoutRef.current); // 👈 NEW
     };
   }, []);
-
 
   return (
     <>
@@ -853,18 +850,14 @@ function Header() {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  if (!user) {
-                    navigate("/login");
-                  } else {
-                    setCartOpen(true);
-                  }
+                  setCartOpen(true);
                 }}
                 className="p-1 relative"
                 aria-label="Open cart"
               >
                 <FaCartShopping className="text-[#f00000] cursor-pointer hover:text-black text-2xl transition-colors" />
               </button>
-              {totalQuantity > 0 && user && (
+              {totalQuantity > 0 && (
                 <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold">
                   {totalQuantity}
                 </span>
@@ -934,8 +927,9 @@ function Header() {
               >
                 Home
                 <span
-                  className={`inline-block transition-transform duration-200 ${homeOpen ? "rotate-180" : ""
-                    }`}
+                  className={`inline-block transition-transform duration-200 ${
+                    homeOpen ? "rotate-180" : ""
+                  }`}
                 >
                   ▾
                 </span>
@@ -975,8 +969,9 @@ function Header() {
                         >
                           Corporate Policy
                           <span
-                            className={`inline-block text-lg transition-transform duration-200 ${policySubOpen ? "rotate-150" : ""
-                              }`}
+                            className={`inline-block text-lg transition-transform duration-200 ${
+                              policySubOpen ? "rotate-150" : ""
+                            }`}
                           >
                             ▾
                           </span>
@@ -1101,8 +1096,9 @@ function Header() {
                 >
                   About Us
                   <span
-                    className={`inline-block transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""
-                      }`}
+                    className={`inline-block transition-transform duration-200 ${
+                      aboutOpen ? "rotate-180" : ""
+                    }`}
                   >
                     ▾
                   </span>
@@ -1148,7 +1144,6 @@ function Header() {
               </AnimatePresence>
             </li>
 
-
             <li
               className="relative"
               onMouseEnter={handleLocationEnter}
@@ -1160,8 +1155,9 @@ function Header() {
               >
                 Location
                 <span
-                  className={`inline-block transition-transform duration-200 ${locationOpen ? "rotate-180" : ""
-                    }`}
+                  className={`inline-block transition-transform duration-200 ${
+                    locationOpen ? "rotate-180" : ""
+                  }`}
                 >
                   ▾
                 </span>
@@ -1173,7 +1169,9 @@ function Header() {
                     <ul className="py-2">
                       <li>
                         <button
-                          onClick={() => navigate(`${location.pathname}?location=all`)}
+                          onClick={() =>
+                            navigate(`${location.pathname}?location=all`)
+                          }
                           className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100"
                         >
                           All
@@ -1181,7 +1179,9 @@ function Header() {
                       </li>
                       <li>
                         <button
-                          onClick={() => navigate(`${location.pathname}?location=east`)}
+                          onClick={() =>
+                            navigate(`${location.pathname}?location=east`)
+                          }
                           className="block w-full text-left px-4 py-2 text-black text-sm hover:bg-gray-100"
                         >
                           East
@@ -1189,7 +1189,9 @@ function Header() {
                       </li>
                       <li>
                         <button
-                          onClick={() => navigate(`${location.pathname}?location=west`)}
+                          onClick={() =>
+                            navigate(`${location.pathname}?location=west`)
+                          }
                           className="block w-full text-left text-black px-4 py-2 text-sm hover:bg-gray-100"
                         >
                           West
@@ -1201,18 +1203,15 @@ function Header() {
               </AnimatePresence>
             </li>
 
-
-
-
-
             <li
               onMouseEnter={() => handleMegaEnter("glasses")}
               onMouseLeave={handleMegaLeave}
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "glasses" ? "text-red-500" : ""
-                  }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${
+                  megaOpen && activeKey === "glasses" ? "text-red-500" : ""
+                }`}
               >
                 Glasses
               </button>
@@ -1224,8 +1223,9 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
-                  }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${
+                  megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
+                }`}
               >
                 Sunglasses
               </button>
@@ -1237,10 +1237,11 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "contact_lenses"
-                  ? "text-red-500"
-                  : ""
-                  }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${
+                  megaOpen && activeKey === "contact_lenses"
+                    ? "text-red-500"
+                    : ""
+                }`}
               >
                 Contact Lenses
               </button>
@@ -1252,8 +1253,9 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "brands" ? "text-red-500" : ""
-                  }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${
+                  megaOpen && activeKey === "brands" ? "text-red-500" : ""
+                }`}
               >
                 Brands
               </button>
@@ -1271,8 +1273,9 @@ function Header() {
                 >
                   Services
                   <span
-                    className={`inline-block transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""
-                      }`}
+                    className={`inline-block transition-transform duration-200 ${
+                      servicesOpen ? "rotate-180" : ""
+                    }`}
                   >
                     ▾
                   </span>
@@ -1315,7 +1318,6 @@ function Header() {
                         </Link>
                       </li>
 
-
                       <li>
                         <Link
                           to="/free-eye-exam"
@@ -1339,10 +1341,7 @@ function Header() {
               </AnimatePresence>
             </li>
 
-            <Link
-              to="/faq"
-              className="hover:text-red-600 transition-colors"
-            >
+            <Link to="/faq" className="hover:text-red-600 transition-colors">
               <li className="cursor-pointer">FAQ</li>
             </Link>
 
@@ -1390,10 +1389,11 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${sidebarOpen
-          ? "translate-x-0 opacity-100"
-          : "-translate-x-full opacity-0"
-          }`}
+        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${
+          sidebarOpen
+            ? "translate-x-0 opacity-100"
+            : "-translate-x-full opacity-0"
+        }`}
       >
         {/* FIXED HEADER */}
         <div className="flex justify-between items-center bg-white h-[70px] border-b border-gray-200 px-3 sticky top-0 z-50">
@@ -1417,7 +1417,6 @@ function Header() {
         <div className="overflow-y-auto h-[calc(100vh-70px)] px-1 pb-24">
           {/* NAVIGATION LIST */}
           <nav className="flex flex-col p-4 text-base font-semibold overscroll-contain">
-
             {/* HOME DROPDOWN */}
             <div className="px-4 py-3">
               <button
@@ -1430,7 +1429,6 @@ function Header() {
 
               {mobileDropdown.home && (
                 <div className="ml-4 mt-2 flex flex-col gap-2 text-sm">
-
                   {/* GENERAL INFORMATION */}
                   <Link
                     to="/general-info"
@@ -1451,39 +1449,69 @@ function Header() {
 
                   {mobileDropdown.policyMobile && (
                     <div className="ml-4 mt-2 flex flex-col gap-2">
-
-                      <Link to="/cookies-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                      <Link
+                        to="/cookies-policy"
+                        onClick={() => setSidebarOpen(false)}
+                        className="py-1 px-2 rounded hover:bg-gray-100"
+                      >
                         Cookies Policy
                       </Link>
 
-                      <Link to="/disclaimer-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                      <Link
+                        to="/disclaimer-policy"
+                        onClick={() => setSidebarOpen(false)}
+                        className="py-1 px-2 rounded hover:bg-gray-100"
+                      >
                         Disclaimer Policy
                       </Link>
 
-                      <Link to="/exchange-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                      <Link
+                        to="/exchange-policy"
+                        onClick={() => setSidebarOpen(false)}
+                        className="py-1 px-2 rounded hover:bg-gray-100"
+                      >
                         Exchange Policy
                       </Link>
 
-                      <Link to="/eyeglasses-contact-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                      <Link
+                        to="/eyeglasses-contact-policy"
+                        onClick={() => setSidebarOpen(false)}
+                        className="py-1 px-2 rounded hover:bg-gray-100"
+                      >
                         Eyeglasses Contact Policy
                       </Link>
 
-                      <Link to="/privacy-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                      <Link
+                        to="/privacy-policy"
+                        onClick={() => setSidebarOpen(false)}
+                        className="py-1 px-2 rounded hover:bg-gray-100"
+                      >
                         Privacy Policy
                       </Link>
 
-                      <Link to="/return-exchange" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                      <Link
+                        to="/return-exchange"
+                        onClick={() => setSidebarOpen(false)}
+                        className="py-1 px-2 rounded hover:bg-gray-100"
+                      >
                         Return, Exchange & Consumer Policy
                       </Link>
 
-                      <Link to="/rights-enforcement-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                      <Link
+                        to="/rights-enforcement-policy"
+                        onClick={() => setSidebarOpen(false)}
+                        className="py-1 px-2 rounded hover:bg-gray-100"
+                      >
                         Right Enforcement Policy
                       </Link>
 
-                      <Link to="/shipping-policy" onClick={() => setSidebarOpen(false)} className="py-1 px-2 rounded hover:bg-gray-100">
+                      <Link
+                        to="/shipping-policy"
+                        onClick={() => setSidebarOpen(false)}
+                        className="py-1 px-2 rounded hover:bg-gray-100"
+                      >
                         Shipping Policy
                       </Link>
-
                     </div>
                   )}
 
@@ -1495,11 +1523,9 @@ function Header() {
                   >
                     Optical Policy
                   </Link>
-
                 </div>
               )}
             </div>
-
 
             {/* ABOUT US */}
             <div className="px-4 py-3">
@@ -1540,7 +1566,6 @@ function Header() {
               )}
             </div>
 
-
             {/* GLASSES */}
             <div className="px-4 py-3">
               <button
@@ -1565,7 +1590,7 @@ function Header() {
                       >
                         {link.label}
                       </button>
-                    ))
+                    )),
                   )}
                 </div>
               )}
@@ -1595,7 +1620,7 @@ function Header() {
                       >
                         {link.label}
                       </button>
-                    ))
+                    )),
                   )}
                 </div>
               )}
@@ -1625,7 +1650,7 @@ function Header() {
                       >
                         {link.label}
                       </button>
-                    ))
+                    )),
                   )}
                 </div>
               )}
@@ -1655,7 +1680,7 @@ function Header() {
                       >
                         {link.label}
                       </button>
-                    ))
+                    )),
                   )}
                 </div>
               )}
@@ -1797,16 +1822,26 @@ function Header() {
       />
 
       {/* Cart Drawer */}
-      {cartOpen && user && (
+      {/* {cartOpen && user && (
+        <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      )} */}
+
+      {cartOpen && (
         <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
       )}
 
       {/* Cart Overlay */}
-      {cartOpen && user && (
+      {/* {cartOpen && user && (
         <div
           className="fixed inset-0 z-[45] transition-opacity duration-300 ease-out opacity-100"
           onClick={() => setCartOpen(false)}
           aria-hidden="true"
+        />
+      )} */}
+      {cartOpen && (
+        <div
+          className="fixed inset-0 z-[45]"
+          onClick={() => setCartOpen(false)}
         />
       )}
     </>
