@@ -38,6 +38,7 @@ const InsuranceBenefits = () => {
                 <img
                     src={insuranceImage}
                     alt="Insurance Benefits"
+                    loading="lazy"
                     className="w-80 md:w-[420px] drop-shadow-lg rounded-lg"
                 />
             </motion.div>

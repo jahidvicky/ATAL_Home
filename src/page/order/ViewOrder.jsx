@@ -393,6 +393,7 @@ const ViewOrder = () => {
                       src={item.image}
                       alt={item.name}
                       className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-md border border-gray-200"
+                      loading="lazy"
                     />
 
                     <div className="flex-1">

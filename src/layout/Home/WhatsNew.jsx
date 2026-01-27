@@ -35,6 +35,7 @@ const WhatsNew = () => {
                     <div className="w-full h-56 sm:h-72 md:h-80 overflow-hidden rounded-xl shadow-lg mb-5">
                         <img
                             src={GlassImage}
+                            loading="lazy"
                             alt="Brand"
                             className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                         />
@@ -66,6 +67,7 @@ const WhatsNew = () => {
                     <div className="w-full h-56 sm:h-72 md:h-80 overflow-hidden rounded-xl shadow-lg mb-5">
                         <img
                             src={raybanImage}
+                            loading="lazy"
                             alt="Brand"
                             className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                         />

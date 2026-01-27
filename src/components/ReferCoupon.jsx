@@ -74,7 +74,7 @@ export default function ReferCoupon() {
             transition={{ duration: 0.6 }}
             className="h-full"
           >
-            <img src={ReferImg} alt="Gift visual" className="w-full h-full object-contain" />
+            <img src={ReferImg} alt="Gift visual" loading="lazy" className="w-full h-full object-contain" />
           </motion.div>
         </div>
 

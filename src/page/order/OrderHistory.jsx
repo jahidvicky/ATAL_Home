@@ -110,6 +110,7 @@ const OrderHistory = () => {
                               src={imageUrl}
                               alt={cartItem.image?.split("/").pop()}
                               className="h-20 w-24 object-cover rounded"
+                              loading="lazy"
                             />
                           );
                         })}
@@ -250,6 +251,7 @@ const OrderHistory = () => {
                           src={imageUrl}
                           alt={cartItem.image?.split("/").pop()}
                           className="h-16 w-20 object-cover rounded flex-shrink-0"
+                          loading="lazy"
                         />
                       );
                     })}

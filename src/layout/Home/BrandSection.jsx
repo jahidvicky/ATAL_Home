@@ -132,6 +132,7 @@ const BrandSection = () => {
                                         : `${IMAGE_URL}${brand.image}`
                                 }
                                 alt={brand.brand}
+                                loading="lazy"
                                 className="w-20 h-10 object-contain mx-auto mb-2"
                             />
                         )}

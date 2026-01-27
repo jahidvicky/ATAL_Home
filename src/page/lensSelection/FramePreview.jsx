@@ -36,6 +36,7 @@ const FramePreview = ({ onProductLoaded }) => {
             }`}
           alt={product?.product_name || "Frame"}
           className="w-72 h-auto"
+          loading="lazy"
         />
       ) : (
         <p>Loading...</p>

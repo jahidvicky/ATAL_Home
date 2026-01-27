@@ -649,6 +649,7 @@ const Checkout = () => {
                     src={item.image}
                     alt={item.name}
                     className="w-24 h-24 sm:w-50 sm:h-24 object-cover rounded mr-4 flex-shrink-0"
+                    loading="lazy"
                   />
 
                   <div className="flex-1">

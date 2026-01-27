@@ -267,6 +267,7 @@ function SearchModal({
                                                                     src={getProductImage(selectedProduct)}
                                                                     alt={selectedProduct.product_name}
                                                                     className="w-full h-80 object-contain rounded mb-6"
+                                                                    loading="lazy"
                                                                 />
 
                                                                 <h2 className="text-2xl font-bold text-gray-900 mb-2">

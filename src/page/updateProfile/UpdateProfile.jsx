@@ -35,10 +35,10 @@ function UpdateProfile() {
       score <= 1
         ? "Weak"
         : score === 2
-        ? "Medium"
-        : score === 3
-        ? "Strong"
-        : "Very Strong"
+          ? "Medium"
+          : score === 3
+            ? "Strong"
+            : "Very Strong"
     );
   };
 
@@ -247,6 +247,7 @@ function UpdateProfile() {
                     src={profilePreview || `${IMAGE_URL}${profileImage}`}
                     alt="Profile Preview"
                     className="w-16 h-16 sm:w-24 sm:h-24 object-cover rounded-full border shadow"
+                    loading="lazy"
                   />
                 </div>
               )}
@@ -313,11 +314,11 @@ function UpdateProfile() {
                       className={`font-semibold ${strength <= 1
                         ? "text-[#f00000]"
                         : strength === 2
-                        ? "text-yellow-500"
-                        : strength === 3
-                        ? "text-green-500"
-                        : "text-blue-600"
-                      }`}
+                          ? "text-yellow-500"
+                          : strength === 3
+                            ? "text-green-500"
+                            : "text-blue-600"
+                        }`}
                     >
                       {strengthLabel}
                     </span>
@@ -331,11 +332,11 @@ function UpdateProfile() {
                     className={`w-full h-2 rounded-lg mt-2 appearance-none cursor-default ${strength <= 1
                       ? "bg-[#f00000]"
                       : strength === 2
-                      ? "bg-yellow-400"
-                      : strength === 3
-                      ? "bg-green-400"
-                      : "bg-blue-400"
-                    }`}
+                        ? "bg-yellow-400"
+                        : strength === 3
+                          ? "bg-green-400"
+                          : "bg-blue-400"
+                      }`}
                   />
                 </div>
               )}
