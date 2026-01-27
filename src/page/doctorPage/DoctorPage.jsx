@@ -44,6 +44,7 @@ function DoctorPage() {
                                     }
                                     alt={doc.name}
                                     className="w-28 h-28 rounded-full mx-auto mb-4 object-cover border-2 border-red-300"
+                                    loading="lazy"
                                 />
 
                                 <h3 className="font-bold text-lg">{doc.doctor_name}</h3>

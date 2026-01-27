@@ -96,6 +96,7 @@ const OfferPopup = () => {
                         <div className="md:w-1/2">
                             <img
                                 src={img}
+                                loading="lazy"
                                 alt="Offer visual"
                                 className="w-full h-full object-cover"
                             />

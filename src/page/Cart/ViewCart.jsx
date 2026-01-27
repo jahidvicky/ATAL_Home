@@ -58,6 +58,7 @@ const ViewCart = ({ items, hideCheckout }) => {
                     src={item.image}
                     alt={item.name}
                     className="w-50 h-24 object-cover rounded mr-4 hover:cursor-pointer"
+                    loading="lazy"
                   />
                 </Link>
 
@@ -291,6 +292,7 @@ const ViewCart = ({ items, hideCheckout }) => {
                   src={item.image}
                   alt={item.name}
                   className="w-30 h-15 object-cover rounded mr-4"
+                  loading="lazy"
                 />
                 <div className="flex-1 text-sm md:text-base">
                   <h4 className="font-semibold">{item.name}</h4>

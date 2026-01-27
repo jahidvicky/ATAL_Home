@@ -31,7 +31,7 @@ const OrderSuccess = () => {
     return (
       <p className="text-center mt-20 text-gray-500 text-lg">Loading...</p>
     );
-    
+
   const formatPrice = (price) =>
     new Intl.NumberFormat("en-CA", {
       style: "currency",
@@ -47,6 +47,7 @@ const OrderSuccess = () => {
             src={successImage}
             alt="Success"
             className="w-24 h-24 object-contain animate-bounce"
+            loading="lazy"
           />
         </div>
 
@@ -127,6 +128,7 @@ const OrderSuccess = () => {
                       }
                       alt={item.name}
                       className="w-28 h-16 object-cover rounded"
+                      loading="lazy"
                     />
                     <div>
                       <p className="font-medium">{item.name}</p>

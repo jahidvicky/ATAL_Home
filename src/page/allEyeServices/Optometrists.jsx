@@ -27,6 +27,7 @@ const Optometrists = () => {
                     src={image}
                     alt="Optometrists"
                     className="absolute inset-0 w-full h-full object-cover opacity-60 max-[480px]:object-center max-[480px]:opacity-60"
+                    loading="lazy"
                 />
 
                 {/* GRADIENT OVERLAY */}
@@ -108,6 +109,7 @@ const Optometrists = () => {
                                     src={doc.img}
                                     alt={doc.name}
                                     className="w-full h-64 object-cover rounded-xl mb-6"
+                                    loading="lazy"
                                 />
                                 <h4 className="text-xl font-semibold text-black mb-1">{doc.name}</h4>
                                 <p className="text-[#f00000] font-medium mb-3">{doc.role}</p>

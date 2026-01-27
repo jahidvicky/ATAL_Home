@@ -72,6 +72,7 @@ const Step3UploadForm = ({ preFilledData, goBack, onContinue }) => {
                 src={preview}
                 alt="Preview"
                 className="mx-auto max-h-48 rounded mb-4"
+                loading="lazy"
               />
             ) : (
               <p className="text-gray-600">File uploaded: {file?.name}</p>

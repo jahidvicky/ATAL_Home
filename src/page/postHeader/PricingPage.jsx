@@ -45,6 +45,7 @@ const PricingPage = () => {
                                 src={img1}
                                 alt="Glasses"
                                 className="w-full h-100 object-cover object-top rounded-lg"
+                                loading="lazy"
                             />
 
                             <div className="mt-auto pt-6 text-center">
@@ -73,6 +74,7 @@ const PricingPage = () => {
                                 src={img2}
                                 alt="Contact Lenses"
                                 className="w-full h-100 object-cover object-top rounded-lg"
+                                loading="lazy"
                             />
 
                             <div className="mt-auto pt-6 text-center">

@@ -305,6 +305,7 @@ const ContactLensPage = () => {
                   src={mainImage}
                   alt={product.product_name}
                   className="w-full h-[420px] object-contain select-none"
+                  loading="lazy"
                 />
               )}
             </div>

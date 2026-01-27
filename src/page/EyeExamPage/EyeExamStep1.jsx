@@ -79,6 +79,7 @@ export default function EyeExamStep1() {
                             src={Optical_Store}
                             alt="Atal Optical Store"
                             className="rounded-lg shadow-lg w-full max-w-md md:max-w-sm lg:max-w-lg"
+                            loading="lazy"
                         />
                     </motion.section>
 

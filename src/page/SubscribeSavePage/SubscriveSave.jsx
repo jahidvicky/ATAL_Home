@@ -81,6 +81,7 @@ export default function SubscribeSave() {
                             src={Contact_Lens}
                             alt="Contact lenses and solution"
                             className="w-full rounded-2xl object-cover"
+                            loading="lazy"
                         />
                     </motion.div>
                 </div>

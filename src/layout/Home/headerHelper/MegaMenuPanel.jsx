@@ -116,6 +116,7 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
                                                         }
                                                         className="w-auto h-auto object-contain"
                                                         alt={brand.brand}
+                                                        loading="lazy"
                                                     />
                                                 </li>
                                             ))}
@@ -171,6 +172,7 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
                                                             }
                                                             className="w-12 h-12 rounded-full object-cover"
                                                             alt={sub.name}
+                                                            loading="lazy"
                                                         />
                                                         <span className="text-[15px]">
                                                             {sub.name}
@@ -289,6 +291,7 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
                                     src={menu.promo.image}
                                     className="w-full h-[360px] rounded-sm object-cover object-top "
                                     alt="promo"
+                                    loading="lazy"
                                 />
                             )}
 

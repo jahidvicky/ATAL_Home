@@ -10,6 +10,7 @@ const ServicesContaineHead = (props) => {
                             src={props.icon}
                             alt={props.headText}
                             className="w-16 h-16 object-contain"
+                            loading="lazy"
                         />
                     </div>
                     <h3 className="text-[#f00000] text-[20px] font-medium tracking-[1px] ml-[3px] group-hover:text-white transition-colors duration-300 mb-3">
