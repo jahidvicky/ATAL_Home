@@ -59,6 +59,7 @@ const Locations = () => {
                 src={LocationImg}
                 alt="Office Location"
                 className="ml-10 h-[330px] object-cover rounded-lg shadow-md mt-17 transform transition-transform duration-500 ease-in-out hover:scale-110"
+                loading="lazy"
               />
             </motion.div>
           </div>

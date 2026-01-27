@@ -46,6 +46,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                 <img
                   src={item.image}
                   alt={item.name}
+                  loading="lazy"
                   className="w-30 h-16 object-cover"
                 />
                 <div className="ml-4">

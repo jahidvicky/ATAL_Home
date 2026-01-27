@@ -60,6 +60,7 @@ const ViewLensCart = ({ items, hideCheckout }) => {
                   src={item.image || `${IMAGE_URL + item.product_image}`}
                   alt={item.name}
                   className="w-40 h-40 object-cover rounded mr-4"
+                  loading="lazy"
                 />
 
                 {/* Product Information */}
@@ -178,6 +179,7 @@ const ViewLensCart = ({ items, hideCheckout }) => {
                 src={item.image || `${IMAGE_URL + item.product_image}`}
                 alt={item.name}
                 className="w-24 h-24 object-cover rounded"
+                loading="lazy"
               />
 
               <div className="flex-1 text-sm md:text-base ml-3">

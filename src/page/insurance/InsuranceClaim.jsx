@@ -151,6 +151,7 @@ const InsuranceClaim = () => {
                                                 src={`${IMAGE_URL}/${photo}`}
                                                 alt={`Claim ${idx}`}
                                                 className="w-32 h-24 object-cover rounded-lg border border-gray-300 hover:scale-105 transition-transform"
+                                                loading="lazy"
                                             />
                                         ))}
                                     </div>

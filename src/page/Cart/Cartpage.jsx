@@ -33,8 +33,8 @@ const Cartpage = () => {
       const found = res.data?.products?.find(
         (p) => String(p._id) === String(ID)
       );
- 
-      
+
+
 
       if (found) {
         setAvailability({
@@ -281,11 +281,10 @@ const Cartpage = () => {
                   key={idx}
                   onMouseEnter={() => setMainImage(img)}
                   onFocus={() => setMainImage(img)}
-                  className={`rounded-lg border ${
-                    mainImage === img
-                      ? "border-red-600 ring-2 ring-red-200"
-                      : "border-gray-200"
-                  } overflow-hidden`}
+                  className={`rounded-lg border ${mainImage === img
+                    ? "border-red-600 ring-2 ring-red-200"
+                    : "border-gray-200"
+                    } overflow-hidden`}
                 >
                   <img
                     src={img}
@@ -324,6 +323,7 @@ const Cartpage = () => {
                   src={mainImage}
                   alt={product.product_name}
                   className="w-full h-[420px] object-contain select-none"
+                  loading="lazy"
                 />
               )}
             </div>
@@ -337,7 +337,7 @@ const Cartpage = () => {
               {!!product.gender && (
                 <p className="text-sm text-gray-500 mt-1">
                   {subCatId === "6915763ceeb23fa59c7d5342" &&
-                  subCategory === "Kids"
+                    subCategory === "Kids"
                     ? "Kids"
                     : product.gender}
                 </p>
@@ -359,11 +359,10 @@ const Cartpage = () => {
                       <label
                         key={c}
                         htmlFor={id}
-                        className={`h-7 w-7 rounded-full border hover:cursor-pointer ${
-                          checked
-                            ? "ring-2 ring-offset-1 ring-black border-black"
-                            : "border-gray-300"
-                        }`}
+                        className={`h-7 w-7 rounded-full border hover:cursor-pointer ${checked
+                          ? "ring-2 ring-offset-1 ring-black border-black"
+                          : "border-gray-300"
+                          }`}
                         title={c}
                         style={{ backgroundColor: c }}
                       >
@@ -401,11 +400,10 @@ const Cartpage = () => {
                         key={key}
                         type="button"
                         onClick={() => toggleSize(token)}
-                        className={`px-4 py-2 rounded border text-sm ${
-                          active
-                            ? "bg-black text-white border-black"
-                            : "bg-white text-black border-gray-300 hover:border-black"
-                        }`}
+                        className={`px-4 py-2 rounded border text-sm ${active
+                          ? "bg-black text-white border-black"
+                          : "bg-white text-black border-gray-300 hover:border-black"
+                          }`}
                         aria-pressed={active}
                         aria-label={`Select size ${token}`}
                       >
@@ -444,11 +442,10 @@ const Cartpage = () => {
                 {!isSunglasses && (
                   <Link to="lens-selection-flow" state={{ ID }}>
                     <button
-                      className={`${
-                        isLensSelected
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-black hover:bg-gray-900"
-                      } text-white w-full rounded-md py-3 text-sm`}
+                      className={`${isLensSelected
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-black hover:bg-gray-900"
+                        } text-white w-full rounded-md py-3 text-sm`}
                       disabled={isLensSelected}
                     >
                       {isLensSelected ? "Lens Selected" : "Select lenses"}
@@ -531,7 +528,7 @@ const Cartpage = () => {
                         return;
                       }
 
-                
+
                       dispatch(
                         addToCart({
                           id: ID,
@@ -706,7 +703,7 @@ const Cartpage = () => {
               label="Gender:"
               value={
                 subCatId === "6915763ceeb23fa59c7d5342" &&
-                subCategory === "Kids"
+                  subCategory === "Kids"
                   ? "Kids"
                   : product.gender
               }
@@ -721,18 +718,18 @@ const Cartpage = () => {
             product.lens_hieght ||
             product.bridge_width ||
             product.temple_length) && (
-            <>
-              <div className="flex items-center gap-3 mb-2">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                  <path d="M3 12h18M12 3v18" stroke="black" strokeWidth="1.5" />
-                </svg>
+              <>
+                <div className="flex items-center gap-3 mb-2">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 12h18M12 3v18" stroke="black" strokeWidth="1.5" />
+                  </svg>
 
-                <h3 className="text-2xl font-semibold">Product measurement</h3>
-              </div>
+                  <h3 className="text-2xl font-semibold">Product measurement</h3>
+                </div>
 
-              <div className="border-b border-gray-300 mb-10"></div>
-            </>
-          )}
+                <div className="border-b border-gray-300 mb-10"></div>
+              </>
+            )}
 
           {/* MEASUREMENTS GRID */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-10">
@@ -743,6 +740,7 @@ const Cartpage = () => {
                   src={lensWidth}
                   alt="Lens Width"
                   className="w-[180px] h-auto object-contain"
+                  loading="lazy"
                 />
                 <p className="font-semibold text-[15px] mt-2">Lens width:</p>
                 <p className="text-[14px] text-gray-700">
@@ -758,6 +756,7 @@ const Cartpage = () => {
                   src={lensHeight}
                   alt="Lens Height"
                   className="w-[180px] h-auto object-contain"
+                  loading="lazy"
                 />
                 <p className="font-semibold text-[15px] mt-2">Lens height:</p>
                 <p className="text-[14px] text-gray-700">
@@ -773,6 +772,7 @@ const Cartpage = () => {
                   src={bridgeWidth}
                   alt="Bridge Width"
                   className="w-[180px] h-auto object-contain"
+                  loading="lazy"
                 />
                 <p className="font-semibold text-[15px] mt-2">Bridge width:</p>
                 <p className="text-[14px] text-gray-700">
@@ -788,6 +788,7 @@ const Cartpage = () => {
                   src={templeLength}
                   alt="Temple Length"
                   className="w-[180px] h-auto object-contain"
+                  loading="lazy"
                 />
                 <p className="font-semibold text-[15px] mt-2">Temple length:</p>
                 <p className="text-[14px] text-gray-700">
@@ -820,6 +821,7 @@ const Cartpage = () => {
                 src={normalizeUrl(product.product_lens_image1)}
                 alt={product.product_lens_title1}
                 className="mx-auto mb-6 object-cover hover:scale-105 transition-transform duration-300 max-h-[260px]"
+                loading="lazy"
               />
               <h4 className="text-3xl font-semibold mb-4">
                 {product.product_lens_title1}
@@ -833,6 +835,7 @@ const Cartpage = () => {
                 src={normalizeUrl(product.product_lens_image2)}
                 alt={product.product_lens_title2}
                 className="mx-auto mb-6 object-cover hover:scale-105 transition-transform duration-300 max-h-[260px]"
+                loading="lazy"
               />
               <h4 className="text-3xl font-semibold mb-4">
                 {product.product_lens_title2}

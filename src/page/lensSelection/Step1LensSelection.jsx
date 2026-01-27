@@ -50,6 +50,7 @@ const Step1LensSelection = ({ selectedLens, onSelect }) => {
                   src={lens.image}
                   alt={lens.name}
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
 

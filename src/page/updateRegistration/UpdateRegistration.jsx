@@ -241,6 +241,7 @@ function UpdateRegistration() {
                                         }
                                         alt="Profile Preview"
                                         className="w-24 h-24 object-cover rounded-full border shadow"
+                                        loading="lazy"
                                     />
                                 </div>
                             )}

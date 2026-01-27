@@ -1,25 +1,36 @@
-import React, { useState, useEffect, lazy } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const Home = lazy(() => import("./page/Home/Home"));
 const Page = lazy(() => import("./page/Page"));
-const Layout = lazy(() => import("./layout/Layout"));
+import Layout from "./layout/Layout";
+import Loader from './loader/Loader.jsx';
 
-import Cartpage from "./page/Cart/Cartpage";
+const Cartpage = lazy(() => import("./page/Cart/Cartpage"));
+const FAQ = lazy(() => import("./page/FAQ/FAQ"));
+const PrivacyPolicy = lazy(() => import("./page/Privacy-Policy/PrivacyPolicy"));
+const OpticalPolicy = lazy(() => import("./page/opticalPolicy/OpticalPolicy"));
+const DisclaimerPage = lazy(() => import("./page/DisclaimerPage/DisclaimerPage"));
+const TermsAndConditions = lazy(() =>
+  import("./page/terms&condition/TermsAndConditions")
+);
+const LimitationOfLiability = lazy(() =>
+  import("./page/limitationOfLiability/Liability")
+);
+const GeneralInformation = lazy(() =>
+  import("./page/generalInformation/generalInfo")
+);
+const EyeglassesContactPolicy = lazy(() =>
+  import("./page/eyeglasses-contact-policy/EyeglassesContactPolicy")
+);
+const RightsEnforcementPolicy = lazy(() =>
+  import("./page/rights-enforcement-policy/RightsEnforcementPolicy")
+);
 
-import FAQ from "./page/FAQ/FAQ";
-import PrivacyPolicy from "./page/Privacy-Policy/PrivacyPolicy";
-import OpticalPolicy from "./page/opticalPolicy/OpticalPolicy";
-import DisclaimerPage from "./page/DisclaimerPage/DisclaimerPage";
-import TermsAndConditions from "./page/terms&condition/TermsAndConditions";
-import LimitationOfLiability from "./page/limitationOfLiability/Liability";
-import GeneralInformation from "./page/generalInformation/generalInfo";
-import EyeglassesContactPolicy from "./page/eyeglasses-contact-policy/EyeglassesContactPolicy";
-import RightsEnforcementPolicy from "./page/rights-enforcement-policy/RightsEnforcementPolicy";
+const Dashboardlayout = lazy(() => import("./layout/Dashboardlayout"));
+const About = lazy(() => import("./components/About"));
+const Category = lazy(() => import("./layout/Home/Category"));
 
-import Dashboardlayout from "./layout/Dashboardlayout";
-import About from "./components/About";
-import Category from "./layout/Home/Category";
 
 const Product = lazy(() => import("./page/allproduct/Product"));
 
@@ -27,68 +38,188 @@ const Checkout = lazy(() => import("./page/checkout/Checkout"));
 const OrderPlaced = lazy(() => import("./page/order/OrderPlaced"));
 const Login = lazy(() => import("./page/login/Login"));
 const Register = lazy(() => import("./page/register/Register"));
-import ProtectedRoute from "./page/protectedRoute/ProtectedRoute";
-import WishlistPage from "./page/wishlist/WishlistPage";
-import ContactPage from "./page/contactUs/ContactPage";
-import EyeExam from "./page/bookEyeExam/EyeExam";
-import Services from "./components/Services";
-import OurMission from "./components/OurMission";
-import OurVision from "./components/OurVision";
-import AtalMeaning from "./components/AtalMeaning";
-import Responsibility from "./components/Responsibility";
-import SiteContentNotice from "./components/SiteContentNotice";
-import LearnAboutFrame from "./page/learnAboutFrame/LearnAboutFrame";
-import LearnAboutLens from "./page/learnAboutFrame/LearnAboutLens";
-import LearnAboutPrescription from "./page/learnAboutFrame/LearnAboutPrescription";
-import LearnAboutMaintenance from "./page/learnAboutFrame/LearnAboutMaintenance";
-import EyeCheckDetails from "./page/EyeCheckDetais/EyeCheckDetails";
-import PromotionsPage from "./page/promorionPage/PromotionsPage";
+
+import ProtectedRoute from "./page/protectedRoute/ProtectedRoute.jsx";
+
+const WishlistPage = lazy(() =>
+  import("./page/wishlist/WishlistPage")
+);
+const ContactPage = lazy(() =>
+  import("./page/contactUs/ContactPage")
+);
+const EyeExam = lazy(() =>
+  import("./page/bookEyeExam/EyeExam")
+);
+const Services = lazy(() =>
+  import("./components/Services")
+);
+const OurMission = lazy(() =>
+  import("./components/OurMission")
+);
+const OurVision = lazy(() =>
+  import("./components/OurVision")
+);
+const AtalMeaning = lazy(() =>
+  import("./components/AtalMeaning")
+);
+
+const Responsibility = lazy(() =>
+  import("./components/Responsibility")
+);
+const SiteContentNotice = lazy(() =>
+  import("./components/SiteContentNotice")
+);
+const LearnAboutFrame = lazy(() =>
+  import("./page/learnAboutFrame/LearnAboutFrame")
+);
+const LearnAboutLens = lazy(() =>
+  import("./page/learnAboutFrame/LearnAboutLens")
+);
+const LearnAboutPrescription = lazy(() =>
+  import("./page/learnAboutFrame/LearnAboutPrescription")
+);
+const LearnAboutMaintenance = lazy(() =>
+  import("./page/learnAboutFrame/LearnAboutMaintenance")
+);
+const EyeCheckDetails = lazy(() =>
+  import("./page/EyeCheckDetais/EyeCheckDetails")
+);
+const PromotionsPage = lazy(() =>
+  import("./page/promorionPage/PromotionsPage")
+);
+
 
 import { useDispatch } from "react-redux";
 import { fetchWishlist } from "./redux/wishlistSlice";
 
-import Payment from "./page/checkout/Payment";
-import HowToOrder from "./page/howToOrderPage/HowToOrder";
-import AppointmentType from "./layout/Home/AppointmentType";
-import AppointmentSchedule from "./layout/Home/AppointmentSchedule";
-import EyeExamStep1 from "./page/EyeExamPage/EyeExamStep1";
-import OrderSuccess from "./page/order/OrderSuccess";
-import UpdateProfile from "./page/updateProfile/UpdateProfile";
-import LensSelection from "./page/lensSelection/LensSelectionFlow";
-import TrackOrder from "./page/order/TrackOrder";
-import OrderHistory from "./page/order/OrderHistory";
-import ViewOrder from "./page/order/ViewOrder";
-import InsuranceClaim from "./page/insurance/InsuranceClaim";
-import CartPageWrapper from "./page/Cart/CartPageWrapper";
-import PolicyPayment from "./page/order/PolicyPayment";
-import EyeWearGlasses from "./page/allEyeServices/EyeWearGlasses";
-import ContactLens from "./page/allEyeServices/ContactLens";
-import EyeExamService from "./page/allEyeServices/EyeExamService";
-import Promotions from "./page/allEyeServices/Promotions";
-import Brands from "./page/allEyeServices/Brands";
-import Optometrists from "./page/allEyeServices/Optometrists";
-import InsuranceClaimPage from "./page/allEyeServices/Insurance";
-import BlueLightTechnology from "./page/allEyeServices/BlueLightTechnology";
-import SubscribeSave from "./page/SubscribeSavePage/SubscriveSave";
-import SearchResult from "./layout/Home/SearchResult";
-import ComingSoon from "./page/SocialMedia/ComingSoonPage";
-import ContactLensPage from "./page/Cart/ContactLensPage";
-import PricingPage from "./page/postHeader/PricingPage";
-import CustomerCarePage from "./page/postHeader/CustomerCarePage";
-import FastShippingPage from "./page/postHeader/FastShippingPage";
-import ReferCoupon from "./components/ReferCoupon";
-import FaceShape from "./page/tipsAndGuides/FaceShape";
-import ReturnExchangePolicy from "./page/return&exchange/Return&Exchange";
-import ExchangePolicy from "./page/exchangePolicy/ExchangePolicy";
-import CookiesPolicy from "./page/cookiesPolicy/CookiesPolicy";
-import ShippingPolicy from "./page/shippingPolicy/ShippingPolicy";
-import DisclaimerPolicy from "./page/disclaimerPolicy/DisclaimerPolicy";
+
+const Payment = lazy(() =>
+  import("./page/checkout/Payment")
+);
+const HowToOrder = lazy(() =>
+  import("./page/howToOrderPage/HowToOrder")
+);
+const AppointmentType = lazy(() =>
+  import("./layout/Home/AppointmentType")
+);
+const AppointmentSchedule = lazy(() =>
+  import("./layout/Home/AppointmentSchedule")
+);
+const EyeExamStep1 = lazy(() =>
+  import("./page/EyeExamPage/EyeExamStep1")
+);
+const OrderSuccess = lazy(() =>
+  import("./page/order/OrderSuccess")
+);
+const UpdateProfile = lazy(() =>
+  import("./page/updateProfile/UpdateProfile")
+);
+const LensSelection = lazy(() =>
+  import("./page/lensSelection/LensSelectionFlow")
+);
+const TrackOrder = lazy(() =>
+  import("./page/order/TrackOrder")
+);
+const OrderHistory = lazy(() =>
+  import("./page/order/OrderHistory")
+);
+const ViewOrder = lazy(() =>
+  import("./page/order/ViewOrder")
+);
+const InsuranceClaim = lazy(() =>
+  import("./page/insurance/InsuranceClaim")
+);
+const CartPageWrapper = lazy(() =>
+  import("./page/Cart/CartPageWrapper")
+);
+const PolicyPayment = lazy(() =>
+  import("./page/order/PolicyPayment")
+);
+const EyeWearGlasses = lazy(() =>
+  import("./page/allEyeServices/EyeWearGlasses")
+);
+const ContactLens = lazy(() =>
+  import("./page/allEyeServices/ContactLens")
+);
+const EyeExamService = lazy(() =>
+  import("./page/allEyeServices/EyeExamService")
+);
+const Promotions = lazy(() =>
+  import("./page/allEyeServices/Promotions")
+);
+
+const Brands = lazy(() =>
+  import("./page/allEyeServices/Brands")
+);
+const Optometrists = lazy(() =>
+  import("./page/allEyeServices/Optometrists")
+);
+const InsuranceClaimPage = lazy(() =>
+  import("./page/allEyeServices/Insurance")
+);
+const BlueLightTechnology = lazy(() =>
+  import("./page/allEyeServices/BlueLightTechnology")
+);
+const SubscribeSave = lazy(() =>
+  import("./page/SubscribeSavePage/SubscriveSave")
+);
+const SearchResult = lazy(() =>
+  import("./layout/Home/SearchResult")
+);
+const ComingSoon = lazy(() =>
+  import("./page/SocialMedia/ComingSoonPage")
+);
+const ContactLensPage = lazy(() =>
+  import("./page/Cart/ContactLensPage")
+);
+const PricingPage = lazy(() =>
+  import("./page/postHeader/PricingPage")
+);
+const CustomerCarePage = lazy(() =>
+  import("./page/postHeader/CustomerCarePage")
+);
+const FastShippingPage = lazy(() =>
+  import("./page/postHeader/FastShippingPage")
+);
+const ReferCoupon = lazy(() =>
+  import("./components/ReferCoupon")
+);
+const FaceShape = lazy(() =>
+  import("./page/tipsAndGuides/FaceShape")
+);
+const ReturnExchangePolicy = lazy(() =>
+  import("./page/return&exchange/Return&Exchange")
+);
+const ExchangePolicy = lazy(() =>
+  import("./page/exchangePolicy/ExchangePolicy")
+);
+const CookiesPolicy = lazy(() =>
+  import("./page/cookiesPolicy/CookiesPolicy")
+);
+const ShippingPolicy = lazy(() =>
+  import("./page/shippingPolicy/ShippingPolicy")
+);
+const DisclaimerPolicy = lazy(() =>
+  import("./page/disclaimerPolicy/DisclaimerPolicy")
+);
 import NoCopy from "./components/NoCopy";
-import OurCommunity from "./components/OurComminity";
-import OpticalEducation from "./page/opticalEducation/OpticalEducation";
-import FreeEyeExam from "./page/freeExam/FreeEyeExam";
-import InsurancePolicies from "./page/insurance/InsurancePolicies";
-import Locations from "./page/location/Locations";
+
+const OurCommunity = lazy(() =>
+  import("./components/OurComminity")
+);
+const OpticalEducation = lazy(() =>
+  import("./page/opticalEducation/OpticalEducation")
+);
+const FreeEyeExam = lazy(() =>
+  import("./page/freeExam/FreeEyeExam")
+);
+const InsurancePolicies = lazy(() =>
+  import("./page/insurance/InsurancePolicies")
+);
+const Locations = lazy(() =>
+  import("./page/location/Locations")
+);
+
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(
@@ -142,7 +273,7 @@ function App() {
         { path: "/return-exchange", element: <ReturnExchangePolicy /> },
         { path: "/exchange-policy", element: <ExchangePolicy /> },
         { path: "/cookies-policy", element: <CookiesPolicy /> },
-        { path: "/Shipping-policy", element: <ShippingPolicy /> },
+        { path: "/shipping-policy", element: <ShippingPolicy /> },
         { path: "/disclaimer-policy", element: <DisclaimerPolicy /> },
 
         { path: "/cart", element: <CartPageWrapper /> },
@@ -249,38 +380,6 @@ function App() {
         { path: "/place-order", element: <OrderPlaced /> },
 
         {
-          path: "/appointmentType",
-          element: <AppointmentType />,
-        },
-        {
-          path: "/appointmentSchedule",
-          element: <AppointmentSchedule />,
-        },
-        {
-          path: "/eye-schedule-test",
-          element: <EyeExamStep1 />,
-        },
-        {
-          path: "/update-profile",
-          element: <UpdateProfile />,
-        },
-        {
-          path: "/product/:ID/:subCategory/:subCatId/lens-selection-flow",
-          element: <LensSelection />,
-        },
-        {
-          path: "/track/:trackingNumber",
-          element: <TrackOrder />,
-        },
-        {
-          path: "/view-order",
-          element: <ViewOrder />,
-        },
-        {
-          path: "/order-history",
-          element: <OrderHistory />,
-        },
-        {
           path: "/eye-services/eye-wear-glass",
           element: <EyeWearGlasses />,
         },
@@ -319,14 +418,6 @@ function App() {
         {
           path: "connect/:platform",
           element: <ComingSoon />,
-        },
-        {
-          path: "/place-order",
-          element: (
-            // <ProtectedRoute>
-            <OrderPlaced />
-            // </ProtectedRoute>
-          ),
         },
 
         //post header pages
@@ -422,7 +513,9 @@ function App() {
   return (
     <>
       <NoCopy />
-      <RouterProvider router={router} />
+      <Suspense fallback={<Loader />}>
+        <RouterProvider router={router} />
+      </Suspense>
     </>
   );
 

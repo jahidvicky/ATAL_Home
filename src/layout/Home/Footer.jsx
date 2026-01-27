@@ -12,7 +12,7 @@ import Chatbot from "../../components/Chatbot";
 const PaymentCard = ({ img, alt }) => {
   return (
     <div className="flex items-center gap-2 bg-white border rounded-xs px-2 scale-90">
-      <img src={img} alt={alt} className="w-6 h-5 object-contain" />
+      <img src={img} alt={alt} className="w-6 h-5 object-contain" loading="lazy" />
     </div>
   );
 };

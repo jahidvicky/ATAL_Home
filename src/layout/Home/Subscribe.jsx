@@ -38,6 +38,7 @@ const Subscribe = () => {
                 <img
                     src={bannerImage}
                     alt="Contact Lenses"
+                    loading="lazy"
                     className="w-80 md:w-[420px] drop-shadow-lg rounded-lg"
                 />
             </motion.div>

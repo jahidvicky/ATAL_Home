@@ -47,6 +47,7 @@ export default function FaceShape() {
                 src={imgHero}
                 alt="hero face"
                 className="block w-full h-96 object-cover rounded"
+                loading="lazy"
               />
             </div>
           </div>
@@ -68,6 +69,7 @@ export default function FaceShape() {
                     src={f.src}
                     alt={f.id}
                     className="block w-full h-56 object-cover"
+                    loading="lazy"
                   />
                 </div>
 
@@ -101,6 +103,7 @@ export default function FaceShape() {
                   src={GlassesImg}
                   alt="tip1"
                   className="block w-full h-full object-contain"
+                  loading="lazy"
                 />
               </div>
               <div className="py-6 text-center">
@@ -124,6 +127,7 @@ export default function FaceShape() {
                   src={SunglassesImg}
                   alt="tip2"
                   className="block w-full h-full object-contain"
+                  loading="lazy"
                 />
               </div>
               <div className="py-6 text-center">
