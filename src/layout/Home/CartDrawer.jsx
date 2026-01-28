@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const CartDrawer = ({ isOpen, onClose }) => {
   const cartItems = useSelector(state => state.cart.items);
   const navigate = useNavigate();
+  const user = localStorage.getItem("user");
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -18,9 +19,13 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
   const handleCheckout = () => {
     onClose();
-    navigate('/checkout');
+    if (user) {
+      navigate("/checkout");
+    } else {
+      navigate("/login");
+    }
+  };
 
-  }
 
   return (
     <div

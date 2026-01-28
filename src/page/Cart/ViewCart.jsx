@@ -10,6 +10,8 @@ import { IMAGE_URL } from "../../API/Api";
 const ViewCart = ({ items, hideCheckout }) => {
   const cartItems = items || [];
   const dispatch = useDispatch();
+  const user = localStorage.getItem("user");
+
 
 
   const subtotal = cartItems.reduce((total, item) => {
@@ -344,12 +346,13 @@ const ViewCart = ({ items, hideCheckout }) => {
             </div>
 
             {!hideCheckout && (
-              <Link to="/checkout">
+              <Link to={user ? "/checkout" : "/login"}>
                 <button className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900 transition hover:cursor-pointer">
                   Proceed to Checkout
                 </button>
               </Link>
             )}
+
           </div>
         </div>
       )}
