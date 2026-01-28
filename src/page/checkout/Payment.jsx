@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import API from "../../API/Api";
@@ -47,15 +47,19 @@ const Payment = () => {
     ? Math.max(subtotal - discount + shipping + tax, 0.01)
     : 0;
 
+  const hasCreatedPI = useRef(false);
+
   useEffect(() => {
-    if (!order) return;
+    if (!order || hasCreatedPI.current) return;
+
+    hasCreatedPI.current = true;
 
     API.post("/payment/create-payment-intent", {
       amount: finalTotal,
     }).then(({ data }) => {
       setClientSecret(data.clientSecret);
     });
-  }, [order, finalTotal, discount]);
+  }, [order]);
 
 
   if (!order) {
@@ -174,10 +178,9 @@ const Payment = () => {
             stripe={stripePromise}
             options={{
               clientSecret,
-              appearance: {
-                theme: "stripe",
-              },
+              appearance: { theme: "stripe" },
             }}
+            key={clientSecret}
           >
             <PaymentForm
               order={order}
@@ -188,6 +191,7 @@ const Payment = () => {
             />
           </Elements>
         )}
+
 
       </div>
     </div>
