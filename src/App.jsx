@@ -1,13 +1,13 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-const Home = lazy(() => import("./page/Home/Home"));
+import Home from './page/Home/Home.jsx';
 const Page = lazy(() => import("./page/Page"));
 import Layout from "./layout/Layout";
 import Loader from './loader/Loader.jsx';
 
 const Cartpage = lazy(() => import("./page/Cart/Cartpage"));
-const FAQ = lazy(() => import("./page/FAQ/FAQ"));
+import FAQ from "./page/FAQ/FAQ.jsx";
 const PrivacyPolicy = lazy(() => import("./page/Privacy-Policy/PrivacyPolicy"));
 const OpticalPolicy = lazy(() => import("./page/opticalPolicy/OpticalPolicy"));
 const DisclaimerPage = lazy(() => import("./page/DisclaimerPage/DisclaimerPage"));
