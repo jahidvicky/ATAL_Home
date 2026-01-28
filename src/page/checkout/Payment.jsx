@@ -200,22 +200,64 @@ const PaymentForm = ({ order, finalTotal, coupon, discount, navigate }) => {
   const elements = useElements();
   const [isPaying, setIsPaying] = useState(false);
 
+  // const handlePay = async () => {
+  //   if (!stripe || !elements || isPaying) return;
+  //   setIsPaying(true);
+
+  //   const result = await stripe.confirmPayment({
+  //     elements,
+  //     redirect: "if_required",
+  //   });
+
+  //   if (result.error) {
+  //     Swal.fire("Payment Failed", result.error.message, "error");
+  //     setIsPaying(false);
+  //     return;
+  //   }
+
+  //   if (result.paymentIntent.status === "succeeded") {
+  //     const { data } = await API.post("/order", {
+  //       ...order,
+  //       total: finalTotal,
+  //       coupon,
+  //       discount,
+  //       paymentMethod: "Stripe",
+  //       paymentStatus: "Paid",
+  //       transactionId: result.paymentIntent.id,
+  //     });
+
+  //     Swal.fire("Order Placed!", "Payment successful", "success").then(() => {
+  //       localStorage.removeItem("orderSummary");
+  //       localStorage.removeItem("cartItems");
+  //       localStorage.removeItem("checkoutDraft");
+  //       localStorage.removeItem("lensSelectionDetails");
+  //       navigate(`/order/${data.order._id}`);
+  //     });
+  //   }
+
+  //   setIsPaying(false);
+  // };
+
   const handlePay = async () => {
     if (!stripe || !elements || isPaying) return;
+
     setIsPaying(true);
 
-    const result = await stripe.confirmPayment({
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
+      confirmParams: {
+        return_url: `${window.location.origin}/payment-success`,
+      },
       redirect: "if_required",
     });
 
-    if (result.error) {
-      Swal.fire("Payment Failed", result.error.message, "error");
+    if (error) {
+      Swal.fire("Payment Failed", error.message, "error");
       setIsPaying(false);
       return;
     }
 
-    if (result.paymentIntent.status === "succeeded") {
+    if (paymentIntent && paymentIntent.status === "succeeded") {
       const { data } = await API.post("/order", {
         ...order,
         total: finalTotal,
@@ -223,7 +265,7 @@ const PaymentForm = ({ order, finalTotal, coupon, discount, navigate }) => {
         discount,
         paymentMethod: "Stripe",
         paymentStatus: "Paid",
-        transactionId: result.paymentIntent.id,
+        transactionId: paymentIntent.id,
       });
 
       Swal.fire("Order Placed!", "Payment successful", "success").then(() => {
@@ -237,6 +279,7 @@ const PaymentForm = ({ order, finalTotal, coupon, discount, navigate }) => {
 
     setIsPaying(false);
   };
+
 
   return (
     <>

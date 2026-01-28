@@ -85,23 +85,71 @@ const PolicyStripeForm = ({ policy, orderId, type, navigate }) => {
   const elements = useElements();
   const [isPaying, setIsPaying] = useState(false);
 
+  // const handleStripePayment = async () => {
+  //   if (!stripe || !elements || isPaying) return;
+
+  //   setIsPaying(true);
+
+  //   const result = await stripe.confirmPayment({
+  //     elements,
+  //     redirect: "if_required",
+  //   });
+
+  //   if (result.error) {
+  //     Swal.fire("Payment Failed", result.error.message, "error");
+  //     setIsPaying(false);
+  //     return;
+  //   }
+
+  //   if (result.paymentIntent.status === "succeeded") {
+  //     const endpoint =
+  //       type === "renew"
+  //         ? `/renewPolicy/${orderId}`
+  //         : `/payPolicy/${orderId}`;
+
+  //     await API.put(endpoint, {
+  //       policyId: policy._id || policy.policyId,
+  //       transactionId: result.paymentIntent.id,
+  //       paymentMethod: "Stripe",
+  //       paymentStatus: "Paid",
+  //     });
+
+  //     await Swal.fire({
+  //       icon: "success",
+  //       title: "Payment Successful",
+  //       text:
+  //         type === "renew"
+  //           ? "Your policy has been renewed successfully."
+  //           : "Your policy is now active.",
+  //       confirmButtonColor: "#dc2626",
+  //     });
+
+  //     navigate("/view-order", { state: { id: orderId } });
+  //   }
+
+  //   setIsPaying(false);
+  // };
+
   const handleStripePayment = async () => {
     if (!stripe || !elements || isPaying) return;
 
     setIsPaying(true);
 
-    const result = await stripe.confirmPayment({
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
+      confirmParams: {
+        return_url: `${window.location.origin}/payment-success`,
+      },
       redirect: "if_required",
     });
 
-    if (result.error) {
-      Swal.fire("Payment Failed", result.error.message, "error");
+    if (error) {
+      Swal.fire("Payment Failed", error.message, "error");
       setIsPaying(false);
       return;
     }
 
-    if (result.paymentIntent.status === "succeeded") {
+    if (paymentIntent && paymentIntent.status === "succeeded") {
       const endpoint =
         type === "renew"
           ? `/renewPolicy/${orderId}`
@@ -109,7 +157,7 @@ const PolicyStripeForm = ({ policy, orderId, type, navigate }) => {
 
       await API.put(endpoint, {
         policyId: policy._id || policy.policyId,
-        transactionId: result.paymentIntent.id,
+        transactionId: paymentIntent.id,
         paymentMethod: "Stripe",
         paymentStatus: "Paid",
       });
@@ -130,6 +178,8 @@ const PolicyStripeForm = ({ policy, orderId, type, navigate }) => {
     setIsPaying(false);
   };
 
+
+
   return (
     <>
       <PaymentElement options={{ layout: "tabs" }} />
@@ -137,8 +187,8 @@ const PolicyStripeForm = ({ policy, orderId, type, navigate }) => {
         onClick={handleStripePayment}
         disabled={isPaying}
         className={`w-full mt-4 px-4 py-2 rounded-lg text-white font-semibold ${isPaying
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-[#f00000] hover:bg-black"
+          ? "bg-gray-400 cursor-not-allowed"
+          : "bg-[#f00000] hover:bg-black"
           }`}
       >
         {isPaying ? "Processing..." : "Pay Now"}
