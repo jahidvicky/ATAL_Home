@@ -57,7 +57,7 @@ const Review = () => {
             <div className="bg-[#f00000] rounded-xl ">
               <img
                 src={`${IMAGE_URL + data.image}`}
-                alt="woman"
+                alt={data.image}
                 loading="lazy"
                 decoding="async"
                 className="rounded-xl w-full h-full -translate-6 border-red-600 border-2 "

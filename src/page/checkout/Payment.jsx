@@ -15,8 +15,6 @@ const stripePromise = loadStripe(
   import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
 );
 
-console.log("frontend key", import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
-
 const Payment = () => {
   const [order, setOrder] = useState(null);
 
