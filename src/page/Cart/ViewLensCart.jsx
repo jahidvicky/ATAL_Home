@@ -15,7 +15,7 @@ import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 const ViewLensCart = ({ items, hideCheckout }) => {
   const dispatch = useDispatch();
   const lensItems = items || [];
-
+  const user = localStorage.getItem("user");
   // Track expanded details
   const [openDetails, setOpenDetails] = useState({});
 
@@ -202,7 +202,7 @@ const ViewLensCart = ({ items, hideCheckout }) => {
           </div>
 
           {!hideCheckout && (
-            <Link to="/checkout">
+            <Link to={user ? "/checkout" : "/login"}>
               <button className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-900">
                 Proceed to Checkout
               </button>
