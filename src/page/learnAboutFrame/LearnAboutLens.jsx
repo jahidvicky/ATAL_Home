@@ -10,7 +10,7 @@ export default function LearnAboutLens() {
                     Atal Optical - Learn About Lens
                 </h1>
                 <p className="text-center text-lg mt-3 text-gray-100">
-                    Progressive Lenses: The Complete Guide 2025
+                    Progressive Lenses: The Complete Guide {new Date().getFullYear()}
                 </p>
                 <hr className="border-white w-210 mt-3 mx-auto" />
             </header>
@@ -153,7 +153,7 @@ export default function LearnAboutLens() {
                     transition={{ duration: 0.6 }}
                     className="shadow-md p-8 rounded-2xl border border-red-500"
                 >
-                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">Progressive Lens Trends 2025</h2>
+                    <h2 className="text-2xl font-semibold text-[#f00000] mb-4">Progressive Lens Trends  {new Date().getFullYear()}</h2>
                     <ul className="list-disc list-inside space-y-2 ml-3">
                         <li>Personalized free-form surfaces created with AI-driven prescriptions.</li>
                         <li>Blue-light filtering integrated into progressive designs for digital lifestyles.</li>

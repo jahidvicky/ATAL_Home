@@ -10,7 +10,7 @@ export default function LearnAboutMaintenance() {
                     Atal Optical - Learn About Maintenance
                 </h1>
                 <p className="text-center text-lg mt-3 text-gray-100">
-                    Essential Guide to Eyeglasses Care and Maintenance: Atal Optical's 10 Tips for 2025
+                    Essential Guide to Eyeglasses Care and Maintenance: Atal Optical's 10 Tips for {new Date().getFullYear()}
                 </p>
                 <hr className="border-white w-235 mt-3 mx-auto" />
             </header>
@@ -28,7 +28,7 @@ export default function LearnAboutMaintenance() {
                         Why Eyeglass Care Matters
                     </h2>
                     <p className="leading-relaxed">
-                        Proper maintenance not only extends the life of your eyeglasses but also ensures clear vision and comfort. In 2025, advanced lens coatings and lightweight frames require the right care routine to keep them in top condition.
+                        Proper maintenance not only extends the life of your eyeglasses but also ensures clear vision and comfort. In {new Date().getFullYear()}, advanced lens coatings and lightweight frames require the right care routine to keep them in top condition.
                     </p>
                 </motion.section>
 
@@ -41,7 +41,7 @@ export default function LearnAboutMaintenance() {
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
                     <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
-                        Atal Optical's 10 Tips for 2025
+                        Atal Optical's 10 Tips for {new Date().getFullYear()}
                     </h2>
                     <ol className="list-decimal list-inside space-y-3 ml-3">
                         <li>Clean lenses daily with a microfiber cloth and lens cleaner.</li>
@@ -66,7 +66,7 @@ export default function LearnAboutMaintenance() {
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
                     <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
-                        Eyeglass Care Trends in 2025
+                        Eyeglass Care Trends in {new Date().getFullYear()}
                     </h2>
                     <ul className="list-disc list-inside space-y-2 ml-3">
                         <li>Eco-friendly cleaning sprays and biodegradable wipes.</li>

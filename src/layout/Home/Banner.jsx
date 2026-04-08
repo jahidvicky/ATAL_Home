@@ -1,10 +1,10 @@
 import React from "react";
 import Slider from "react-slick";
 
-import slider1 from '../../assets/banner/ban11.jpeg';
-import slider2 from '../../assets/banner/ban22.jpeg';
+import slider1 from '../../assets/banner/ban11.webp';
+import slider2 from '../../assets/banner/ban22.webp';
 import slider3 from '../../assets/banner/ban33.jpeg';
-import slider4 from '../../assets/banner/ban44.jpeg';
+import slider4 from '../../assets/banner/ban44.webp';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

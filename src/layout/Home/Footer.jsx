@@ -768,7 +768,7 @@ const Footer = () => {
           <SocialLinks />
 
           <div className="flex items-center gap-3 text-gray-300 pr-2">
-            <span>© 2025 Atal Optical</span>
+            <span>© {new Date().getFullYear()} Atal Optical</span>
             <span>|</span>
             <span>
               <NavLink

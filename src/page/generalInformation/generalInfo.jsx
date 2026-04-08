@@ -61,7 +61,7 @@ export default function GeneralInformation() {
                     <h2 className="text-3xl text-center font-semibold text-[#f00000] mt-10">Copyright Notice</h2>
                     <hr className="border-red-600 w-65 ml-123 mb-4" />
                     <p>
-                        © 2025 Atal Optical Corp. All rights reserved. All rights not
+                        © {new Date().getFullYear()} Atal Optical Corp. All rights reserved. All rights not
                         expressly granted herein are reserved. Unauthorized use or
                         reproduction of Site content is prohibited.
                     </p>

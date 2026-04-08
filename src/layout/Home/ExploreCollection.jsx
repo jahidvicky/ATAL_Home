@@ -69,7 +69,7 @@ const ExploreCollection = () => {
           slug: "kids",
           image: kids,
           products: products.filter(
-            (p) => p.subCat_id === Kids || Kids2
+            (p) => p.subCat_id === Kids || p.subCat_id === Kids2
           ),
         },
       ];

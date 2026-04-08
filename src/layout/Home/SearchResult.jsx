@@ -20,8 +20,8 @@ const Toast = Swal.mixin({
 const initialFilters = {
     brands: new Set(),
     genders: new Set(),
-    faceShapes: new Set(),   // 👈 NEW
-    frameShapes: new Set(),  // 👈 NEW
+    faceShapes: new Set(),
+    frameShapes: new Set(),
     colors: new Set(),
     materials: new Set(),
     priceMin: 0,

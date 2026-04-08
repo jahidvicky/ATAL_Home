@@ -64,14 +64,8 @@ function Promotion() {
               </span>
             </div>
             <div className="flex items-center ml-10">
-              <span>
-                <TbMathGreater className="bg-[#f00000] text-white rounded-full text-center text-3xl p-1 hover:rotate-180 hover:cursor-pointer" />
-              </span>
-              <span className="font-semibold text-lg mr-8 ml-2">
-                Childrens Glasses
-              </span>
             </div>
-            <Link to="/promotions-page"><button className="bg-[#f00000] rounded-lg text-white p-3 font-semibold text-lg ml-10 mt-8 mb-6 hover:cursor-pointer hover:bg-black">
+            <Link to="/promotions-page"><button className="bg-[#f00000] rounded-lg text-white p-3 font-semibold text-lg ml-10 mt-6 hover:cursor-pointer hover:bg-black">
               View Promotion
             </button></Link>
           </div>

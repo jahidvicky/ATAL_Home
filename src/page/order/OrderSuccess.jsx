@@ -6,6 +6,7 @@ import successImage from "../../assets/order/tick.png";
 import { clearCart } from "../../redux/cartSlice";
 
 const OrderSuccess = () => {
+
   const { id } = useParams();
   const [order, setOrder] = useState(null);
   const [error, setError] = useState(null);
@@ -22,11 +23,15 @@ const OrderSuccess = () => {
         setError("Failed to load order. Please try again.");
       }
     };
+
     fetchOrder();
   }, [id, dispatch]);
 
   if (error)
-    return <p className="text-[#f00000] text-center mt-20 text-lg">{error}</p>;
+    return (
+      <p className="text-[#f00000] text-center mt-20 text-lg">{error}</p>
+    );
+
   if (!order)
     return (
       <p className="text-center mt-20 text-gray-500 text-lg">Loading...</p>
@@ -35,19 +40,20 @@ const OrderSuccess = () => {
   const formatPrice = (price) =>
     new Intl.NumberFormat("en-CA", {
       style: "currency",
-      currency: "USD",
+      currency: "CAD",
     }).format(price);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+
       <div className="bg-white p-8 rounded-2xl shadow-xl max-w-3xl w-full animate-fadeIn">
-        {/*  Success Icon */}
+
+        {/* Success Icon */}
         <div className="flex justify-center mb-6">
           <img
             src={successImage}
             alt="Success"
             className="w-24 h-24 object-contain animate-bounce"
-            loading="lazy"
           />
         </div>
 
@@ -63,63 +69,104 @@ const OrderSuccess = () => {
           , your order has been placed.
         </p>
 
-        {/*  Order Details */}
+        {/* ORDER DETAILS */}
         <section className="mb-6 border-t pt-4">
-          <h2 className="font-semibold text-xl mb-2 border-b pb-1">
+          <h2 className="font-semibold text-xl mb-3 border-b pb-2">
             Order Details
           </h2>
-          <p>
-            <b>Order ID:</b> {order._id}
-          </p>
 
-          {order.trackingNumber && (
-            <p>
-              <b>Tracking Number:</b>{" "}
-              <span className="font-mono text-black">
-                {order.trackingNumber}
-              </span>
-            </p>
-          )}
+          <table className="w-full border border-gray-300 text-sm">
+            <tbody>
 
-          <p>
-            <b>Order Status:</b>{" "}
-            <span className="text-black">{order.orderStatus}</span>
-          </p>
-          <p>
-            <b>Payment Method:</b> {order.paymentMethod}
-          </p>
-          <p>
-            <b>Total:</b>{" "}
-            <span className="text-black font-semibold">
-              {formatPrice(order.total)}
-            </span>
-          </p>
-          <p>
-            <b>Delivery To:</b> {order.shippingAddress?.address},{" "}
-            {order.shippingAddress?.city}, {order.shippingAddress?.province}{" "}
-            {order.shippingAddress?.postalCode}
-          </p>
+              <tr className="border-b">
+                <td className="font-semibold p-3 w-[220px] bg-gray-50">
+                  Order ID
+                </td>
+                <td className="p-3 break-all">
+                  {order._id}
+                </td>
+              </tr>
+
+              {order.orderNumber && (
+                <tr className="border-b">
+                  <td className="font-semibold p-3 bg-gray-50">
+                    Order Number
+                  </td>
+                  <td className="p-3 font-mono">
+                    {order.orderNumber}
+                  </td>
+                </tr>
+              )}
+
+              <tr className="border-b">
+                <td className="font-semibold p-3 bg-gray-50">
+                  Status
+                </td>
+                <td className="p-3 text-green-600 font-semibold">
+                  {order.orderStatus}
+                </td>
+              </tr>
+
+              <tr className="border-b">
+                <td className="font-semibold p-3 bg-gray-50">
+                  Payment Status
+                </td>
+                <td className="p-3">
+                  {order.paymentStatus}
+                </td>
+              </tr>
+
+              <tr className="border-b">
+                <td className="font-semibold p-3 bg-gray-50">
+                  Total
+                </td>
+                <td className="p-3 font-semibold">
+                  {formatPrice(order.total)}
+                </td>
+              </tr>
+
+              <tr>
+                <td className="font-semibold p-3 bg-gray-50">
+                  Delivery Address
+                </td>
+                <td className="p-3">
+                  {order.shippingAddress?.address},{" "}
+                  {order.shippingAddress?.city},{" "}
+                  {order.shippingAddress?.province}{" "}
+                  {order.shippingAddress?.postalCode}
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
         </section>
 
-        {/*  Items */}
+        {/* ITEMS */}
         <section className="mb-6 border-t pt-4">
-          <h2 className="font-semibold text-xl mb-4 border-b pb-1">Items</h2>
+          <h2 className="font-semibold text-xl mb-4 border-b pb-1">
+            Items
+          </h2>
+
           {order.cartItems.map((item, i) => {
+
             const lensPrice = item.lens?.totalPrice || 0;
             const policyPrice = item.policy?.price || 0;
 
-            const isContactLens = item.categoryId === "6915735feeb23fa59c7d532b";
+            const isContactLens =
+              item.categoryId === "6915735feeb23fa59c7d532b";
 
             const itemTotal =
               item.price * item.quantity +
               policyPrice +
               (isContactLens ? 0 : lensPrice);
 
-
             return (
-              <div key={i} className="flex flex-col py-2 border-b">
+              <div key={i} className="flex flex-col py-3 border-b">
+
                 <div className="flex items-center justify-between">
+
                   <div className="flex items-center space-x-4">
+
                     <img
                       src={
                         item.image?.startsWith("http")
@@ -128,76 +175,92 @@ const OrderSuccess = () => {
                       }
                       alt={item.name}
                       className="w-28 h-16 object-cover rounded"
-                      loading="lazy"
                     />
+
                     <div>
                       <p className="font-medium">{item.name}</p>
-                      <p>${item.price}</p>
+                      <p>{formatPrice(item.price)}</p>
+
                       <p className="text-gray-500 text-sm">
                         Quantity: {item.quantity}
                       </p>
-                      {/* {item.lens?.lens?.selectedLens && (
-                        <p className="text-gray-500 text-sm">
-                          Lens: {item.lens.lens.selectedLens} ($
-                          {lensPrice.toFixed(2)})
-                        </p>
-                      )} */}
 
-                      {/* Hide lens info for contact lenses */}
-                      {!isContactLens && item.lens?.lens?.selectedLens && (
-                        <p className="text-gray-500 text-sm">
-                          Lens: {item.lens.lens.selectedLens} ($
-                          {lensPrice.toFixed(2)})
-                        </p>
-                      )}
+                      {!isContactLens &&
+                        item.lens?.lens?.selectedLens && (
+                          <p className="text-gray-500 text-sm">
+                            Lens: {item.lens.lens.selectedLens} (
+                            {formatPrice(lensPrice)})
+                          </p>
+                        )}
 
                       {item.policy?.name && (
                         <p className="text-gray-500 text-sm">
-                          Policy: {item.policy.name} (${policyPrice.toFixed(2)})
+                          Policy: {item.policy.name} (
+                          {formatPrice(policyPrice)})
                         </p>
                       )}
                     </div>
+
                   </div>
+
                   <span className="font-semibold">
                     {formatPrice(itemTotal)}
                   </span>
+
                 </div>
               </div>
             );
           })}
 
-          {/*  Download Invoice */}
-          <div className="mt-4 flex justify-end">
+          {/* INVOICE DOWNLOAD */}
+          <div className="mt-4 flex justify-end gap-3">
+
             <button
               onClick={() =>
                 window.open(`${PDF_URL}/${order._id}/invoice`, "_blank")
               }
-              className="bg-[#f00000] text-white px-4 py-2 rounded-lg hover:bg-black hover:cursor-pointer"
+              className="bg-[#f00000] text-white px-4 py-2 rounded-lg hover:bg-black"
             >
               Download Invoice
             </button>
+
+            {/* {order.shippingLabel && (
+              <button
+                onClick={() =>
+                  window.open(
+                    `${API.defaults.baseURL}/shipping${order.shippingLabel}`,
+                    "_blank"
+                  )
+                }
+                className="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-black"
+              >
+                Download Shipping Label
+              </button>
+            )} */}
+
           </div>
         </section>
 
-        {/*  Track My Order Button (using trackingNumber!) */}
-        {order.trackingNumber && (
+        {/* TRACK ORDER */}
+        {order.orderNumber && (
           <div className="mb-6 flex justify-center">
             <Link
-              to={`/track/${order.trackingNumber}`} //  Correct tracking number
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-black hover:cursor-pointer"
+              to={`/track/${order.orderNumber}`}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-black"
             >
               Track My Order
             </Link>
           </div>
         )}
 
-        {/* Continue Shopping */}
+        {/* CONTINUE SHOPPING */}
         <Link
           to="/"
-          className="block text-center bg-[#f00000] text-white py-3 px-6 rounded-xl hover:bg-black transition-colors duration-300 font-semibold hover:cursor-pointer"
+          className="block text-center bg-[#f00000] text-white py-3 px-6 rounded-xl hover:bg-black font-semibold"
         >
           Continue Shopping
         </Link>
+
       </div>
     </div>
   );

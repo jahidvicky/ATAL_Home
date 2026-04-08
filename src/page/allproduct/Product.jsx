@@ -137,7 +137,7 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, quantity = 0 }) {
           {Math.round(
             ((data.product_price - data.product_sale_price) /
               data.product_price) *
-              100,
+            100,
           )}
           % OFF
         </div>
@@ -157,8 +157,8 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, quantity = 0 }) {
       </Link>
 
       {data.subCategoryName?.toLowerCase() === "kids" &&
-      (String(data.cat_id) === GLASSES_CAT_ID ||
-        String(data.cat_id) === SUNGLASSES_CAT_ID)
+        (String(data.cat_id) === GLASSES_CAT_ID ||
+          String(data.cat_id) === SUNGLASSES_CAT_ID)
         ? "Kids"
         : data.gender}
 
@@ -213,11 +213,10 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, quantity = 0 }) {
               onMouseLeave={onCardLeave}
               onBlur={onCardLeave}
               className={`w-5 h-5 rounded-full border transition-all duration-200 
-          ${
-            activeVar?.colorName === variant.colorName
-              ? "border-black ring-2 ring-black/10 scale-110"
-              : "border-gray-300 hover:scale-105"
-          }`}
+          ${activeVar?.colorName === variant.colorName
+                  ? "border-black ring-2 ring-black/10 scale-110"
+                  : "border-gray-300 hover:scale-105"
+                }`}
               style={{
                 backgroundColor:
                   variant.colorName?.toLowerCase().trim() || "gray",
@@ -573,7 +572,7 @@ function Product() {
           const filtered = inventoryProducts.filter(
             (p) =>
               String(p.frame_shape)?.toLowerCase() ===
-                frame_shape.toLowerCase() &&
+              frame_shape.toLowerCase() &&
               String(p.cat_id) === "6915705d9ceac0cdda41c83f",
           );
 
@@ -900,7 +899,7 @@ function Product() {
       const res = await API.get(`/getWishlist/${userId2}`);
       const valid = res.data?.products?.filter((p) => p.productId) || [];
       setWishlist(valid.map((p) => p.productId._id));
-    } catch (e) {}
+    } catch (e) { }
   };
 
   //  CRITICAL FIX: Proper dependency array with catId, subCatId, and brandId
@@ -1205,9 +1204,8 @@ function Product() {
 
       {/* Mobile Filter Drawer */}
       <div
-        className={`fixed inset-0 bg-black/40 z-40 ${
-          isFilterOpen ? "block" : "hidden"
-        }`}
+        className={`fixed inset-0 bg-black/40 z-40 ${isFilterOpen ? "block" : "hidden"
+          }`}
         onClick={() => setIsFilterOpen(false)}
         aria-hidden="true"
       />
@@ -1215,9 +1213,8 @@ function Product() {
         id="filters-drawer"
         role="dialog"
         aria-modal="true"
-        className={`fixed z-50 inset-y-0 left-0 w-80 bg-white border-r border-gray-200 transform transition-transform duration-200 ${
-          isFilterOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:hidden`}
+        className={`fixed z-50 inset-y-0 left-0 w-80 bg-white border-r border-gray-200 transform transition-transform duration-200 ${isFilterOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:hidden`}
       >
         <div className="p-4 flex items-center justify-between border-b">
           <h3 className="text-base font-semibold">Filters</h3>
@@ -1342,11 +1339,10 @@ function Product() {
                       <button
                         key={n}
                         onClick={() => setPage(n)}
-                        className={`px-3 py-1 rounded border ${
-                          isActive
-                            ? "bg-black text-white border-black"
-                            : "border-gray-300 hover:bg-gray-50"
-                        }`}
+                        className={`px-3 py-1 rounded border ${isActive
+                          ? "bg-black text-white border-black"
+                          : "border-gray-300 hover:bg-gray-50"
+                          }`}
                         aria-current={isActive ? "page" : undefined}
                       >
                         {n}
