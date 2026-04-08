@@ -38,6 +38,110 @@ const ViewOrder = () => {
   };
 
 
+  const canReturn = () => {
+    if (!order) return false;
+    if (order.orderStatus !== "Delivered") return false;
+    if (order.returnRequest?.status) return false; // already requested
+    return true;
+  };
+
+
+  //  Add Processing everywhere
+  const cleanStatusMap = {
+    "Placed": "Order Placed",
+    "Processing": "Order Being Prepared",   // ← ADD
+    "Shipped": "Shipped",
+    "Delivered": "Delivered",
+    "Cancelled": "Cancelled"
+  };
+
+  const statusColor = {
+    Cancelled: "bg-red-500",
+    Delivered: "bg-green-500",
+    Shipped: "bg-blue-500",
+    Processing: "bg-orange-400",            // ← ADD
+    Placed: "bg-yellow-500"
+  };
+
+  const visibleStatuses = ["Placed", "Processing", "Shipped", "Delivered", "Cancelled"]; // ← ADD Processing
+
+
+  const handleReturn = async () => {
+    const { value: formValues } = await Swal.fire({
+      title: "Request Return",
+      width: 600,
+      showCancelButton: true,
+      confirmButtonText: "Submit Return Request",
+      confirmButtonColor: "#dc2626",
+      html: `
+        <div style="text-align:left">
+          <label style="font-weight:600;display:block;margin-bottom:4px">Reason for Return</label>
+          <textarea 
+            id="returnReason" 
+            class="swal2-textarea" 
+            placeholder="Why do you want to return this product?"
+            style="height:100px"
+          ></textarea>
+          <label style="font-weight:600;margin-top:10px;display:block">
+            Upload Images (optional)
+          </label>
+          <input 
+            id="returnImages" 
+            type="file" 
+            class="swal2-file" 
+            multiple 
+            accept="image/*"
+          />
+          <div id="returnPreview" style="display:flex;flex-wrap:wrap;margin-top:10px;gap:8px"></div>
+        </div>
+      `,
+      focusConfirm: false,
+      didOpen: () => {
+        const input = document.getElementById("returnImages");
+        const preview = document.getElementById("returnPreview");
+        input.addEventListener("change", () => {
+          preview.innerHTML = "";
+          Array.from(input.files).forEach((file) => {
+            const img = document.createElement("img");
+            img.src = URL.createObjectURL(file);
+            img.style.cssText = "width:80px;height:80px;object-fit:cover;border-radius:6px;border:1px solid #ddd";
+            preview.appendChild(img);
+          });
+        });
+      },
+      preConfirm: () => {
+        const reason = document.getElementById("returnReason").value;
+        const images = document.getElementById("returnImages").files;
+        if (!reason.trim()) {
+          Swal.showValidationMessage("Please enter a return reason");
+          return false;
+        }
+        return { reason, images };
+      },
+    });
+
+    if (!formValues) return;
+
+    const formData = new FormData();
+    formData.append("reason", formValues.reason);
+    Array.from(formValues.images || []).forEach((img) => {
+      formData.append("returnImages", img);
+    });
+
+    try {
+      const res = await API.post(
+        `/order/return/${order._id}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      Swal.fire("Success", "Return request submitted successfully", "success");
+      setOrder(res.data.order);
+    } catch (err) {
+      Swal.fire("Error", err.response?.data?.message || "Return request failed", "error");
+    }
+  };
+
+
   const handleExchange = async (item) => {
     const { value: formValues } = await Swal.fire({
       title: "Request Exchange",
@@ -191,6 +295,25 @@ const ViewOrder = () => {
       );
     }
   };
+
+  const finalStatus = order?.orderStatus || "Placed";
+
+  const filteredHistory = order?.trackingHistory?.filter(t =>
+    visibleStatuses.includes(t.status)
+  ) || [];
+
+  const sortedHistory = [...filteredHistory].sort(
+    (a, b) => new Date(a.updatedAt) - new Date(b.updatedAt)
+  );
+
+  const statusMap = new Map();
+  sortedHistory.forEach((t) => {
+    statusMap.set(t.status, t); // overwrites, last one wins
+  });
+
+  const uniqueHistory = [...statusMap.values()].sort(
+    (a, b) => new Date(a.updatedAt) - new Date(b.updatedAt)
+  );
 
 
   const handleProductCancel = async () => {
@@ -406,7 +529,7 @@ const ViewOrder = () => {
                       >
                         {item.name}
 
-                        {/* ❌ Cancelled Badge */}
+                        {/*  Cancelled Badge */}
                         {item.status === "Cancelled" && (
                           <span className="ml-2 text-xs font-semibold text-red-600 bg-red-100 px-3 py-1 rounded-full">
                             Cancelled
@@ -606,22 +729,41 @@ const ViewOrder = () => {
             {order.trackingHistory?.length > 0 && (
               <Section title="Tracking History">
                 <ul className="space-y-2 text-sm text-gray-600">
-                  {order.trackingHistory.map((t, i) => (
-                    <li
-                      key={i}
-                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-gray-100 pb-2"
-                    >
-                      <div className="text-sm text-gray-700">
-                        <span className="font-semibold text-gray-900">
-                          {t.status}
+                  {uniqueHistory.map((t, i) => (
+                    <li key={i}>
+                      <div>
+                        <span className="font-semibold">
+                          {cleanStatusMap[t.status] || t.status}
                         </span>
                       </div>
-                      <div className="text-xs text-gray-500 mt-1 sm:mt-0">
+                      <div className="text-xs text-gray-500">
                         {new Date(t.updatedAt).toLocaleString()}
                       </div>
                     </li>
                   ))}
                 </ul>
+              </Section>
+            )}
+
+            {order.shippingInfo && (
+              <Section title="Shipping Details">
+                <div className="text-sm text-gray-600 space-y-1">
+                  <p><b>Courier:</b> {order.shippingInfo.courier}</p>
+
+                  <p>
+                    <b>Tracking Number:</b>{" "}
+                    <span className="text-blue-600">
+                      {order.shippingInfo.trackingNumber}
+                    </span>
+                  </p>
+
+                  <p>
+                    <b>Expected Delivery:</b>{" "}
+                    {new Date(
+                      order.shippingInfo.expectedDeliveryDate
+                    ).toLocaleDateString()}
+                  </p>
+                </div>
               </Section>
             )}
           </div>
@@ -633,24 +775,13 @@ const ViewOrder = () => {
               <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex justify-between">
                   <span className="font-medium">Status:</span>
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium text-white ${order.orderStatus === "Cancelled"
-                      ? "bg-[#f00000]"
-                      : order.orderStatus === "Delivered"
-                        ? "bg-green-500"
-                        : "bg-yellow-500"
-                      }`}
-                  >
-                    {order.orderStatus}
+                  <span className={`px-2 py-1 text-white rounded-full text-xs ${statusColor[finalStatus]}`}>
+                    {finalStatus}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Payment:</span>
                   <span>{order.paymentStatus}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-medium">Method:</span>
-                  <span>{order.paymentMethod}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Subtotal:</span>
@@ -670,6 +801,47 @@ const ViewOrder = () => {
                 </div>
               </div>
             </Section>
+
+            {/* Return Request Status */}
+            {order.returnRequest?.status && (
+              <Section title="Return Status">
+                <div className="text-sm text-gray-600 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium">Status:</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-semibold text-white ${order.returnRequest.status === "Approved"
+                      ? "bg-green-500"
+                      : order.returnRequest.status === "Rejected"
+                        ? "bg-red-500"
+                        : "bg-yellow-500"
+                      }`}>
+                      {order.returnRequest.status}
+                    </span>
+                  </div>
+                  <p><b>Reason:</b> {order.returnRequest.reason}</p>
+                  {order.returnRequest.status === "Rejected" && order.returnRequest.rejectionReason && (
+                    <p className="text-red-600"><b>Rejection Reason:</b> {order.returnRequest.rejectionReason}</p>
+                  )}
+                  {order.returnRequest.status === "Approved" && order.returnInfo?.trackingNumber && (
+                    <div className="mt-2 p-2 bg-green-50 rounded border border-green-200">
+                      <p className="font-semibold text-green-700 mb-1">E-Return Created</p>
+                      <p><b>Return Tracking:</b> <span className="text-blue-600">{order.returnInfo.trackingNumber}</span></p>
+                      <p><b>RMA:</b> {order.returnInfo.rmaNumber}</p>
+                      <p className="text-xs text-gray-500 mt-1">Label printed at nearest Loomis facility. They will arrange pickup.</p>
+                    </div>
+                  )}
+                </div>
+              </Section>
+            )}
+
+            {/* Return Button */}
+            {canReturn() && (
+              <button
+                onClick={handleReturn}
+                className="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition font-medium"
+              >
+                Request Return
+              </button>
+            )}
 
             {/* Shipping Address */}
             <Section title="Shipping Address">

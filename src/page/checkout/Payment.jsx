@@ -21,9 +21,7 @@ const Payment = () => {
   // Coupon States
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
-
   const [clientSecret, setClientSecret] = useState(null);
-
 
   const navigate = useNavigate();
 
@@ -57,6 +55,7 @@ const Payment = () => {
     }).then(({ data }) => {
       setClientSecret(data.clientSecret);
     });
+
   }, [order]);
 
 
@@ -105,8 +104,6 @@ const Payment = () => {
       );
     }
   };
-
-
 
 
   return (
@@ -202,81 +199,45 @@ const PaymentForm = ({ order, finalTotal, coupon, discount, navigate }) => {
   const elements = useElements();
   const [isPaying, setIsPaying] = useState(false);
 
-  // const handlePay = async () => {
-  //   if (!stripe || !elements || isPaying) return;
-  //   setIsPaying(true);
-
-  //   const result = await stripe.confirmPayment({
-  //     elements,
-  //     redirect: "if_required",
-  //   });
-
-  //   if (result.error) {
-  //     Swal.fire("Payment Failed", result.error.message, "error");
-  //     setIsPaying(false);
-  //     return;
-  //   }
-
-  //   if (result.paymentIntent.status === "succeeded") {
-  //     const { data } = await API.post("/order", {
-  //       ...order,
-  //       total: finalTotal,
-  //       coupon,
-  //       discount,
-  //       paymentMethod: "Stripe",
-  //       paymentStatus: "Paid",
-  //       transactionId: result.paymentIntent.id,
-  //     });
-
-  //     Swal.fire("Order Placed!", "Payment successful", "success").then(() => {
-  //       localStorage.removeItem("orderSummary");
-  //       localStorage.removeItem("cartItems");
-  //       localStorage.removeItem("checkoutDraft");
-  //       localStorage.removeItem("lensSelectionDetails");
-  //       navigate(`/order/${data.order._id}`);
-  //     });
-  //   }
-
-  //   setIsPaying(false);
-  // };
-
   const handlePay = async () => {
     if (!stripe || !elements || isPaying) return;
 
     setIsPaying(true);
 
-    const { error, paymentIntent } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/payment-success`,
-      },
-      redirect: "if_required",
-    });
-
-    if (error) {
-      Swal.fire("Payment Failed", error.message, "error");
-      setIsPaying(false);
-      return;
-    }
-
-    if (paymentIntent && paymentIntent.status === "succeeded") {
-      const { data } = await API.post("/order", {
-        ...order,
-        total: finalTotal,
-        coupon,
-        discount,
-        paymentMethod: "Stripe",
-        paymentStatus: "Paid",
-        transactionId: paymentIntent.id,
+    try {
+      const { error, paymentIntent } = await stripe.confirmPayment({
+        elements,
+        redirect: "if_required",
       });
 
-      Swal.fire("Order Placed!", "Payment successful", "success").then(() => {
+      if (error) {
+        Swal.fire("Payment Failed", error.message, "error");
+        setIsPaying(false);
+        return;
+      }
+
+      if (paymentIntent.status === "succeeded") {
+        const res = await API.post("/order", {
+          ...order,
+          total: finalTotal,
+          coupon,
+          discount,
+          paymentMethod: "Stripe",
+          paymentStatus: "Paid",
+          transactionId: paymentIntent.id,
+        });
+
         localStorage.removeItem("orderSummary");
         localStorage.removeItem("cartItems");
         localStorage.removeItem("checkoutDraft");
         localStorage.removeItem("lensSelectionDetails");
-        navigate(`/order/${data.order._id}`);
-      });
+
+        Swal.fire("Order Placed!", "Payment successful", "success").then(() => {
+          navigate(`/order/${res.data.order._id}`);
+        });
+      }
+    } catch (err) {
+      Swal.fire("Payment Error", "Something went wrong", "error");
     }
 
     setIsPaying(false);
@@ -288,8 +249,8 @@ const PaymentForm = ({ order, finalTotal, coupon, discount, navigate }) => {
       <PaymentElement options={{ layout: "tabs" }} />
       <button
         onClick={handlePay}
-        disabled={isPaying}
-        className="w-full mt-3 py-2 rounded-lg bg-[#f00000] text-white hover:bg-black"
+        disabled={!stripe || !elements || isPaying}
+        className="w-full mt-3 py-2 rounded-lg bg-[#f00000] text-white hover:bg-black disabled:bg-gray-400"
       >
         {isPaying ? "Processing..." : "Pay Now"}
       </button>

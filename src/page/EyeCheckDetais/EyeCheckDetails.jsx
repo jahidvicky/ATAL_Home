@@ -10,7 +10,7 @@ export default function EyeCheckDetails() {
                     Atal Optical - Eye Check Details
                 </h1>
                 <p className="text-center text-lg mt-3 text-gray-100">
-                    Advanced Care for Dry Eye & Complete Eye Health - 2025
+                    Advanced Care for Dry Eye & Complete Eye Health - {new Date().getFullYear()}
                 </p>
                 <hr className="border-white w-200 mt-3 mx-auto" />
             </header>
@@ -114,7 +114,7 @@ export default function EyeCheckDetails() {
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
                     <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
-                        Innovations in Eye Care - 2025
+                        Innovations in Eye Care - {new Date().getFullYear()}
                     </h2>
                     <ul className="list-disc list-inside space-y-2 ml-3">
                         <li>

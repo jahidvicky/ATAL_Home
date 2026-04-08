@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import { AuthProvider } from './page/context/AuthContext';
 import { RecentlyViewedProvider } from './page/collections/RecentlyViewedContext';
-// import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 import { LoaderProvider, useLoader } from './loader/LoaderContext.jsx';
 import Loader from './loader/Loader.jsx';

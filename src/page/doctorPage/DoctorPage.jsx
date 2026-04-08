@@ -7,8 +7,6 @@ function DoctorPage() {
     const fetchDoctor = async () => {
         try {
             const res = await API.get("/getDoctor");
-            console.log(res);
-
             setDoctors(res.data.data || []);
         } catch (error) {
             console.error("Error fetching doctors:", error);

@@ -7,7 +7,7 @@ export default function LearnAboutPrescription() {
             {/* Header */}
             <header className="bg-gradient-to-r from-black via-red-600 to-black py-20 text-center">
                 <h1 className="text-5xl font-bold text-white">Atal Optical - Learn About Prescription</h1>
-                <p className="text-center text-lg mt-3 text-gray-100">Understanding Your Eyeglass Prescription: Complete Guide 2025</p>
+                <p className="text-center text-lg mt-3 text-gray-100">Understanding Your Eyeglass Prescription: Complete Guide {new Date().getFullYear()}</p>
                 <hr className="border-white w-235 mt-3 mx-auto" />
             </header>
 
@@ -21,7 +21,7 @@ export default function LearnAboutPrescription() {
                 >
                     <h2 className="text-2xl font-semibold text-[#f00000] mb-4">Why your prescription matters</h2>
                     <p className="leading-relaxed">
-                        A clear and correctly interpreted eyeglass prescription ensures comfortable vision, sharper focus and healthier eyes. In 2025, prescriptions still follow standard notation — but knowing how to read them helps you choose lenses and frames that match your visual needs.
+                        A clear and correctly interpreted eyeglass prescription ensures comfortable vision, sharper focus and healthier eyes. In {new Date().getFullYear()}, prescriptions still follow standard notation — but knowing how to read them helps you choose lenses and frames that match your visual needs.
                     </p>
                 </motion.section>
 

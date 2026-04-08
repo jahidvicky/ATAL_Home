@@ -10,7 +10,7 @@ export default function LearnAboutFrame() {
                     Atal Optical - Learn About Frame
                 </h1>
                 <p className="text-center text-lg mt-3 text-gray-100">
-                    How to Choose the Perfect Eyeglasses for Your Face Shape: Complete Guide 2025
+                    How to Choose the Perfect Eyeglasses for Your Face Shape: Complete Guide {new Date().getFullYear()}
                 </p>
                 <hr className="border-white w-210 mt-3 mx-auto" />
             </header>
@@ -30,7 +30,7 @@ export default function LearnAboutFrame() {
                     <p className="leading-relaxed">
                         The right eyeglasses are more than just a vision aid—they reflect your
                         personality, enhance your facial features, and boost your confidence.
-                        In 2025, trends are evolving, but timeless rules about face shapes and
+                        In {new Date().getFullYear()} trends are evolving, but timeless rules about face shapes and
                         frame compatibility still guide the perfect choice.
                     </p>
                 </motion.section>
@@ -105,7 +105,7 @@ export default function LearnAboutFrame() {
                     className="p-8 rounded-2xl shadow-md border border-red-600"
                 >
                     <h2 className="text-2xl font-semibold text-[#f00000] mb-4">
-                        Eyeglass Trends in 2025
+                        Eyeglass Trends in {new Date().getFullYear()}
                     </h2>
                     <ul className="list-disc list-inside space-y-2 ml-3">
                         <li>Transparent and eco-friendly frames are gaining popularity.</li>
