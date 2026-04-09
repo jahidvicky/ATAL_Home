@@ -44,8 +44,13 @@ const OurCommunity = () => {
     };
 
     const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
+        let files = Array.from(e.target.files);
+        if (files.length > 5) {
+            files = files.slice(0, 5);
+        }
+
         setFormData((prev) => ({ ...prev, frameImages: files }));
+
         setErrors((prev) => ({
             ...prev,
             frameImages: files.length ? undefined : "Please upload at least one frame image",
@@ -268,7 +273,7 @@ const OurCommunity = () => {
                             ))}
                         </select>
 
-                         <input
+                        <input
                             type="text"
                             placeholder="Frame Type"
                             value={formData.frameType}
@@ -288,9 +293,40 @@ const OurCommunity = () => {
                                 className="hidden"
                             />
                             <label htmlFor="frameUpload" className="cursor-pointer text-gray-600">
-                                Click to upload frame images
+                                {formData.frameImages.length > 0
+                                    ? `${formData.frameImages.length} file(s) selected`
+                                    : "Click to upload frame images"}
                             </label>
                         </div>
+
+                        {formData.frameImages.length > 0 && (
+                            <div className="col-span-2 grid grid-cols-3 gap-4 mt-4">
+                                {formData.frameImages.map((file, index) => (
+                                    <div key={index} className="border rounded-lg p-2 text-center">
+                                        <img
+                                            src={URL.createObjectURL(file)}
+                                            alt="preview"
+                                            className="w-full h-24 object-cover rounded-md mb-2"
+                                        />
+                                        <p className="text-xs truncate">{file.name}</p>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const updated = formData.frameImages.filter((_, i) => i !== index);
+                                                setFormData((prev) => ({
+                                                    ...prev,
+                                                    frameImages: updated,
+                                                }));
+                                            }}
+                                            className="text-red-500 text-xs mt-1"
+                                        >
+                                            Remove
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
 
                         {errors.frameImages && (
                             <p className="text-red-600 text-sm col-span-2">
