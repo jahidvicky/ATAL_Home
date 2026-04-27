@@ -57,7 +57,7 @@ const TestimonialsSlider = () => {
             <Slider {...settings} className="testimonials-slider max-[640px]:!mt-8 max-[640px]:!pb-10">
                 {testimonials.map((item, index) => (
                     <div key={index} className="px-6">
-                        <div className="bg-white hover:bg-[#f00000] hover:text-white rounded-xl shadow-lg p-8 max-w-3xl mx-auto border-1 border-red-600">
+                        <div className="bg-white hover:bg-[#f00000]/60 hover:text-white rounded-xl shadow-lg p-8 max-w-3xl mx-auto border-1 border-red-600">
                             <div className="flex flex-col items-center">
                                 <img
                                     src={IMAGE_URL + item.image}

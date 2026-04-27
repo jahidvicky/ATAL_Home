@@ -26,9 +26,9 @@ const Cartpage = () => {
 
   const fetchAvailability = async () => {
     try {
-      const location = localStorage.getItem("userLocation") || "east";
+      // const location = localStorage.getItem("userLocation") || "east";
 
-      const res = await API.get(`inventory/available-products/${location}?scope=global`);
+      const res = await API.get(`inventory/available-products?scope=global`);
 
       const found = res.data?.products?.find(
         (p) => String(p._id) === String(ID)

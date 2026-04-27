@@ -26,7 +26,7 @@ const Footer = () => {
       <div className="bg-black text-white px-[5%] py-6">
         <div className="max-w-[1280px] mx-auto flex justify-between items-center">
           <p className="text-sm tracking-wide">
-            Stay up to date with atal optical holiday deals.
+            Stay up to date with ATAL OPTICAL holiday deals.
           </p>
 
           <button className="bg-[#f00000] text-white px-5 py-2 rounded-xl text-sm font-semibold hover:bg-red-700 transition">
@@ -39,7 +39,7 @@ const Footer = () => {
           className="mt-6 mx-auto"
           style={{
             height: "1px",
-            background: "#374151",
+            background: "#bdbdbd",
             width: "calc(100% - 3px)",
             maxWidth: "1280px",
             marginLeft: "-0.1%",

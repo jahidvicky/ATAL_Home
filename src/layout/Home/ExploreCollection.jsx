@@ -89,8 +89,8 @@ const ExploreCollection = () => {
       <h2 className="text-3xl font-bold mb-2">
         Our <span className="text-[#f00000]">Collections</span>
       </h2>
-      <hr className="w-80 mx-auto mb-4 border-black" />
-      <p className="text-gray-600 mb-10">
+      <hr className="w-60 mx-auto mb-2 border-black" />
+      <p className="text-gray-700 mb-10 font-semibold">
         Hand-picked styles for every vision and personality.
       </p>
 

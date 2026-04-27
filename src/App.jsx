@@ -184,35 +184,50 @@ const FastShippingPage = lazy(() =>
 const ReferCoupon = lazy(() =>
   import("./components/ReferCoupon")
 );
+
 const FaceShape = lazy(() =>
   import("./page/tipsAndGuides/FaceShape")
 );
+
 const ReturnExchangePolicy = lazy(() =>
   import("./page/return&exchange/Return&Exchange")
 );
+
 const ExchangePolicy = lazy(() =>
   import("./page/exchangePolicy/ExchangePolicy")
 );
+
 const CookiesPolicy = lazy(() =>
   import("./page/cookiesPolicy/CookiesPolicy")
 );
+
 const ShippingPolicy = lazy(() =>
   import("./page/shippingPolicy/ShippingPolicy")
 );
+
 const DisclaimerPolicy = lazy(() =>
   import("./page/disclaimerPolicy/DisclaimerPolicy")
 );
+
 import NoCopy from "./components/NoCopy";
+import EastLocation from "./page/location/EastLocation.jsx";
+import WestLocation from "./page/location/WestLocation.jsx";
+import NorthLocation from "./page/location/NorthLocation.jsx";
+import SouthLocation from "./page/location/SouthLocation.jsx";
+import AllLocations from "./page/location/AllLocations.jsx";
 
 const OurCommunity = lazy(() =>
   import("./components/OurComminity")
 );
+
 const OpticalEducation = lazy(() =>
   import("./page/opticalEducation/OpticalEducation")
 );
+
 const FreeEyeExam = lazy(() =>
   import("./page/freeExam/FreeEyeExam")
 );
+
 const InsurancePolicies = lazy(() =>
   import("./page/insurance/InsurancePolicies")
 );
@@ -481,6 +496,46 @@ function App() {
           element: (
 
             <Locations />
+
+          ),
+        },
+        {
+          path: "/east-location",
+          element: (
+
+            <EastLocation />
+
+          ),
+        },
+        {
+          path: "/west-location",
+          element: (
+
+            <WestLocation />
+
+          ),
+        },
+        {
+          path: "/north-location",
+          element: (
+
+            <NorthLocation />
+
+          ),
+        },
+        {
+          path: "/south-location",
+          element: (
+
+            <SouthLocation />
+
+          ),
+        },
+        {
+          path: "/all-location",
+          element: (
+
+            <AllLocations />
 
           ),
         },

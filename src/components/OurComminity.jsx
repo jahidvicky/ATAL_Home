@@ -145,13 +145,13 @@ const OurCommunity = () => {
                         Donate Your Frames. Change a Life.
                     </h2>
 
-                    <p className="text-gray-700 leading-relaxed">
+                    <p className="text-gray-800 leading-relaxed">
                         Donate unused or gently used frames and help someone see better.
                         At <b>Atal Optical</b>, we make the process simple, transparent,
                         and impactful with a <b>free doorstep pickup anywhere in Canada</b>.
                     </p>
 
-                    <ul className="space-y-2 text-gray-700 font-medium">
+                    <ul className="space-y-2 text-gray-800 font-medium">
                         <li>• Free doorstep pickup from your location</li>
                         <li>• Promote sustainability and reduce waste</li>
                         <li>• Safe, verified, and community-driven process</li>
@@ -170,7 +170,7 @@ const OurCommunity = () => {
                 </div>
 
                 {/* ================= RIGHT FORM ================= */}
-                <div className="bg-white shadow-xl rounded-2xl p-8 border">
+                <div className="bg-white shadow-xl rounded-2xl p-8 border border-red-400">
                     <h3 className="text-2xl font-bold mb-6 text-[#f00000] text-center">
                         Frame Donation Form
                     </h3>

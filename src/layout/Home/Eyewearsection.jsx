@@ -8,7 +8,7 @@ const Eyewearsection = () => {
         {/* Left side - Heading */}
         <div>
           <h1 className="text-5xl md:text-6xl font-bold leading-tight font-serif">
-           <span className="text-red-600"> Eyewear</span><br />
+            <span className="text-red-600"> Eyewear</span><br />
             Crafted For<br />
             Every <span className="text-red-600">Moment</span>
           </h1>
