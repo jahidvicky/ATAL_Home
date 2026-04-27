@@ -632,7 +632,7 @@ function Header() {
     try {
       const response = await API.get(`/customer/${user}`);
       setCustProfile(response?.data?.data?.profileImage);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -648,8 +648,7 @@ function Header() {
     localStorage.setItem("recentSearches", JSON.stringify(updated));
 
     navigate(
-      `/product/${product._id}/${product.subCategoryName || "details"}/${
-        product.subCat_id
+      `/product/${product._id}/${product.subCategoryName || "details"}/${product.subCat_id
       }`,
     );
     setSearchModalOpen(false);
@@ -927,9 +926,8 @@ function Header() {
               >
                 Home
                 <span
-                  className={`inline-block transition-transform duration-200 ${
-                    homeOpen ? "rotate-180" : ""
-                  }`}
+                  className={`inline-block transition-transform duration-200 ${homeOpen ? "rotate-180" : ""
+                    }`}
                 >
                   ▾
                 </span>
@@ -969,9 +967,8 @@ function Header() {
                         >
                           Corporate Policy
                           <span
-                            className={`inline-block text-lg transition-transform duration-200 ${
-                              policySubOpen ? "rotate-150" : ""
-                            }`}
+                            className={`inline-block text-lg transition-transform duration-200 ${policySubOpen ? "rotate-150" : ""
+                              }`}
                           >
                             ▾
                           </span>
@@ -1070,14 +1067,14 @@ function Header() {
                         </Link>
                       </li>
 
-                      <li>
+                      {/* <li>
                         <Link
                           to="/location"
                           className="block px-4 py-2 text-sm hover:bg-gray-100"
                         >
                           GTA Location
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </motion.div>
                 )}
@@ -1096,9 +1093,8 @@ function Header() {
                 >
                   About Us
                   <span
-                    className={`inline-block transition-transform duration-200 ${
-                      aboutOpen ? "rotate-180" : ""
-                    }`}
+                    className={`inline-block transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""
+                      }`}
                   >
                     ▾
                   </span>
@@ -1155,9 +1151,8 @@ function Header() {
               >
                 Location
                 <span
-                  className={`inline-block transition-transform duration-200 ${
-                    locationOpen ? "rotate-180" : ""
-                  }`}
+                  className={`inline-block transition-transform duration-200 ${locationOpen ? "rotate-180" : ""
+                    }`}
                 >
                   ▾
                 </span>
@@ -1170,7 +1165,7 @@ function Header() {
                       <li>
                         <button
                           onClick={() =>
-                            navigate(`${location.pathname}?location=all`)
+                            navigate(`/all-location?location=all`)
                           }
                           className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100"
                         >
@@ -1180,7 +1175,17 @@ function Header() {
                       <li>
                         <button
                           onClick={() =>
-                            navigate(`${location.pathname}?location=east`)
+                            navigate(`/location?location=gta`)
+                          }
+                          className="block w-full text-left px-4 py-2 text-black text-sm hover:bg-gray-100"
+                        >
+                          GTA
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() =>
+                            navigate(`/east-location?location=east`)
                           }
                           className="block w-full text-left px-4 py-2 text-black text-sm hover:bg-gray-100"
                         >
@@ -1190,11 +1195,31 @@ function Header() {
                       <li>
                         <button
                           onClick={() =>
-                            navigate(`${location.pathname}?location=west`)
+                            navigate(`/west-location?location=west`)
                           }
                           className="block w-full text-left text-black px-4 py-2 text-sm hover:bg-gray-100"
                         >
                           West
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() =>
+                            navigate(`/north-location?location=north`)
+                          }
+                          className="block w-full text-left text-black px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          North
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() =>
+                            navigate(`south-location?location=south`)
+                          }
+                          className="block w-full text-left text-black px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          South
                         </button>
                       </li>
                     </ul>
@@ -1209,9 +1234,8 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${
-                  megaOpen && activeKey === "glasses" ? "text-red-500" : ""
-                }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "glasses" ? "text-red-500" : ""
+                  }`}
               >
                 Glasses
               </button>
@@ -1223,9 +1247,8 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${
-                  megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
-                }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "sunglasses" ? "text-red-500" : ""
+                  }`}
               >
                 Sunglasses
               </button>
@@ -1237,11 +1260,10 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${
-                  megaOpen && activeKey === "contact_lenses"
-                    ? "text-red-500"
-                    : ""
-                }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "contact_lenses"
+                  ? "text-red-500"
+                  : ""
+                  }`}
               >
                 Contact Lenses
               </button>
@@ -1253,9 +1275,8 @@ function Header() {
             >
               <button
                 type="button"
-                className={`cursor-pointer hover:text-red-600 transition-colors ${
-                  megaOpen && activeKey === "brands" ? "text-red-500" : ""
-                }`}
+                className={`cursor-pointer hover:text-red-600 transition-colors ${megaOpen && activeKey === "brands" ? "text-red-500" : ""
+                  }`}
               >
                 Brands
               </button>
@@ -1273,9 +1294,8 @@ function Header() {
                 >
                   Services
                   <span
-                    className={`inline-block transition-transform duration-200 ${
-                      servicesOpen ? "rotate-180" : ""
-                    }`}
+                    className={`inline-block transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""
+                      }`}
                   >
                     ▾
                   </span>
@@ -1305,7 +1325,7 @@ function Header() {
                           to="/our-community"
                           className="block px-4 py-2 text-sm hover:bg-gray-100"
                         >
-                          Our Community
+                          Frame Donation
                         </Link>
                       </li>
 
@@ -1389,11 +1409,10 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${
-          sidebarOpen
-            ? "translate-x-0 opacity-100"
-            : "-translate-x-full opacity-0"
-        }`}
+        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${sidebarOpen
+          ? "translate-x-0 opacity-100"
+          : "-translate-x-full opacity-0"
+          }`}
       >
         {/* FIXED HEADER */}
         <div className="flex justify-between items-center bg-white h-[70px] border-b border-gray-200 px-3 sticky top-0 z-50">

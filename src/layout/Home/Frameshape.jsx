@@ -51,13 +51,13 @@ const Frameshape = () => {
 
   return (
     <div className="bg-ray text-center py-10">
-      <h2 className="text-3xl font-semibold">Shop by Frame Shape</h2>
-      <hr className="w-86 mt-2 mb-4 mx-auto border-black" />
-      <p className="text-gray-700 text-xl mx-6">
+      <h2 className="text-3xl font-bold mt-4">Shop by <span className=" text-[#f00000]">Frame Shape</span></h2>
+      <hr className="w-80 mt-1 mb-2 mx-auto border-black" />
+      <p className="text-gray-700 text-xl font-semibold">
         Choose the perfect frames for your face or your style.
       </p>
 
-      <div className="flex justify-between md:mx-26 mt-6 flex-wrap gap-y-6 mx-12">
+      <div className="flex justify-between md:mx-26 mt-8 flex-wrap gap-y-6 mx-12">
         {availableShapes.map((shape, idx) => (
           <Link
             key={idx}

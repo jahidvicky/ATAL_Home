@@ -21,10 +21,8 @@ const Trending = () => {
 
   const fetchInventory = async () => {
     try {
-      const userLoc = localStorage.getItem("userLocation") || "east";
-
       const res = await API.get(
-        `/inventory/available-products/${userLoc}?scope=global`
+        `/inventory/available-products?scope=global`
       );
 
       const map = {};

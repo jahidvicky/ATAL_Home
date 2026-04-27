@@ -36,21 +36,22 @@ const About = () => {
 
         {/* Right - Text */}
         <div className="lg:w-1/2 text-center lg:text-left">
-          <h2 className="text-[#f00000] text-3xl font-semibold mb-2">
-            Welcome To ATAL Optical
+          <h2 className="text-3xl font-semibold mb-2">
+            Welcome To
+            <span className="text-[#f00000]"> ATAL Optical</span>
           </h2>
 
           <hr className="w-90 border-red-500 mx-auto lg:mx-0 mb-6" />
 
           <h1 className="text-2xl md:text-4xl font-light leading-snug mb-4">
-            ATAL Optical has been providing{" "}
+            <span className="text-[#f00000]">ATAL Optical</span> has been providing{" "}
             <strong className="font-semibold">
               luxury eye wear for clients
             </strong>{" "}
             in Toronto and the GTA since 2024.
           </h1>
 
-          <p className="text-gray-600 text-base leading-relaxed">
+          <p className="text-gray-800 text-base leading-relaxed">
             Since 2024, Atal Optical has been proudly serving Toronto and the GTA
             with premium eye care and luxury eyewear. With a focus on quality,
             style, and precision, we have built a reputation for offering high-end
@@ -61,7 +62,7 @@ const About = () => {
             for nearly two decades.
           </p>
 
-          <p className="text-gray-600 text-base leading-relaxed mt-6 mb-6">
+          <p className="text-gray-800 text-base leading-relaxed mt-6 mb-6">
             Over the years, Atal Optical has grown into a trusted name by combining
             professional expertise with a curated selection of world-class eyewear
             brands. Our team of experienced opticians and eye care specialists

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import LocationImg from "../../assets/loaction/location.jpg";
+import bramptonLocation from "../../assets/loaction/bramptonLocation.jpg";
 
 const Locations = () => {
   return (
@@ -56,7 +56,7 @@ const Locations = () => {
               transition={{ duration: 0.6 }}
             >
               <img
-                src={LocationImg}
+                src={bramptonLocation}
                 alt="Office Location"
                 className="ml-10 h-[330px] object-cover rounded-lg shadow-md mt-17 transform transition-transform duration-500 ease-in-out hover:scale-110"
                 loading="lazy"

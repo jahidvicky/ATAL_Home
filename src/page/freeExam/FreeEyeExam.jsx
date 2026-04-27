@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
+import Swal from "sweetalert2";
+
 import DiwaliImg from "../../assets/freeExam/diwali.jpg";
 import VaisakhiImg from "../../assets/freeExam/vaisakhi.png";
 import ChristmasImg from "../../assets/freeExam/Christmas.png";
 import { Link } from "react-router-dom";
-
-
+import API from "../../API/Api";
 
 const festivals = [
   {
@@ -25,10 +27,69 @@ const festivals = [
 ];
 
 export default function FreeEyeExam() {
+
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    date: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      Swal.fire({
+        title: "Submitting...",
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading(),
+      });
+
+      const res = await API.post("/addEyeCheckup", formData);
+
+      if (res.data.success) {
+        Swal.fire({
+          title: "Success 🎉",
+          text: res.data.message,
+          icon: "success",
+          confirmButtonColor: "#f00000",
+        });
+
+        setFormData({
+          name: "",
+          phone: "",
+          email: "",
+          date: "",
+          message: "",
+        });
+      } else {
+        Swal.fire({
+          title: "Error ❌",
+          text: res.data.message,
+          icon: "error",
+        });
+      }
+
+    } catch (error) {
+      console.error(error);
+
+      Swal.fire({
+        title: "Server Error ❌",
+        text: error.response?.data?.message || "Something went wrong!",
+        icon: "error",
+      });
+    }
+  };
+
   return (
     <div className="bg-white overflow-hidden">
 
-      {/* ================= HERO SECTION ================= */}
+      {/* HERO */}
       <motion.section
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -41,11 +102,141 @@ export default function FreeEyeExam() {
         <p className="max-w-3xl mx-auto text-lg opacity-90">
           This festive season, take care of your most precious sense.
           We are offering <strong>FREE eye checkups</strong> during
-          Diwali, Vaisakhi, and Christmas to help you see the world clearly.
+          Diwali, Vaisakhi, and Christmas.
         </p>
       </motion.section>
 
-      {/* ================= FESTIVAL SECTIONS ================= */}
+
+      {/* FORM SECTION */}
+      <section className="bg-[#f9f9f9] py-20 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-10 items-start">
+
+          {/* LEFT SIDE CONTENT */}
+          <div className="md:w-1/2 mt-25">
+            <h2 className="text-4xl font-bold text-[#f00000] mb-4">
+              Take Care of Your Vision Today
+            </h2>
+
+            <p className="text-gray-700 mb-6">
+              Join our free eye checkup camp and ensure your eyes stay healthy.
+              Our expert optometrists provide accurate testing and personalized
+              consultation to help you see clearly.
+            </p>
+
+            <ul className="space-y-3 text-gray-700 mb-6">
+              <li>✔ Free vision testing by professionals</li>
+              <li>✔ Early detection of eye problems</li>
+              <li>✔ Consultation for better eye care</li>
+              <li>✔ Suitable for all age groups</li>
+            </ul>
+
+          </div>
+
+          {/* RIGHT SIDE FORM */}
+          <div className="md:w-1/2 w-full max-w-[500px] mx-auto bg-white border border-red-300 rounded-2xl p-8 shadow-lg">
+
+            <h3 className="text-2xl font-bold text-center text-[#f00000] mb-6">
+              Book Free Eye Checkup
+            </h3>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+
+              {/* Full Name */}
+              <div>
+                <label htmlFor="name" className="text-sm font-medium text-gray-700">
+                  Full Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  placeholder="Enter your full name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none"
+                  required
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="text-sm font-medium text-gray-700">
+                  Email Address
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none"
+                />
+              </div>
+
+              {/* Phone */}
+              <div>
+                <label htmlFor="phone" className="text-sm font-medium text-gray-700">
+                  Phone Number
+                </label>
+                <input
+                  id="phone"
+                  type="tel"
+                  name="phone"
+                  placeholder="Enter phone number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none"
+                  required
+                />
+              </div>
+
+              {/* Date */}
+              <div>
+                <label htmlFor="date" className="text-sm font-medium text-gray-700">
+                  Preferred Date
+                </label>
+                <input
+                  id="date"
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                  className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none"
+                  required
+                />
+              </div>
+
+              {/* Message */}
+              <div>
+                <label htmlFor="message" className="text-sm font-medium text-gray-700">
+                  Message (Optional)
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="Any concerns or notes..."
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows="3"
+                  className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none"
+                ></textarea>
+              </div>
+
+              {/* Button */}
+              <button
+                type="submit"
+                className="w-full bg-[#f00000] text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition"
+              >
+                Book Appointment
+              </button>
+
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* FESTIVALS */}
       <div className="max-w-7xl mx-auto px-6 py-20 space-y-24">
         {festivals.map((item, index) => (
           <motion.div
@@ -54,20 +245,16 @@ export default function FreeEyeExam() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className={`flex flex-col md:flex-row items-center gap-12 ${index % 2 !== 0 ? "md:flex-row-reverse" : ""
-              }`}
+            className={`flex flex-col md:flex-row items-center gap-12 ${index % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
           >
-            {/* IMAGE */}
             <div className="md:w-1/2">
               <img
                 src={item.img}
                 alt={item.name}
-                className="rounded-2xl shadow-lg w-full h-[320px] object-cover object-top"
-                loading="lazy"
+                className="rounded-2xl shadow-lg w-full h-[320px] object-cover"
               />
             </div>
 
-            {/* CONTENT */}
             <div className="md:w-1/2">
               <h2 className="text-3xl font-bold text-[#f00000] mb-4">
                 {item.name} Special Free Eye Checkup
@@ -79,8 +266,7 @@ export default function FreeEyeExam() {
               <Link to="/">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-[#f00000] text-white px-8 py-3 rounded-full font-semibold shadow-md"
+                  className="bg-[#f00000] text-white px-8 py-3 rounded-full"
                 >
                   Visit Our Store
                 </motion.button>
@@ -90,130 +276,43 @@ export default function FreeEyeExam() {
         ))}
       </div>
 
-      {/* ================= WHY IT MATTERS ================= */}
-      <motion.section
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="max-w-7xl mx-auto px-6 pb-20 text-center"
-      >
+      {/* WHY */}
+      <motion.section className="text-center px-6 pb-20">
         <h2 className="text-4xl font-bold text-[#f00000] mb-6">
           Why a Free Eye Checkup Matters
         </h2>
-        <p className="text-gray-700 max-w-4xl mx-auto text-lg">
-          Many eye problems develop silently. Regular eye checkups help
-          detect vision issues early, reduce eye strain, and protect your
-          long-term eye health—especially in today’s screen-driven lifestyle.
+        <p className="max-w-4xl mx-auto text-lg text-gray-700">
+          Many eye problems develop silently. Regular checkups help detect issues early.
         </p>
       </motion.section>
 
-      {/* ================= WHAT’S INCLUDED ================= */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="bg-gray-50 py-20 px-6"
-      >
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-[#f00000] mb-12">
-            What’s Included in Your Free Eye Checkup
-          </h2>
-
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            {[
-              "Vision Testing",
-              "Eye Power Check",
-              "Eye Pressure Screening",
-              "Doctor Consultation",
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.05 }}
-                className="bg-white p-8 border border-red-600 rounded-2xl shadow-md"
-              >
-                <div className="text-4xl mb-4 text-[#f00000]">👁️</div>
-                <h4 className="font-semibold text-lg text-gray-800">
-                  {item}
-                </h4>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.section>
-
-      {/* ================= WHO SHOULD ATTEND ================= */}
-      <motion.section
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="max-w-7xl mx-auto px-6 py-20"
-      >
-        <h2 className="text-4xl font-bold text-[#f00000] mb-10 text-center">
-          Who Should Attend This Camp?
+      {/* INCLUDED */}
+      <section className="bg-gray-50 py-20 px-6">
+        <h2 className="text-4xl text-center text-[#f00000] mb-12 font-bold">
+          What’s Included
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-8 text-black text-lg">
-          {[
-            "People working long hours on digital screens",
-            "Senior citizens facing vision issues",
-            "Children & students for early eye care",
-            "Existing spectacle or lens users",
-            "Drivers needing sharp night vision",
-            "Anyone with eye strain or headaches",
-          ].map((text, i) => (
-            <div
-              key={i}
-              className="p-6 border border-red-600 rounded-xl bg-white shadow-sm"
-            >
-              {text}
+        <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          {["Vision Testing", "Eye Power Check", "Eye Pressure Screening", "Doctor Consultation"].map((item) => (
+            <div key={item} className="p-6 border border-red-500 rounded-xl text-center">
+              👁️ {item}
             </div>
           ))}
         </div>
-      </motion.section>
+      </section>
 
-      {/* ================= TRUST SECTION ================= */}
-      <motion.section
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="bg-[#fff5f5] py-20 px-6 text-center"
-      >
-        <h2 className="text-4xl font-bold text-[#f00000] mb-6">
-          Trusted Eye Care Professionals
-        </h2>
-        <p className="max-w-3xl mx-auto text-lg text-gray-700">
-          Our free eye checkups are conducted by certified optometrists
-          using advanced diagnostic equipment to ensure accurate results
-          and personalized eye care advice.
-        </p>
-      </motion.section>
 
-      {/* ================= FINAL CTA ================= */}
-      <motion.section
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="bg-[#f00000] text-white py-16 text-center px-6"
-      >
+      {/* CTA */}
+      <section className="bg-[#f00000] text-white py-16 text-center">
         <h3 className="text-3xl font-bold mb-4">
-          Limited Time Festive Offer
+          Limited Time Offer
         </h3>
-        <p className="max-w-2xl mx-auto mb-6 text-lg opacity-90">
-          Free eye checkup includes vision testing, eye pressure screening,
-          and expert consultation. Don’t miss this festive opportunity.
-        </p>
-
         <Link to="/">
-          <button className="bg-white text-[#f00000] px-10 py-3 rounded-full font-bold">
-            Visit Our Store
+          <button className="bg-white text-[#f00000] px-8 py-3 rounded-full">
+            Visit Store
           </button>
         </Link>
-      </motion.section>
+      </section>
 
     </div>
   );

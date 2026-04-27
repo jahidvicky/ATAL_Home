@@ -119,11 +119,14 @@ function Faq() {
             </div>
 
             <Link to="/eye-schedule-test">
-              <button className="bg-white p-3 mt-6 rounded-xl text-xl font-semibold flex items-center hover:cursor-pointer hover:bg-black hover:text-white transition-colors duration-300">
+              <button className="group bg-white p-3 mt-6 rounded-xl text-xl font-semibold flex items-center transition-all duration-300 hover:bg-black hover:text-white">
+
                 Book Eye Exam
-                <span className="ml-4 p-2 rounded-lg bg-black hover:bg-white hover:text-black">
-                  <FaArrowRight className="hover:rotate-[-45deg] text-white hover:text-black" />
+
+                <span className="ml-4 p-2 rounded-lg bg-black text-white transition-all duration-300 group-hover:bg-white group-hover:text-black">
+                  <FaArrowRight className="transition-all duration-300 group-hover:rotate-[-45deg] group-hover:text-black" />
                 </span>
+
               </button>
             </Link>
           </div>
@@ -150,11 +153,10 @@ function Faq() {
                 </button>
 
                 <div
-                  className={`transition-all duration-300 overflow-hidden ${
-                    openIndex === index
-                      ? "max-h-40 opacity-100 mt-2"
-                      : "max-h-0 opacity-0"
-                  }`}
+                  className={`transition-all duration-300 overflow-hidden ${openIndex === index
+                    ? "max-h-40 opacity-100 mt-2"
+                    : "max-h-0 opacity-0"
+                    }`}
                 >
                   <p className="text-gray-700">{faq.answer}</p>
                 </div>

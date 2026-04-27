@@ -23,7 +23,7 @@ const OpticalEducation = () => {
           <h2 className="text-3xl font-bold mb-4 text-[#f00000]">
             Why Optical Education Matters
           </h2>
-          <p className="text-gray-700 leading-relaxed max-w-4xl">
+          <p className="text-gray-800 leading-relaxed max-w-4xl">
             Good vision is essential for daily life, yet many people are unaware
             of how their eyes work or how to choose the right eyewear. Optical
             education helps you understand eye conditions, lens options, and
@@ -115,7 +115,7 @@ const OpticalEducation = () => {
                 <h3 className="font-semibold text-lg mb-2">
                   {item.title}
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <p className="text-gray-800 text-sm leading-relaxed">
                   {item.desc}
                 </p>
               </div>
@@ -131,7 +131,7 @@ const OpticalEducation = () => {
             Eye Care Tips
           </h2>
 
-          <ul className="grid md:grid-cols-2 gap-6 text-gray-700">
+          <ul className="grid md:grid-cols-2 gap-6 text-gray-800">
             {[
               "Get your eyes examined regularly by a certified optometrist.",
               "Follow the 20-20-20 rule when using digital screens.",
@@ -158,7 +158,7 @@ const OpticalEducation = () => {
           <h2 className="text-3xl font-bold mb-4 text-gray-900">
             Need Help Choosing the Right Eyewear?
           </h2>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-gray-700 mb-8 max-w-2xl mx-auto">
             Our experts are here to help you select the perfect lenses and frames
             based on your lifestyle and vision needs.
           </p>

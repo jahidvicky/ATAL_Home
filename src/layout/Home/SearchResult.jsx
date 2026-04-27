@@ -20,7 +20,7 @@ const Toast = Swal.mixin({
 const initialFilters = {
     brands: new Set(),
     genders: new Set(),
-    faceShapes: new Set(),
+    // faceShapes: new Set(),
     frameShapes: new Set(),
     colors: new Set(),
     materials: new Set(),
@@ -393,10 +393,8 @@ function SearchResults() {
 
     const fetchInventory = async () => {
         try {
-            const userLoc = localStorage.getItem("userLocation") || "east";
-
             const res = await API.get(
-                `/inventory/available-products/${userLoc}?scope=global`
+                `/inventory/available-products?scope=global`
             );
 
             const map = {};
@@ -421,7 +419,7 @@ function SearchResults() {
     const facetData = useMemo(() => {
         const brands = new Set();
         const genders = new Set();
-        const faceShapes = new Set();
+        // const faceShapes = new Set();
         const frameShapes = new Set();
         const colors = new Set();
         const materials = new Set();
@@ -443,7 +441,7 @@ function SearchResults() {
             if (p.gender) genders.add(p.gender.trim());
 
             // Face & Frame shapes
-            if (p.face_shape) faceShapes.add(p.face_shape.trim());
+            // if (p.face_shape) faceShapes.add(p.face_shape.trim());
             if (p.frame_shape) frameShapes.add(p.frame_shape.trim());
 
             // Colors & materials
@@ -466,7 +464,7 @@ function SearchResults() {
         return {
             brands: [...brands],
             genders: [...genders],
-            faceShapes: [...faceShapes],
+            // faceShapes: [...faceShapes],
             frameShapes: [...frameShapes],
             colors: [...colors],
             materials: [...materials],
@@ -492,12 +490,12 @@ function SearchResults() {
         if (filters.brands.size && !filters.brands.has(brand)) return false;
         if (filters.genders.size && ![...filters.genders].some(g => g.toLowerCase() === gender)) return false;
         /* ---------- FACE SHAPE ---------- */
-        if (
-            filters.faceShapes.size &&
-            !filters.faceShapes.has(p.face_shape?.trim())
-        ) {
-            return false;
-        }
+        // if (
+        //     filters.faceShapes.size &&
+        //     !filters.faceShapes.has(p.face_shape?.trim())
+        // ) {
+        //     return false;
+        // }
 
         /* ---------- FRAME SHAPE ---------- */
         if (

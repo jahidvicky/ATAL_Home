@@ -256,7 +256,7 @@ function Product() {
   } = useParams();
 
   const location = useLocation();
-  const [locationFilter, setLocationFilter] = useState("all");
+  // const [locationFilter, setLocationFilter] = useState("all");
   const brandId = location.state?.brandId || null;
   const brandName = location.state?.brandName || null;
 
@@ -286,10 +286,10 @@ function Product() {
 
   const fetchInventory = async () => {
     try {
-      const userLoc = localStorage.getItem("userLocation") || "east";
+      // const userLoc = localStorage.getItem("userLocation") || "east";
 
       const res = await API.get(
-        `/inventory/available-products/${userLoc}?scope=global`,
+        `/inventory/available-products?scope=global`,
       );
 
       const map = {};
@@ -303,12 +303,12 @@ function Product() {
     }
   };
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const loc = params.get("location");
+  // useEffect(() => {
+  //   const params = new URLSearchParams(location.search);
+  //   const loc = params.get("location");
 
-    setLocationFilter(loc ? loc.toLowerCase().trim() : "all");
-  }, [location.search]);
+  //   setLocationFilter(loc ? loc.toLowerCase().trim() : "all");
+  // }, [location.search]);
 
   //  CRITICAL FIX: Fetch Products with proper dependency array
   const fetchProducts = async () => {
@@ -1044,16 +1044,16 @@ function Product() {
     if (price < filters.priceMin || price > filters.priceMax) return false;
 
     /* ---------- LOCATION ---------- */
-    if (locationFilter !== "all") {
-      const locs = Array.isArray(p.productLocation)
-        ? p.productLocation.map((l) => String(l).toLowerCase().trim())
-        : typeof p.productLocation === "string"
-          ? [p.productLocation.toLowerCase().trim()]
-          : [];
+    // if (locationFilter !== "all") {
+    //   const locs = Array.isArray(p.productLocation)
+    //     ? p.productLocation.map((l) => String(l).toLowerCase().trim())
+    //     : typeof p.productLocation === "string"
+    //       ? [p.productLocation.toLowerCase().trim()]
+    //       : [];
 
-      // Only show products that actually belong to selected location
-      return locs.includes(locationFilter);
-    }
+    //   // Only show products that actually belong to selected location
+    //   return locs.includes(locationFilter);
+    // }
     return true;
   };
 
@@ -1082,7 +1082,7 @@ function Product() {
 
   const filteredProducts = useMemo(
     () => applySort(products.filter(matchesFilters)),
-    [products, filters, sort, locationFilter],
+    [products, filters, sort],
   );
 
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / pageSize));
@@ -1102,7 +1102,7 @@ function Product() {
     JSON.stringify([...filters.frameShapes]), //
     JSON.stringify([...filters.colors]),
     JSON.stringify([...filters.materials]),
-    locationFilter,
+    // locationFilter,
   ]);
 
   const wishSet = useMemo(() => new Set(wishlist), [wishlist]);
