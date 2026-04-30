@@ -20,10 +20,10 @@ export default function EyewearTips() {
   }, [])
 
   const eyewearLinks = [
-    'learn-about-frame',
-    'learn-about-lens',
     'learn-about-prescription',
+    'learn-about-frame',
     'learn-about-maintenance',
+    'learn-about-lens',
   ]
 
   return (

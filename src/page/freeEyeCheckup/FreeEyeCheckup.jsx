@@ -26,7 +26,7 @@ const festivals = [
   },
 ];
 
-export default function FreeEyeExam() {
+export default function FreeEyeCheckup() {
 
   const [formData, setFormData] = useState({
     name: "",

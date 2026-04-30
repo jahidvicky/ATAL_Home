@@ -28,6 +28,7 @@ function Header() {
     about: false,
     home: false,
     policyMobile: false,
+    services: false,
   });
 
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -717,6 +718,44 @@ function Header() {
     };
   }, []);
 
+
+  const locations = [
+    { label: "All", path: "/all-location?location=all" },
+    { label: "GTA", path: "/location?location=gta" },
+    { label: "East", path: "/east-location?location=east" },
+    { label: "West", path: "/west-location?location=west" },
+    { label: "North", path: "/north-location?location=north" },
+    { label: "South", path: "/south-location?location=south" },
+  ];
+
+  const aboutLinks = [
+    { label: "Our Mission", path: "/our-mission" },
+    { label: "Our Vision", path: "/our-vision" },
+    { label: "Vision & Responsibility", path: "/responsibility" },
+  ];
+
+
+  const homeLinks = [
+    { label: "General Information", path: "/general-info" },
+    { label: "Optical Policy", path: "/optical-policy" },
+  ];
+
+  const policyLinks = [
+    { label: "Cookies Policy", path: "/cookies-policy" },
+    { label: "Disclaimer Policy", path: "/disclaimer-policy" },
+    { label: "Exchange Policy", path: "/exchange-policy" },
+    { label: "Eyeglasses Contact Policy", path: "/eyeglasses-contact-policy" },
+    { label: "Privacy Policy", path: "/privacy-policy" },
+    { label: "Return, Exchange & Consumer Policy", path: "/return-exchange" },
+    { label: "Right Enforcement Policy", path: "/rights-enforcement-policy" },
+    { label: "Shipping Policy", path: "/shipping-policy" },
+  ];
+
+  const closeAllMenus = () => {
+    setHomeOpen(false)
+    setPolicySubOpen(false);
+  };
+
   return (
     <>
       {/* Top Bar */}
@@ -943,19 +982,23 @@ function Header() {
                     className="absolute left-1/2 -translate-x-1/2 mt-3 ml-11 w-47 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
                   >
                     <ul className="py-2">
-                      {/* Regular Home submenu items */}
-                      <li>
-                        <Link
-                          to="/general-info"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          General Information
-                        </Link>
-                      </li>
 
-                      {/* ===========================
-               CORPORATE POLICY SUBMENU
-          ============================ */}
+                      {/* Home Links */}
+                      {homeLinks.map((item, index) => (
+                        <li key={index}>
+                          <button
+                            onClick={() => {
+                              navigate(item.path);
+                              closeAllMenus();
+                            }}
+                            className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                          >
+                            {item.label}
+                          </button>
+                        </li>
+                      ))}
+
+                      {/* CORPORATE POLICY SUBMENU */}
                       <li
                         className="relative"
                         onMouseEnter={handlePolicySubEnter}
@@ -974,107 +1017,31 @@ function Header() {
                           </span>
                         </button>
 
-                        {/* RIGHT SUBMENU WITH 2 SECOND DELAY */}
                         {policySubOpen && (
                           <div
-                            className="absolute top-0 left-full ml-1 w-56 bg-white border rounded-lg shadow-2xl transition-all z-50"
+                            className="absolute top-0 left-full ml-1 w-56 bg-white border rounded-lg shadow-2xl z-50"
                             onMouseEnter={handlePolicySubEnter}
                             onMouseLeave={handlePolicySubLeave}
                           >
                             <ul className="py-2">
-                              <li>
-                                <Link
-                                  to="/cookies-policy"
-                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
-                                >
-                                  Cookies Policy
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link
-                                  to="/disclaimer-policy"
-                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
-                                >
-                                  Disclaimer Policy
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link
-                                  to="/exchange-policy"
-                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
-                                >
-                                  Exchange Policy
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link
-                                  to="/eyeglasses-contact-policy"
-                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
-                                >
-                                  Eyeglasses Contact Policy
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link
-                                  to="/privacy-policy"
-                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
-                                >
-                                  Privacy Policy
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link
-                                  to="/return-exchange"
-                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
-                                >
-                                  Return, Exchange & Consumer Policy
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link
-                                  to="/rights-enforcement-policy"
-                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
-                                >
-                                  Right Enforcement Policy
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link
-                                  to="/shipping-policy"
-                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
-                                >
-                                  Shipping Policy
-                                </Link>
-                              </li>
+                              {policyLinks.map((item, index) => (
+                                <li key={index}>
+                                  <button
+                                    onClick={() => {
+                                      navigate(item.path);
+                                      closeAllMenus();
+                                    }}
+                                    className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                                  >
+                                    {item.label}
+                                  </button>
+                                </li>
+                              ))}
                             </ul>
                           </div>
                         )}
                       </li>
 
-                      <li>
-                        <Link
-                          to="/optical-policy"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          Optical Policy
-                        </Link>
-                      </li>
-
-                      {/* <li>
-                        <Link
-                          to="/location"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          GTA Location
-                        </Link>
-                      </li> */}
                     </ul>
                   </motion.div>
                 )}
@@ -1110,30 +1077,19 @@ function Header() {
                     className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
                   >
                     <ul className="py-2">
-                      <li>
-                        <Link
-                          to="/our-mission"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          Our Mission
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/our-vision"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          Our Vision
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/responsibility"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          Vision & Responsibility
-                        </Link>
-                      </li>
+                      {aboutLinks.map((item, index) => (
+                        <li key={index}>
+                          <button
+                            onClick={() => {
+                              navigate(item.path);
+                              setAboutOpen(false);
+                            }}
+                            className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                          >
+                            {item.label}
+                          </button>
+                        </li>
+                      ))}
                     </ul>
                   </motion.div>
                 )}
@@ -1162,66 +1118,19 @@ function Header() {
                 {locationOpen && (
                   <motion.div className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white border rounded-lg shadow-2xl z-50">
                     <ul className="py-2">
-                      <li>
-                        <button
-                          onClick={() =>
-                            navigate(`/all-location?location=all`)
-                          }
-                          className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100"
-                        >
-                          All
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          onClick={() =>
-                            navigate(`/location?location=gta`)
-                          }
-                          className="block w-full text-left px-4 py-2 text-black text-sm hover:bg-gray-100"
-                        >
-                          GTA
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          onClick={() =>
-                            navigate(`/east-location?location=east`)
-                          }
-                          className="block w-full text-left px-4 py-2 text-black text-sm hover:bg-gray-100"
-                        >
-                          East
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          onClick={() =>
-                            navigate(`/west-location?location=west`)
-                          }
-                          className="block w-full text-left text-black px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          West
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          onClick={() =>
-                            navigate(`/north-location?location=north`)
-                          }
-                          className="block w-full text-left text-black px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          North
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          onClick={() =>
-                            navigate(`south-location?location=south`)
-                          }
-                          className="block w-full text-left text-black px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          South
-                        </button>
-                      </li>
+                      {locations.map((item, index) => (
+                        <li key={index}>
+                          <button
+                            onClick={() => {
+                              navigate(item.path);
+                              setLocationOpen(false);
+                            }}
+                            className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100"
+                          >
+                            {item.label}
+                          </button>
+                        </li>
+                      ))}
                     </ul>
                   </motion.div>
                 )}
@@ -1312,49 +1221,53 @@ function Header() {
                   >
                     <ul className="py-2">
                       <li>
-                        <Link
-                          to="/optical-education"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        <button
+                          onClick={() => {
+                            navigate("/optical-education");
+                            setServicesOpen(false);
+                          }}
+                          className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
                         >
                           Optical Education
-                        </Link>
+                        </button>
                       </li>
 
                       <li>
-                        <Link
-                          to="/our-community"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        <button
+                          onClick={() => {
+                            navigate("/our-community");
+                            setServicesOpen(false);
+                          }}
+                          className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
                         >
                           Frame Donation
-                        </Link>
+                        </button>
                       </li>
 
                       <li>
-                        <Link
-                          to="/insurance-policies"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        <button
+                          onClick={() => {
+                            navigate("/insurance-policies");
+                            setServicesOpen(false);
+                          }}
+                          className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
                         >
                           Insurance Policies
-                        </Link>
+                        </button>
                       </li>
 
                       <li>
-                        <Link
-                          to="/free-eye-exam"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        <button
+                          onClick={() => {
+                            navigate("/free-eye-checkup");
+                            setServicesOpen(false);
+                          }}
+                          className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
                         >
-                          Free Eye Exam
-                        </Link>
+                          Free Eye Checkup
+                        </button>
                       </li>
 
-                      {/* <li>
-                        <Link
-                          to="/blog"
-                          className="block px-4 py-2 text-sm hover:bg-gray-100"
-                        >
-                          Blog
-                        </Link>
-                      </li> */}
                     </ul>
                   </motion.div>
                 )}
@@ -1715,13 +1628,37 @@ function Header() {
             >
               Contact Us
             </Link>
-            <Link
-              to="/services"
-              onClick={() => setSidebarOpen(false)}
-              className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded"
-            >
-              Services
-            </Link>
+
+            <div className="px-4 py-3">
+              <button
+                onClick={() => toggleMobileDropdown("services")}
+                className="w-full flex justify-between items-center py-2 hover:text-red-600"
+              >
+                Services
+                <span>{mobileDropdown.services ? "▲" : "▼"}</span>
+              </button>
+
+              {mobileDropdown.services && (
+                <div className="ml-4 mt-2 flex flex-col gap-2 text-sm">
+                  {[
+                    { to: "/optical-education", label: "Optical Education" },
+                    { to: "/our-community", label: "Frame Donation" },
+                    { to: "/insurance-policies", label: "Insurance Policies" },
+                    { to: "/free-eye-checkup", label: "Free Eye Checkup" },
+                  ].map(({ to, label }) => (
+                    <Link
+                      key={to}
+                      to={to}
+                      onClick={() => setSidebarOpen(false)}
+                      className="py-1 px-2 rounded hover:bg-gray-100"
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <Link
               to="/faq"
               onClick={() => setSidebarOpen(false)}
@@ -1841,22 +1778,11 @@ function Header() {
       />
 
       {/* Cart Drawer */}
-      {/* {cartOpen && user && (
-        <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
-      )} */}
-
       {cartOpen && (
         <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
       )}
 
       {/* Cart Overlay */}
-      {/* {cartOpen && user && (
-        <div
-          className="fixed inset-0 z-[45] transition-opacity duration-300 ease-out opacity-100"
-          onClick={() => setCartOpen(false)}
-          aria-hidden="true"
-        />
-      )} */}
       {cartOpen && (
         <div
           className="fixed inset-0 z-[45]"
