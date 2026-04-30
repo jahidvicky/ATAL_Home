@@ -200,7 +200,7 @@ const Footer = () => {
                       : "cursor-pointer hover:text-red-600"
                   }
                 >
-                  Kids' glasses
+                  Kid's glasses
                 </NavLink>
               </li>
 
@@ -750,7 +750,7 @@ const Footer = () => {
         <div className="max-w-[1280px] mt-10 flex items-center justify-between -mb-6">
           <div className="flex items-center gap-6">
             <div className="text-sm text-gray-400 min-w-[260px]">
-              We guarantee every transaction is 100% secure
+              We guarantee that every transaction is 100% secure
             </div>
 
             <div className="flex items-center gap-2">

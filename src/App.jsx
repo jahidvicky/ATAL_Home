@@ -224,8 +224,8 @@ const OpticalEducation = lazy(() =>
   import("./page/opticalEducation/OpticalEducation")
 );
 
-const FreeEyeExam = lazy(() =>
-  import("./page/freeExam/FreeEyeExam")
+const FreeEyeCheckup = lazy(() =>
+  import("./page/freeEyeCheckup/FreeEyeCheckup.jsx")
 );
 
 const InsurancePolicies = lazy(() =>
@@ -369,7 +369,7 @@ function App() {
         { path: "/learn-about-frame", element: <LearnAboutFrame /> },
         { path: "/learn-about-lens", element: <LearnAboutLens /> },
         { path: "/optical-education", element: <OpticalEducation /> },
-        { path: "/free-eye-exam", element: <FreeEyeExam /> },
+        { path: "/free-eye-checkup", element: <FreeEyeCheckup /> },
         {
           path: "/learn-about-prescription",
           element: <LearnAboutPrescription />,
