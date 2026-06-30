@@ -14,6 +14,7 @@ const OurCommunity = () => {
         postal: "",
         province: "",
         frameType: "",
+        frameQuantity: "",
         frameImages: [],
     });
 
@@ -93,6 +94,7 @@ const OurCommunity = () => {
         data.append("address", fullAddress);
         data.append("postal", formData.postal);
         data.append("frameType", formData.frameType)
+        data.append("frameQuantity", formData.frameQuantity)
 
         formData.frameImages.forEach((file) => {
             data.append("frameImages", file);
@@ -116,6 +118,7 @@ const OurCommunity = () => {
                 postal: "",
                 province: "",
                 frameType: "",
+                frameQuantity: "",
                 frameImages: [],
             });
 
@@ -275,9 +278,17 @@ const OurCommunity = () => {
 
                         <input
                             type="text"
-                            placeholder="Frame Type"
+                            placeholder="Frame Type : Square, Round, Oval, Rectangle....."
                             value={formData.frameType}
                             onChange={(e) => handleChange("frameType", e.target.value)}
+                            className="border p-3 rounded col-span-2"
+                            required
+                        />
+                        <input
+                            type="number"
+                            placeholder="Enter Frame Quantity"
+                            value={formData.frameQuantity}
+                            onChange={(e) => handleChange("frameQuantity", e.target.value)}
                             className="border p-3 rounded col-span-2"
                             required
                         />
