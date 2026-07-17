@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 import bramptonLocation from "../../assets/loaction/bramptonLocation.jpg";
 import eastLocation from "../../assets/loaction/eastLocation.jpg";
-import westLocation from "../../assets/loaction/westLocation.jpg";
+// import westLocation from "../../assets/loaction/westLocation.jpg";
 import northLocation from "../../assets/loaction/northLocation.jpg";
 import southLocation from "../../assets/loaction/southLocation.jpg";
 
@@ -19,12 +19,12 @@ const locationsData = [
     map: "https://www.google.com/maps?q=5+Cherrycrest+Drive,+Brampton,+ON+L6P+3W4,+Canada&output=embed",
     image: eastLocation,
   },
-  {
-    title: "West Location",
-    address: "10 Henderson Ave Unit #4, Brampton, ON L6Y 2A4, Canada",
-    map: "https://www.google.com/maps?q=10+Henderson+Ave+Unit+4,+Brampton,+ON+L6Y+2A4,+Canada&output=embed",
-    image: westLocation,
-  },
+  // {
+  //   title: "West Location",
+  //   address: "10 Henderson Ave Unit #4, Brampton, ON L6Y 2A4, Canada",
+  //   map: "https://www.google.com/maps?q=10+Henderson+Ave+Unit+4,+Brampton,+ON+L6Y+2A4,+Canada&output=embed",
+  //   image: westLocation,
+  // },
   {
     title: "North Location",
     address: "9 Ash Hill Ave, Caledon East, ON L7C 0H3, Canada",

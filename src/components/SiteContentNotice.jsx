@@ -147,7 +147,7 @@ const SiteContentNotice = () => {
                     <p>For commercial, academic, or publication use of any content:</p>
 
                     <p className="mt-2">
-                        <strong>Email:</strong> info@ataloptical@gmail.com
+                        <strong>Email:</strong> info.ataloptical@gmail.com
                     </p>
 
                     <p className="mt-3">Written permission is required prior to any use outside personal viewing.</p>

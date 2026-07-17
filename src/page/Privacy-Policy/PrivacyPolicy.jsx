@@ -190,7 +190,7 @@ export default function PrivacyPolicy() {
             Canada
           </p>
           <p className="mb-1">Toll-Free: 1-866-242-3545</p>
-          <p>Email: info@ataloptical@gmail.com</p>
+          <p>Email: info.ataloptical@gmail.com</p>
         </>
       ),
     },

@@ -209,3 +209,22 @@ button:disabled {
 .custom-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
+
+
+/* Match brand colors for react-calendar selected/hover states */
+.react-calendar__tile--active {
+  background: #f00000 !important;
+  color: #fff !important;
+}
+
+.react-calendar__tile--now {
+  background: #ffe5e5 !important;
+}
+
+.react-calendar__tile:hover {
+  background: #fbb6b6 !important;
+}
+
+.react-calendar__navigation button:hover {
+  background: #fbb6b6 !important;
+}

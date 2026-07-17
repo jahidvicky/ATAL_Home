@@ -51,11 +51,6 @@ const OurCommunity = () => {
         }
 
         setFormData((prev) => ({ ...prev, frameImages: files }));
-
-        setErrors((prev) => ({
-            ...prev,
-            frameImages: files.length ? undefined : "Please upload at least one frame image",
-        }));
     };
 
     const validateForm = () => {
@@ -69,10 +64,6 @@ const OurCommunity = () => {
             !/^[A-Za-z]\d[A-Za-z][ ]?\d[A-Za-z]\d$/.test(formData.postal)
         ) {
             newErrors.postal = "Postal code must be in A1A1A1 or A1A 1A1 format";
-        }
-
-        if (formData.frameImages.length === 0) {
-            newErrors.frameImages = "Please upload at least one frame image";
         }
 
         setErrors(newErrors);

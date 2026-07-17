@@ -40,6 +40,9 @@ function Header() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const servicesTimeoutRef = useRef(null);
 
+  const [profileOpen, setProfileOpen] = useState(false);
+  const profileTimeoutRef = useRef(null);
+
   const homeTimeoutRef = useRef(null);
   const megaTimeoutRef = useRef(null);
 
@@ -711,10 +714,21 @@ function Header() {
     locationTimeoutRef.current = setTimeout(() => setLocationOpen(false), 300);
   };
 
+  const handleProfileEnter = () => {
+    if (profileTimeoutRef.current) clearTimeout(profileTimeoutRef.current);
+    setProfileOpen(true);
+  };
+
+  const handleProfileLeave = () => {
+    if (profileTimeoutRef.current) clearTimeout(profileTimeoutRef.current);
+    profileTimeoutRef.current = setTimeout(() => setProfileOpen(false), 300);
+  };
+
   useEffect(() => {
     return () => {
       if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
-      if (locationTimeoutRef.current) clearTimeout(locationTimeoutRef.current); // 👈 NEW
+      if (locationTimeoutRef.current) clearTimeout(locationTimeoutRef.current);
+      if (profileTimeoutRef.current) clearTimeout(profileTimeoutRef.current); // 👈 NEW
     };
   }, []);
 
@@ -723,7 +737,7 @@ function Header() {
     { label: "All", path: "/all-location?location=all" },
     { label: "GTA", path: "/location?location=gta" },
     { label: "East", path: "/east-location?location=east" },
-    { label: "West", path: "/west-location?location=west" },
+    // { label: "West", path: "/west-location?location=west" },
     { label: "North", path: "/north-location?location=north" },
     { label: "South", path: "/south-location?location=south" },
   ];
@@ -902,49 +916,103 @@ function Header() {
               )}
             </div>
             {user ? (
-              <Link to="/update-profile" className="flex-shrink-0">
-                {custProfile ? (
-                  <img
-                    src={`${IMAGE_URL}${custProfile}`}
-                    alt="Profile"
-                    className="w-12 h-12 rounded-full object-cover border-2 border-red-600 hover:border-black transition-colors"
-                  />
-                ) : (
-                  <FaUser className="text-[#f00000] hover:text-black w-8 h-8 transition-colors" />
-                )}
-              </Link>
+              <div
+                className="relative flex-shrink-0"
+                onMouseEnter={handleProfileEnter}
+                onMouseLeave={handleProfileLeave}
+              >
+                <button
+                  type="button"
+                  className="flex-shrink-0"
+                  aria-haspopup="true"
+                  aria-expanded={profileOpen}
+                >
+                  {custProfile ? (
+                    <img
+                      src={`${IMAGE_URL}${custProfile}`}
+                      alt="Profile"
+                      className="w-12 h-12 rounded-full object-cover border-2 border-red-600 hover:border-black transition-colors"
+                    />
+                  ) : (
+                    <FaUser className="text-[#f00000] hover:text-black w-8 h-8 transition-colors" />
+                  )}
+                </button>
+
+                <AnimatePresence>
+                  {profileOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 mt-2 w-52 bg-white text-gray-900 border rounded-lg shadow-2xl z-50"
+                    >
+                      <ul className="py-2">
+                        <li>
+                          <button
+                            onClick={() => {
+                              navigate("/update-profile");
+                              setProfileOpen(false);
+                            }}
+                            className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                          >
+                            My Profile
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            onClick={() => {
+                              navigate("/order-history");
+                              setProfileOpen(false);
+                            }}
+                            className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                          >
+                            My Orders
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            onClick={() => {
+                              navigate("/my-appointments");
+                              setProfileOpen(false);
+                            }}
+                            className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                          >
+                            My Appointments
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            onClick={() => {
+                              dispatch({ type: "LOGOUT" });
+                              localStorage.removeItem("token");
+                              localStorage.removeItem("user");
+                              localStorage.removeItem("cartItems");
+                              setProfileOpen(false);
+                              navigate("/");
+                            }}
+                            className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left text-[#f00000] font-semibold"
+                          >
+                            Logout
+                          </button>
+                        </li>
+                      </ul>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ) : (
               <button onClick={() => navigate("/login")} className="p-1">
                 <FaUser className="text-[#f00000] hover:text-black w-8 h-8 transition-colors" />
               </button>
             )}
-            {!user ? (
+            {!user && (
               <button
                 onClick={() => navigate("/login")}
                 className="flex items-center gap-1 text-[#f00000] cursor-pointer hover:text-black transition-colors font-semibold"
               >
                 Sign In
               </button>
-            ) : (
-              <div className="flex items-center gap-3">
-                <Link to="/order-history">
-                  <button className="px-4 py-2 rounded-lg bg-[#f00000] text-white text-sm hover:bg-black transition-colors font-semibold">
-                    My Orders
-                  </button>
-                </Link>
-                <button
-                  onClick={() => {
-                    dispatch({ type: "LOGOUT" });
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("user");
-                    localStorage.removeItem("cartItems");
-                    navigate("/");
-                  }}
-                  className="px-4 py-2 rounded-lg bg-[#f00000] text-white text-sm hover:bg-black transition-colors font-semibold"
-                >
-                  Logout
-                </button>
-              </div>
             )}
           </div>
         </div>

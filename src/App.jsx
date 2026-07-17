@@ -105,6 +105,9 @@ const AppointmentType = lazy(() =>
 const AppointmentSchedule = lazy(() =>
   import("./layout/Home/AppointmentSchedule")
 );
+const MyAppointments = lazy(() =>
+  import("./page/myAppointments/MyAppointments")
+);
 const EyeExamStep1 = lazy(() =>
   import("./page/EyeExamPage/EyeExamStep1")
 );
@@ -211,7 +214,7 @@ const DisclaimerPolicy = lazy(() =>
 
 import NoCopy from "./components/NoCopy";
 import EastLocation from "./page/location/EastLocation.jsx";
-import WestLocation from "./page/location/WestLocation.jsx";
+// import WestLocation from "./page/location/WestLocation.jsx";
 import NorthLocation from "./page/location/NorthLocation.jsx";
 import SouthLocation from "./page/location/SouthLocation.jsx";
 import AllLocations from "./page/location/AllLocations.jsx";
@@ -384,7 +387,7 @@ function App() {
         { path: "/appointmentType", element: <AppointmentType /> },
         { path: "/appointmentSchedule", element: <AppointmentSchedule /> },
         { path: "/eye-schedule-test", element: <EyeExamStep1 /> },
-        { path: "/update-profile", element: <UpdateProfile /> },
+        { path: "/my-appointments", element: <MyAppointments /> },
         {
           path: "/product/:ID/:subCategory/:subCatId/lens-selection-flow",
           element: <LensSelection />,
@@ -392,6 +395,7 @@ function App() {
         { path: "/track/:trackingNumber", element: <TrackOrder /> },
         { path: "/view-order", element: <ViewOrder /> },
         { path: "/order-history", element: <OrderHistory /> },
+        { path: "/update-profile", element: <UpdateProfile /> },
         { path: "/place-order", element: <OrderPlaced /> },
 
         {
@@ -507,14 +511,14 @@ function App() {
 
           ),
         },
-        {
-          path: "/west-location",
-          element: (
+        // {
+        //   path: "/west-location",
+        //   element: (
 
-            <WestLocation />
+        //     <WestLocation />
 
-          ),
-        },
+        //   ),
+        // },
         {
           path: "/north-location",
           element: (

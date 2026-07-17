@@ -5,7 +5,18 @@ import Swal from "sweetalert2";
 
 const EyeExam = () => {
   const location = useLocation();
-  const { doctorName, day, weekday, time, examType, doctorImage } = location.state || {};
+  const {
+    doctorId,
+    doctorName,
+    day,
+    date,
+    weekday,
+    startTime,
+    endTime,
+    examType,
+    doctorImage,
+    rescheduleOf, // present only when arriving from "Reschedule" in MyAppointments
+  } = location.state || {};
 
   const [consent, setConsent] = useState(false);
   const [examData, setExamData] = useState({
@@ -27,25 +38,50 @@ const EyeExam = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Safely combine day and time
-    const appointmentDate = day && time ? `${day} ${time}` : "";
+    if (!doctorId || !date || !startTime || !endTime) {
+      Swal.fire({
+        title: "Error!",
+        text: "Missing appointment details. Please select a slot again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
 
     try {
-      const payload = {
-        ...examData,
-        custId: custId || null,
-        doctorName: doctorName || "",
-        appointmentDate,
-        examType: examType || "",
-        weekday: weekday || "",
-      };
+      let res;
 
-      const res = await API.post("/addEyeExam", payload);
+      if (rescheduleOf) {
+        res = await API.put(`/rescheduleAppointment/${rescheduleOf}`, {
+          date,
+          weekday: weekday || "",
+          startTime,
+          endTime,
+          custId: custId || null,
+          ...examData,
+          examType: examType || "",
+        });
+      } else {
+        const payload = {
+          ...examData,
+          custId: custId || null,
+          doctorId,
+          date,
+          weekday: weekday || "",
+          startTime,
+          endTime,
+          examType: examType || "",
+        };
+
+        res = await API.post("/bookAppointment", payload);
+      }
 
       if (res.data.success) {
         Swal.fire({
-          title: "Appointment Booked",
-          text: "Appointment booked successfully!",
+          title: rescheduleOf ? "Appointment Rescheduled" : "Appointment Booked",
+          text: rescheduleOf
+            ? "Your appointment has been rescheduled successfully!"
+            : "Appointment booked successfully!",
           icon: "success",
           confirmButtonText: "OK",
         });
@@ -59,17 +95,28 @@ const EyeExam = () => {
         });
       } else {
         Swal.fire({
-        title: "Error!",
-        text: "Failed to book appointment",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+          title: "Error!",
+          text: rescheduleOf ? "Failed to reschedule appointment" : "Failed to book appointment",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     } catch (error) {
-      console.error("Error booking appointment:", error.response?.data || error);
+      console.error(
+        rescheduleOf ? "Error rescheduling appointment:" : "Error booking appointment:",
+        error.response?.data || error
+      );
+      const isSlotTaken = error.response?.status === 409;
+      const isForbidden = error.response?.status === 403;
       Swal.fire({
         title: "Error!",
-        text: "Failed to book appointment. Please try again.",
+        text: isSlotTaken
+          ? "Sorry, that slot was just booked by someone else. Please choose another time."
+          : isForbidden
+            ? "You can only reschedule your own appointments."
+            : rescheduleOf
+              ? "Failed to reschedule appointment. Please try again."
+              : "Failed to book appointment. Please try again.",
         icon: "error",
         confirmButtonText: "OK",
       });
@@ -79,10 +126,12 @@ const EyeExam = () => {
   return (
     <div className="p-4 md:p-10 bg-gray-50">
       <h1 className="text-2xl md:text-4xl text-[#f00000] text-center font-bold mb-3">
-        Book Your Eye Consultation
+        {rescheduleOf ? "Reschedule Your Appointment" : "Book Your Eye Consultation"}
       </h1>
       <p className="text-sm md:text-[16px] text-gray-700 text-center mb-6 md:mb-10">
-        Enter your details below to confirm your online booking.
+        {rescheduleOf
+          ? "Confirm your new slot below to reschedule your appointment."
+          : "Enter your details below to confirm your online booking."}
       </p>
 
       <div className="flex justify-center">
@@ -97,7 +146,7 @@ const EyeExam = () => {
               </h2>
               <p className="text-white text-lg">
                 <span className="font-medium">
-                  {day}, {time}
+                  {day}, {startTime}{endTime ? ` - ${endTime}` : ""}
                 </span>
               </p>
               <p className="mt-2 text-white">{examType}</p>
@@ -234,7 +283,7 @@ const EyeExam = () => {
                 className={`w-full rounded-md p-3 hover:cursor-pointer text-white font-semibold text-base md:text-lg mt-4 transition ${consent ? "bg-green-600 hover:bg-green-700" : "bg-gray-400 cursor-not-allowed"
                   }`}
               >
-                Book Appointment
+                {rescheduleOf ? "Confirm Reschedule" : "Book Appointment"}
               </button>
             </form>
           </div>
