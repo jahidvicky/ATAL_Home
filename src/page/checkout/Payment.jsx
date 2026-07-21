@@ -43,20 +43,19 @@ const Payment = () => {
     ? Math.max(subtotal - discount + shipping + tax, 0.01)
     : 0;
 
-  const hasCreatedPI = useRef(false);
-
   useEffect(() => {
-    if (!order || hasCreatedPI.current) return;
+    if (!order) return;
 
-    hasCreatedPI.current = true;
+    const timeout = setTimeout(() => {
+      API.post("/payment/create-payment-intent", {
+        amount: finalTotal,
+      }).then(({ data }) => {
+        setClientSecret(data.clientSecret);
+      });
+    }, 400);
 
-    API.post("/payment/create-payment-intent", {
-      amount: finalTotal,
-    }).then(({ data }) => {
-      setClientSecret(data.clientSecret);
-    });
-
-  }, [order]);
+    return () => clearTimeout(timeout);
+  }, [finalTotal]);
 
 
   if (!order) {
@@ -103,6 +102,12 @@ const Payment = () => {
         "error"
       );
     }
+  };
+
+  const handleRemoveCoupon = () => {
+    setCoupon("");
+    setDiscount(0);
+    Swal.fire("Removed", "Coupon has been removed", "info");
   };
 
 
@@ -154,18 +159,29 @@ const Payment = () => {
             placeholder="ENTER COUPON CODE"
             value={coupon}
             onChange={(e) => setCoupon(e.target.value.toUpperCase())}
-            className="flex-1 border p-2 rounded-lg uppercase"
+            disabled={discount > 0}
+            className="flex-1 border p-2 rounded-lg uppercase disabled:bg-gray-100"
           />
-          <button
-            onClick={handleApplyCoupon}
-            disabled={coupon.trim().length < 2}
-            className={`px-4 rounded-lg ${coupon.trim().length < 2
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#f00000] text-white hover:bg-black"
-              }`}
-          >
-            Apply
-          </button>
+
+          {discount > 0 ? (
+            <button
+              onClick={handleRemoveCoupon}
+              className="px-4 rounded-lg bg-gray-500 text-white hover:bg-black"
+            >
+              Remove
+            </button>
+          ) : (
+            <button
+              onClick={handleApplyCoupon}
+              disabled={coupon.trim().length < 2}
+              className={`px-4 rounded-lg ${coupon.trim().length < 2
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-[#f00000] text-white hover:bg-black"
+                }`}
+            >
+              Apply
+            </button>
+          )}
         </div>
 
         {clientSecret && (

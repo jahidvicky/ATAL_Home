@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import API from "../../API/Api";
+import API, { IMAGE_URL } from "../../API/Api";
 import Swal from "sweetalert2";
 
 const ViewOrder = () => {
@@ -594,6 +594,65 @@ const ViewOrder = () => {
                 ))}
               </div>
             </Section>
+
+            {/* Lens & Prescription Details */}
+            {order.cartItems.some((item) => item.lens) && (
+              <Section title="Lens & Prescription Details">
+                <div className="space-y-4">
+                  {order.cartItems
+                    .filter((item) => item.lens)
+                    .map((item, idx) => {
+                      const lens = item.lens;
+                      const glassesPrescription = lens?.lens?.prescription;
+                      const contactPrescription = lens?.prescription && !lens?.lens ? lens.prescription : null;
+                      const fileUrl = glassesPrescription?.fileURL?.startsWith("http")
+                        ? glassesPrescription.fileURL
+                        : glassesPrescription?.fileName
+                          ? `${IMAGE_URL}${glassesPrescription.fileName}`
+                          : null;
+
+                      return (
+                        <div key={item._id || idx} className="border border-gray-200 rounded-lg p-3">
+                          <p className="text-sm font-semibold text-gray-900 mb-2">{item.name}</p>
+
+                          <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+                            {lens?.lens?.prescriptionMethod && <p><span className="font-medium">Prescription Method:</span> {lens.lens.prescriptionMethod}</p>}
+                            {lens?.lens?.lensType?.name && <p><span className="font-medium">Lens Type:</span> {lens.lens.lensType.name}</p>}
+                            {lens?.lens?.thickness?.name && <p><span className="font-medium">Thickness:</span> {lens.lens.thickness.name}</p>}
+                            {(lens?.lens?.tint?.name || lens?.lens?.tint) && <p><span className="font-medium">Tint:</span> {lens.lens.tint?.name || lens.lens.tint}</p>}
+                            {lens?.lens?.enhancement?.name && <p><span className="font-medium">Enhancement:</span> {lens.lens.enhancement.name}</p>}
+                            {lens?.purchase_type && <p><span className="font-medium">Purchase Type:</span> {lens.purchase_type}</p>}
+                            {lens?.totalPrice != null && <p><span className="font-medium">Lens Price:</span> ${Math.round(lens.totalPrice)}</p>}
+                          </div>
+
+                          {contactPrescription && (
+                            <div className="mt-2 grid grid-cols-2 gap-2 text-sm text-gray-600 bg-gray-50 rounded p-2">
+                              {contactPrescription.doctorName && <p><span className="font-medium">Doctor Name:</span> {contactPrescription.doctorName}</p>}
+                              {contactPrescription.prescriptionDate && (
+                                <p><span className="font-medium">Prescription Date:</span> {new Date(contactPrescription.prescriptionDate).toLocaleDateString()}</p>
+                              )}
+                              {contactPrescription.od_selected && (
+                                <p><span className="font-medium">OD (Right):</span> Sphere {contactPrescription.od_sphere || "N/A"}{contactPrescription.od_addition && `, Addition: ${contactPrescription.od_addition}`}</p>
+                              )}
+                              {contactPrescription.os_selected && (
+                                <p><span className="font-medium">OS (Left):</span> Sphere {contactPrescription.os_sphere || "N/A"}{contactPrescription.os_addition && `, Addition: ${contactPrescription.os_addition}`}</p>
+                              )}
+                            </div>
+                          )}
+
+                          {glassesPrescription && fileUrl && (
+                            <div className="mt-2">
+                              <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-1 text-xs font-semibold text-white bg-blue-600 rounded hover:bg-blue-700 transition">
+                                View Uploaded Prescription
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                </div>
+              </Section>
+            )}
 
 
             {/* Policy Details */}
