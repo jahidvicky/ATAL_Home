@@ -259,6 +259,17 @@ const EyeExam = () => {
                 </div>
               </div>
 
+              {/* Cancellation Policy */}
+              <div className="mt-4 bg-red-50 border border-red-200 rounded-md p-3">
+                <h3 className="text-sm font-semibold text-red-700 mb-1">Appointment Policy</h3>
+                <p className="text-sm text-gray-700">
+                  A <strong>$50 cancellation fee</strong> applies to cancelled appointments.<br />
+                  Appointments cannot be cancelled or rescheduled online — please call us at{" "}
+                  <strong>1866-242-3545</strong> or email{" "}
+                  <strong>info.ataloptical@gmail.com</strong> if you need to make a change.
+                </p>
+              </div>
+
               {/* Consent */}
               <div className="mt-4">
                 <h3 className="text-sm font-semibold mb-2">Consent & Declaration</h3>
@@ -271,7 +282,9 @@ const EyeExam = () => {
                   />
                   <p className="text-sm text-gray-600">
                     I declare that all the information provided is true, complete, and accurate.
-                    I agree to send my personal information to my clinic for processing this appointment request.
+                    I agree to send my personal information to my clinic for processing this appointment request,
+                    and I understand a $50 cancellation fee applies and that cancellations/reschedules must be
+                    made by phone or email.
                   </p>
                 </div>
               </div>

@@ -18,9 +18,10 @@ export default function EyeExamStep1() {
           <li>2. Select an exam type and an open slot with one of our local optometrists.</li>
           <li>3. Fill in your details and we'll send a confirmation email. We look forward to seeing you!</li>
         </ol>
-        <br />
+    <br />
         <p><strong>Need to cancel or reschedule?</strong></p>
-        <p>Click the link in the original confirmation email you received to edit your booking.</p>
+        <p>Appointments can't be changed online. <br /> Please call us at <strong>1866-242-3545</strong> <br />or email
+        <strong> info.ataloptical@gmail.com</strong>.<br /> Note that a<strong> $50 cancellation </strong> fee applies.</p>
       `,
             confirmButtonText: "Click here to select exam",
             confirmButtonColor: "#da1515ff",

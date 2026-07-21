@@ -60,19 +60,6 @@ const MyAppointments = () => {
         fetchMyAppointments();
     }, [custId]);
 
-    const handleCancel = async (id) => {
-        try {
-            await API.put(`/cancelAppointment/${id}`, { cancelledBy: "user", custId });
-            setActionMsg({ type: "success", text: "Appointment cancelled." });
-            fetchMyAppointments();
-        } catch (err) {
-            setActionMsg({
-                type: "error",
-                text: err.response?.data?.message || "Failed to cancel appointment.",
-            });
-        }
-    };
-
     // Only offer "reschedule" inline for admin-cancelled ones; user-cancelled
     // ones are treated as intentional and just get a "Book Again" link instead.
     const handleRebook = (appt) => {
@@ -150,16 +137,15 @@ const MyAppointments = () => {
                                     </div>
 
                                     <div
-                                        className="flex gap-2"
+                                        className="flex flex-col items-end gap-1"
                                         onClick={(e) => e.stopPropagation()} // keep buttons from also opening the modal
                                     >
                                         {latest.status === "booked" && (
-                                            <button
-                                                onClick={() => handleCancel(latest._id)}
-                                                className="bg-[#f00000] text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700"
-                                            >
-                                                Cancel
-                                            </button>
+                                            <p className="text-xs text-gray-500 max-w-[180px] text-right">
+                                                To cancel or reschedule, please call us at{" "}
+                                                <span className="font-semibold">1866-242-3545</span> or email{" "}
+                                                <span className="font-semibold">info.ataloptical@gmail.com</span>.
+                                            </p>
                                         )}
 
                                         {latest.status === "cancelled" && latest.cancelledBy === "admin" && (
