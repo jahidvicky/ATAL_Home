@@ -1426,7 +1426,7 @@ function Header() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-72 h-screen bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl ${sidebarOpen
+        className={`fixed top-0 left-0 w-72 h-[100dvh] bg-white text-gray-900 transform transition-all duration-300 ease-out z-50 shadow-2xl flex flex-col ${sidebarOpen
           ? "translate-x-0 opacity-100"
           : "-translate-x-full opacity-0"
           }`}
@@ -1450,7 +1450,7 @@ function Header() {
         </div>
 
         {/* FULL SCROLLABLE AREA */}
-        <div className="overflow-y-auto h-[calc(100vh-70px-72px)] px-1 pb-4">
+        <div className="flex-1 min-h-0 overflow-y-auto px-1 pb-4">
           {/* NAVIGATION LIST */}
           <nav className="flex flex-col p-4 text-base font-semibold overscroll-contain">
             {/* HOME DROPDOWN */}
@@ -1645,8 +1645,10 @@ function Header() {
                       <button
                         key={link.id}
                         onClick={() => {
-                          navigate("/glasses", { state: link });
                           setSidebarOpen(false);
+                          if (col.id === 101) navigate(`/glasses/${link.faceShape}`);
+                          else if (col.id === 102) navigate(`/glasses/gender/${link.gender}`);
+                          else if (col.id === 103) navigate(`/glasses/lens_type/${link.lens_type}`);
                         }}
                         className="py-1 px-2 rounded hover:bg-gray-100 text-left"
                       >
@@ -1675,8 +1677,10 @@ function Header() {
                       <button
                         key={link.id}
                         onClick={() => {
-                          navigate("/sunglasses", { state: link });
                           setSidebarOpen(false);
+                          if (col.id === 201) navigate(`/sunglasses/collection/${link.collection}`);
+                          else if (col.id === 202) navigate(`/sunglasses/lens_type/${link.lens_type}`);
+                          else if (col.id === 203) navigate(`/sunglasses/frame_shape/${link.frame_shape}`);
                         }}
                         className="py-1 px-2 rounded hover:bg-gray-100 text-left"
                       >
@@ -1705,8 +1709,9 @@ function Header() {
                       <button
                         key={link.id}
                         onClick={() => {
-                          navigate("/contact-lenses", { state: link });
                           setSidebarOpen(false);
+                          if (col.id === 301) navigate(`/contact_lenses/category/${link.lens_cat}/${link.catId}`);
+                          else if (col.id === 302) navigate(`/contact_lenses/${link.label}/${link.brandId}`);
                         }}
                         className="py-1 px-2 rounded hover:bg-gray-100 text-left"
                       >
@@ -1859,7 +1864,7 @@ function Header() {
         </div>
 
         {/* FIXED FOOTER — stays pinned, never scrolls */}
-        <div className="border-t border-gray-200 bg-white px-4 py-3 sticky bottom-0 z-50">
+        <div className="border-t border-gray-200 bg-white px-4 py-3 flex-shrink-0">
           {!user ? (
             <button
               onClick={() => {

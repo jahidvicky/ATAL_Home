@@ -33,6 +33,7 @@ const AppointmentSchedule = () => {
         weekday: "long",
         month: "short",
         day: "numeric",
+        year: "numeric",
       }),
       weekday: date.toLocaleDateString("en-US", { weekday: "long" }),
       key: date.toDateString(),
@@ -138,9 +139,11 @@ const AppointmentSchedule = () => {
 
   // Filter doctors
   const filteredDoctors = doctor.filter((doc) => {
-    // filter by exam type (only doctors who belong to this exam)
+    const normalize = (s) => (s || "").toLowerCase().trim();
     const matchExam =
-      !examType || doc.exam_section?.toLowerCase() === examType?.toLowerCase();
+      !examType ||
+      normalize(doc.exam_section).includes(normalize(examType)) ||
+      normalize(examType).includes(normalize(doc.exam_section));
 
     const matchDoctor =
       selectedDoctor === "All" || doc.doctor_name === selectedDoctor;
@@ -171,8 +174,8 @@ const AppointmentSchedule = () => {
       {/* Body */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         {/* Filter Section */}
-        <div className="flex flex-col sm:flex-row justify-end items-start mb-12 space-y-3 sm:space-y-0">
-          <div className="flex flex-col sm:flex-row sm:space-x-3 items-start w-full sm:w-auto px-0 sm:px-0">
+        <div className="flex flex-col sm:flex-row justify-end items-center sm:items-start mb-12 space-y-3 sm:space-y-0">
+          <div className="flex flex-col sm:flex-row sm:space-x-3 items-center sm:items-start w-full sm:w-auto px-0 sm:px-0">
             {/* Select filter type */}
             <select
               className="border px-3 py-2 rounded-lg text-sm w-full sm:w-40 h-fit"
@@ -199,7 +202,7 @@ const AppointmentSchedule = () => {
 
             {/* Date filter - now a real calendar picker */}
             {filterType === "Date" && (
-              <div className="mt-2 sm:mt-0 sm:ml-3 w-fit">
+              <div className="mt-2 sm:mt-0 sm:ml-3 w-fit mx-auto sm:mx-0">
                 <Calendar
                   onChange={setCalendarDate}
                   value={calendarDate}

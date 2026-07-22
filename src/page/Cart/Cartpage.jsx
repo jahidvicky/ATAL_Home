@@ -26,8 +26,6 @@ const Cartpage = () => {
 
   const fetchAvailability = async () => {
     try {
-      // const location = localStorage.getItem("userLocation") || "east";
-
       const res = await API.get(`inventory/available-products?scope=global`);
 
       const found = res.data?.products?.find(
@@ -273,15 +271,16 @@ const Cartpage = () => {
       <div className="mt-10 px-4 md:px-8 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left column: gallery */}
-          <div className="grid grid-cols-[96px_1fr] gap-4">
-            {/* Thumbs */}
-            <div className="flex flex-col gap-3 overflow-auto max-h-[520px] pr-1">
+          <div className="flex flex-col-reverse md:grid md:grid-cols-[96px_1fr] gap-4">
+            {/* Thumbs — row below main image on mobile, column on the left on desktop */}
+            <div className="flex flex-row md:flex-col gap-3 overflow-auto md:max-h-[520px] pr-1 pb-1 md:pb-0">
               {galleryImages.map((img, idx) => (
                 <button
                   key={idx}
                   onMouseEnter={() => setMainImage(img)}
                   onFocus={() => setMainImage(img)}
-                  className={`rounded-lg border ${mainImage === img
+                  onClick={() => setMainImage(img)}
+                  className={`flex-shrink-0 rounded-lg border ${mainImage === img
                     ? "border-red-600 ring-2 ring-red-200"
                     : "border-gray-200"
                     } overflow-hidden`}
@@ -298,7 +297,7 @@ const Cartpage = () => {
             </div>
 
             {/* Hero */}
-            <div className="relative rounded-xl bg-[#f6fbff] p-4 border border-gray-200 flex justify-center items-center">
+            <div className="relative rounded-xl bg-[#f6fbff] p-4 border border-gray-200 flex justify-center items-center w-full">
               <div className="absolute top-3 right-3">
                 <button
                   onClick={() => toggleWishlist(product._id)}
