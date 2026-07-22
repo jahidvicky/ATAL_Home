@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Header from './Home/Header'
 import Footer from './Home/Footer'
@@ -10,6 +10,8 @@ function Layout() {
   const location = useLocation();
   const [openChat, setOpenChat] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [overFooter, setOverFooter] = useState(false);
+  const footerRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,6 +22,25 @@ function Layout() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const openChatHandler = () => setOpenChat(true);
+    window.addEventListener("open-support-chat", openChatHandler);
+    return () => window.removeEventListener("open-support-chat", openChatHandler);
+  }, []);
+
+  // Hide the floating Help button once the footer scrolls into view
+  useEffect(() => {
+    if (!footerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setOverFooter(entry.isIntersecting),
+      { threshold: 0 }
+    );
+
+    observer.observe(footerRef.current);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -34,7 +55,7 @@ function Layout() {
       </div>
 
       {/* Floating chat button */}
-      {isVisible && (
+      {isVisible && !overFooter && (
         <button
           onClick={() => setOpenChat(!openChat)}
           className="fixed bottom-4 right-0 bottom-40 bg-[#f00000] text-white px-6 py-2 rounded-lg shadow-lg 
@@ -52,7 +73,9 @@ function Layout() {
         </div>
       )}
 
-      <Footer />
+      <div ref={footerRef}>
+        <Footer />
+      </div>
     </>
   )
 }

@@ -6,8 +6,8 @@ import Paypal from "../../assets/footer/paypal.png";
 import Visa from "../../assets/footer/visa.png";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import SocialLinks from "../../page/SocialMedia/SocialLinks";
-import { useState } from "react";
-import Chatbot from "../../components/Chatbot";
+// import { useState } from "react";
+// import Chatbot from "../../components/Chatbot";
 
 const PaymentCard = ({ img, alt }) => {
   return (
@@ -18,7 +18,7 @@ const PaymentCard = ({ img, alt }) => {
 };
 
 const Footer = () => {
-  const [openChat, setOpenChat] = useState(false);
+  // const [openChat, setOpenChat] = useState(false);
 
   return (
     <>
@@ -92,72 +92,59 @@ const Footer = () => {
               </li>
             </ul>
 
-            <div className="mt-5 w-xl pr-15">
+            <div className="mt-5 w-full">
               <h5 className="text-[#f00000] font-semibold mb-2">Contact Us</h5>
 
-              <div className="flex items-start gap-1 mb-2 text-gray-300">
-                <MdLocalPhone className="text-lg mt-1 text-white" />
-                <span className="text-sm">Call 1866-242-3545</span>
-              </div>
-
-              <div className="flex items-start gap-1 mb-2 text-gray-300">
-                <MdEmail className="text-lg mt-1 text-white" />
-                <span className="text-sm">
-                  <a
-                    href="mailto:sales.ataloptical@gmail.com"
-                    className="text-sm hover:text-[#f00000] cursor-pointer"
-                  >
-                    sales.ataloptical@gmail.com
-                  </a>
+              <div className="flex items-start gap-2 mb-2 text-gray-300 min-w-0">
+                <MdLocalPhone className="text-xs mt-1 text-white shrink-0" />
+                <span className="text-xs break-words min-w-0 text-left">
+                  Call 1866-242-3545
                 </span>
               </div>
 
-              <div className="flex items-start gap-1 mb-2 text-gray-300">
-                <MdEmail className="text-lg mt-1 text-white" />
-                <span className="text-sm">
-                  <a
-                    href="mailto:info.ataloptical@gmail.com"
-                    className="text-sm hover:text-[#f00000] cursor-pointer"
-                  >
-                    info.ataloptical@gmail.com
-                  </a>
-                </span>
+              <div className="flex items-start gap-2 mb-2 text-gray-300 min-w-0">
+                <MdEmail className="text-xs mt-1 text-white shrink-0" />
+                <a
+                  href="mailto:sales.ataloptical@gmail.com"
+                  className="text-xs hover:text-[#f00000] cursor-pointer break-words min-w-0 text-left"
+                >
+                  sales.ataloptical@gmail.com
+                </a>
               </div>
 
-              <div className="flex items-start gap-1 mb-2 text-gray-300">
-                <IoChatbubbleEllipsesSharp className="text-xl mt-1 text-white" />
+              <div className="flex items-start gap-2 mb-2 text-gray-300 min-w-0">
+                <MdEmail className="text-xs mt-1 text-white shrink-0" />
+                <a
+                  href="mailto:info.ataloptical@gmail.com"
+                  className="text-xs hover:text-[#f00000] cursor-pointer break-words min-w-0 text-left"
+                >
+                  info.ataloptical@gmail.com
+                </a>
+              </div>
+
+              <div className="flex items-start gap-2 mb-2 text-gray-300 min-w-0">
+                <IoChatbubbleEllipsesSharp className="text-xs mt-1 text-white shrink-0" />
                 <button
-                  onClick={() => setOpenChat(!openChat)}
-                  className="text-sm  hover:text-[#f00000]"
+                  onClick={() => window.dispatchEvent(new Event("open-support-chat"))}
+                  className="text-xs hover:text-[#f00000] text-left break-words min-w-0"
                 >
                   Chat with an agent
                 </button>
               </div>
 
-              <div className="flex items-start gap-1 mb-2 text-gray-300">
-                <FaMapMarkerAlt className="text-xl mt-1 text-white" />
+              <div className="flex items-start gap-2 mb-2 text-gray-300 min-w-0">
+                <FaMapMarkerAlt className="text-xs mt-2 text-white shrink-0" />
                 <NavLink
                   to="/location"
                   className={({ isActive }) =>
-                    isActive
-                      ? "text-[#f00000]"
-                      : "cursor-pointer hover:text-red-600"
+                    `min-w-0 ${isActive ? "text-[#f00000]" : "cursor-pointer hover:text-red-600"}`
                   }
                 >
-                  <span className="text-xs  hover:text-[#f00000]">
-                    Corporate Office: 34 Shining <br />
-                    Willow Crescent, Brampton,
-                    <br /> ON L6P 2A2, Canada
+                  <span className="text-xs hover:text-[#f00000] break-words">
+                    Corporate Office: 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
                   </span>
                 </NavLink>
               </div>
-
-              {/* Chatbox - toggles open/close */}
-              {openChat && (
-                <div className="fixed bottom-20 right-6 z-50">
-                  <Chatbot onClose={() => setOpenChat(false)} />
-                </div>
-              )}
             </div>
           </div>
 
@@ -747,54 +734,48 @@ const Footer = () => {
         </div>
 
         {/* PAYMENT + COUNTRY */}
-        <div className="max-w-[1280px] mt-10 flex items-center justify-between -mb-6">
-          <div className="flex items-center gap-6">
-            <div className="text-sm text-gray-400 min-w-[260px]">
-              We guarantee that every transaction is 100% secure
-            </div>
+        <div className="max-w-[1280px] mx-auto mt-10 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-4 sm:gap-6 sm:-mb-6">
+          <div className="text-sm text-gray-400 text-center sm:text-left">
+            We guarantee that every transaction is 100% secure
+          </div>
 
-            <div className="flex items-center gap-2">
-              <PaymentCard img={Visa} alt="Visa" />
-              <PaymentCard img={Mastercard} alt="Mastercard" />
-              <PaymentCard img={Paypal} alt="PayPal" />
-            </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <PaymentCard img={Visa} alt="Visa" />
+            <PaymentCard img={Mastercard} alt="Mastercard" />
+            <PaymentCard img={Paypal} alt="PayPal" />
           </div>
         </div>
-      </div>
+      </div >
 
       {/* BOTTOM BAR */}
-      <div className="bg-black text-white border-t border-gray-800 text-xs py-3 pb-5">
-        <div className="max-w-[1280px] mx-auto px-[2%] flex justify-between items-center">
+      <div className="bg-black text-white border-t border-gray-800 text-xs py-4 pb-6">
+        <div className="max-w-[1280px] mx-auto px-[5%] flex flex-col sm:flex-row justify-between items-center gap-3 text-center">
           <SocialLinks />
 
-          <div className="flex items-center gap-3 text-gray-300 pr-2">
+          <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 text-gray-300">
             <span>© {new Date().getFullYear()} Atal Optical</span>
-            <span>|</span>
-            <span>
-              <NavLink
-                to="/terms&Conditions"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-[#f00000]"
-                    : "cursor-pointer hover:text-red-600"
-                }
-              >
-                Terms and Conditions
-              </NavLink>
-            </span>
-            <span>|</span>
-            <span>
-              <NavLink
-                to="/privacy-policy"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-[#f00000]"
-                    : "cursor-pointer hover:text-red-600"
-                }
-              >
-                Privacy Policy
-              </NavLink>
-            </span>
+            <span className="hidden sm:inline">|</span>
+            <NavLink
+              to="/terms&Conditions"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#f00000]"
+                  : "cursor-pointer hover:text-red-600"
+              }
+            >
+              Terms and Conditions
+            </NavLink>
+            <span className="hidden sm:inline">|</span>
+            <NavLink
+              to="/privacy-policy"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#f00000]"
+                  : "cursor-pointer hover:text-red-600"
+              }
+            >
+              Privacy Policy
+            </NavLink>
           </div>
         </div>
       </div>

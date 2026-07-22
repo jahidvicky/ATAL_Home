@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { CHAT_API_URL } from "../API/Api";
 import socket from "../API/socket";
 
-export default function SupportChat({ onClose }) {
+export default function SupportChat({ onClose = () => { } }) {
     const [step, setStep] = useState("welcome");
     const [form, setForm] = useState({ name: "", email: "", reason: "" });
     const [chatId, setChatId] = useState(null);
@@ -13,26 +13,39 @@ export default function SupportChat({ onClose }) {
     const [rating, setRating] = useState(0);
 
     const chatEndRef = useRef(null);
-    const scrollToBottom = () => chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    useEffect(() => scrollToBottom(), [messages]);
+    const scrollToBottom = () => {
+        chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     // SOCKET LISTENER (ONE INSTANCE ONLY)
     useEffect(() => {
+        let timeout;
+
         const messageHandler = (msg) => {
             if (msg.chatId !== chatId) return;
             setMessages(prev => [...prev, msg]);
         };
 
-        socket.on("newMessage", messageHandler);
-
-        socket.on("typing", () => {
+        const typingHandler = () => {
             setTyping(true);
-            setTimeout(() => setTyping(false), 1500);
-        });
+
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                setTyping(false);
+            }, 1500);
+        };
+
+        socket.on("newMessage", messageHandler);
+        socket.on("typing", typingHandler);
 
         return () => {
+            clearTimeout(timeout);
             socket.off("newMessage", messageHandler);
-            socket.off("typing");
+            socket.off("typing", typingHandler);
         };
     }, [chatId]);
 
@@ -100,7 +113,18 @@ export default function SupportChat({ onClose }) {
         <div className="fixed bottom-20 right-5 w-80 md:w-96 shadow-2xl rounded-2xl border bg-[#ffffff] flex flex-col h-[520px] z-50 animate-slide-up">
             <div className="bg-gradient-to-r from-red-600 to-red-500 text-white p-4 rounded-t-2xl flex justify-between items-center shadow-md">
                 <span className="font-semibold">ATAL Support</span>
-                <button onClick={onClose} className="text-white text-xl">✕</button>
+                <button
+                    onClick={() => {
+                        if (typeof onClose === "function") {
+                            onClose();
+                        } else {
+                            console.warn("SupportChat: onClose prop is missing or not a function");
+                        }
+                    }}
+                    className="text-white text-xl"
+                >
+                    ✕
+                </button>
             </div>
 
             <div className="flex-1 p-4 overflow-y-auto space-y-2 text-sm bg-gray-50">

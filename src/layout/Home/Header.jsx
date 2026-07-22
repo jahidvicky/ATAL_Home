@@ -811,11 +811,11 @@ function Header() {
 
           <button
             onClick={() => setSearchModalOpen(true)}
-            className="flex-grow mx-2 flex items-center gap-2 bg-white border-2 border-red-600 rounded-full px-4 py-2 hover:bg-gray-50 transition-colors"
+            className="flex-grow min-w-0 mx-2 flex items-center gap-2 bg-white border-2 border-red-600 rounded-full px-4 py-2 hover:bg-gray-50 transition-colors"
             aria-label="Open search"
           >
-            <FaSearch size={16} className="text-red-600" />
-            <span className="text-sm text-gray-600 truncate">
+            <FaSearch size={16} className="text-red-600 shrink-0" />
+            <span className="text-sm text-gray-600 truncate min-w-0">
               {placeholders[index]}
             </span>
           </button>
@@ -882,11 +882,11 @@ function Header() {
 
           <button
             onClick={() => setSearchModalOpen(true)}
-            className="flex-grow max-w-2xl mx-6 flex items-center gap-2 bg-white border-2 border-red-600 rounded-full px-6 py-2 hover:bg-gray-50 transition-all group"
+            className="flex-grow min-w-0 max-w-2xl mx-6 flex items-center gap-2 bg-white border-2 border-red-600 rounded-full px-6 py-2 hover:bg-gray-50 transition-all group"
             aria-label="Open search"
           >
-            <FaSearch size={18} className="text-red-600" />
-            <span className="text-gray-600 group-hover:text-red-600 transition-colors">
+            <FaSearch size={18} className="text-red-600 shrink-0" />
+            <span className="text-gray-600 group-hover:text-red-600 transition-colors truncate min-w-0">
               {placeholders[index]}
             </span>
           </button>

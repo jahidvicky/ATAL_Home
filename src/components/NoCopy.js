@@ -8,7 +8,7 @@ export default function NoCopy() {
 
         // Block ONLY copy shortcut (Ctrl + C)
         const blockKeys = e => {
-            const key = e.key.toLowerCase();
+            const key = e.key ? e.key.toLowerCase() : "";
             if (e.ctrlKey && key === "c") {
                 e.preventDefault();
                 return false;
