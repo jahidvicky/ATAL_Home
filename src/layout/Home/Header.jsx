@@ -29,6 +29,7 @@ function Header() {
     home: false,
     policyMobile: false,
     services: false,
+    location: false,
   });
 
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -85,6 +86,20 @@ function Header() {
     "Search for offers...",
   ];
   const [index, setIndex] = useState(0);
+
+  const topBarItems = [
+    { type: "tel", label: "Call Us Today! 1866-242-3545", href: "tel:18662423545" },
+    { type: "mail", label: "sales.ataloptical@gmail.com", href: "mailto:sales.ataloptical@gmail.com" },
+    { type: "mail", label: "info.ataloptical@gmail.com", href: "mailto:info.ataloptical@gmail.com" },
+  ];
+  const [topBarIndex, setTopBarIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTopBarIndex((prev) => (prev + 1) % topBarItems.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   const fetchProducts = async () => {
     try {
@@ -773,11 +788,30 @@ function Header() {
   return (
     <>
       {/* Top Bar */}
-      <div className="bg-[#f00000] py-1 text-white flex justify-between items-center px-4 lg:px-6">
-        <div className="mt-1 text-xs sm:text-sm">
-          Call Us Today! 1866-242-3545 |
+      <div className="bg-[#f00000] py-3.5 text-white flex justify-between items-center px-3 lg:px-6 gap-2">
+        {/* Mobile: rotating single item, fades every 4s */}
+        <div className="md:hidden text-[11px] sm:text-sm h-4 relative overflow-hidden flex-1">
+          {topBarItems.map((item, i) => (
+            <a
+              key={i}
+              href={item.href}
+              className={`absolute inset-0 whitespace-nowrap transition-opacity duration-700 ease-in-out ${i === topBarIndex ? "opacity-100" : "opacity-0 pointer-events-none"
+                }`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Desktop: static full row */}
+        <div className="hidden md:block text-sm truncate">
+          <a href="tel:18662423545" className="whitespace-nowrap">
+            Call Us Today! 1866-242-3545
+          </a>
+          {" "}
+          |
           <a
-            href="mailto: sales.ataloptical@gmail.com"
+            href="mailto:sales.ataloptical@gmail.com"
             className="text-white hover:underline hover:text-black pl-1"
           >
             sales.ataloptical@gmail.com
@@ -791,9 +825,11 @@ function Header() {
           </a>
         </div>
 
-        <SearchModal />
+        <div className="hidden lg:block">
+          <SearchModal />
+        </div>
 
-        <div className="flex gap-4 text-lg lg:text-xl">
+        <div className="flex gap-3 text-base lg:text-xl flex-shrink-0">
           <SocialLinks />
         </div>
       </div>
@@ -1414,7 +1450,7 @@ function Header() {
         </div>
 
         {/* FULL SCROLLABLE AREA */}
-        <div className="overflow-y-auto h-[calc(100vh-70px)] px-1 pb-24">
+        <div className="overflow-y-auto h-[calc(100vh-70px-72px)] px-1 pb-4">
           {/* NAVIGATION LIST */}
           <nav className="flex flex-col p-4 text-base font-semibold overscroll-contain">
             {/* HOME DROPDOWN */}
@@ -1562,6 +1598,32 @@ function Header() {
                   >
                     Vision & Responsibility
                   </Link>
+                </div>
+              )}
+            </div>
+
+            {/* LOCATION */}
+            <div className="px-4 py-3">
+              <button
+                onClick={() => toggleMobileDropdown("location")}
+                className="w-full flex justify-between items-center py-2 hover:text-red-600"
+              >
+                Location
+                <span>{mobileDropdown.location ? "▲" : "▼"}</span>
+              </button>
+
+              {mobileDropdown.location && (
+                <div className="ml-4 mt-2 flex flex-col gap-2 text-sm">
+                  {locations.map((item, index) => (
+                    <Link
+                      key={index}
+                      to={item.path}
+                      onClick={() => setSidebarOpen(false)}
+                      className="py-1 px-2 rounded hover:bg-gray-100"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
                 </div>
               )}
             </div>
@@ -1764,20 +1826,9 @@ function Header() {
               Wishlist
             </button>
 
-            <hr className="my-2" />
-
-            {/* LOGIN / LOGOUT */}
-            {!user ? (
-              <button
-                onClick={() => {
-                  navigate("/login");
-                  setSidebarOpen(false);
-                }}
-                className="px-4 py-3 bg-[#f00000] text-white rounded hover:bg-red-700"
-              >
-                Sign In
-              </button>
-            ) : (
+            {/* MY PROFILE / MY ORDERS (Logout moved to fixed footer below) */}
+            {/* MY PROFILE / MY ORDERS / MY APPOINTMENTS (Logout moved to fixed footer below) */}
+            {user && (
               <>
                 <Link
                   to="/update-profile"
@@ -1795,20 +1846,43 @@ function Header() {
                   My Orders
                 </Link>
 
-                <button
-                  onClick={() => {
-                    dispatch({ type: "LOGOUT" });
-                    localStorage.clear();
-                    navigate("/");
-                    setSidebarOpen(false);
-                  }}
-                  className="px-4 py-3 bg-[#f00000] text-white rounded hover:bg-red-700 mt-2 text-left"
+                <Link
+                  to="/my-appointments"
+                  onClick={() => setSidebarOpen(false)}
+                  className="px-4 py-3 hover:bg-gray-100 hover:text-red-600 rounded"
                 >
-                  Logout
-                </button>
+                  My Appointments
+                </Link>
               </>
             )}
           </nav>
+        </div>
+
+        {/* FIXED FOOTER — stays pinned, never scrolls */}
+        <div className="border-t border-gray-200 bg-white px-4 py-3 sticky bottom-0 z-50">
+          {!user ? (
+            <button
+              onClick={() => {
+                navigate("/login");
+                setSidebarOpen(false);
+              }}
+              className="w-full px-4 py-3 bg-[#f00000] text-white rounded hover:bg-red-700"
+            >
+              Sign In
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                dispatch({ type: "LOGOUT" });
+                localStorage.clear();
+                navigate("/");
+                setSidebarOpen(false);
+              }}
+              className="w-full px-4 py-3 bg-[#f00000] text-white rounded hover:bg-red-700 text-left"
+            >
+              Logout
+            </button>
+          )}
         </div>
       </div>
 
