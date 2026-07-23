@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import API, { IMAGE_URL } from "../../api/api"; // adjust path if this file lives elsewhere
+import API, { IMAGE_URL } from "../../API/Api";
 import { getMapEmbedUrl } from "../../utils/mapEmbed";
 
 const LOCATION_TITLE = "East Location";
