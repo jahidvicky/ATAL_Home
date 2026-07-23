@@ -1,45 +1,39 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import API, { IMAGE_URL } from "../../api/api"; // adjust path if this file lives elsewhere
+import { getMapEmbedUrl } from "../../utils/mapEmbed";
 
-import bramptonLocation from "../../assets/loaction/bramptonLocation.jpg";
-import eastLocation from "../../assets/loaction/eastLocation.jpg";
-// import westLocation from "../../assets/loaction/westLocation.jpg";
-import northLocation from "../../assets/loaction/northLocation.jpg";
-import southLocation from "../../assets/loaction/southLocation.jpg";
-
-const locationsData = [
-  {
-    title: "Business Meetings Corporate Office",
-    address: "34 Shining Willow Crescent, Brampton ON L6P 2A2",
-    map: "https://www.google.com/maps?q=34+Shining+Willow+Crescent,+Brampton,+ON+L6P+2A2,+Canada&output=embed",
-    image: bramptonLocation,
-  },
-  {
-    title: "East Location",
-    address: "5 Cherrycrest Drive, Brampton, ON L6P 3W4, Canada",
-    map: "https://www.google.com/maps?q=5+Cherrycrest+Drive,+Brampton,+ON+L6P+3W4,+Canada&output=embed",
-    image: eastLocation,
-  },
-  // {
-  //   title: "West Location",
-  //   address: "10 Henderson Ave Unit #4, Brampton, ON L6Y 2A4, Canada",
-  //   map: "https://www.google.com/maps?q=10+Henderson+Ave+Unit+4,+Brampton,+ON+L6Y+2A4,+Canada&output=embed",
-  //   image: westLocation,
-  // },
-  {
-    title: "North Location",
-    address: "9 Ash Hill Ave, Caledon East, ON L7C 0H3, Canada",
-    map: "https://www.google.com/maps?q=9+Ash+Hill+Ave,+Caledon+East,+ON+L7C+0H3,+Canada&output=embed",
-    image: northLocation,
-  },
-  {
-    title: "South Location",
-    address: "Ottawa, ON, Canada",
-    map: "https://www.google.com/maps?q=Ottawa,+ON,+Canada&output=embed",
-    image: southLocation,
-  },
-];
+const resolveImgSrc = (img) => {
+  if (!img) return null;
+  return img.startsWith("http") ? img : `${IMAGE_URL}${img}`;
+};
 
 const AllLocations = () => {
+  const [locationsData, setLocationsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const res = await API.get("/location");
+        const data = res.data.data || res.data;
+        setLocationsData(
+          data.map((loc) => ({
+            title: loc.title,
+            address: loc.address,
+            map: getMapEmbedUrl(loc.mapQuery),
+            image: resolveImgSrc(loc.image),
+          }))
+        );
+      } catch (err) {
+        console.error("Failed to load locations", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLocations();
+  }, []);
+
   return (
     <>
       {/* Header */}
@@ -59,6 +53,16 @@ const AllLocations = () => {
       {/* All Locations */}
       <section className="w-full bg-white py-14">
         <div className="max-w-7xl mx-auto px-4 space-y-16">
+          {loading && (
+            <p className="text-center text-gray-500">Loading locations...</p>
+          )}
+
+          {!loading && locationsData.length === 0 && (
+            <p className="text-center text-gray-500">
+              No locations available right now.
+            </p>
+          )}
+
           {locationsData.map((loc, index) => (
             <div
               key={index}
@@ -74,9 +78,7 @@ const AllLocations = () => {
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
                   {loc.title}
                 </h3>
-                <p className="text-gray-600 mb-4 text-sm">
-                  {loc.address}
-                </p>
+                <p className="text-gray-600 mb-4 text-sm">{loc.address}</p>
 
                 <div className="h-[330px] border border-gray-200 rounded-lg overflow-hidden shadow-sm">
                   <iframe

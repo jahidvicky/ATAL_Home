@@ -106,7 +106,7 @@ const Footer = () => {
                 <MdEmail className="text-xs mt-1 text-white shrink-0" />
                 <a
                   href="mailto:sales.ataloptical@gmail.com"
-                  className="text-xs hover:text-[#f00000] cursor-pointer break-words min-w-0 text-left"
+                  className="text-xs hover:text-[#f00000] cursor-pointer whitespace-nowrap min-w-0 text-left"
                 >
                   sales.ataloptical@gmail.com
                 </a>
@@ -116,7 +116,7 @@ const Footer = () => {
                 <MdEmail className="text-xs mt-1 text-white shrink-0" />
                 <a
                   href="mailto:info.ataloptical@gmail.com"
-                  className="text-xs hover:text-[#f00000] cursor-pointer break-words min-w-0 text-left"
+                  className="text-xs hover:text-[#f00000] cursor-pointer whitespace-nowrap min-w-0 text-left"
                 >
                   info.ataloptical@gmail.com
                 </a>
@@ -748,7 +748,7 @@ const Footer = () => {
       </div >
 
       {/* BOTTOM BAR */}
-      <div className="bg-black text-white border-t border-gray-800 text-xs py-4 pb-6">
+      < div className="bg-black text-white border-t border-gray-800 text-xs py-4 pb-6" >
         <div className="max-w-[1280px] mx-auto px-[5%] flex flex-col sm:flex-row justify-between items-center gap-3 text-center">
           <SocialLinks />
 
@@ -778,7 +778,7 @@ const Footer = () => {
             </NavLink>
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };

@@ -11,7 +11,6 @@ const validate = (formData, uploadFile, userType) => {
   if (!formData.email.trim()) errs.email = "Email is required.";
   else if (!emailRegex.test(formData.email)) errs.email = "Enter a valid email.";
   if (userType === "vendor" && !formData.vendorType) errs.vendorType = "Select a vendor type.";
-  if (!uploadFile) errs.file = "Please upload a PDF document.";
   return errs;
 };
 
@@ -34,6 +33,15 @@ function InquiryModal({ userType, onClose }) {
   const [loading, setLoading] = useState(false);
 
   const isVendor = userType === "vendor";
+
+  /* Lock background scroll while modal is open */
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,7 +74,7 @@ function InquiryModal({ userType, onClose }) {
       form.append("registrationNumber", formData.registrationNumber);
       form.append("vendorType", formData.vendorType);
       form.append("message", formData.message);
-      form.append("uploadDocument", uploadFile);
+      if (uploadFile) form.append("uploadDocument", uploadFile);
 
       await API.post("/addInquiry", form);
 
@@ -98,11 +106,6 @@ function InquiryModal({ userType, onClose }) {
     }
   };
 
-  /* Close on backdrop click */
-  const handleBackdrop = (e) => {
-    if (e.target === e.currentTarget) onClose();
-  };
-
   /* ── Input helper ── */
   const inputCls = (name) =>
     `w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 ${errors[name] ? "border-red-500" : "border-gray-300"
@@ -114,7 +117,6 @@ function InquiryModal({ userType, onClose }) {
   return (
     <div
       className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50"
-      onClick={handleBackdrop}
     >
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 relative mx-4 max-h-[90vh] overflow-y-auto">
 
@@ -218,7 +220,7 @@ function InquiryModal({ userType, onClose }) {
           {/* File upload */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Upload Document (PDF) <span className="text-red-500">*</span>
+              Upload Document (PDF) <span className="text-gray-400 text-xs">(optional)</span>
             </label>
             <label
               className={`flex items-center gap-3 cursor-pointer border rounded-lg p-2.5 hover:border-red-400 transition ${errors.file ? "border-red-500" : "border-gray-300"
