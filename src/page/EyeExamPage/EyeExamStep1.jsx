@@ -66,7 +66,6 @@ export default function EyeExamStep1() {
                     <MapPin className="w-10 h-10 mx-auto mb-2 text-[#f00000]" />
                     <h2 className="font-bold">Directions</h2>
                     <p>
-                            Corporate Office :{" "}
                             <NavLink
                                 to="/location"
                                 className={({ isActive }) =>

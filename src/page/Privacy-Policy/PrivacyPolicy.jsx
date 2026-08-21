@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 export default function PrivacyPolicy() {
-   const openEmail = (email) => {
+  const openEmail = (email) => {
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
     window.open(gmailUrl, "_blank", "noopener,noreferrer");
   };
@@ -190,38 +190,36 @@ export default function PrivacyPolicy() {
       title: "Contact Us",
       content: (
         <>
-         {/* Contact Us */}
-                    <section>
-                        <h2 className="text-3xl font-semibold text-[#f00000] text-center">Contact Us</h2>
-                        <hr className="border-red-600 w-45 mx-auto my-2" />
-                                               <p>Atal Optical</p>
-                        <p>
-                            Corporate Office :{" "}
-                            <NavLink
-                                to="/location"
-                                className={({ isActive }) =>
-                                    isActive ? "text-[#f00000] underline" : "text-[#f00000] hover:underline"
-                                }
-                            >
-                                34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
-                            </NavLink>
-                        </p>
-                        <p>
-                            Toll-Free:{" "}
-                            <a href="tel:+18662423545" className="text-[#f00000] hover:underline">
-                                1-866-242-3545
-                            </a>
-                        </p>
-                        <p>
-                            Email:{" "}
-                            <button
-                                onClick={() => openEmail("info.ataloptical@gmail.com")}
-                                className="text-[#f00000] hover:underline cursor-pointer"
-                            >
-                                info.ataloptical@gmail.com
-                            </button>
-                        </p>
-                    </section>
+          {/* Contact Us */}
+          <section>
+            <p>Atal Optical</p>
+            <p>
+              Corporate Office :{" "}
+              <NavLink
+                to="/location"
+                className={({ isActive }) =>
+                  isActive ? "text-[#f00000] underline" : "text-[#f00000] hover:underline"
+                }
+              >
+                34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
+              </NavLink>
+            </p>
+            <p>
+              Toll-Free:{" "}
+              <a href="tel:+18662423545" className="text-[#f00000] hover:underline">
+                1-866-242-3545
+              </a>
+            </p>
+            <p>
+              Email:{" "}
+              <button
+                onClick={() => openEmail("info.ataloptical@gmail.com")}
+                className="text-[#f00000] hover:underline cursor-pointer"
+              >
+                info.ataloptical@gmail.com
+              </button>
+            </p>
+          </section>
         </>
       ),
     },
