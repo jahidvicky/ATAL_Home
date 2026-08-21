@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 export default function PrivacyPolicy() {
    const openEmail = (email) => {
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;

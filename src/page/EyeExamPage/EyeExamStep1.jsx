@@ -1,13 +1,18 @@
 import React from "react";
 import { MapPin, Clock, Eye, Shield, Heart, Sparkles, Cpu } from "lucide-react";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Optical_Store from "../../assets/about/atal-man.jpg"
 import DoctorPage from "../doctorPage/DoctorPage";
 
 export default function EyeExamStep1() {
     const navigate = useNavigate();
+
+    const openEmail = (email) => {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+  };
 
     const handleClick = () => {
         Swal.fire({
@@ -60,7 +65,17 @@ export default function EyeExamStep1() {
                 <div>
                     <MapPin className="w-10 h-10 mx-auto mb-2 text-[#f00000]" />
                     <h2 className="font-bold">Directions</h2>
-                    <p>Corporate Office : 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada</p>
+                    <p>
+                            Corporate Office :{" "}
+                            <NavLink
+                                to="/location"
+                                className={({ isActive }) =>
+                                    isActive ? "text-[#f00000] underline" : "text-[#f00000] hover:underline"
+                                }
+                            >
+                                34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
+                            </NavLink>
+                        </p>
                 </div>
             </section>
 
