@@ -68,9 +68,6 @@ export default function EyeExamStep1() {
                     <p>
                             <NavLink
                                 to="/location"
-                                className={({ isActive }) =>
-                                    isActive ? "text-[#f00000]" : "hover:underline"
-                                }
                             >
                                 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
                             </NavLink>
