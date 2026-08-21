@@ -68,7 +68,7 @@ const FilterSections = ({ filters, setFilters, facetData }) => {
             </Section>
 
             {/* Shape Filter */}
-            {facetData.faceShapes?.length > 0 && (
+            {/* {facetData.faceShapes?.length > 0 && (
                 <Section title="Face Shape">
                     <div className="max-h-40 overflow-auto pr-1">
                         {facetData.faceShapes.map(s => (
@@ -81,7 +81,7 @@ const FilterSections = ({ filters, setFilters, facetData }) => {
                         ))}
                     </div>
                 </Section>
-            )}
+            )} */}
 
             {facetData.frameShapes?.length > 0 && (
                 <Section title="Frame Shape">

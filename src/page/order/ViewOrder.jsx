@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import API, { IMAGE_URL } from "../../API/Api";
+import API, { IMAGE_URL, PDF_URL } from "../../API/Api";
 import Swal from "sweetalert2";
 
 const ViewOrder = () => {
@@ -829,7 +829,7 @@ const ViewOrder = () => {
 
           {/* Sidebar */}
           <div className="space-y-4">
-            {/* Order Summary */}
+                   {/* Order Summary */}
             <Section title="Order Summary">
               <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex justify-between">
@@ -859,6 +859,15 @@ const ViewOrder = () => {
                   <span>${Math.round(order.total)}</span>
                 </div>
               </div>
+
+              <button
+                onClick={() =>
+                  window.open(`${PDF_URL}/${order._id}/invoice`, "_blank")
+                }
+                className="w-full mt-4 bg-[#f00000] text-white py-2 rounded-lg hover:bg-black transition font-medium"
+              >
+                Download Invoice
+              </button>
             </Section>
 
             {/* Return Request Status */}

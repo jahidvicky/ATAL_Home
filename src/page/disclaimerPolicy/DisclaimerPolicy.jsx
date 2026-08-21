@@ -1,5 +1,12 @@
+import { NavLink } from "react-router-dom";
+
 export default function DisclaimerPolicy() {
- 
+
+  const openEmail = (email) => {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+  };
+  
   return (
     <main className="min-h-screen bg-[#f00000]/5 flex items-center justify-center p-6">
       <article className="w-full max-w-4xl bg-white rounded-2xl shadow-md overflow-hidden">
@@ -50,26 +57,35 @@ export default function DisclaimerPolicy() {
           <div>
             <h2 className="text-lg font-semibold text-[#f00000]"> 8. Contact Information</h2>
             <p className="mt-2 text-sm sm:text-base">For questions regarding this Disclaimer Policy, contact us:</p>
-             <p className="text-gray-600 mt-2">
-                <strong>Email:</strong>{" "}
-                <a
-                  href="mailto:sales.ataloptical@gmail.com"
-                  className="text-blue-600 hover:underline"
+              <p className="text-gray-600 mt-2">
+               <strong> Email:</strong>{" "}
+                <button
+                  onClick={() => openEmail("sales.ataloptical@gmail.com")}
+                  className="text-blue-600 hover:underline cursor-pointer"
                 >
                   sales.ataloptical@gmail.com
-                </a>
+                </button>
                 <span> | </span>
-                <a
-                  href="mailto:info.ataloptical@gmail.com"
-                  className="text-blue-600 hover:underline"
+                <button
+                  onClick={() => openEmail("info.ataloptical@gmail.com")}
+                  className="text-blue-600 hover:underline cursor-pointer"
                 >
                   info.ataloptical@gmail.com
-                </a>
+                </button>
               </p>
 
               <p className="text-gray-600">
-                <strong>Address:</strong> Corporate Office: 34 Shining Willow Crescent, Brampton,
-                ON L6P 2A2, Canada
+               <strong> Corporate Office: </strong>
+                <NavLink
+                  to="/location"
+                  className={({ isActive }) =>
+                    `min-w-0 ${isActive ? "text-[#f00000]" : "cursor-pointer"}`
+                  }
+                >
+                  <span className="break-words hover:text-[#f00000] hover:underline">
+                    34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
+                  </span>
+                </NavLink>
               </p>
           </div>
         </section>

@@ -6,10 +6,39 @@ function FAQ() {
   const [openIndex, setOpenIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(0)
   const [pageCount, setPageCount] = useState(0)
-  const [faqData, setFaqData] = useState([{}]);
+ const [faqData, setFaqData] = useState([{}]);
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
+  };
+
+  const emailRegex = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
+
+  const openEmail = (email) => {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+  };
+
+  const renderWithClickableEmail = (text) => {
+    if (!text) return text;
+    const parts = text.split(emailRegex);
+    return parts.map((part, i) =>
+      emailRegex.test(part) ? (
+        <button
+          key={i}
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            openEmail(part);
+          }}
+          className="text-[#f00000] hover:underline cursor-pointer"
+        >
+          {part}
+        </button>
+      ) : (
+        <React.Fragment key={i}>{part}</React.Fragment>
+      )
+    );
   };
 
   const fetchPage = async () => {
@@ -75,13 +104,13 @@ function FAQ() {
                   </span>
                 </button>
 
-                <div
+                              <div
                   className={`transition-all duration-300 overflow-hidden ${openIndex === index
                     ? "max-h-40 opacity-100 mt-2"
                     : "max-h-0 opacity-0"
                     }`}
                 >
-                  <p className="text-gray-700">{faq.description}</p>
+                  <p className="text-gray-700">{renderWithClickableEmail(faq.description)}</p>
                 </div>
               </div>
             ))}

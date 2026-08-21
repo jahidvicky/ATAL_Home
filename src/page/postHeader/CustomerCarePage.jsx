@@ -10,6 +10,12 @@ const red = "#f00000";
 const CustomerCarePage = () => {
     const [openChat, setOpenChat] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+
+    const openEmail = (email) => {
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+        window.open(gmailUrl, "_blank", "noopener,noreferrer");
+    };
+
     return (
         <div className="w-full">
 
@@ -61,7 +67,9 @@ const CustomerCarePage = () => {
                             <i className="fa-solid fa-phone-volume text-4xl mb-4" style={{ color: red }}></i>
                             <h3 className="text-xl font-semibold mb-2">Phone Support</h3>
                             <p className="text-gray-600">Talk to our experts 24/7 for quick help.</p>
-                            <p style={{ color: red }} className="font-bold mt-3">+1 1866-242-3545</p>
+                         <a href="tel:+18662423545" style={{ color: red }} className="font-bold mt-3 block hover:underline">
+                                +1 1866-242-3545
+                            </a>
                         </motion.div>
 
                         {/* Live Chat */}
@@ -103,10 +111,14 @@ const CustomerCarePage = () => {
                             <i className="fa-solid fa-envelope-open-text text-4xl mb-4" style={{ color: red }}></i>
                             <h3 className="text-xl font-semibold mb-2">Email Support</h3>
                             <p className="text-gray-600">Get responses within minutes — any time of day.</p>
-                            <p className="font-bold mt-3" style={{ color: red }}>
-                                <a href="mailto:sales.ataloptical@gmail.com">sales.ataloptical@gmail.com</a>
+                           <p className="font-bold mt-3" style={{ color: red }}>
+                                <button onClick={() => openEmail("sales.ataloptical@gmail.com")} className="cursor-pointer hover:underline">
+                                    sales.ataloptical@gmail.com
+                                </button>
                                 <br />
-                                <a href="mailto:info.ataloptical@gmail.com">info.ataloptical@gmail.com</a>
+                                <button onClick={() => openEmail("info.ataloptical@gmail.com")} className="cursor-pointer hover:underline">
+                                    info.ataloptical@gmail.com
+                                </button>
                             </p>
                         </motion.div>
 

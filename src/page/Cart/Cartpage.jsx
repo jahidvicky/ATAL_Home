@@ -528,7 +528,7 @@ const Cartpage = () => {
                       }
 
 
-                      dispatch(
+                                          dispatch(
                         addToCart({
                           id: ID,
                           name: product.product_name,
@@ -542,6 +542,7 @@ const Cartpage = () => {
                           lens: lensDetails || null,
                           policy: selectedPolicy || null,
                           cat_id: product.cat_id,
+                          categoryId: product.cat_id,
                           subCat_id: subCatId,
                           vendorID:
                             product.vendorID || product.vendorId || null,

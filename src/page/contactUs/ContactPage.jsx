@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import API from "../../API/Api";
 import Swal from "sweetalert2";
+import { NavLink } from "react-router-dom";
 
 /* ── Validators ─────────────────────────────────────────────── */
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -296,6 +297,11 @@ function InquiryModal({ userType, onClose }) {
 const ContactPage = () => {
   const [modal, setModal] = useState(null);
 
+  const openEmail = (email) => {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center py-12 px-4 bg-white">
       <h1 className="text-4xl font-bold text-[#f00000] mb-12">Contact Us</h1>
@@ -313,15 +319,41 @@ const ContactPage = () => {
             <ul className="space-y-3 text-sm">
               <li>
                 <span className="font-semibold text-[#f00000]">Store Address: </span>
-                Corporate Office: 34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
+                <NavLink
+                  to="/location"
+                  className={({ isActive }) =>
+                    `min-w-0 ${isActive ? "text-[#f00000]" : "cursor-pointer"}`
+                  }
+                >
+                  <span className=" break-words">
+                   34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
+                  </span>
+                </NavLink>
               </li>
-              <li>
+                        <li>
                 <span className="font-semibold text-[#f00000]">Phone: </span>
-                +1 1866-242-3545
+                <a
+                  href="tel:+18662423545"
+                  className="hover:text-[#f00000] hover:underline cursor-pointer"
+                >
+                  +1 1866-242-3545
+                </a>
               </li>
               <li>
                 <span className="font-semibold text-[#f00000]">Email: </span>
-                sales.ataloptical@gmail.com, info.ataloptical@gmail.com
+                <button
+                  onClick={() => openEmail("sales.ataloptical@gmail.com")}
+                  className="hover:text-[#f00000] hover:underline cursor-pointer"
+                >
+                  sales.ataloptical@gmail.com
+                </button>
+                {", "}
+                <button
+                  onClick={() => openEmail("info.ataloptical@gmail.com")}
+                  className="hover:text-[#f00000] hover:underline cursor-pointer"
+                >
+                  info.ataloptical@gmail.com
+                </button>
               </li>
               <li>
                 <span className="font-semibold text-[#f00000]">Store Hours: </span>

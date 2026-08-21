@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 
 import DiwaliImg from "../../assets/freeExam/diwali.jpg";
@@ -8,23 +8,17 @@ import ChristmasImg from "../../assets/freeExam/Christmas.png";
 import { Link } from "react-router-dom";
 import API from "../../API/Api";
 
-const festivals = [
-  {
-    name: "Diwali",
-    desc: "Celebrate Diwali with a brighter vision. Get a free comprehensive eye checkup and protect your eyes from digital strain and festive lights.",
-    img: DiwaliImg,
-  },
-  {
-    name: "Vaisakhi",
-    desc: "This Vaishakhi, take a step towards healthy eyes. Our experts provide free vision testing and consultation for all age groups.",
-    img: VaisakhiImg,
-  },
-  {
-    name: "Christmas",
-    desc: "Spread joy this Christmas with clear vision. Enjoy a free eye checkup and professional guidance for better eye health.",
-    img: ChristmasImg,
-  },
-];
+const festivalImages = {
+  diwali: DiwaliImg,
+  vaisakhi: VaisakhiImg,
+  christmas: ChristmasImg,
+};
+
+const festivalDescriptions = {
+  diwali: "Celebrate Diwali with a brighter vision. Get a free comprehensive eye checkup and protect your eyes from digital strain and festive lights.",
+  vaisakhi: "This Vaisakhi, take a step towards healthy eyes. Our experts provide free vision testing and consultation for all age groups.",
+  christmas: "Spread joy this Christmas with clear vision. Enjoy a free eye checkup and professional guidance for better eye health.",
+};
 
 export default function FreeEyeCheckup() {
 
@@ -32,14 +26,40 @@ export default function FreeEyeCheckup() {
     name: "",
     phone: "",
     email: "",
+    dob: "",
     date: "",
     message: "",
   });
 
+  const calculateAge = (dobStr) => {
+    if (!dobStr) return null;
+    const dob = new Date(dobStr);
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  const [checkupSettings, setCheckupSettings] = useState(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await API.get("/getEyeCheckupSettings");
+        setCheckupSettings(res.data.data);
+      } catch (error) {
+        console.error("Failed to load eye checkup settings", error);
+      }
+    };
+    fetchSettings();
+  }, []);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -60,10 +80,11 @@ export default function FreeEyeCheckup() {
           confirmButtonColor: "#f00000",
         });
 
-        setFormData({
+            setFormData({
           name: "",
           phone: "",
           email: "",
+          dob: "",
           date: "",
           message: "",
         });
@@ -90,7 +111,7 @@ export default function FreeEyeCheckup() {
     <div className="bg-white overflow-hidden">
 
       {/* HERO */}
-      <motion.section
+           <motion.section
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -99,11 +120,21 @@ export default function FreeEyeCheckup() {
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
           Free Eye Checkup Camp
         </h1>
-        <p className="max-w-3xl mx-auto text-lg opacity-90">
-          This festive season, take care of your most precious sense.
-          We are offering <strong>FREE eye checkups</strong> during
-          Diwali, Vaisakhi, and Christmas.
-        </p>
+
+        {checkupSettings?.festivalActive ? (
+          <p className="max-w-3xl mx-auto text-lg opacity-90">
+            🎉 Ongoing now for <strong>{checkupSettings.festivalName}</strong> —
+            everyone is eligible for a <strong>FREE eye checkup</strong> until{" "}
+            {new Date(checkupSettings.endDate).toLocaleDateString()}.
+          </p>
+        ) : (
+          <p className="max-w-3xl mx-auto text-lg opacity-90">
+            Take care of your most precious sense. Free eye checkups are
+            available for ages under <strong>{checkupSettings?.ageMin ?? 19}</strong>{" "}
+            and over <strong>{checkupSettings?.ageMax ?? 64}</strong> — or
+            during select festival offers throughout the year.
+          </p>
+        )}
       </motion.section>
 
 
@@ -191,7 +222,34 @@ export default function FreeEyeCheckup() {
                 />
               </div>
 
-              {/* Date */}
+                           {/* Date of Birth */}
+              <div>
+                <label htmlFor="dob" className="text-sm font-medium text-gray-700">
+                  Date of Birth
+                </label>
+                <input
+                  id="dob"
+                  type="date"
+                  name="dob"
+                  max={new Date().toISOString().split("T")[0]}
+                  value={formData.dob}
+                  onChange={handleChange}
+                  className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none"
+                  required
+                />
+                {formData.dob && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    Age: {calculateAge(formData.dob)} years
+                  </p>
+                )}
+                {checkupSettings && !checkupSettings.festivalActive && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    Free checkups are currently available for ages under {checkupSettings.ageMin} or over {checkupSettings.ageMax}.
+                  </p>
+                )}
+              </div>
+
+                           {/* Date */}
               <div>
                 <label htmlFor="date" className="text-sm font-medium text-gray-700">
                   Preferred Date
@@ -202,9 +260,22 @@ export default function FreeEyeCheckup() {
                   name="date"
                   value={formData.date}
                   onChange={handleChange}
+                  min={
+                    checkupSettings?.festivalActive
+                      ? checkupSettings.startDate?.slice(0, 10)
+                      : new Date().toISOString().split("T")[0]
+                  }
+                  max={checkupSettings?.festivalActive ? checkupSettings.endDate?.slice(0, 10) : undefined}
                   className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none"
                   required
                 />
+                {checkupSettings?.festivalActive && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    Pick a date between {new Date(checkupSettings.startDate).toLocaleDateString()} and{" "}
+                    {new Date(checkupSettings.endDate).toLocaleDateString()} to book under the{" "}
+                    {checkupSettings.festivalName} offer — or any age-eligible date otherwise.
+                  </p>
+                )}
               </div>
 
               {/* Message */}
@@ -237,30 +308,33 @@ export default function FreeEyeCheckup() {
       </section>
 
       {/* FESTIVALS */}
-      <div className="max-w-7xl mx-auto px-6 py-20 space-y-24">
-        {festivals.map((item, index) => (
+      {checkupSettings?.festivalActive && (
+        <div className="max-w-7xl mx-auto px-6 py-20">
           <motion.div
-            key={item.name}
-            initial={{ opacity: 0, x: index % 2 === 0 ? -80 : 80 }}
+            initial={{ opacity: 0, x: -80 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className={`flex flex-col md:flex-row items-center gap-12 ${index % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
+            className="flex flex-col md:flex-row items-center gap-12"
           >
             <div className="md:w-1/2">
               <img
-                src={item.img}
-                alt={item.name}
+                src={
+                  festivalImages[checkupSettings.festivalName?.toLowerCase()] ||
+                  DiwaliImg
+                }
+                alt={checkupSettings.festivalName}
                 className="rounded-2xl shadow-lg w-full h-[320px] object-cover"
               />
             </div>
 
             <div className="md:w-1/2">
               <h2 className="text-3xl font-bold text-[#f00000] mb-4">
-                {item.name} Special Free Eye Checkup
+                {checkupSettings.festivalName} Special Free Eye Checkup
               </h2>
               <p className="text-gray-700 text-lg mb-6">
-                {item.desc}
+                {festivalDescriptions[checkupSettings.festivalName?.toLowerCase()] ||
+                  `Celebrate ${checkupSettings.festivalName} with a free eye checkup for everyone, available until ${new Date(checkupSettings.endDate).toLocaleDateString()}.`}
               </p>
 
               <Link to="/">
@@ -273,11 +347,11 @@ export default function FreeEyeCheckup() {
               </Link>
             </div>
           </motion.div>
-        ))}
-      </div>
+        </div>
+      )}
 
       {/* WHY */}
-      <motion.section className="text-center px-6 pb-20">
+      <motion.section className="text-center px-6 pt-10 pb-10">
         <h2 className="text-4xl font-bold text-[#f00000] mb-6">
           Why a Free Eye Checkup Matters
         </h2>

@@ -89,10 +89,16 @@ function Header() {
 
   const topBarItems = [
     { type: "tel", label: "Call Us Today! 1866-242-3545", href: "tel:18662423545" },
-    { type: "mail", label: "sales.ataloptical@gmail.com", href: "mailto:sales.ataloptical@gmail.com" },
-    { type: "mail", label: "info.ataloptical@gmail.com", href: "mailto:info.ataloptical@gmail.com" },
+    { type: "mail", label: "sales.ataloptical@gmail.com", email: "sales.ataloptical@gmail.com" },
+    { type: "mail", label: "info.ataloptical@gmail.com", email: "info.ataloptical@gmail.com" },
   ];
-  const [topBarIndex, setTopBarIndex] = useState(0);
+
+ const [topBarIndex, setTopBarIndex] = useState(0);
+
+  const openEmail = (email) => {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -237,17 +243,17 @@ function Header() {
     () => ({
       glasses: {
         columns: [
-          {
-            id: 101,
-            title: "Shop By Face Shape",
-            links: [
-              { id: 1011, label: "Heart Face", faceShape: "heart" },
-              { id: 1012, label: "Oval Face", faceShape: "oval" },
-              { id: 1013, label: "Round Face", faceShape: "round" },
-              { id: 1014, label: "Square Face", faceShape: "square" },
-              { id: 1015, label: "Triangle Face", faceShape: "triangle" },
-            ],
-          },
+          // {
+          //   id: 101,
+          //   title: "Shop By Face Shape",
+          //   links: [
+          //     { id: 1011, label: "Heart Face", faceShape: "heart" },
+          //     { id: 1012, label: "Oval Face", faceShape: "oval" },
+          //     { id: 1013, label: "Round Face", faceShape: "round" },
+          //     { id: 1014, label: "Square Face", faceShape: "square" },
+          //     { id: 1015, label: "Triangle Face", faceShape: "triangle" },
+          //   ],
+          // },
 
           {
             id: 102,
@@ -790,12 +796,20 @@ function Header() {
       {/* Top Bar */}
       <div className="bg-[#f00000] py-3.5 text-white flex justify-between items-center px-3 lg:px-6 gap-2">
         {/* Mobile: rotating single item, fades every 4s */}
-        <div className="md:hidden text-[11px] sm:text-sm h-4 relative overflow-hidden flex-1">
+              <div className="md:hidden text-[11px] sm:text-sm h-4 relative overflow-hidden flex-1">
           {topBarItems.map((item, i) => (
             <a
               key={i}
-              href={item.href}
-              className={`absolute inset-0 whitespace-nowrap transition-opacity duration-700 ease-in-out ${i === topBarIndex ? "opacity-100" : "opacity-0 pointer-events-none"
+              href={item.type === "tel" ? item.href : undefined}
+              onClick={
+                item.type === "mail"
+                  ? (e) => {
+                      e.preventDefault();
+                      openEmail(item.email);
+                    }
+                  : undefined
+              }
+              className={`absolute inset-0 whitespace-nowrap cursor-pointer transition-opacity duration-700 ease-in-out ${i === topBarIndex ? "opacity-100" : "opacity-0 pointer-events-none"
                 }`}
             >
               {item.label}
@@ -804,22 +818,22 @@ function Header() {
         </div>
 
         {/* Desktop: static full row */}
-        <div className="hidden md:block text-sm truncate">
+               <div className="hidden md:block text-sm truncate">
           <a href="tel:18662423545" className="whitespace-nowrap">
             Call Us Today! 1866-242-3545
           </a>
           {" "}
           |
           <a
-            href="mailto:sales.ataloptical@gmail.com"
-            className="text-white hover:underline hover:text-black pl-1"
+            onClick={() => openEmail("sales.ataloptical@gmail.com")}
+            className="text-white hover:underline hover:text-black pl-1 cursor-pointer"
           >
             sales.ataloptical@gmail.com
           </a>
           <span> |</span>
           <a
-            href="mailto:info.ataloptical@gmail.com"
-            className="text-white hover:underline hover:text-black pl-1"
+            onClick={() => openEmail("info.ataloptical@gmail.com")}
+            className="text-white hover:underline hover:text-black pl-1 cursor-pointer"
           >
             info.ataloptical@gmail.com
           </a>
@@ -1348,7 +1362,7 @@ function Header() {
                         </button>
                       </li>
 
-                      <li>
+                      {/* <li>
                         <button
                           onClick={() => {
                             navigate("/insurance-policies");
@@ -1358,7 +1372,7 @@ function Header() {
                         >
                           Insurance Policies
                         </button>
-                      </li>
+                      </li> */}
 
                       <li>
                         <button

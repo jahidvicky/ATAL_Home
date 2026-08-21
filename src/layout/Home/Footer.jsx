@@ -20,6 +20,11 @@ const PaymentCard = ({ img, alt }) => {
 const Footer = () => {
   // const [openChat, setOpenChat] = useState(false);
 
+const openEmail = (email) => {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <>
       {/* Top promo row */}
@@ -97,29 +102,33 @@ const Footer = () => {
 
               <div className="flex items-start gap-2 mb-2 text-gray-300 min-w-0">
                 <MdLocalPhone className="text-xs mt-1 text-white shrink-0" />
-                <span className="text-xs break-words min-w-0 text-left">
-                  Call 1866-242-3545
-                </span>
+               <span className="text-xs text-gray-300">Call: </span>
+                <a
+                  href="tel:+18662423545"
+                  className="text-xs text-gray-300 hover:text-[#f00000] cursor-pointer"
+                >
+                  +1 1866-242-3545
+                </a>
               </div>
 
-              <div className="flex items-start gap-2 mb-2 text-gray-300 min-w-0">
+                <div className="flex items-start gap-2 mb-2 text-gray-300 min-w-0">
                 <MdEmail className="text-xs mt-1 text-white shrink-0" />
-                <a
-                  href="mailto:sales.ataloptical@gmail.com"
+                <button
+                  onClick={() => openEmail("sales.ataloptical@gmail.com")}
                   className="text-xs hover:text-[#f00000] cursor-pointer whitespace-nowrap min-w-0 text-left"
                 >
                   sales.ataloptical@gmail.com
-                </a>
+                </button>
               </div>
 
               <div className="flex items-start gap-2 mb-2 text-gray-300 min-w-0">
                 <MdEmail className="text-xs mt-1 text-white shrink-0" />
-                <a
-                  href="mailto:info.ataloptical@gmail.com"
+                <button
+                  onClick={() => openEmail("info.ataloptical@gmail.com")}
                   className="text-xs hover:text-[#f00000] cursor-pointer whitespace-nowrap min-w-0 text-left"
                 >
                   info.ataloptical@gmail.com
-                </a>
+                </button>
               </div>
 
               <div className="flex items-start gap-2 mb-2 text-gray-300 min-w-0">
@@ -165,7 +174,7 @@ const Footer = () => {
                 </NavLink>
               </li>
 
-              <li>
+              {/* <li>
                 <NavLink
                   to="/glasses/heart"
                   className={({ isActive }) =>
@@ -176,7 +185,7 @@ const Footer = () => {
                 >
                   Heart Face
                 </NavLink>
-              </li>
+              </li> */}
 
               <li>
                 <NavLink
@@ -204,7 +213,7 @@ const Footer = () => {
                 </NavLink>
               </li>
 
-              <li>
+              {/* <li>
                 <NavLink
                   to="/glasses/oval"
                   className={({ isActive }) =>
@@ -215,7 +224,7 @@ const Footer = () => {
                 >
                   Oval Face
                 </NavLink>
-              </li>
+              </li> */}
 
               <li>
                 <NavLink
@@ -230,7 +239,7 @@ const Footer = () => {
                 </NavLink>
               </li>
 
-              <li>
+              {/* <li>
                 <NavLink
                   to="/glasses/round"
                   className={({ isActive }) =>
@@ -241,9 +250,9 @@ const Footer = () => {
                 >
                   Round Face
                 </NavLink>
-              </li>
+              </li> */}
 
-              <li>
+              {/* <li>
                 <NavLink
                   to="/glasses/square"
                   className={({ isActive }) =>
@@ -254,7 +263,7 @@ const Footer = () => {
                 >
                   Square Face
                 </NavLink>
-              </li>
+              </li> */}
 
               <li>
                 <NavLink
@@ -269,7 +278,7 @@ const Footer = () => {
                 </NavLink>
               </li>
 
-              <li>
+              {/* <li>
                 <NavLink
                   to="/glasses/triangle"
                   className={({ isActive }) =>
@@ -280,7 +289,7 @@ const Footer = () => {
                 >
                   Triangle Face
                 </NavLink>
-              </li>
+              </li> */}
 
               <li>
                 <NavLink
@@ -577,7 +586,7 @@ const Footer = () => {
                 </NavLink>
               </li>
 
-              <li>
+              {/* <li>
                 <NavLink
                   to="/face-shape"
                   className={({ isActive }) =>
@@ -588,7 +597,7 @@ const Footer = () => {
                 >
                   Glasses for your face shape
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
           </div>
 

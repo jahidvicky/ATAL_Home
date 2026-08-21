@@ -1,6 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const TermsAndConditions = () => {
+
+  const openEmail = (email) => {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <>
       <header className="mb-8 bg-gradient-to-r from-black via-red-600 to-black py-12">
@@ -247,29 +253,41 @@ const TermsAndConditions = () => {
             <div>
               <h2 className="text-xl font-semibold">Contact Us</h2>
 
-              <p className="text-gray-600 mt-2">
+                        <p className="text-gray-600 mt-2">
                 Email:{" "}
-                <a
-                  href="mailto:sales.ataloptical@gmail.com"
-                  className="text-blue-600 hover:underline"
+                <button
+                  onClick={() => openEmail("sales.ataloptical@gmail.com")}
+                  className="text-blue-600 hover:underline cursor-pointer"
                 >
                   sales.ataloptical@gmail.com
-                </a>
+                </button>
                 <span> | </span>
-                <a
-                  href="mailto:info.ataloptical@gmail.com"
-                  className="text-blue-600 hover:underline"
+                <button
+                  onClick={() => openEmail("info.ataloptical@gmail.com")}
+                  className="text-blue-600 hover:underline cursor-pointer"
                 >
                   info.ataloptical@gmail.com
-                </a>
+                </button>
               </p>
 
               <p className="text-gray-600">
-                Address: Corporate Office: 34 Shining Willow Crescent, Brampton,
-                ON L6P 2A2, Canada
+                Corporate Office:{" "}
+                <NavLink
+                  to="/location"
+                  className={({ isActive }) =>
+                    isActive ? "text-blue-600 underline" : "text-blue-600 hover:underline"
+                  }
+                >
+                  34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
+                </NavLink>
               </p>
 
-              <p className="text-gray-600">Phone: 1866-242-3545</p>
+              <p className="text-gray-600">
+                Phone:{" "}
+                <a href="tel:+18662423545" className="text-blue-600 hover:underline">
+                  1866-242-3545
+                </a>
+              </p>
             </div>
           </div>
         </div>

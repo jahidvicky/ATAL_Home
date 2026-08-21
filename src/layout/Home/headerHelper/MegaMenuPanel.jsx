@@ -64,7 +64,7 @@ function MegaMenuPanel({ open, onClose, activeKey, dataByKey, grouped, brands })
     };
 
     const specialCases = [
-        "Shop By Face Shape",
+        // "Shop By Face Shape",
         "Shop by Category",
         "Shop By Lens Type",
         "Shop by Frame Shape",

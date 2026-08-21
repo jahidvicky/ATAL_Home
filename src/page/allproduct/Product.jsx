@@ -2,7 +2,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import API, { IMAGE_URL } from "../../API/Api";
 import { Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../redux/cartSlice";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { FaCartPlus } from "react-icons/fa";
 import RecentlyView from "../collections/RecentlyView";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import OurPromise from "../Cart/OurPromise";
@@ -45,6 +48,8 @@ const resolveImg = (src = "") => {
 
 // ProductCard Component
 function ProductCard({ data, img, inWishlist, toggleWishlist, quantity = 0 }) {
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
   const [activeVar, setActiveVar] = React.useState(null);
   const [slideIdx, setSlideIdx] = React.useState(0);
   const slideTimerRef = React.useRef(null);
@@ -110,12 +115,58 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, quantity = 0 }) {
     data?.cat_id?._id === "6915735feeb23fa59c7d532b" ||
     data?.cat_id === "6915735feeb23fa59c7d532b";
 
+  const hasMultipleSizes =
+    Array.isArray(data.product_size) && data.product_size.length > 1;
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (quantity === 0) return;
+
+    const variant = activeVar || variants[0] || null;
+    const selectedColor = variant?.colorName || null;
+    const selectedSize =
+      Array.isArray(data.product_size) && data.product_size.length === 1
+        ? data.product_size[0]
+        : null;
+
+    const currentQtyInCart = cartItems
+      .filter((c) => c.id === data._id)
+      .reduce((sum, c) => sum + (c.quantity || 0), 0);
+
+    if (currentQtyInCart + 1 > quantity) {
+      Toast.fire({ icon: "warning", title: `Only ${quantity} left in stock` });
+      return;
+    }
+
+    dispatch(
+      addToCart({
+        id: data._id,
+        name: data.product_name,
+        selectedSize,
+        selectedColor,
+        price: data.product_sale_price ?? data.product_price,
+        originalPrice: data.product_price,
+        image: currentImg,
+        lens: null,
+        policy: null,
+        cat_id: data.cat_id,
+        categoryId: data.cat_id,
+        subCat_id: data.subCat_id,
+        vendorID: data.vendorID || data.vendorId || null,
+      })
+    );
+
+    Toast.fire({ icon: "success", title: "Added to cart" });
+  };
+
   return (
     <div
       className="relative bg-white border border-red-600 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-4 text-center cursor-pointer"
       onMouseLeave={onCardLeave}
     >
-      <button
+              <button
         type="button"
         onClick={(e) => {
           e.stopPropagation();
@@ -123,14 +174,45 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, quantity = 0 }) {
         }}
         aria-pressed={inWishlist}
         aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
-        className="absolute top-2 right-2 p-1 rounded-full bg-white/90 border border-gray-200 shadow hover:bg-white"
+        className="group absolute top-2 right-2 p-1 rounded-full bg-white/90 border border-gray-200 shadow hover:bg-white"
       >
         {inWishlist ? (
           <AiFillHeart className="text-[#f00000] text-xl" />
         ) : (
-          <AiOutlineHeart className="text-gray-500 text-xl" />
+          <AiOutlineHeart className="text-gray-500 group-hover:text-[#f00000] text-xl transition-colors duration-150" />
         )}
+        <span className="pointer-events-none absolute right-1/2 translate-x-1/2 top-full mt-1 whitespace-nowrap bg-black text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-10">
+          {inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+        </span>
       </button>
+
+      {/* Quick Add to Cart — top-left, mirrors wishlist */}
+      {quantity > 0 &&
+        (hasMultipleSizes ? (
+          <Link
+            to={`/product/${data._id}/${data.subCategoryName}/${data.subCat_id}`}
+            onClick={(e) => e.stopPropagation()}
+            aria-label="Select options"
+            className="group absolute top-2 left-2 p-1 rounded-full bg-white/90 border border-gray-200 shadow hover:bg-white"
+          >
+            <FaCartPlus className="text-gray-500 group-hover:text-[#f00000] text-lg" />
+            <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-1 whitespace-nowrap bg-black text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-10">
+              Select options
+            </span>
+          </Link>
+        ) : (
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            aria-label="Add to cart"
+            className="group absolute top-2 left-2 p-1 rounded-full bg-white/90 border border-gray-200 shadow hover:bg-white"
+          >
+            <FaCartPlus className="text-gray-500 group-hover:text-[#f00000] text-lg" />
+            <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-1 whitespace-nowrap bg-black text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-10">
+              Add to cart
+            </span>
+          </button>
+        ))}
 
       {data.product_price > data.product_sale_price && (
         <div className="absolute top-2 left-2 bg-gray-200 text-[#f00000] text-xs font-semibold px-2 py-1 rounded-full z-10">
@@ -202,7 +284,7 @@ function ProductCard({ data, img, inWishlist, toggleWishlist, quantity = 0 }) {
         )}
       </div>
 
-      {variants.length > 0 && !isContactLens && (
+         {variants.length > 0 && !isContactLens && (
         <div className="flex justify-center gap-2 mt-2">
           {variants.map((variant, i) => (
             <span
@@ -1080,10 +1162,11 @@ function Product() {
     }
   };
 
-  const filteredProducts = useMemo(
+const filteredProducts = useMemo(
     () => applySort(products.filter(matchesFilters)),
     [products, filters, sort],
   );
+
 
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / pageSize));
   const pageSlice = useMemo(() => {

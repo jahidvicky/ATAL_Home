@@ -188,9 +188,9 @@ const ReferCoupon = lazy(() =>
   import("./components/ReferCoupon")
 );
 
-const FaceShape = lazy(() =>
-  import("./page/tipsAndGuides/FaceShape")
-);
+// const FaceShape = lazy(() =>
+//   import("./page/tipsAndGuides/FaceShape")
+// );
 
 const ReturnExchangePolicy = lazy(() =>
   import("./page/return&exchange/Return&Exchange")
@@ -231,9 +231,9 @@ const FreeEyeCheckup = lazy(() =>
   import("./page/freeEyeCheckup/FreeEyeCheckup.jsx")
 );
 
-const InsurancePolicies = lazy(() =>
-  import("./page/insurance/InsurancePolicies")
-);
+// const InsurancePolicies = lazy(() =>
+//   import("./page/insurance/InsurancePolicies")
+// );
 const Locations = lazy(() =>
   import("./page/location/Locations")
 );
@@ -478,14 +478,14 @@ function App() {
             // </ProtectedRoute>
           ),
         },
-        {
-          path: "/face-shape",
-          element: (
-            // <ProtectedRoute>
-            <FaceShape />
-            // </ProtectedRoute>
-          ),
-        },
+        // {
+        //   path: "/face-shape",
+        //   element: (
+        //     // <ProtectedRoute>
+        //     <FaceShape />
+        //     // </ProtectedRoute>
+        //   ),
+        // },
 
         {
           path: "/our-community",
@@ -543,14 +543,14 @@ function App() {
 
           ),
         },
-        {
-          path: "/insurance-policies",
-          element: (
-            // <ProtectedRoute>
-            <InsurancePolicies />
-            // </ProtectedRoute>
-          ),
-        },
+        // {
+        //   path: "/insurance-policies",
+        //   element: (
+        //     // <ProtectedRoute>
+        //     <InsurancePolicies />
+        //     // </ProtectedRoute>
+        //   ),
+        // },
 
         // <Route path="/search-results" element={<SearchResults />} />
 

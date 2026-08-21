@@ -1,5 +1,11 @@
+import { NavLink } from "react-router-dom";
+
 export default function CookiesPolicy() {
 
+   const openEmail = (email) => {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <main className="min-h-screen bg-red-50 flex items-center justify-center p-6">
@@ -59,26 +65,35 @@ export default function CookiesPolicy() {
             <h2 className="text-lg font-semibold text-[#f00000]"> 8. Contact Us</h2>
             <p className="mt-2 text-sm sm:text-base">For any cookie-related inquiries, contact us:</p>
 
-             <p className="text-gray-600 mt-2">
+            <p className="text-gray-600 mt-2">
                <strong> Email:</strong>{" "}
-                <a
-                  href="mailto:sales.ataloptical@gmail.com"
-                  className="text-blue-600 hover:underline"
+                <button
+                  onClick={() => openEmail("sales.ataloptical@gmail.com")}
+                  className="text-blue-600 hover:underline cursor-pointer"
                 >
                   sales.ataloptical@gmail.com
-                </a>
+                </button>
                 <span> | </span>
-                <a
-                  href="mailto:info.ataloptical@gmail.com"
-                  className="text-blue-600 hover:underline"
+                <button
+                  onClick={() => openEmail("info.ataloptical@gmail.com")}
+                  className="text-blue-600 hover:underline cursor-pointer"
                 >
                   info.ataloptical@gmail.com
-                </a>
+                </button>
               </p>
 
               <p className="text-gray-600">
-               <strong> Address:</strong> Corporate Office: 34 Shining Willow Crescent, Brampton,
-                ON L6P 2A2, Canada
+               <strong> Corporate Office: </strong>
+                <NavLink
+                  to="/location"
+                  className={({ isActive }) =>
+                    `min-w-0 ${isActive ? "text-[#f00000]" : "cursor-pointer"}`
+                  }
+                >
+                  <span className="break-words hover:text-[#f00000] hover:underline">
+                    34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
+                  </span>
+                </NavLink>
               </p>
           </div>
         </section>
