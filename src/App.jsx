@@ -218,6 +218,7 @@ import EastLocation from "./page/location/EastLocation.jsx";
 import NorthLocation from "./page/location/NorthLocation.jsx";
 import SouthLocation from "./page/location/SouthLocation.jsx";
 import AllLocations from "./page/location/AllLocations.jsx";
+import FullTermsAndConditions from "./page/terms&condition/FullTermsAndConditions.jsx";
 
 const OurCommunity = lazy(() =>
   import("./components/OurComminity")
@@ -278,6 +279,7 @@ function App() {
 
         { path: "/disclaimer", element: <DisclaimerPage /> },
         { path: "/terms&Conditions", element: <TermsAndConditions /> },
+        { path: "/full-terms-and-conditions", element: <FullTermsAndConditions /> },
         { path: "/liability", element: <LimitationOfLiability /> },
         { path: "/general-info", element: <GeneralInformation /> },
         {

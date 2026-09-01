@@ -128,7 +128,7 @@ export default function OpticalPolicyPage() {
                         applicable conditions, please review our Full Terms & Conditions.
                     </p>
                     <a
-                        href="/terms-and-conditions"
+                        href="/terms&Conditions"
                         className="shrink-0 inline-block text-center rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white hover:bg-red-700 transition-colors"
                     >
                         Read Full Terms & Conditions

@@ -1,295 +1,243 @@
 import { Link, NavLink } from "react-router-dom";
 
 const TermsAndConditions = () => {
-
   const openEmail = (email) => {
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
     window.open(gmailUrl, "_blank", "noopener,noreferrer");
   };
 
+  const highlights = [
+    {
+      title: "Website Use",
+      text: "Our website provides information about Atal Optical Corp., our eyewear, optical products, services, promotions and locations. You agree to use the website lawfully and responsibly.",
+    },
+    {
+      title: "Products & Pricing",
+      text: "We make reasonable efforts to ensure that product descriptions, images, prices and availability are accurate. Information, pricing and availability may change without notice.",
+    },
+    {
+      title: "Prescription Products",
+      text: "Prescription eyewear and contact lenses are subject to applicable Ontario laws and professional requirements. Customers are responsible for providing accurate prescription information.",
+    },
+    {
+      title: "Professional Advice",
+      text: "Information on this website is for general information only and does not replace an eye examination, diagnosis, treatment or professional eye-care advice.",
+    },
+    {
+      title: "Orders & Payments",
+      text: "Customers must provide accurate information when placing an order. Orders are subject to product availability, prescription requirements and payment confirmation.",
+    },
+    {
+      title: "Returns & Refunds",
+      text: "Returns, exchanges and refunds are subject to Atal Optical Corp.'s applicable policies. Customized and prescription products may have specific conditions.",
+    },
+    {
+      title: "Customer Reviews & Submissions",
+      text: "Reviews, feedback, photographs and other voluntary submissions may be used by Atal Optical Corp. for legitimate business and promotional purposes, subject to applicable privacy requirements and our Privacy Policy.",
+    },
+    {
+      title: "Copyright & Intellectual Property",
+      text: "Website content, including our logo, photographs, graphics, text, designs and other materials, is protected by applicable intellectual-property laws and may not be used without authorization.",
+    },
+    {
+      title: "Third-Party Links",
+      text: "Our website may contain links to third-party websites. Atal Optical Corp. is not responsible for the content or practices of those websites.",
+    },
+    {
+      title: "Website Availability",
+      text: "We make reasonable efforts to maintain the website, but we do not guarantee that it will always be available, uninterrupted or error-free.",
+    },
+    {
+      title: "Applicable Law",
+      text: "These Terms & Conditions are governed by the laws of Ontario and applicable Canadian law.",
+    },
+  ];
+
+  const quickLinks = [
+    { to: "/full-terms-and-conditions", label: "Read Full Terms & Conditions" },
+    { to: "/privacy-policy", label: "Privacy Policy" },
+    { to: "/return-exchange", label: "Return & Refund Policy" },
+    { to: "/contact-us", label: "Contact Us" },
+  ];
+
   return (
     <>
-      <header className="mb-8 bg-gradient-to-r from-black via-red-600 to-black py-12">
-        <h1 className="text-5xl font-bold text-white text-center">
+      {/* Header */}
+      <header className="mb-10 bg-gradient-to-r from-black via-red-600 to-black py-14 px-4">
+        <h1 className="text-3xl sm:text-5xl font-bold text-white text-center">
           Terms & Conditions
         </h1>
-        <hr className="border-white w-120 mt-3 mx-auto" />
+        <p className="text-white/80 text-center mt-2 text-sm sm:text-base">
+          Atal Optical Corp.
+        </p>
+        <hr className="border-white/40 w-24 sm:w-32 mt-4 mx-auto" />
       </header>
 
-      <section className="px-4 sm:px-8 lg:px-16">
-        <div className="mx-auto rounded-2xl p-8">
-          <p className="text-gray-700 mb-6">
-            Please read these terms carefully before using our website or
-            purchasing our products or services.
-          </p>
+      <section className="px-4 sm:px-8 lg:px-16 pb-16">
+        <div className="max-w-5xl mx-auto">
+          {/* Intro Card */}
+          <div className="rounded-xl border border-red-500 bg-red-50 p-6 sm:p-8 mb-10 shadow-sm">
+            <p className="text-gray-800 leading-relaxed">
+              <strong>Welcome to Atal Optical Corp.</strong> These Terms &
+              Conditions explain the rules that apply when you access or use
+              our website and when you purchase or inquire about our optical
+              products and services.
+            </p>
+            <p className="text-gray-800 leading-relaxed mt-3">
+              By using this website, you agree to comply with these Terms &
+              Conditions.
+            </p>
+          </div>
 
-          <div className="pr-4 space-y-8 text-gray-700">
-            {/* 1. Business Overview */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                1. Business Overview
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                Atal Optical is a retail optical business operating in Ontario,
-                Canada, providing prescription eyewear, frames, lenses,
-                sunglasses, contact lenses, and related optical services. By
-                using our website or purchasing our products or services, you
-                agree to these Terms & Conditions.
-              </p>
-            </div>
+          {/* What You Should Know */}
+          <section className="mb-10">
+            <h2 className="text-xl sm:text-2xl font-bold text-red-600 mb-5">
+              What You Should Know
+            </h2>
 
-            {/* 2. Eligibility */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                2. Eligibility
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                By using our website or services, you confirm that:
-              </p>
-              <ul className="list-disc list-inside mt-2 space-y-1">
-                <li>
-                  You are at least <strong>18 years of age</strong>, or
-                </li>
-                <li>You have permission from a legal guardian</li>
-              </ul>
-            </div>
-
-            {/* 3. Prescription Accuracy & Customer Responsibility */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                3. Prescription Accuracy & Customer Responsibility
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                Customers are responsible for providing:
-              </p>
-              <ul className="list-disc list-inside mt-2 space-y-1">
-                <li>A valid and current prescription</li>
-                <li>Accurate personal information</li>
-                <li>Correct pupillary distance (PD) if required</li>
-              </ul>
-              <p className="mt-2 text-gray-600 leading-relaxed">
-                Atal Optical is <strong>not responsible</strong> for vision
-                issues caused by incorrect information supplied by the customer.
-              </p>
-            </div>
-
-            {/* 4. Orders & Acceptance */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                4. Orders & Acceptance
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                All orders placed are subject to:
-              </p>
-              <ul className="list-disc list-inside mt-2 space-y-1">
-                <li>Product availability</li>
-                <li>Price confirmation</li>
-                <li>Prescription validation</li>
-              </ul>
-              <p className="mt-2 text-gray-600 leading-relaxed">
-                We reserve the right to refuse service, cancel suspicious or
-                fraudulent orders, and limit quantities per customer.
-              </p>
-            </div>
-
-            {/* 5. Pricing & Payments */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                5. Pricing & Payments
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                Prices are listed in Canadian Dollars (CAD). We accept debit,
-                credit cards, and approved financing options. Prices may change
-                without prior notice. Full payment is required before order
-                processing.
-              </p>
-            </div>
-
-            {/* 6. Refund, Return & Exchange Policy Reference */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                6. Refund, Return & Exchange Policy Reference
-              </h2>
-              <ul className="list-disc list-inside mt-2 space-y-1">
-                <li>Prescription eyewear and frames are final sale</li>
-                <li>No refunds on custom products</li>
-                <li>
-                  Only eligible non-prescription sunglasses may qualify for
-                  exchange (as per separate policy)
-                </li>
-              </ul>
-              <p className="mt-2 text-gray-600 leading-relaxed">
-                Please refer to our separate Returns & Exchange Policy for full
-                details. You can view it{" "}
-                <Link
-                  to="/return-exchange"
-                  className="text-blue-600 hover:underline"
+            <div className="grid gap-4 sm:grid-cols-2">
+              {highlights.map((item) => (
+                <article
+                  key={item.title}
+                  className="rounded-xl bg-gray-50 border border-gray-200 p-5 shadow-sm hover:border-red-300 transition-colors"
                 >
-                  here
+                  <h3 className="font-semibold text-gray-900 mb-1.5">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    {item.text}
+                  </p>
+                </article>
+              ))}
+
+              {/* Privacy card (has a link, kept separate for the inline Link element) */}
+              <article className="rounded-xl bg-gray-50 border border-gray-200 p-5 shadow-sm hover:border-red-300 transition-colors">
+                <h3 className="font-semibold text-gray-900 mb-1.5">
+                  Privacy
+                </h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  We respect your privacy. Personal information and
+                  information collected in connection with our services will
+                  be handled in accordance with our{" "}
+                  <Link
+                    to="/privacy-policy"
+                    className="text-red-600 hover:underline font-medium"
+                  >
+                    Privacy Policy
+                  </Link>{" "}
+                  and applicable privacy laws.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          {/* Your Privacy and Prescription Information */}
+          <section className="rounded-xl border border-gray-200 bg-white p-6 sm:p-8 mb-10 shadow-sm">
+            <h2 className="text-xl font-bold text-red-600 mb-3">
+              Your Privacy and Prescription Information
+            </h2>
+            <p className="text-gray-700 leading-relaxed">
+              Please do not submit confidential medical or personal health
+              information through general website forms unless the form
+              specifically requests that information or you have been
+              instructed to do so by Atal Optical Corp.
+            </p>
+            <p className="text-gray-700 leading-relaxed mt-3">
+              For information about how we collect, use, protect and retain
+              personal information, please see our{" "}
+              <Link
+                to="/privacy-policy"
+                className="text-red-600 hover:underline font-medium"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
+          </section>
+
+          {/* Read the Complete Terms */}
+          <section className="rounded-xl border border-red-500 bg-gray-50 p-6 sm:p-8 mb-10 shadow-sm">
+            <h2 className="text-xl font-bold text-red-600 mb-3">
+              Read the Complete Terms
+            </h2>
+            <p className="text-gray-700 leading-relaxed mb-5">
+              This page provides a convenient summary of our Terms &
+              Conditions. <strong>The complete Terms & Conditions</strong>{" "}
+              contain additional details and should be read together with our
+              Privacy Policy and applicable store policies.
+            </p>
+
+            <div className="flex flex-wrap gap-3">
+              {quickLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="inline-block rounded-lg border border-red-500 bg-white px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-600 hover:text-white transition-colors"
+                >
+                  {link.label}
                 </Link>
-                .
-              </p>
+              ))}
             </div>
+          </section>
 
-            {/* 7. Warranty Policy */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                7. Warranty Policy
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                Manufacturer warranties apply only to manufacturing defects and
-                material faults. Warranties do not cover scratches, accidental
-                breakage, normal wear and tear, or improper use or storage.
-              </p>
-            </div>
+          {/* Company Info / Last Updated */}
+          <div className="text-center text-sm text-gray-500 mb-10">
+            <p className="font-semibold text-gray-700">Atal Optical Corp.</p>
+            <p>Ontario, Canada</p>
+            <p className="mt-1">
+              <strong>Last Updated:</strong> September 1, 2026
+            </p>
+          </div>
 
-            {/* 8. Shipping & Delivery Terms */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                8. Shipping & Delivery Terms
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                Delivery timelines are estimated only. We are not liable for
-                courier delays, weather delays, or incorrect address details
-                provided by the customer. Risk of loss transfers to the customer
-                once the product is shipped.
-              </p>
-            </div>
+          {/* Contact Us */}
+          <section className="rounded-xl bg-black text-white p-6 sm:p-8">
+            <h2 className="text-xl font-bold text-red-500 mb-4">
+              Contact Us
+            </h2>
 
-            {/* 9. Product Measurements & Fittings */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                9. Product Measurements & Fittings
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                Customers are responsible for frame size selection and fit
-                preferences. In-store adjustments are provided as a courtesy and
-                are not guaranteed.
-              </p>
-            </div>
-
-            {/* 10. Privacy & Data Protection */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                10. Privacy & Data Protection
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                Customer information is collected and protected in accordance
-                with PIPEDA (Canada) and Ontario privacy regulations. Refer to
-                our separate{" "}
-                <Link
-                  to="/privacy-policy"
-                  className="text-blue-600 hover:underline"
-                >
-                  Privacy Policy
-                </Link>{" "}
-                for full details.
-              </p>
-            </div>
-
-            {/* 11. Promotions, Discounts & Gift Cards */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                11. Promotions, Discounts & Gift Cards
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                Promotional offers are time-limited and cannot be combined
-                unless stated. Final sale items are excluded from additional
-                promotions. Gift cards are non-refundable, have no cash value,
-                and cannot be replaced if lost or stolen.
-              </p>
-            </div>
-
-            {/* 12. Limitation of Liability */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                12. Limitation of Liability
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                Atal Optical is not responsible for indirect damages, loss of
-                income or profits, or vision discomfort resulting from
-                customer-provided prescription errors. Liability is limited to
-                the purchase price of the product.
-              </p>
-            </div>
-
-            {/* 13. Governing Law */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                13. Governing Law
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                All transactions and disputes are governed by the laws of the
-                <strong> Province of Ontario, Canada</strong>, and federal laws
-                of Canada.
-              </p>
-            </div>
-
-            {/* 14. Changes to Terms & Conditions */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                14. Changes to Terms & Conditions
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                Atal Optical reserves the right to modify these Terms &amp;
-                Conditions at any time. Updates will be published on the website
-                without prior notice.
-              </p>
-            </div>
-
-            {/* 15. Termination of Use */}
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                15. Termination of Use
-              </h2>
-              <p className="mt-2 leading-relaxed">
-                We reserve the right to suspend website access, terminate
-                service, or refuse transactions if misuse, abuse, or fraudulent
-                activity is detected.
-              </p>
-            </div>
-
-            {/* Contact Us - Keep existing contact info as requested */}
-            <div>
-              <h2 className="text-xl font-semibold">Contact Us</h2>
-
-                        <p className="text-gray-600 mt-2">
+            <div className="space-y-2 text-sm sm:text-base text-gray-200">
+              <p>
                 Email:{" "}
                 <button
                   onClick={() => openEmail("sales.ataloptical@gmail.com")}
-                  className="text-blue-600 hover:underline cursor-pointer"
+                  className="text-red-400 hover:underline cursor-pointer"
                 >
                   sales.ataloptical@gmail.com
                 </button>
-                <span> | </span>
+                <span className="mx-1">|</span>
                 <button
                   onClick={() => openEmail("info.ataloptical@gmail.com")}
-                  className="text-blue-600 hover:underline cursor-pointer"
+                  className="text-red-400 hover:underline cursor-pointer"
                 >
                   info.ataloptical@gmail.com
                 </button>
               </p>
 
-              <p className="text-gray-600">
+              <p>
                 Corporate Office:{" "}
                 <NavLink
                   to="/location"
                   className={({ isActive }) =>
-                    isActive ? "text-blue-600 underline" : "text-blue-600 hover:underline"
+                    isActive
+                      ? "text-red-400 underline"
+                      : "text-red-400 hover:underline"
                   }
                 >
                   34 Shining Willow Crescent, Brampton, ON L6P 2A2, Canada
                 </NavLink>
               </p>
 
-              <p className="text-gray-600">
+              <p>
                 Phone:{" "}
-                <a href="tel:+18662423545" className="text-blue-600 hover:underline">
+                <a
+                  href="tel:+18662423545"
+                  className="text-red-400 hover:underline"
+                >
                   1866-242-3545
                 </a>
               </p>
             </div>
-          </div>
+          </section>
         </div>
       </section>
     </>
