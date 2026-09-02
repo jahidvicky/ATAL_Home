@@ -8,15 +8,14 @@ import Loader from './loader/Loader.jsx';
 
 const Cartpage = lazy(() => import("./page/Cart/Cartpage"));
 import FAQ from "./page/FAQ/FAQ.jsx";
-const PrivacyPolicy = lazy(() => import("./page/Privacy-Policy/PrivacyPolicy"));
+
+const PolicyPageRenderer = lazy(() => import("./components/PolicyPageRenderer"));
 const OpticalPolicy = lazy(() => import("./page/opticalPolicy/OpticalPolicy"));
 const DisclaimerPage = lazy(() => import("./page/DisclaimerPage/DisclaimerPage"));
-const TermsAndConditions = lazy(() =>
-  import("./page/terms&condition/TermsAndConditions")
-);
 const LimitationOfLiability = lazy(() =>
   import("./page/limitationOfLiability/Liability")
 );
+
 const GeneralInformation = lazy(() =>
   import("./page/generalInformation/generalInfo")
 );
@@ -192,25 +191,25 @@ const ReferCoupon = lazy(() =>
 //   import("./page/tipsAndGuides/FaceShape")
 // );
 
-const ReturnExchangePolicy = lazy(() =>
-  import("./page/return&exchange/Return&Exchange")
-);
+// const ReturnExchangePolicy = lazy(() =>
+//   import("./page/return&exchange/Return&Exchange")
+// );
 
-const ExchangePolicy = lazy(() =>
-  import("./page/exchangePolicy/ExchangePolicy")
-);
+// const ExchangePolicy = lazy(() =>
+//   import("./page/exchangePolicy/ExchangePolicy")
+// );
 
-const CookiesPolicy = lazy(() =>
-  import("./page/cookiesPolicy/CookiesPolicy")
-);
+// const CookiesPolicy = lazy(() =>
+//   import("./page/cookiesPolicy/CookiesPolicy")
+// );
 
 const ShippingPolicy = lazy(() =>
   import("./page/shippingPolicy/ShippingPolicy")
 );
 
-const DisclaimerPolicy = lazy(() =>
-  import("./page/disclaimerPolicy/DisclaimerPolicy")
-);
+// const DisclaimerPolicy = lazy(() =>
+//   import("./page/disclaimerPolicy/DisclaimerPolicy")
+// );
 
 import NoCopy from "./components/NoCopy";
 import EastLocation from "./page/location/EastLocation.jsx";
@@ -218,7 +217,7 @@ import EastLocation from "./page/location/EastLocation.jsx";
 import NorthLocation from "./page/location/NorthLocation.jsx";
 import SouthLocation from "./page/location/SouthLocation.jsx";
 import AllLocations from "./page/location/AllLocations.jsx";
-import FullTermsAndConditions from "./page/terms&condition/FullTermsAndConditions.jsx";
+// import FullTermsAndConditions from "./page/terms&condition/FullTermsAndConditions.jsx";
 
 const OurCommunity = lazy(() =>
   import("./components/OurComminity")
@@ -268,7 +267,8 @@ function App() {
         { path: "/register", element: <Register /> },
         { path: "/login", element: <Login /> },
         { path: "/faq", element: <FAQ /> },
-        { path: "/privacy-policy", element: <PrivacyPolicy /> },
+        // { path: "/privacy-policy", element: <PrivacyPolicy /> },
+        { path: "/privacy-policy", element: <PolicyPageRenderer slug="privacy-policy" /> },
         { path: "/optical-policy", element: <OpticalPolicy /> },
 
         {
@@ -277,10 +277,17 @@ function App() {
         },
         { path: "/product/:ID/:subCategory/:subCatId", element: <Cartpage /> },
 
+        // { path: "/disclaimer", element: <DisclaimerPage /> },
+        // { path: "/terms&Conditions", element: <TermsAndConditions /> },
+        // { path: "/full-terms-and-conditions", element: <FullTermsAndConditions /> },
+        // { path: "/liability", element: <LimitationOfLiability /> },
+
         { path: "/disclaimer", element: <DisclaimerPage /> },
-        { path: "/terms&Conditions", element: <TermsAndConditions /> },
-        { path: "/full-terms-and-conditions", element: <FullTermsAndConditions /> },
+        { path: "/terms&Conditions", element: <PolicyPageRenderer slug="terms-and-conditions" /> },
+        { path: "/full-terms-and-conditions", element: <PolicyPageRenderer slug="full-terms-and-conditions" /> },
         { path: "/liability", element: <LimitationOfLiability /> },
+
+
         { path: "/general-info", element: <GeneralInformation /> },
         {
           path: "/eyeglasses-contact-policy",
@@ -290,11 +297,18 @@ function App() {
           path: "/rights-enforcement-policy",
           element: <RightsEnforcementPolicy />,
         },
-        { path: "/return-exchange", element: <ReturnExchangePolicy /> },
-        { path: "/exchange-policy", element: <ExchangePolicy /> },
-        { path: "/cookies-policy", element: <CookiesPolicy /> },
+        // { path: "/return-exchange", element: <ReturnExchangePolicy /> },
+        // { path: "/exchange-policy", element: <ExchangePolicy /> },
+        // { path: "/cookies-policy", element: <CookiesPolicy /> },
+        // { path: "/shipping-policy", element: <ShippingPolicy /> },
+        // { path: "/disclaimer-policy", element: <DisclaimerPolicy /> },
+
+
+        { path: "/return-exchange", element: <PolicyPageRenderer slug="return-exchange" /> },
+        { path: "/exchange-policy", element: <PolicyPageRenderer slug="exchange-policy" /> },
+        { path: "/cookies-policy", element: <PolicyPageRenderer slug="cookies-policy" /> },
         { path: "/shipping-policy", element: <ShippingPolicy /> },
-        { path: "/disclaimer-policy", element: <DisclaimerPolicy /> },
+        { path: "/disclaimer-policy", element: <PolicyPageRenderer slug="disclaimer" /> },
 
         { path: "/cart", element: <CartPageWrapper /> },
         { path: "/checkout", element: <Checkout /> },
