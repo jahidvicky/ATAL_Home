@@ -168,12 +168,6 @@ const PickupStatus = () => {
                 >
                     Refresh
                 </button>
-                <a
-                    href="mailto:info.ataloptical@gmail.com"
-                    className="text-sm text-[#f00000] underline"
-                >
-                    Need to change your pickup? Contact us
-                </a>
             </div>
         </div>
     );
