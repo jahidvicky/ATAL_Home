@@ -512,11 +512,19 @@ const ViewOrder = () => {
                     transition={{ delay: index * 0.1 }}
                     className="flex flex-col sm:flex-row items-start gap-3 border-b border-gray-200 py-3"
                   >
-                    <img
-                      src={item.image}
+                                     <img
+                      src={
+                        item.image?.startsWith("http")
+                          ? item.image
+                          : `${IMAGE_URL}${item.image}`
+                      }
                       alt={item.name}
                       className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-md border border-gray-200"
                       loading="lazy"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/placeholder-product.png";
+                      }}
                     />
 
                     <div className="flex-1">
