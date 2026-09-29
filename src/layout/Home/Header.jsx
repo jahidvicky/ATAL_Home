@@ -93,7 +93,7 @@ function Header() {
     { type: "mail", label: "info.ataloptical@gmail.com", email: "info.ataloptical@gmail.com" },
   ];
 
- const [topBarIndex, setTopBarIndex] = useState(0);
+  const [topBarIndex, setTopBarIndex] = useState(0);
 
   const openEmail = (email) => {
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
@@ -796,7 +796,7 @@ function Header() {
       {/* Top Bar */}
       <div className="bg-[#f00000] py-3.5 text-white flex justify-between items-center px-3 lg:px-6 gap-2">
         {/* Mobile: rotating single item, fades every 4s */}
-              <div className="md:hidden text-[11px] sm:text-sm h-4 relative overflow-hidden flex-1">
+        <div className="md:hidden text-[11px] sm:text-sm h-4 relative overflow-hidden flex-1">
           {topBarItems.map((item, i) => (
             <a
               key={i}
@@ -804,9 +804,9 @@ function Header() {
               onClick={
                 item.type === "mail"
                   ? (e) => {
-                      e.preventDefault();
-                      openEmail(item.email);
-                    }
+                    e.preventDefault();
+                    openEmail(item.email);
+                  }
                   : undefined
               }
               className={`absolute inset-0 whitespace-nowrap cursor-pointer transition-opacity duration-700 ease-in-out ${i === topBarIndex ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -818,7 +818,7 @@ function Header() {
         </div>
 
         {/* Desktop: static full row */}
-               <div className="hidden md:block text-sm truncate">
+        <div className="hidden md:block text-sm truncate">
           <a href="tel:18662423545" className="whitespace-nowrap">
             Call Us Today! 1866-242-3545
           </a>
@@ -1029,6 +1029,17 @@ function Header() {
                             className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
                           >
                             My Appointments
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            onClick={() => {
+                              navigate("/my-donations");
+                              setProfileOpen(false);
+                            }}
+                            className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                          >
+                            My Donations
                           </button>
                         </li>
                         <li>

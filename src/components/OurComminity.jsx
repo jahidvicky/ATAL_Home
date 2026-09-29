@@ -2,6 +2,51 @@ import { useState, useRef } from "react";
 import API from "../API/Api";
 import Swal from "sweetalert2";
 
+
+const getUserId = () => {
+    const raw = localStorage.getItem("user");
+    if (!raw) return "";
+    try {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+            return parsed._id || parsed.id || parsed.user?._id || "";
+        }
+        return String(parsed);
+    } catch {
+        return raw;
+    }
+};
+
+const PROVINCE_NAME_TO_CODE = {
+    "Ontario": "ON",
+    "Alberta": "AB",
+    "British Columbia": "BC",
+    "Quebec": "QC",
+    "Manitoba": "MB",
+    "Saskatchewan": "SK",
+    "Nova Scotia": "NS",
+    "New Brunswick": "NB",
+    "Newfoundland": "NL",
+    "Prince Edward Island": "PE",
+    "Northwest Territories": "NT",
+    "Yukon": "YT",
+    "Nunavut": "NU",
+};
+
+// First letter of a Canadian postal code maps to a province/territory
+const FSA_TO_PROVINCE = {
+    A: "NL", B: "NS", C: "PE", E: "NB",
+    G: "QC", H: "QC", J: "QC",
+    K: "ON", L: "ON", M: "ON", N: "ON", P: "ON",
+    R: "MB", S: "SK", T: "AB", V: "BC",
+    X: "NT", Y: "YT",
+};
+
+const getProvinceFromPostal = (postal = "") => {
+    const letter = String(postal).trim().toUpperCase().charAt(0);
+    return FSA_TO_PROVINCE[letter] || "";
+};
+
 const OurCommunity = () => {
     const fileInputRef = useRef(null);
 
@@ -29,11 +74,36 @@ const OurCommunity = () => {
             error = "Phone number must be exactly 10 digits";
         }
 
-        if (
-            field === "postal" &&
-            !/^[A-Za-z]\d[A-Za-z][ ]?\d[A-Za-z]\d$/.test(value)
-        ) {
-            error = "Postal code must be in A1A1A1 or A1A 1A1 format";
+        if (field === "postal") {
+            const postalFormatOk = /^[A-Za-z]\d[A-Za-z][ ]?\d[A-Za-z]\d$/.test(value);
+
+            if (!postalFormatOk) {
+                error = "Postal code must be in A1A1A1 or A1A 1A1 format";
+            } else if (formData.province) {
+                const postalProvince = getProvinceFromPostal(value);
+                const selectedProvince = PROVINCE_NAME_TO_CODE[formData.province];
+
+                if (postalProvince && selectedProvince && postalProvince !== selectedProvince) {
+                    error = `This postal code belongs to ${postalProvince}, not ${formData.province}.`;
+                }
+            }
+        }
+
+        // Re-check postal whenever province changes, since the two depend on each other
+        if (field === "province" && formData.postal) {
+            const postalFormatOk = /^[A-Za-z]\d[A-Za-z][ ]?\d[A-Za-z]\d$/.test(formData.postal);
+            if (postalFormatOk) {
+                const postalProvince = getProvinceFromPostal(formData.postal);
+                const selectedProvince = PROVINCE_NAME_TO_CODE[value];
+
+                setErrors((prev) => ({
+                    ...prev,
+                    postal:
+                        postalProvince && selectedProvince && postalProvince !== selectedProvince
+                            ? `This postal code belongs to ${postalProvince}, not ${value}.`
+                            : undefined,
+                }));
+            }
         }
 
         setErrors((prev) => ({ ...prev, [field]: error || undefined }));
@@ -60,10 +130,19 @@ const OurCommunity = () => {
             newErrors.phone = "Phone number must be exactly 10 digits";
         }
 
-        if (
-            !/^[A-Za-z]\d[A-Za-z][ ]?\d[A-Za-z]\d$/.test(formData.postal)
-        ) {
+        const postalFormatOk = /^[A-Za-z]\d[A-Za-z][ ]?\d[A-Za-z]\d$/.test(
+            formData.postal
+        );
+
+        if (!postalFormatOk) {
             newErrors.postal = "Postal code must be in A1A1A1 or A1A 1A1 format";
+        } else if (formData.province) {
+            const postalProvince = getProvinceFromPostal(formData.postal);
+            const selectedProvince = PROVINCE_NAME_TO_CODE[formData.province];
+
+            if (postalProvince && selectedProvince && postalProvince !== selectedProvince) {
+                newErrors.postal = `This postal code belongs to ${postalProvince}, not ${formData.province}. Please check your postal code or province.`;
+            }
         }
 
         setErrors(newErrors);
@@ -74,18 +153,33 @@ const OurCommunity = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!validateForm()) return;
 
         const data = new FormData();
+
         data.append("name", formData.name);
         data.append("email", formData.email);
         data.append("phone", formData.phone);
 
-        const fullAddress = `${formData.street}, ${formData.city}, ${formData.province}, ${formData.postal}, Canada`;
+        const fullAddress =
+            `${formData.street}, ${formData.city}, ${formData.province}, ${formData.postal}, Canada`;
+
         data.append("address", fullAddress);
+
+        // Address components separately for Loomis pickup
+        data.append("street", formData.street);
+        data.append("city", formData.city);
+        data.append("province", formData.province);
         data.append("postal", formData.postal);
-        data.append("frameType", formData.frameType)
-        data.append("frameQuantity", formData.frameQuantity)
+
+        data.append("frameType", formData.frameType);
+        data.append("frameQuantity", formData.frameQuantity);
+
+        const userId = getUserId();
+        if (userId) {
+            data.append("userId", userId);
+        }
 
         formData.frameImages.forEach((file) => {
             data.append("frameImages", file);
@@ -114,7 +208,11 @@ const OurCommunity = () => {
             });
 
             setErrors({});
-            if (fileInputRef.current) fileInputRef.current.value = "";
+
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
+
         } catch (err) {
             Swal.fire(
                 "Submission Failed",

@@ -223,6 +223,10 @@ const OurCommunity = lazy(() =>
   import("./components/OurComminity")
 );
 
+const MyDonations = lazy(() =>
+  import("./page/MyDonations.jsx")
+);
+
 const OpticalEducation = lazy(() =>
   import("./page/opticalEducation/OpticalEducation")
 );
@@ -494,6 +498,10 @@ function App() {
             <OurCommunity />
             // </ProtectedRoute>
           ),
+        },
+        {
+          path: "/my-donations",
+          element: <MyDonations />,
         },
         {
           path: "/location",
