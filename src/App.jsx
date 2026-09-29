@@ -37,6 +37,7 @@ const Checkout = lazy(() => import("./page/checkout/Checkout"));
 const OrderPlaced = lazy(() => import("./page/order/OrderPlaced"));
 const Login = lazy(() => import("./page/login/Login"));
 const Register = lazy(() => import("./page/register/Register"));
+import PickupStatus from "./page/PickupStatus.jsx";
 
 import ProtectedRoute from "./page/protectedRoute/ProtectedRoute.jsx";
 
@@ -565,6 +566,12 @@ function App() {
 
             <AllLocations />
 
+          ),
+        },
+        {
+          path: "/pickup-status/:token",
+          element: (
+            <PickupStatus />
           ),
         },
         // {
